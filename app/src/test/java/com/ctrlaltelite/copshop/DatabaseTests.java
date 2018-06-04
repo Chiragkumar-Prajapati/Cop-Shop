@@ -61,6 +61,29 @@ public class DatabaseTests {
     }
 
     @Test
+    public void insertRow_createsNewRows() {
+        IDatabase database = new MockDatabaseStub();
+
+        // Setup table
+        database.makeTable("TestTable");
+
+        // Insert rows and get PKs
+        String PK1 = database.insertRow("TestTable", "TestColumn", "Test1");
+        String PK2 = database.insertRow("TestTable", "TestColumn", "Test2");
+        String PK3 = database.insertRow("TestTable", "TestColumn", "Test3");
+
+        // Verify PKs are sequential
+        assertEquals("PK is not expected value", "1", PK1);
+        assertEquals("PK is not expected value", "2", PK2);
+        assertEquals("PK is not expected value", "3", PK3);
+
+        // Test rows exist
+        assertEquals("Row was not created", database.fetchColumn("TestTable", PK1,"TestColumn"), "Test1");
+        assertEquals("Row was not created", database.fetchColumn("TestTable", PK2,"TestColumn"), "Test2");
+        assertEquals("Row was not created", database.fetchColumn("TestTable", PK3,"TestColumn"), "Test3");
+    }
+
+    @Test
     public void updateColumn_updatesColumn() {
         IDatabase database = new MockDatabaseStub();
 
@@ -92,7 +115,7 @@ public class DatabaseTests {
         String PK = database.insertRow("TestTable", initRow);
 
         // Update row at PK and test value
-        assertTrue("Did not get success boolean", database.updateRow("TestTable", PK, updatedRow));
+        assertTrue("Did not get success boolean", database.mergeColumns("TestTable", PK, updatedRow));
         assertEquals("Row did not update as expected", database.fetchColumn("TestTable", PK,"TestColumn"), "UpdatedTestValue");
     }
 

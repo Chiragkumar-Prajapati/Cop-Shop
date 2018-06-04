@@ -37,6 +37,24 @@ public class MockDatabaseStub implements IDatabase {
     }
 
     @Override
+    public String insertRow(String tableName, String columnName, String value) {
+        if (null == tableName) { throw new IllegalArgumentException("tableName cannot be null"); }
+        if (null == columnName) { throw new IllegalArgumentException("columnName cannot be null"); }
+
+        Hashtable<String, Hashtable<String, String>> table = database.get(tableName);
+        String newPrimaryKey = getNextPrimaryKey(tableName);
+
+        if (null != table && null != newPrimaryKey) {
+            Hashtable<String, String> row = new Hashtable<>(10);
+            row.put(columnName, value);
+            table.put(newPrimaryKey, row);
+            this.dbTablesHighestPrimaryKey.put(tableName, newPrimaryKey);
+        }
+
+        return newPrimaryKey;
+    }
+
+    @Override
     public String updateColumn(String tableName, String primaryKey, String columnName, String value) {
         if (null == tableName) { throw new IllegalArgumentException("tableName cannot be null"); }
         if (null == primaryKey) { throw new IllegalArgumentException("primaryKey cannot be null"); }
@@ -56,7 +74,7 @@ public class MockDatabaseStub implements IDatabase {
     }
 
     @Override
-    public boolean updateRow(String tableName, String primaryKey, Hashtable<String, String> mergeRow) {
+    public boolean mergeColumns(String tableName, String primaryKey, Hashtable<String, String> mergeRow) {
         if (null == tableName) { throw new IllegalArgumentException("tableName cannot be null"); }
         if (null == primaryKey) { throw new IllegalArgumentException("primaryKey cannot be null"); }
         if (null == mergeRow) { throw new IllegalArgumentException("row HashTable to merge cannot be null"); }

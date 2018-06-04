@@ -6,13 +6,22 @@ import java.util.Hashtable;
 public interface IDatabase {
 
     /**
-     * Inserts a new row in the table with an incremented primary key.
-     * pairs provided in 'row'
+     * Inserts a new row in the table with an incremented primary key
      * @param tableName Name of table
      * @param row Hash table to initialize row with
      * @return The primary key of the new inserted row
      */
     String insertRow(String tableName, Hashtable<String, String> row);
+
+    /**
+     * Inserts a new row in the table with an incremented primary key
+     * Creates the row Hashtable
+     * @param tableName Name of table
+     * @param columnName Column name to initialize
+     * @param value Value to initialize column with
+     * @return The primary key of the new inserted row
+     */
+    String insertRow(String tableName, String columnName, String value);
 
     /**
      * Updates a column's value in a row in the given table, overwriting it
@@ -26,13 +35,13 @@ public interface IDatabase {
     String updateColumn(String tableName, String primaryKey, String columnName, String value);
 
     /**
-     *
+     * Merges columns from the provided row into the row at primaryKey
      * @param tableName Name of table
      * @param primaryKey Primary key of row to update
      * @param row Hash table to merge with row
      * @return Boolean indicating success
      */
-    boolean updateRow(String tableName, String primaryKey, Hashtable<String, String> row);
+    boolean mergeColumns(String tableName, String primaryKey, Hashtable<String, String> row);
 
     /**
      * Returns string value associated with table, at primary key, for the given column
