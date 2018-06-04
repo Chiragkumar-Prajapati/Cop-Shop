@@ -1,31 +1,68 @@
 package com.ctrlaltelite.copshop.persistence.interfaces;
 
+import java.util.ArrayList;
 import java.util.Hashtable;
 
 public interface IDatabase {
 
     /**
-     * Inserts or updates a row in the table at the given primary key, overwriting the key-value
+     * Inserts a new row in the table with an incremented primary key.
      * pairs provided in 'row'
      * @param tableName Name of table
-     * @param primaryKey Primary key of row to add to table or modify in table
      * @param row Hash table to initialize row with
+     * @return The primary key of the new inserted row
      */
-    void insert(String tableName, String primaryKey, Hashtable row);
+    String insertRow(String tableName, Hashtable<String, String> row);
+
+    /**
+     * Updates a column's value in a row in the given table, overwriting it
+     * pairs provided in 'row'
+     * @param tableName Name of table
+     * @param primaryKey Primary key of row to update
+     * @param columnName Column name to update
+     * @param value The value to update the column to
+     * @return String with the previous value, or null if there was no value
+     */
+    String updateColumn(String tableName, String primaryKey, String columnName, String value);
+
+    /**
+     *
+     * @param tableName Name of table
+     * @param primaryKey Primary key of row to update
+     * @param row Hash table to merge with row
+     * @return Boolean indicating success
+     */
+    boolean updateRow(String tableName, String primaryKey, Hashtable<String, String> row);
 
     /**
      * Returns string value associated with table, at primary key, for the given column
      * @param tableName Name of table
      * @param primaryKey Primary key of row to fetch from
      * @param columnName Column name to fetch value from
-     * @return Value contained in row's column
+     * @return Value contained in row's column, or null
      */
-    String fetch(String tableName, String primaryKey, String columnName);
+    String fetchColumn(String tableName, String primaryKey, String columnName);
+
+    /**
+     *
+     * @param tableName Name of table
+     * @param columnName Column name to search under
+     * @param searchValue Value to search for in column
+     * @return An ArrayList of all primary keys with the given column value
+     */
+    ArrayList<String> findByColumnValue(String tableName, String columnName, String searchValue);
 
     /**
      * Removes the row with the given primaryKey from the table
      * @param tableName Name of table
      * @param primaryKey Primary key of row to delete
+     * @return The deleted row, or null
      */
-    void delete(String tableName, String primaryKey);
+    Hashtable<String, String> deleteRow(String tableName, String primaryKey);
+
+    /**
+     * Create a new table in the database
+     * @param tableName Name of the table to create
+     */
+    void makeTable(String tableName);
 }
