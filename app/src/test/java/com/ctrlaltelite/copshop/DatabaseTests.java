@@ -1,13 +1,36 @@
 package com.ctrlaltelite.copshop;
 
-import com.ctrlaltelite.copshop.persistence.interfaces.IDatabase;
-import com.ctrlaltelite.copshop.persistence.stubs.MockDatabaseStub;
+import com.ctrlaltelite.copshop.persistence.database.interfaces.IDatabase;
+import com.ctrlaltelite.copshop.persistence.database.stubs.MockDatabaseStub;
 import org.junit.Test;
 import java.util.ArrayList;
 import java.util.Hashtable;
 import static org.junit.Assert.*;
 
 public class DatabaseTests {
+
+    @Test
+    public void rowExists_findsRow() {
+        IDatabase database = new MockDatabaseStub();
+
+        // Setup table
+        database.makeTable("TestTable");
+
+        // Insert rows and get PKs
+        String PK1 = database.insertRow("TestTable", "TestColumn", "Test1");
+        String PK2 = database.insertRow("TestTable", "TestColumn", "Test2");
+        String PK3 = database.insertRow("TestTable", "TestColumn", "Test3");
+
+        // Test rows exist
+        assertTrue("Row was not found", database.rowExists("TestTable", PK1));
+        assertTrue("Row was not found", database.rowExists("TestTable", PK2));
+        assertTrue("Row was not found", database.rowExists("TestTable", PK3));
+
+        // Test rows that don't exist
+
+        assertFalse("Nonexistent row was found", database.rowExists("TestTable", "0"));
+        assertFalse("Nonexistent row was found", database.rowExists("TestTable", "4"));
+    }
 
     @Test
     public void insertRow_returnsSequentialKeys() {
@@ -199,5 +222,32 @@ public class DatabaseTests {
         assertEquals("Could not fetch non-deleted row", database.fetchColumn("TestTable", PK1,"TestColumn"), "Test1");
         assertEquals("Could not fetch non-deleted row", database.fetchColumn("TestTable", PK3,"TestColumn"), "Test3");
     }
+
+    @Test
+    public void getAllRows_getsAllRows() {
+        IDatabase database = new MockDatabaseStub();
+
+        // Setup rows and table
+        Hashtable<String, String> row1 = new Hashtable<>();
+        row1.put("TestColumn", "Test1");
+        Hashtable<String, String> row2 = new Hashtable<>();
+        row2.put("TestColumn", "Test2");
+        Hashtable<String, String> row3 = new Hashtable<>();
+        row3.put("TestColumn", "Test3");
+        database.makeTable("TestTable");
+
+        // Insert rows and get PKs
+        String PK1 = database.insertRow("TestTable", row1);
+        String PK2 = database.insertRow("TestTable", row2);
+        String PK3 = database.insertRow("TestTable", row3);
+
+        ArrayList<Hashtable<String, String>> list = database.getAllRows("TestTable");
+        assertEquals("Fetched too many rows", 3, list.size());
+        assertEquals("Wrong row fetched", "Test1", list.get(2).get("TestColumn"));
+        assertEquals("Wrong row fetched", "Test2", list.get(1).get("TestColumn"));
+        assertEquals("Wrong row fetched", "Test3", list.get(0).get("TestColumn"));
+
+    }
+
 
 }

@@ -1,9 +1,17 @@
-package com.ctrlaltelite.copshop.persistence.interfaces;
+package com.ctrlaltelite.copshop.persistence.database.interfaces;
 
 import java.util.ArrayList;
 import java.util.Hashtable;
 
 public interface IDatabase {
+
+    /**
+     * Returns whether the row at the primary key exists
+     * @param tableName Name of table
+     * @param primaryKey Primary key of row to check
+     * @return Boolean indicating existence of row
+     */
+    boolean rowExists(String tableName, String primaryKey);
 
     /**
      * Inserts a new row in the table with an incremented primary key
@@ -60,6 +68,13 @@ public interface IDatabase {
      * @return An ArrayList of all primary keys with the given column value
      */
     ArrayList<String> findByColumnValue(String tableName, String columnName, String searchValue);
+
+    /**
+     * Get an ArrayList of every row in the table
+     * @param tableName The name of the table
+     * @return ArrayList containing all rows in table
+     */
+    ArrayList<Hashtable<String, String>> getAllRows(String tableName);
 
     /**
      * Removes the row with the given primaryKey from the table

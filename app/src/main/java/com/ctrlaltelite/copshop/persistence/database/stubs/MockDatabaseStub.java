@@ -1,6 +1,6 @@
-package com.ctrlaltelite.copshop.persistence.stubs;
+package com.ctrlaltelite.copshop.persistence.database.stubs;
 
-import com.ctrlaltelite.copshop.persistence.interfaces.IDatabase;
+import com.ctrlaltelite.copshop.persistence.database.interfaces.IDatabase;
 
 import java.util.ArrayList;
 import java.util.Enumeration;
@@ -18,6 +18,20 @@ public class MockDatabaseStub implements IDatabase {
         this.makeTable("Buyers");
         this.makeTable("Sellers");
         this.makeTable("Listings");
+    }
+
+    @Override
+    public boolean rowExists(String tableName, String primaryKey) {
+        if (null == tableName) { throw new IllegalArgumentException("tableName cannot be null"); }
+        if (null == primaryKey) { throw new IllegalArgumentException("primaryKey cannot be null"); }
+
+        Hashtable<String, Hashtable<String, String>> table = database.get(tableName);
+
+        if (null != table) {
+            return table.containsKey(primaryKey);
+        }
+
+        return false;
     }
 
     @Override
@@ -140,6 +154,19 @@ public class MockDatabaseStub implements IDatabase {
         }
 
         return found;
+    }
+
+    @Override
+    public ArrayList<Hashtable<String, String>> getAllRows(String tableName) {
+        if (null == tableName) { throw new IllegalArgumentException("tableName cannot be null"); }
+
+        Hashtable<String, Hashtable<String, String>> table = database.get(tableName);
+
+        if (null != table) {
+            return new ArrayList<>(table.values());
+        }
+
+        return null;
     }
 
     @Override
