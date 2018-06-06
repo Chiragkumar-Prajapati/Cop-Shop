@@ -2,11 +2,14 @@ package com.ctrlaltelite.copshop.logic;
 
 import android.app.Application;
 
-import com.ctrlaltelite.copshop.persistence.interfaces.IDatabase;
+import com.ctrlaltelite.copshop.logic.interfaces.IBuyerModel;
+import com.ctrlaltelite.copshop.logic.interfaces.IListingModel;
+import com.ctrlaltelite.copshop.logic.interfaces.ISellerModel;
+import com.ctrlaltelite.copshop.persistence.database.interfaces.IDatabase;
 import com.ctrlaltelite.copshop.persistence.models.BuyerModel;
 import com.ctrlaltelite.copshop.persistence.models.ListingModel;
 import com.ctrlaltelite.copshop.persistence.models.SellerModel;
-import com.ctrlaltelite.copshop.persistence.stubs.MockDatabaseStub;
+import com.ctrlaltelite.copshop.persistence.database.stubs.MockDatabaseStub;
 
 /**
  * Initializes singletons.
@@ -18,7 +21,7 @@ import com.ctrlaltelite.copshop.persistence.stubs.MockDatabaseStub;
 public class CopShopApp extends Application {
     private static IDatabase database = new MockDatabaseStub();
 
-    public static BuyerModel buyerModel = new BuyerModel(database);
-    public static SellerModel sellerModel = new SellerModel(database);
-    public static ListingModel listingModel = new ListingModel(database);
+    public static IBuyerModel buyerModel = new BuyerModel(database);
+    public static ISellerModel sellerModel = new SellerModel(database);
+    public static IListingModel listingModel = new ListingModel(database);
 }

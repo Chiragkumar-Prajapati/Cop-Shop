@@ -1,11 +1,14 @@
 package com.ctrlaltelite.copshop.persistence.models;
 
-import com.ctrlaltelite.copshop.persistence.interfaces.IDatabase;
+import com.ctrlaltelite.copshop.logic.interfaces.IBuyerModel;
+import com.ctrlaltelite.copshop.objects.BuyerAccountObject;
+import com.ctrlaltelite.copshop.persistence.database.interfaces.IDatabase;
 
-/**
- * TODO: Interface for the buyer table
- */
-public class BuyerModel {
+import java.util.ArrayList;
+import java.util.Hashtable;
+
+public class BuyerModel implements IBuyerModel {
+    private static String TABLE_NAME = "Buyers";
     private IDatabase database;
 
     public BuyerModel(IDatabase database) {
@@ -14,9 +17,62 @@ public class BuyerModel {
         // Initialize mock data
     }
 
-    // Add new buyer
+    @Override
+    public String createNew(BuyerAccountObject newAccount) {
+        Hashtable<String, String> newRow = new Hashtable<>();
 
-    // Update buyer information from object
+        newRow.put("username", newAccount.getUsername());
+        newRow.put("password", newAccount.getPassword());
+        newRow.put("email", newAccount.getEmail());
 
-    // Get and convert buyer information to object
+        return this.database.insertRow(TABLE_NAME, newRow);
+    }
+
+    @Override
+    public boolean update(String id, BuyerAccountObject updatedAccount) {
+        boolean success = true;
+        success = success && (null != this.database.updateColumn(TABLE_NAME, id, "username", updatedAccount.getUsername()));
+        success = success && (null != this.database.updateColumn(TABLE_NAME, id, "password", updatedAccount.getPassword()));
+        success = success && (null != this.database.updateColumn(TABLE_NAME, id, "email", updatedAccount.getEmail()));
+        return success;
+    }
+
+    @Override
+    public BuyerAccountObject fetch(String id) {
+        BuyerAccountObject account = new BuyerAccountObject(
+                id,
+                this.database.fetchColumn(TABLE_NAME, id, "username"),
+                this.database.fetchColumn(TABLE_NAME, id, "password"),
+                this.database.fetchColumn(TABLE_NAME, id, "email")
+        );
+
+        return account;
+    }
+
+    @Override
+    public BuyerAccountObject findByUsername(String username) {
+        ArrayList<String> users = this.database.findByColumnValue(TABLE_NAME, "username", username);
+
+        // We should only get back one user max, ignore extras
+        if (!users.isEmpty()) {
+            String id = users.get(0);
+            return this.fetch(id);
+        }
+
+        return null;
+    }
+
+    @Override
+    public boolean checkUsernamePasswordMatch(String username, String inputPassword) {
+        ArrayList<String> users = this.database.findByColumnValue(TABLE_NAME, "username", username);
+
+        // We should only get back one user max, ignore extras
+        if (!users.isEmpty()) {
+            String id = users.get(0);
+            String password = this.database.fetchColumn(TABLE_NAME, id, "password");
+            return password.equals(inputPassword);
+        }
+
+        return false;
+    }
 }
