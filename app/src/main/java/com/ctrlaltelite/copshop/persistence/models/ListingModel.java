@@ -73,7 +73,7 @@ public class ListingModel implements IListingModel {
     @Override
     public ArrayList<ListingObject> fetchAll() {
         ArrayList<Hashtable<String, String>> hashTableRows = this.database.getAllRows(TABLE_NAME);
-        ArrayList<ListingObject> results = new ArrayList<>(100);
+        ArrayList<ListingObject> results = new ArrayList<>();
 
         if (null != hashTableRows) {
             for (int id = hashTableRows.size()-1; id >= 0; id--) {

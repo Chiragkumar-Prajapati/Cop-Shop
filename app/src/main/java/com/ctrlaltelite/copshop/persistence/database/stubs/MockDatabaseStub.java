@@ -11,8 +11,8 @@ public class MockDatabaseStub implements IDatabase {
     private Hashtable<String, String> dbTablesHighestPrimaryKey;
 
     public MockDatabaseStub() {
-        this.database = new Hashtable<>(20);
-        this.dbTablesHighestPrimaryKey = new Hashtable<>(20);
+        this.database = new Hashtable<>();
+        this.dbTablesHighestPrimaryKey = new Hashtable<>();
 
         // Initialize database tables
         this.makeTable("Buyers");
@@ -131,7 +131,7 @@ public class MockDatabaseStub implements IDatabase {
         if (null == tableName) { throw new IllegalArgumentException("tableName cannot be null"); }
         if (null == columnName) { throw new IllegalArgumentException("columnName cannot be null"); }
 
-        ArrayList<String> found = new ArrayList<>(10);
+        ArrayList<String> found = new ArrayList<>();
         Hashtable<String, Hashtable<String, String>> table = database.get(tableName);
 
         if (null != table) {
