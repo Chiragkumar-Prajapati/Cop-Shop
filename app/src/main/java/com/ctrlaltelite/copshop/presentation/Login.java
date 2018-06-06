@@ -30,7 +30,7 @@ public class Login extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                Intent intent = new Intent(Login.this, Create_account.class);
-               startActivity(intent);
+                startActivity(intent);
             }
         });
     }
