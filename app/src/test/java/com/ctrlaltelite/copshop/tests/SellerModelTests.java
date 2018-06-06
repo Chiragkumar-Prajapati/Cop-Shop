@@ -1,4 +1,4 @@
-package com.ctrlaltelite.copshop;
+package com.ctrlaltelite.copshop.tests;
 
 import com.ctrlaltelite.copshop.logic.interfaces.ISellerModel;
 import com.ctrlaltelite.copshop.objects.SellerAccountObject;

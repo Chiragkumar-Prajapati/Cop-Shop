@@ -29,11 +29,11 @@ public class BuyerModel implements IBuyerModel {
     }
 
     @Override
-    public boolean update(String id, BuyerAccountObject updatedListing) {
+    public boolean update(String id, BuyerAccountObject updatedAccount) {
         boolean success = true;
-        success = success && (null != this.database.updateColumn(TABLE_NAME, id, "username", updatedListing.getUsername()));
-        success = success && (null != this.database.updateColumn(TABLE_NAME, id, "password", updatedListing.getPassword()));
-        success = success && (null != this.database.updateColumn(TABLE_NAME, id, "email", updatedListing.getEmail()));
+        success = success && (null != this.database.updateColumn(TABLE_NAME, id, "username", updatedAccount.getUsername()));
+        success = success && (null != this.database.updateColumn(TABLE_NAME, id, "password", updatedAccount.getPassword()));
+        success = success && (null != this.database.updateColumn(TABLE_NAME, id, "email", updatedAccount.getEmail()));
         return success;
     }
 

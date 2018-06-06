@@ -13,10 +13,10 @@ public interface IBuyerModel {
     /**
      * Update an account
      * @param id of the targeted account
-     * @param updatedListing The BuyerAccountObject to update the DB with
+     * @param updatedAccount The BuyerAccountObject to update the DB with
      * @return Success boolean
      */
-    boolean update(String id, BuyerAccountObject updatedListing);
+    boolean update(String id, BuyerAccountObject updatedAccount);
 
     /**
      * Fetch a specific account's details by id

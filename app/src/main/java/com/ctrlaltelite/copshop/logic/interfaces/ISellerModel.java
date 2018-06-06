@@ -13,10 +13,10 @@ public interface ISellerModel {
     /**
      * Update an account
      * @param id of the targeted account
-     * @param updatedListing The SellerAccountObject to update the DB with
+     * @param updatedAccount The SellerAccountObject to update the DB with
      * @return Success boolean
      */
-    boolean update(String id, SellerAccountObject updatedListing);
+    boolean update(String id, SellerAccountObject updatedAccount);
 
     /**
      * Fetch a specific account's details by id

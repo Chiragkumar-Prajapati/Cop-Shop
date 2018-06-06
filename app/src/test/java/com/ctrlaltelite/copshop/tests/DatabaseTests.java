@@ -1,4 +1,4 @@
-package com.ctrlaltelite.copshop;
+package com.ctrlaltelite.copshop.tests;
 
 import com.ctrlaltelite.copshop.persistence.database.interfaces.IDatabase;
 import com.ctrlaltelite.copshop.persistence.database.stubs.MockDatabaseStub;

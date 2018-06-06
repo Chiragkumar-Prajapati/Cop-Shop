@@ -1,4 +1,4 @@
-package com.ctrlaltelite.copshop;
+package com.ctrlaltelite.copshop.tests;
 
 import com.ctrlaltelite.copshop.logic.interfaces.IListingModel;
 import com.ctrlaltelite.copshop.objects.ListingObject;
