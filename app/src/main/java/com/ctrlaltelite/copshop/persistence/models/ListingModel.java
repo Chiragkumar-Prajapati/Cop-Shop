@@ -25,6 +25,12 @@ public class ListingModel implements IListingModel {
 
         newRow.put("title", newListing.getTitle());
         newRow.put("description", newListing.getDescription());
+        newRow.put("initPrice", newListing.getInitPrice());
+        newRow.put("minBid", newListing.getMinBid());
+        newRow.put("auctionStartDate", newListing.getAuctionStartDate());
+        newRow.put("auctionStartTime", newListing.getAuctionStartTime());
+        newRow.put("auctionEndDate", newListing.getAuctionEndDate());
+        newRow.put("auctionEndTime", newListing.getAuctionEndTime());
 
         return this.database.insertRow(TABLE_NAME, newRow);
     }
@@ -50,6 +56,12 @@ public class ListingModel implements IListingModel {
 
             success = success && (null != this.database.updateColumn(TABLE_NAME, id, "title", updatedListing.getTitle()));
             success = success && (null != this.database.updateColumn(TABLE_NAME, id, "description", updatedListing.getDescription()));
+            success = success && (null != this.database.updateColumn(TABLE_NAME, id, "initPrice", updatedListing.getInitPrice()));
+            success = success && (null != this.database.updateColumn(TABLE_NAME, id, "minBid", updatedListing.getMinBid()));
+            success = success && (null != this.database.updateColumn(TABLE_NAME, id, "auctionStartDate", updatedListing.getAuctionStartDate()));
+            success = success && (null != this.database.updateColumn(TABLE_NAME, id, "auctionStartTime", updatedListing.getAuctionStartTime()));
+            success = success && (null != this.database.updateColumn(TABLE_NAME, id, "auctionEndDate", updatedListing.getAuctionEndDate()));
+            success = success && (null != this.database.updateColumn(TABLE_NAME, id, "auctionEndTime", updatedListing.getAuctionEndTime()));
 
             return success;
         }
@@ -64,7 +76,13 @@ public class ListingModel implements IListingModel {
             return new ListingObject(
                     id,
                     this.database.fetchColumn(TABLE_NAME, id, "title"),
-                    this.database.fetchColumn(TABLE_NAME, id, "description")
+                    this.database.fetchColumn(TABLE_NAME, id, "description"),
+                    this.database.fetchColumn(TABLE_NAME, id, "initPrice"),
+                    this.database.fetchColumn(TABLE_NAME, id, "minBid"),
+                    this.database.fetchColumn(TABLE_NAME, id, "auctionStartDate"),
+                    this.database.fetchColumn(TABLE_NAME, id, "auctionStartTime"),
+                    this.database.fetchColumn(TABLE_NAME, id, "auctionEndDate"),
+                    this.database.fetchColumn(TABLE_NAME, id, "auctionEndTime")
             );
         }
         return null;
@@ -83,7 +101,13 @@ public class ListingModel implements IListingModel {
                 ListingObject listing = new ListingObject(
                         stringId,
                         row.get("title"),
-                        row.get("description")
+                        row.get("description"),
+                        row.get("initPrice"),
+                        row.get("minBid"),
+                        row.get("auctionStartDate"),
+                        row.get("auctionStartTime"),
+                        row.get("auctionEndDate"),
+                        row.get("auctionEndTime")
                 );
 
                 results.add(listing);
