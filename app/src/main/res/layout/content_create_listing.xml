@@ -37,7 +37,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
         android:layout_marginTop="580dp"
-        android:text="Description:"
+        android:text="Description: *"
         android:textColor="@android:color/black"
         android:textSize="18sp"
         app:layout_constraintStart_toStartOf="parent"
@@ -66,7 +66,7 @@
         android:background="@drawable/txt_field_border"
         android:ems="10"
         android:hint=" YYYY"
-        android:inputType="date"
+        android:inputType="number"
         android:maxLength="4"
         app:layout_constraintStart_toEndOf="@+id/txtEndMonth"
         app:layout_constraintTop_toTopOf="parent" />
@@ -80,7 +80,7 @@
         android:background="@drawable/txt_field_border"
         android:ems="10"
         android:hint="  MM"
-        android:inputType="date"
+        android:inputType="number"
         android:maxLength="2"
         app:layout_constraintStart_toEndOf="@+id/txtViewListName15"
         app:layout_constraintTop_toTopOf="parent" />
@@ -105,7 +105,7 @@
         android:background="@drawable/txt_field_border"
         android:ems="10"
         android:hint="  DD"
-        android:inputType="date"
+        android:inputType="number"
         android:maxLength="2"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -131,7 +131,7 @@
         android:background="@drawable/txt_field_border"
         android:ems="10"
         android:hint="  MM"
-        android:inputType="date"
+        android:inputType="number"
         android:maxLength="2"
         app:layout_constraintStart_toEndOf="@+id/txtViewListName5"
         app:layout_constraintTop_toTopOf="parent" />
@@ -155,7 +155,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
         android:layout_marginTop="400dp"
-        android:text="Start"
+        android:text="Start:"
         android:textColor="@android:color/black"
         android:textSize="18sp"
         app:layout_constraintStart_toStartOf="parent"
@@ -167,7 +167,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
         android:layout_marginTop="280dp"
-        android:text="Minimum Bid"
+        android:text="Minimum Bid: *"
         android:textColor="@android:color/black"
         android:textSize="18sp"
         app:layout_constraintStart_toStartOf="parent"
@@ -179,7 +179,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
         android:layout_marginTop="220dp"
-        android:text="Initial Price:"
+        android:text="Initial Price: *"
         android:textColor="@android:color/black"
         android:textSize="18sp"
         app:layout_constraintStart_toStartOf="parent"
@@ -194,12 +194,12 @@
         android:background="@drawable/txt_field_border"
         android:ems="10"
         android:hint="30.00"
-        android:inputType="number|numberSigned|numberDecimal"
+        android:inputType="number|numberDecimal"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <EditText
-        android:id="@+id/txtListiingTitle"
+        android:id="@+id/txtListingTitle"
         android:layout_width="wrap_content"
         android:layout_height="40dp"
         android:layout_marginStart="180dp"
@@ -220,7 +220,7 @@
         android:background="@drawable/txt_field_border"
         android:ems="10"
         android:hint="1.00"
-        android:inputType="textPersonName"
+        android:inputType="number|numberDecimal"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -230,7 +230,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
         android:layout_marginTop="160dp"
-        android:text="Listing Title:"
+        android:text="Listing Title: *"
         android:textColor="@android:color/black"
         android:textSize="18sp"
         app:layout_constraintStart_toStartOf="parent"
@@ -245,7 +245,7 @@
         android:background="@drawable/txt_field_border"
         android:ems="10"
         android:hint="  DD"
-        android:inputType="date"
+        android:inputType="number"
         android:maxLength="2"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -259,7 +259,7 @@
         android:background="@drawable/txt_field_border"
         android:ems="10"
         android:hint=" YYYY"
-        android:inputType="date"
+        android:inputType="number"
         android:maxLength="4"
         app:layout_constraintStart_toEndOf="@+id/txtStartMonth"
         app:layout_constraintTop_toTopOf="parent" />
@@ -326,5 +326,21 @@
         android:textSize="30sp"
         app:layout_constraintStart_toEndOf="@+id/txtStartYear"
         app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/labelRequiredFields"
+        android:layout_width="209dp"
+        android:layout_height="25dp"
+        android:layout_marginBottom="10dp"
+        android:layout_marginEnd="375dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="64dp"
+        android:text="* indicates a required field"
+        android:textColor="@android:color/black"
+        android:textSize="18sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/txtAreaDescription" />
 
 </android.support.constraint.ConstraintLayout>
