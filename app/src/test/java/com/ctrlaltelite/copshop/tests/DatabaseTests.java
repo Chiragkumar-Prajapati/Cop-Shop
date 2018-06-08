@@ -1,6 +1,6 @@
 package com.ctrlaltelite.copshop.tests;
 
-import com.ctrlaltelite.copshop.persistence.database.interfaces.IDatabase;
+import com.ctrlaltelite.copshop.persistence.database.IDatabase;
 import com.ctrlaltelite.copshop.persistence.database.stubs.MockDatabaseStub;
 import org.junit.Test;
 import java.util.ArrayList;

@@ -9,8 +9,9 @@ import android.widget.Button;
 import android.widget.EditText;
 
 import com.ctrlaltelite.copshop.R;
-import com.ctrlaltelite.copshop.logic.services.CreateListingValidationObject;
-import com.ctrlaltelite.copshop.logic.services.CreateNewListingService;
+import com.ctrlaltelite.copshop.logic.CopShopApp;
+import com.ctrlaltelite.copshop.objects.ListingFormValidationObject;
+import com.ctrlaltelite.copshop.logic.services.stubs.CreateListingService;
 import com.ctrlaltelite.copshop.objects.ListingObject;
 
 public class CreateListingActivity extends AppCompatActivity {
@@ -38,10 +39,11 @@ public class CreateListingActivity extends AppCompatActivity {
                         ((EditText) findViewById(R.id.txtStartDay)).getText().toString() + "/" + ((EditText) findViewById(R.id.txtStartMonth)).getText().toString() + "/" + ((EditText) findViewById(R.id.txtStartYear)).getText().toString(),
                         ((EditText) findViewById(R.id.txtStartTimeHour)).getText().toString() + ":" + ((EditText) findViewById(R.id.txtStartTimeMinute)).getText().toString(),
                         ((EditText) findViewById(R.id.txtEndDay)).getText().toString() + "/" +  ((EditText) findViewById(R.id.txtEndMonth)).getText().toString() + "/" + ((EditText) findViewById(R.id.txtEndYear)).getText().toString(),
-                        ((EditText) findViewById(R.id.txtEndTimeHour)).getText().toString() + ":" + ((EditText) findViewById(R.id.txtEndTimeMinute)).getText().toString()
+                        ((EditText) findViewById(R.id.txtEndTimeHour)).getText().toString() + ":" + ((EditText) findViewById(R.id.txtEndTimeMinute)).getText().toString(),
+                        "1" // TODO: currently logged in seller's id
                 );
 
-                CreateListingValidationObject validationObject = CreateNewListingService.create(listingObject);
+                ListingFormValidationObject validationObject = CopShopApp.createListingService.create(listingObject);
 
                 //TODO: CheckForValidationErrors
                 // if validationObject.isAllValid() != true, set appropriate fields to have red border,

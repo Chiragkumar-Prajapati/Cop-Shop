@@ -2,15 +2,15 @@ package com.ctrlaltelite.copshop.tests;
 
 import com.ctrlaltelite.copshop.logic.services.IAccountService;
 import com.ctrlaltelite.copshop.logic.services.stubs.AccountService;
-import com.ctrlaltelite.copshop.logic.interfaces.IBuyerModel;
-import com.ctrlaltelite.copshop.logic.interfaces.ISellerModel;
+import com.ctrlaltelite.copshop.persistence.IBuyerModel;
+import com.ctrlaltelite.copshop.persistence.ISellerModel;
 import com.ctrlaltelite.copshop.objects.AccountObject;
 import com.ctrlaltelite.copshop.objects.BuyerAccountObject;
 import com.ctrlaltelite.copshop.objects.SellerAccountObject;
-import com.ctrlaltelite.copshop.persistence.database.interfaces.IDatabase;
+import com.ctrlaltelite.copshop.persistence.database.IDatabase;
 import com.ctrlaltelite.copshop.persistence.database.stubs.MockDatabaseStub;
-import com.ctrlaltelite.copshop.persistence.models.BuyerModel;
-import com.ctrlaltelite.copshop.persistence.models.SellerModel;
+import com.ctrlaltelite.copshop.persistence.stubs.BuyerModel;
+import com.ctrlaltelite.copshop.persistence.stubs.SellerModel;
 import org.junit.Test;
 
 import static org.junit.Assert.*;
@@ -23,7 +23,7 @@ public class AccountServiceTests {
         IDatabase database = new MockDatabaseStub();
         IBuyerModel buyerModel = new BuyerModel(database);
         ISellerModel sellerModel = new SellerModel(database);
-        IAccountService accountService = new AccountService();
+        IAccountService accountService = new AccountService(sellerModel, buyerModel);
 
         // Create an account
         BuyerAccountObject account1 = new BuyerAccountObject("ignored","name1", "pass1", "email1");

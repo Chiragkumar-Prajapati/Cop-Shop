@@ -51,9 +51,9 @@ public class ListingObjectArrayAdapter extends ArrayAdapter<ListingObject> {
         title.setText(info.getTitle());
         description.setText(StringUtility.ellipsize(info.getDescription(), 80));
         location.setText(info.getLocation());
-        price.setText("$" + info.getPrice() + ",");
+        price.setText("$" + info.getCurrentPrice() + ",");
         bids.setText(info.getNumBids() + " bids");
-        timeLeft.setText(info.getTimeLeft() + " days"); // TODO: Calculate unit of time left
+        timeLeft.setText(info.getTimeLeft());
 
         // Get the image associated with this listing
 //        int imageID = context.getResources().getIdentifier(info.getImage(), "drawable", context.getPackageName());

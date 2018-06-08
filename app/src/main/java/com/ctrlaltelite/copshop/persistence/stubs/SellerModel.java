@@ -1,8 +1,8 @@
-package com.ctrlaltelite.copshop.persistence.models;
+package com.ctrlaltelite.copshop.persistence.stubs;
 
-import com.ctrlaltelite.copshop.logic.interfaces.ISellerModel;
+import com.ctrlaltelite.copshop.persistence.ISellerModel;
 import com.ctrlaltelite.copshop.objects.SellerAccountObject;
-import com.ctrlaltelite.copshop.persistence.database.interfaces.IDatabase;
+import com.ctrlaltelite.copshop.persistence.database.IDatabase;
 
 import java.util.ArrayList;
 import java.util.Hashtable;

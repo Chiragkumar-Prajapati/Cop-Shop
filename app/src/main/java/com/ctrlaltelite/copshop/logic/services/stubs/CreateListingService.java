@@ -1,40 +1,32 @@
-package com.ctrlaltelite.copshop.logic.services;
+package com.ctrlaltelite.copshop.logic.services.stubs;
 
 import android.util.Log;
-
-import com.ctrlaltelite.copshop.logic.CopShopApp;
+import com.ctrlaltelite.copshop.persistence.IListingModel;
+import com.ctrlaltelite.copshop.logic.services.ICreateListingService;
+import com.ctrlaltelite.copshop.objects.ListingFormValidationObject;
 import com.ctrlaltelite.copshop.objects.ListingObject;
-
 import org.apache.commons.lang3.StringUtils;
 
-import java.time.DateTimeException;
-
-public class CreateNewListingService {
-
+public class CreateListingService implements ICreateListingService {
     private static final int TIME_LENGTH = 4;
     private static final int DATE_LENGTH = 8;
-
     private static final int JAN = 1, FEB = 2, MAR = 3, APR = 4, MAY = 5, JUN = 6,
                              JUL = 7, AUG = 8, SEP = 9, OCT = 10, NOV = 11, DEC = 12;
-
     private static final int APP_SUPPORT_TILL_YEAR = 2050;
-
     private static final String TAG = "CreateNewListing";
-    private static CreateListingValidationObject validationObject = new CreateListingValidationObject();
+    private static ListingFormValidationObject validationObject = new ListingFormValidationObject();
 
+    private IListingModel listingModel;
 
-    /**
-     * Creates a new listing and inserts it into the database.
-     * First validates input fields and if all goes well,
-     * adds the listing to the database using the ListingModel.
-     *
-     * @return CreateListingValidationObject containing validity of fields in form
-     */
-    public static CreateListingValidationObject create(ListingObject listingObject) {
-        Boolean successful = validateInputForm(listingObject);
+    public CreateListingService(IListingModel listingModel) {
+        this.listingModel = listingModel;
+    }
+
+    public ListingFormValidationObject create(ListingObject listingObject) {
+        Boolean successful = this.validateInputForm(listingObject);
 
         if (successful) {
-            CopShopApp.listingModel.createNew(listingObject);
+            listingModel.createNew(listingObject);
         }
 
         return validationObject;
@@ -48,7 +40,7 @@ public class CreateNewListingService {
      * Validates: initPrice, minBid, auctionStartDate, auctionStartTime,
      * auctionEndDate and auctionEndTime fields
      */
-    public static boolean validateInputForm(ListingObject listingObject) {
+    private boolean validateInputForm(ListingObject listingObject) {
 
         String current = listingObject.getInitPrice();
 
@@ -79,7 +71,7 @@ public class CreateNewListingService {
         return validationObject.isAllValid();
     }
 
-    public static boolean validateBidPrice(String value){
+    private boolean validateBidPrice(String value){
         boolean isValid = true;
 
         if (value.contains(".")){
@@ -101,7 +93,7 @@ public class CreateNewListingService {
     }
 
     // Format: DD/MM/YEAR
-    public static boolean validateDate(String date){
+    private boolean validateDate(String date){
         boolean isValid = true;
 
         if (date == null || date.isEmpty() || !(date.contains("/")) || (StringUtils.countMatches(date, "/") != 2) || !(date.length() == DATE_LENGTH)){
@@ -160,7 +152,7 @@ public class CreateNewListingService {
     }
 
     // Format: HR:MN (24 HR)
-    public static boolean validateTime(String time){
+    private boolean validateTime(String time){
         boolean isValid = true;
 
         if (time == null || time.isEmpty() || !(time.contains(":")) || (StringUtils.countMatches(time, ":") != 1) || !(time.length() == TIME_LENGTH)){
@@ -188,10 +180,10 @@ public class CreateNewListingService {
     /**
      * Determine if year passed as a parameter is a leap year
      *
-     * @param Int year to determine leapness
+     * @param year int to determine leapness
      * @return Boolean indicating if year is a leap year
      */
-    public static boolean isLeapYear (int year){
+    private boolean isLeapYear (int year){
         boolean isLeap = false;
 
         if(year%4 == 0){

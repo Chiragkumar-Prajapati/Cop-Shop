@@ -1,4 +1,4 @@
-package com.ctrlaltelite.copshop.logic.interfaces;
+package com.ctrlaltelite.copshop.persistence;
 
 import com.ctrlaltelite.copshop.objects.BuyerAccountObject;
 

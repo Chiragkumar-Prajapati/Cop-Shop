@@ -1,17 +1,17 @@
-package com.ctrlaltelite.copshop.logic.services;
+package com.ctrlaltelite.copshop.objects;
 
 /**
  * Data object that stores (Boolean) values for
  * each field in the CreateNewListing form indicating
  * whether or not data in it is valid
  */
-public class CreateListingValidationObject {
+public class ListingFormValidationObject {
 
     /**
      * Initially assume fields are valid,
      * then we test if they are not valid.
      */
-    public CreateListingValidationObject() {
+    public ListingFormValidationObject() {
         this.titleValid = true;
         this.descriptionValid = true;
         this.initPriceValid = true;

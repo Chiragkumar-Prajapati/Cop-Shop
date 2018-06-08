@@ -7,7 +7,7 @@ import android.widget.Button;
 
 import com.ctrlaltelite.copshop.R;
 
-public class Create_account extends AppCompatActivity {
+public class CreateAccountActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
