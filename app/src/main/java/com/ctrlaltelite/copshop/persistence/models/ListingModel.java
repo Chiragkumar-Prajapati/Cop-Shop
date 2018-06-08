@@ -13,8 +13,6 @@ public class ListingModel implements IListingModel {
 
     public ListingModel(IDatabase database) {
         this.database = database;
-
-        // Initialize mock data
     }
 
     @Override
@@ -25,6 +23,10 @@ public class ListingModel implements IListingModel {
 
         newRow.put("title", newListing.getTitle());
         newRow.put("description", newListing.getDescription());
+        newRow.put("location", newListing.getLocation());
+        newRow.put("num_bids", newListing.getNumBids());
+        newRow.put("price", newListing.getPrice());
+        newRow.put("time_left", newListing.getTimeLeft());
 
         return this.database.insertRow(TABLE_NAME, newRow);
     }
@@ -50,6 +52,10 @@ public class ListingModel implements IListingModel {
 
             success = success && (null != this.database.updateColumn(TABLE_NAME, id, "title", updatedListing.getTitle()));
             success = success && (null != this.database.updateColumn(TABLE_NAME, id, "description", updatedListing.getDescription()));
+            success = success && (null != this.database.updateColumn(TABLE_NAME, id, "location", updatedListing.getLocation()));
+            success = success && (null != this.database.updateColumn(TABLE_NAME, id, "num_bids", updatedListing.getNumBids()));
+            success = success && (null != this.database.updateColumn(TABLE_NAME, id, "price", updatedListing.getPrice()));
+            success = success && (null != this.database.updateColumn(TABLE_NAME, id, "time_left", updatedListing.getTimeLeft()));
 
             return success;
         }
@@ -62,9 +68,13 @@ public class ListingModel implements IListingModel {
 
         if (this.database.rowExists(TABLE_NAME, id)) {
             return new ListingObject(
-                    id,
-                    this.database.fetchColumn(TABLE_NAME, id, "title"),
-                    this.database.fetchColumn(TABLE_NAME, id, "description")
+                id,
+                this.database.fetchColumn(TABLE_NAME, id, "title"),
+                this.database.fetchColumn(TABLE_NAME, id, "description"),
+                this.database.fetchColumn(TABLE_NAME, id, "location"),
+                this.database.fetchColumn(TABLE_NAME, id, "price"),
+                this.database.fetchColumn(TABLE_NAME, id, "num_bids"), // TODO: Count bids
+                this.database.fetchColumn(TABLE_NAME, id, "time_left") // TODO: Calculate time left
             );
         }
         return null;
@@ -83,7 +93,11 @@ public class ListingModel implements IListingModel {
                 ListingObject listing = new ListingObject(
                         stringId,
                         row.get("title"),
-                        row.get("description")
+                        row.get("description"),
+                        row.get("location"),
+                        row.get("price"),
+                        row.get("num_bids"),
+                        row.get("time_left")
                 );
 
                 results.add(listing);
