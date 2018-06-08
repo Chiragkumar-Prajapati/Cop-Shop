@@ -1,10 +1,10 @@
 package com.ctrlaltelite.copshop.tests;
 
-import com.ctrlaltelite.copshop.logic.interfaces.IBuyerModel;
+import com.ctrlaltelite.copshop.persistence.IBuyerModel;
 import com.ctrlaltelite.copshop.objects.BuyerAccountObject;
-import com.ctrlaltelite.copshop.persistence.database.interfaces.IDatabase;
+import com.ctrlaltelite.copshop.persistence.database.IDatabase;
 import com.ctrlaltelite.copshop.persistence.database.stubs.MockDatabaseStub;
-import com.ctrlaltelite.copshop.persistence.models.BuyerModel;
+import com.ctrlaltelite.copshop.persistence.stubs.BuyerModel;
 import org.junit.Test;
 
 import static org.junit.Assert.*;

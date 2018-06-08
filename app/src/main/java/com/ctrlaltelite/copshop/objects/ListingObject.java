@@ -10,8 +10,9 @@ public class ListingObject {
     private String auctionStartTime; // Format: HR:MN (24 HR)
     private String auctionEndDate; // Format: DD/MM/YEAR
     private String auctionEndTime; //Format: HR:MN (24 HR)
+    private String sellerId;
 
-    public ListingObject(String id, String title, String description, String initPrice, String minBid, String auctionStartDate, String auctionStartTime, String auctionEndDate, String auctionEndTime) {
+    public ListingObject(String id, String title, String description, String initPrice, String minBid, String auctionStartDate, String auctionStartTime, String auctionEndDate, String auctionEndTime, String sellerId) {
         this.id = id;
         this.title = title;
         this.description = description;
@@ -21,6 +22,7 @@ public class ListingObject {
         this.auctionStartTime = auctionStartTime;
         this.auctionEndDate = auctionEndDate;
         this.auctionEndTime = auctionEndTime;
+        this.sellerId = sellerId;
     }
 
     // Getters
@@ -60,6 +62,29 @@ public class ListingObject {
         return auctionEndTime;
     }
 
+    public String getSellerId() {
+        return sellerId;
+    }
+
+    public String getLocation() {
+        // TODO: Get listing address from seller
+        return "PLACEHOLDER";
+    }
+
+    public String getCurrentPrice() {
+        // TODO: Get current price from highest bid
+        return this.initPrice;
+    }
+
+    public String getNumBids() {
+        // TODO: Get num bids from all bids on listing
+        return "0";
+    }
+
+    public String getTimeLeft() {
+        // TODO: Get the amount of time left on the listing auction
+        return "0 days";
+    }
 
     // Setters
     public void setDescription(String description) {
@@ -94,6 +119,10 @@ public class ListingObject {
         this.auctionEndTime = auctionEndTime;
     }
 
+    public void setSellerId(String sellerId) {
+        this.sellerId = sellerId;
+    }
+
     @Override
     public String toString(){
         String listing = "";
@@ -106,7 +135,8 @@ public class ListingObject {
                     "\nauction start date: " + auctionStartDate +
                     "\nauction start time: " + auctionStartTime +
                     "\nauction end date: " + auctionEndDate +
-                    "\nauction end time: " + auctionEndTime;
+                    "\nauction end time: " + auctionEndTime +
+                    "\nseller id: " + sellerId;
 
         return listing;
     }

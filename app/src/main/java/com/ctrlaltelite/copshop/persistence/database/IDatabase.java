@@ -1,4 +1,4 @@
-package com.ctrlaltelite.copshop.persistence.database.interfaces;
+package com.ctrlaltelite.copshop.persistence.database;
 
 import java.util.ArrayList;
 import java.util.Hashtable;

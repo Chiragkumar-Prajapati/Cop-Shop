@@ -1,6 +1,6 @@
 package com.ctrlaltelite.copshop.persistence.database.stubs;
 
-import com.ctrlaltelite.copshop.persistence.database.interfaces.IDatabase;
+import com.ctrlaltelite.copshop.persistence.database.IDatabase;
 
 import java.util.ArrayList;
 import java.util.Enumeration;

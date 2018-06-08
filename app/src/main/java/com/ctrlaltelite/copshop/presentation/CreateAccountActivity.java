@@ -7,14 +7,14 @@ import android.widget.Button;
 
 import com.ctrlaltelite.copshop.R;
 
-public class Create_account extends AppCompatActivity {
+public class CreateAccountActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_create_account);
 
-        Button btnPrecinct = findViewById(R.id.btnPrecint);
+        Button btnPrecinct = (Button) findViewById(R.id.btnPrecint);
         btnPrecinct.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -22,7 +22,7 @@ public class Create_account extends AppCompatActivity {
             }
         });
 
-        Button btnBidder = findViewById(R.id.btnBidder);
+        Button btnBidder = (Button) findViewById(R.id.btnBidder);
         btnBidder.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

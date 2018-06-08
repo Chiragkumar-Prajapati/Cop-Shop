@@ -1,8 +1,8 @@
-package com.ctrlaltelite.copshop.persistence.models;
+package com.ctrlaltelite.copshop.persistence.stubs;
 
-import com.ctrlaltelite.copshop.logic.interfaces.IListingModel;
+import com.ctrlaltelite.copshop.persistence.IListingModel;
 import com.ctrlaltelite.copshop.objects.ListingObject;
-import com.ctrlaltelite.copshop.persistence.database.interfaces.IDatabase;
+import com.ctrlaltelite.copshop.persistence.database.IDatabase;
 
 import java.util.ArrayList;
 import java.util.Hashtable;
@@ -13,8 +13,6 @@ public class ListingModel implements IListingModel {
 
     public ListingModel(IDatabase database) {
         this.database = database;
-
-        // Initialize mock data
     }
 
     @Override
@@ -31,6 +29,7 @@ public class ListingModel implements IListingModel {
         newRow.put("auctionStartTime", newListing.getAuctionStartTime());
         newRow.put("auctionEndDate", newListing.getAuctionEndDate());
         newRow.put("auctionEndTime", newListing.getAuctionEndTime());
+        newRow.put("sellerId", newListing.getSellerId());
 
         return this.database.insertRow(TABLE_NAME, newRow);
     }
@@ -62,6 +61,7 @@ public class ListingModel implements IListingModel {
             success = success && (null != this.database.updateColumn(TABLE_NAME, id, "auctionStartTime", updatedListing.getAuctionStartTime()));
             success = success && (null != this.database.updateColumn(TABLE_NAME, id, "auctionEndDate", updatedListing.getAuctionEndDate()));
             success = success && (null != this.database.updateColumn(TABLE_NAME, id, "auctionEndTime", updatedListing.getAuctionEndTime()));
+            success = success && (null != this.database.updateColumn(TABLE_NAME, id, "sellerId", updatedListing.getSellerId()));
 
             return success;
         }
@@ -82,7 +82,8 @@ public class ListingModel implements IListingModel {
                     this.database.fetchColumn(TABLE_NAME, id, "auctionStartDate"),
                     this.database.fetchColumn(TABLE_NAME, id, "auctionStartTime"),
                     this.database.fetchColumn(TABLE_NAME, id, "auctionEndDate"),
-                    this.database.fetchColumn(TABLE_NAME, id, "auctionEndTime")
+                    this.database.fetchColumn(TABLE_NAME, id, "auctionEndTime"),
+                    this.database.fetchColumn(TABLE_NAME, id, "sellerId")
             );
         }
         return null;
@@ -107,7 +108,8 @@ public class ListingModel implements IListingModel {
                         row.get("auctionStartDate"),
                         row.get("auctionStartTime"),
                         row.get("auctionEndDate"),
-                        row.get("auctionEndTime")
+                        row.get("auctionEndTime"),
+                        row.get("sellerId")
                 );
 
                 results.add(listing);
