@@ -10,7 +10,7 @@
         android:id="@+id/password"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="36dp"
+        android:layout_marginEnd="124dp"
         android:layout_marginTop="40dp"
         android:ems="10"
         android:inputType="textPassword"
@@ -21,8 +21,8 @@
         android:id="@+id/email"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="36dp"
-        android:layout_marginTop="88dp"
+        android:layout_marginEnd="124dp"
+        android:layout_marginTop="98dp"
         android:ems="10"
         android:inputType="textEmailAddress"
         app:layout_constraintEnd_toEndOf="parent"
@@ -32,8 +32,8 @@
         android:id="@+id/editText5"
         android:layout_width="82dp"
         android:layout_height="40dp"
-        android:layout_marginEnd="32dp"
-        android:layout_marginTop="88dp"
+        android:layout_marginEnd="40dp"
+        android:layout_marginTop="98dp"
         android:ems="10"
         android:inputType="textPersonName"
         android:text="Email"
@@ -45,7 +45,7 @@
         android:layout_width="97dp"
         android:layout_height="48dp"
         android:layout_marginBottom="124dp"
-        android:layout_marginEnd="20dp"
+        android:layout_marginEnd="40dp"
         android:layout_marginTop="40dp"
         android:ems="10"
         android:inputType="textPersonName"
@@ -53,16 +53,18 @@
         app:layout_constraintBottom_toTopOf="@+id/registerPrompt"
         app:layout_constraintEnd_toStartOf="@+id/password"
         app:layout_constraintTop_toBottomOf="@+id/editText5"
-        app:layout_constraintVertical_bias="0.92" />
+        app:layout_constraintVertical_bias="0.04" />
 
     <Button
         android:id="@+id/btnLogin"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="162dp"
-        android:layout_marginTop="57dp"
+        android:layout_marginEnd="256dp"
+        android:layout_marginStart="257dp"
+        android:layout_marginTop="72dp"
         android:text="Login"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/password" />
 
     <Button
@@ -79,28 +81,16 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/btnLogin"
-        app:layout_constraintVertical_bias="1.0"
+        app:layout_constraintVertical_bias="0.195"
         tools:textColor="#ffffff" />
 
     <TextView
         android:id="@+id/registerPrompt"
-        android:layout_width="242dp"
+        android:layout_width="279dp"
         android:layout_height="36dp"
-        android:layout_marginEnd="85dp"
-        android:layout_marginStart="85dp"
-        android:layout_marginTop="30dp"
-        android:text="New to CopShop?  Create an Account!"
-        app:layout_constraintBottom_toTopOf="@+id/btnRegister"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/btnLogin" />
-
-    <TextView
-        android:id="@+id/registerPrompt2"
-        android:layout_width="242dp"
-        android:layout_height="36dp"
-        android:layout_marginEnd="100dp"
-        android:layout_marginStart="100dp"
+        android:layout_marginBottom="1dp"
+        android:layout_marginEnd="130dp"
+        android:layout_marginStart="150dp"
         android:text="New to CopShop?  Create an Account!"
         app:layout_constraintBottom_toTopOf="@+id/btnRegister"
         app:layout_constraintEnd_toEndOf="parent"
