@@ -6,10 +6,10 @@ public class ListingObject {
     private String description;
     private String initPrice;
     private String minBid; // Minimum amount by which a bid can increment
-    private String auctionStartDate; // Format:
-    private String auctionStartTime; // Format:
-    private String auctionEndDate; // Format:
-    private String auctionEndTime; //Format:
+    private String auctionStartDate; // Format: DD/MM/YEAR
+    private String auctionStartTime; // Format: HR:MN (24 HR)
+    private String auctionEndDate; // Format: DD/MM/YEAR
+    private String auctionEndTime; //Format: HR:MN (24 HR)
 
     public ListingObject(String id, String title, String description, String initPrice, String minBid, String auctionStartDate, String auctionStartTime, String auctionEndDate, String auctionEndTime) {
         this.id = id;
@@ -94,4 +94,20 @@ public class ListingObject {
         this.auctionEndTime = auctionEndTime;
     }
 
+    @Override
+    public String toString(){
+        String listing = "";
+
+        listing  +=  "\nid: " + id +
+                    "\ntitle: " + title +
+                    "\ndescription: " + description +
+                    "\ninitial price: " + initPrice +
+                    "\nminimum bid: " + minBid +
+                    "\nauction start date: " + auctionStartDate +
+                    "\nauction start time: " + auctionStartTime +
+                    "\nauction end date: " + auctionEndDate +
+                    "\nauction end time: " + auctionEndTime;
+
+        return listing;
+    }
 }
