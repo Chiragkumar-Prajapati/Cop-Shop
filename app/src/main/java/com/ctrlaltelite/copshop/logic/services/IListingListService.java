@@ -12,7 +12,7 @@ public interface IListingListService {
     ArrayList<ListingObject> fetchListings();
 
 //    /**
-//     * Fetch all listings, filtered
+//     * TODO: Fetch all listings, filtered
 //     * @param filter ListFilter object to filter listings by
 //     * @return Filtered list of all listings
 //     */

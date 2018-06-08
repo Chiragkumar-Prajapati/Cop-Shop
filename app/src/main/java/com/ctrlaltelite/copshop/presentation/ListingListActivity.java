@@ -35,13 +35,13 @@ public class ListingListActivity extends AppCompatActivity implements Navigation
 
         // Setup top bar on list page
         if (toolbar == null) {
-            toolbar = findViewById(R.id.toolbar);
+            toolbar = (Toolbar) findViewById(R.id.toolbar);
         }
         setSupportActionBar(toolbar);
 
         // Setup menu drawer
         if (drawer == null) {
-            drawer = findViewById(R.id.drawer_layout);
+            drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         }
 
         // Setup drawer toggle
@@ -53,7 +53,7 @@ public class ListingListActivity extends AppCompatActivity implements Navigation
 
         // Setup drawer slide out page
         if (navigationView == null) {
-            navigationView = findViewById(R.id.nav_view);
+            navigationView = (NavigationView) findViewById(R.id.nav_view);
         }
         navigationView.setNavigationItemSelectedListener(this);
 
@@ -64,7 +64,7 @@ public class ListingListActivity extends AppCompatActivity implements Navigation
         ArrayList<ListingObject> listingItems = CopShopApp.listingListService.fetchListings();
         ListingObjectArrayAdapter listAdapter;
         if (listingView == null) {
-            listingView = findViewById(R.id.listing_list);
+            listingView = (ListView) findViewById(R.id.listing_list);
         }
         listAdapter = new ListingObjectArrayAdapter(
                 this,
@@ -75,7 +75,7 @@ public class ListingListActivity extends AppCompatActivity implements Navigation
 
     @Override
     public void onBackPressed() {
-        DrawerLayout drawer = findViewById(R.id.drawer_layout);
+//        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         if (drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.closeDrawer(GravityCompat.START);
         } else {
@@ -119,7 +119,7 @@ public class ListingListActivity extends AppCompatActivity implements Navigation
 
         }
 
-        DrawerLayout drawer = findViewById(R.id.drawer_layout);
+//        DrawerLayout drawer = findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
     }

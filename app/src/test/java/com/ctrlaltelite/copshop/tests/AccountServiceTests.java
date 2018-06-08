@@ -1,7 +1,7 @@
 package com.ctrlaltelite.copshop.tests;
 
-import com.ctrlaltelite.copshop.logic.AccountService;
-import com.ctrlaltelite.copshop.presentation.interfaces.IAccountService;
+import com.ctrlaltelite.copshop.logic.services.IAccountService;
+import com.ctrlaltelite.copshop.logic.services.stubs.AccountService;
 import com.ctrlaltelite.copshop.logic.interfaces.IBuyerModel;
 import com.ctrlaltelite.copshop.logic.interfaces.ISellerModel;
 import com.ctrlaltelite.copshop.objects.AccountObject;

@@ -14,7 +14,7 @@ public class Create_account extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_create_account);
 
-        Button btnPrecinct = findViewById(R.id.btnPrecint);
+        Button btnPrecinct = (Button) findViewById(R.id.btnPrecint);
         btnPrecinct.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -22,7 +22,7 @@ public class Create_account extends AppCompatActivity {
             }
         });
 
-        Button btnBidder = findViewById(R.id.btnBidder);
+        Button btnBidder = (Button) findViewById(R.id.btnBidder);
         btnBidder.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

@@ -6,6 +6,13 @@ public abstract class AccountObject {
     private String password;
     private String email;
 
+    AccountObject(String id, String username, String password, String email) {
+        this.id = id;
+        this.username = username;
+        this.password = password;
+        this.email = email;
+    }
+
     public String getId() {
         return id;
     }

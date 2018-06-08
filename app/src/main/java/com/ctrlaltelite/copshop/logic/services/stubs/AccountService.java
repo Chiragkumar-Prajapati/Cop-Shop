@@ -1,18 +1,9 @@
-package com.ctrlaltelite.copshop.logic;
+package com.ctrlaltelite.copshop.logic.services.stubs;
 
+import com.ctrlaltelite.copshop.logic.CopShopApp;
 import com.ctrlaltelite.copshop.objects.AccountObject;
-import com.ctrlaltelite.copshop.objects.BuyerAccountObject;
-import com.ctrlaltelite.copshop.objects.SellerAccountObject;
-import com.ctrlaltelite.copshop.presentation.interfaces.IAccountService;
 
-public class AccountService implements IAccountService {
-    private AccountService currentService;
-
-    public AccountService AccountService(){
-        currentService = this;
-
-        return currentService;
-    }
+public class AccountService implements com.ctrlaltelite.copshop.logic.services.IAccountService {
 
     public AccountObject validateUsernameAndPassword (String username, String password) {
         AccountObject user = null;
@@ -21,7 +12,6 @@ public class AccountService implements IAccountService {
         if (CopShopApp.sellerModel.checkUsernamePasswordMatch(username, password) ) {
             user = CopShopApp.sellerModel.findByUsername(username);
         }
-
         // If no luck, look for a matching buyer account
         if (user == null) {
             if (CopShopApp.buyerModel.checkUsernamePasswordMatch(username, password) ) {

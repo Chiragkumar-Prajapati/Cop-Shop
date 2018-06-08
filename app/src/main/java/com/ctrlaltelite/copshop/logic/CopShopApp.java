@@ -2,13 +2,15 @@ package com.ctrlaltelite.copshop.logic;
 
 import android.app.Application;
 
+import com.ctrlaltelite.copshop.persistence.database.interfaces.IDatabase;
 import com.ctrlaltelite.copshop.logic.interfaces.IBuyerModel;
 import com.ctrlaltelite.copshop.logic.interfaces.IListingModel;
 import com.ctrlaltelite.copshop.logic.interfaces.ISellerModel;
+import com.ctrlaltelite.copshop.logic.services.IAccountService;
 import com.ctrlaltelite.copshop.logic.services.IListingListService;
+import com.ctrlaltelite.copshop.logic.services.stubs.AccountService;
 import com.ctrlaltelite.copshop.logic.services.stubs.ListingListService;
 import com.ctrlaltelite.copshop.objects.ListingObject;
-import com.ctrlaltelite.copshop.persistence.database.interfaces.IDatabase;
 import com.ctrlaltelite.copshop.persistence.models.BuyerModel;
 import com.ctrlaltelite.copshop.persistence.models.ListingModel;
 import com.ctrlaltelite.copshop.persistence.models.SellerModel;
@@ -30,6 +32,7 @@ public class CopShopApp extends Application {
     public static IListingModel listingModel = new ListingModel(database);
     // Services
     public static IListingListService listingListService = new ListingListService();
+    public static IAccountService accountService = new AccountService();
 
     public CopShopApp() {
         super();

@@ -1,6 +1,5 @@
 package com.ctrlaltelite.copshop.presentation;
 
-import android.app.ListActivity;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -10,7 +9,7 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 import com.ctrlaltelite.copshop.R;
-import com.ctrlaltelite.copshop.logic.AccountService;
+import com.ctrlaltelite.copshop.logic.services.stubs.AccountService;
 import com.ctrlaltelite.copshop.objects.AccountObject;
 
 public class Login extends AppCompatActivity {
@@ -19,17 +18,17 @@ public class Login extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login); //grab xml file and display it
-        final TextView errorMsg = findViewById(R.id.incorrectCredentialsMsg); //get error ready, just in case
+        final TextView errorMsg = (TextView) findViewById(R.id.incorrectCredentialsMsg); //get error ready, just in case
 
-        Button btnLogin = findViewById(R.id.btnLogin);
+        Button btnLogin = (Button) findViewById(R.id.btnLogin);
         btnLogin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
-               EditText etEmail = findViewById(R.id.email);
+               EditText etEmail = (EditText) findViewById(R.id.email);
                 String userEmail = etEmail.toString(); //grab text from text box
 
-                EditText etPassword = findViewById(R.id.password);
+                EditText etPassword = (EditText) findViewById(R.id.password);
                 String password = etPassword.toString(); //grab password from textbox
 
                 AccountService check = new AccountService();
@@ -49,7 +48,7 @@ public class Login extends AppCompatActivity {
 
             }
         });
-        Button btnRegister = findViewById(R.id.btnRegister);
+        Button btnRegister = (Button) findViewById(R.id.btnRegister);
         btnRegister.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

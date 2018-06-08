@@ -39,13 +39,13 @@ public class ListingObjectArrayAdapter extends ArrayAdapter<ListingObject> {
         LayoutInflater inflater = (LayoutInflater) context.getSystemService(Activity.LAYOUT_INFLATER_SERVICE);
         View view = inflater.inflate(R.layout.listing_row, null);
 
-        TextView title = view.findViewById(R.id.listing_list_title);
-        TextView location = view.findViewById(R.id.listing_list_location);
-        TextView description = view.findViewById(R.id.listing_list_description);
-        TextView price = view.findViewById(R.id.listing_list_price);
-        TextView bids = view.findViewById(R.id.listing_list_bid_count);
-        TextView timeLeft = view.findViewById(R.id.listing_list_time_left);
-        ImageView image = view.findViewById(R.id.listing_list_image);
+        TextView title = (TextView) view.findViewById(R.id.listing_list_title);
+        TextView location = (TextView) view.findViewById(R.id.listing_list_location);
+        TextView description = (TextView) view.findViewById(R.id.listing_list_description);
+        TextView price = (TextView) view.findViewById(R.id.listing_list_price);
+        TextView bids = (TextView) view.findViewById(R.id.listing_list_bid_count);
+        TextView timeLeft = (TextView) view.findViewById(R.id.listing_list_time_left);
+        ImageView image = (ImageView) view.findViewById(R.id.listing_list_image);
 
         // Trim and set the description and other fields
         title.setText(info.getTitle());
