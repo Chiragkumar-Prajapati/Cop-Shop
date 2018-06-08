@@ -1,5 +1,7 @@
 package com.ctrlaltelite.copshop.logic.services;
 
+import android.util.Log;
+
 import com.ctrlaltelite.copshop.logic.CopShopApp;
 import com.ctrlaltelite.copshop.objects.ListingObject;
 
@@ -52,11 +54,11 @@ public class CreateNewListingService {
 
         // InitPrice
         current = listingObject.getInitPrice();
-        validationObject.setInitPriceValid(validateInitPrice(current));
+        validationObject.setInitPriceValid(validateBidPrice(current));
 
         // MinBid
         current = listingObject.getMinBid();
-        validationObject.setMinBidValid(validateInitPrice(current));
+        validationObject.setMinBidValid(validateBidPrice(current));
 
         // AuctionStartDate
         current = listingObject.getAuctionStartDate();
@@ -74,33 +76,28 @@ public class CreateNewListingService {
         current = listingObject.getAuctionEndTime();
         validationObject.setAuctionEndTimeValid(validateTime(current));
 
-        return validationObject.allValid();
+        return validationObject.isAllValid();
     }
 
-    public static boolean validateInitPrice(String price){
+    public static boolean validateBidPrice(String value){
         boolean isValid = true;
 
-        if (price.contains(".")){
-            String[] priceParts = price.split(".");
+        if (value.contains(".")){
+            String[] priceParts = value.split(".");
             if(priceParts[1].length() > 2){
                 isValid = false;
             }
         }
 
-        return isValid;
-    }
-
-    public static  boolean validateMinBid(String minBid){
-        boolean isValid = true;
-
-        if (minBid.contains(".")){
-            String[] minBidParts = minBid.split(".");
-            if(minBidParts[1].length() > 2){
-                isValid = false;
-            }
+        try{
+            Float valueFloat = Float.valueOf(value);
+        }
+        catch (NumberFormatException e){
+            isValid = false;
+            Log.i(TAG, "Error parsing: " + value + " to Float." );
         }
 
-        return  isValid;
+        return isValid;
     }
 
     // Format: DD/MM/YEAR

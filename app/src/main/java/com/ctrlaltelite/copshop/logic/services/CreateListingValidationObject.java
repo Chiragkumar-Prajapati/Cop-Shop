@@ -99,7 +99,7 @@ public class CreateListingValidationObject {
      *
      * @return Boolean indicating whether all field values are valid
      */
-    public Boolean allValid(){
+    public Boolean isAllValid(){
         return (titleValid &&
                 descriptionValid &&
                 initPriceValid &&

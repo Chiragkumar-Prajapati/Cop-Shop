@@ -44,7 +44,7 @@ public class CreateListingActivity extends AppCompatActivity {
                 CreateListingValidationObject validationObject = CreateNewListingService.create(listingObject);
 
                 //TODO: CheckForValidationErrors
-                // if validationObject.allValid() != true, set appropriate fields to have red border,
+                // if validationObject.isAllValid() != true, set appropriate fields to have red border,
                 // indicating to the user that input is invalid and needs to be fixed
 
                 //System.out.println(listingObject.toString());
