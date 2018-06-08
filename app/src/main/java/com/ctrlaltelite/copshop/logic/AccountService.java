@@ -6,6 +6,14 @@ import com.ctrlaltelite.copshop.objects.SellerAccountObject;
 import com.ctrlaltelite.copshop.presentation.interfaces.IAccountService;
 
 public class AccountService implements IAccountService {
+    private AccountService currentService;
+
+    public AccountService AccountService(){
+        currentService = this;
+
+        return currentService;
+    }
+
     public AccountObject validateUsernameAndPassword (String username, String password) {
         AccountObject user = null;
 
