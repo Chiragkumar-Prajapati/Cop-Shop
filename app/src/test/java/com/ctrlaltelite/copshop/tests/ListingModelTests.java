@@ -16,7 +16,7 @@ public class ListingModelTests {
         IDatabase database = new MockDatabaseStub();
         IListingModel listingModel = new ListingModel(database);
 
-        ListingObject listing = new ListingObject("ignored","title", "desc", "Earth", "9.00", "5", "10");
+        ListingObject listing = new ListingObject("ignored","title", "description", "initPrice", "minBid", "auctionStartDate", "auctionStartTime", "auctionEndDate", "auctionEndTime");
 
         // Create the listings
         String id1 = listingModel.createNew(listing);
@@ -34,7 +34,7 @@ public class ListingModelTests {
         IDatabase database = new MockDatabaseStub();
         IListingModel listingModel = new ListingModel(database);
 
-        ListingObject listing = new ListingObject("ignored","title", "desc", "Earth", "9.00", "5", "10");
+        ListingObject listing = new ListingObject("ignored","title", "description", "initPrice", "minBid", "auctionStartDate", "auctionStartTime", "auctionEndDate", "auctionEndTime");
 
         // Create the listings
         String id1 = listingModel.createNew(listing);
@@ -64,7 +64,7 @@ public class ListingModelTests {
         IDatabase database = new MockDatabaseStub();
         IListingModel listingModel = new ListingModel(database);
 
-        ListingObject listing = new ListingObject("ignored","title", "desc", "Earth", "9.00", "5", "10");
+        ListingObject listing = new ListingObject("ignored","title", "description", "initPrice", "minBid", "auctionStartDate", "auctionStartTime", "auctionEndDate", "auctionEndTime");
 
         // Create the listings
         String id1 = listingModel.createNew(listing);
@@ -72,18 +72,18 @@ public class ListingModelTests {
         String id3 = listingModel.createNew(listing);
 
         // Update a listing
-        ListingObject updatedListing = new ListingObject("ignored","updated-title", "updated-desc", "Earth", "9.00", "5", "10");
+        ListingObject updatedListing = new ListingObject("ignored","updated-title", "updated-description", "updated-initPrice", "updated-minBid", "updated-auctionStartDate", "updated-auctionStartTime", "updated-auctionEndDate", "updated-auctionEndTime");
         assertTrue("Did not get success back from update", listingModel.update(id2, updatedListing));
 
         // Verify it updated the correct listing
         assertEquals("Listing title was not updated", "updated-title", database.fetchColumn("Listings", id2, "title"));
-        assertEquals("Listing description was not updated", "updated-desc", database.fetchColumn("Listings", id2, "description"));
+        assertEquals("Listing description was not updated", "updated-description", database.fetchColumn("Listings", id2, "description"));
 
         assertEquals("Wrong listing title updated", "title", database.fetchColumn("Listings", id1, "title"));
-        assertEquals("Wrong listing description updated", "desc", database.fetchColumn("Listings", id1, "description"));
+        assertEquals("Wrong listing description updated", "description", database.fetchColumn("Listings", id1, "description"));
 
         assertEquals("Wrong listing title updated", "title", database.fetchColumn("Listings", id3, "title"));
-        assertEquals("Wrong listing description updated", "desc", database.fetchColumn("Listings", id3, "description"));
+        assertEquals("Wrong listing description updated", "description", database.fetchColumn("Listings", id3, "description"));
     }
 
     @Test
@@ -91,9 +91,9 @@ public class ListingModelTests {
         IDatabase database = new MockDatabaseStub();
         IListingModel listingModel = new ListingModel(database);
 
-        ListingObject listing1 = new ListingObject("ignored","t1", "d1", "Earth", "9.00", "5", "10");
-        ListingObject listing2 = new ListingObject("ignored","t2", "d2", "Earth", "9.00", "5", "10");
-        ListingObject listing3 = new ListingObject("ignored","t3", "d3", "Earth", "9.00", "5", "10");
+        ListingObject listing1 = new ListingObject("ignored","t1", "d1", "init1", "min1", "asd1", "ast1", "aed1", "aet1");
+        ListingObject listing2 = new ListingObject("ignored","t2", "d2", "init2", "min2", "asd2", "ast2", "aed2", "aet2");
+        ListingObject listing3 = new ListingObject("ignored","t3", "d3", "init3", "min3", "asd3", "ast3", "aed3", "aet3");
 
         // Create the listings
         String id1 = listingModel.createNew(listing1);
@@ -111,9 +111,9 @@ public class ListingModelTests {
         IDatabase database = new MockDatabaseStub();
         IListingModel listingModel = new ListingModel(database);
 
-        ListingObject listing1 = new ListingObject("ignored","t1", "d1", "Earth", "9.00", "5", "10");
-        ListingObject listing2 = new ListingObject("ignored","t2", "d2", "Earth", "9.00", "5", "10");
-        ListingObject listing3 = new ListingObject("ignored","t3", "d3", "Earth", "9.00", "5", "10");
+        ListingObject listing1 = new ListingObject("ignored","t1", "d1", "init1", "min1", "asd1", "ast1", "aed1", "aet1");
+        ListingObject listing2 = new ListingObject("ignored","t2", "d2", "init2", "min2", "asd2", "ast2", "aed2", "aet2");
+        ListingObject listing3 = new ListingObject("ignored","t3", "d3", "init3", "min3", "asd3", "ast3", "aed3", "aet3");
 
         // Create the listings
         String id1 = listingModel.createNew(listing1);
