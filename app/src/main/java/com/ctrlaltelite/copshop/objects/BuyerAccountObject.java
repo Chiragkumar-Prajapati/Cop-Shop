@@ -1,6 +1,6 @@
 package com.ctrlaltelite.copshop.objects;
 
-public class BuyerAccountObject {
+public class BuyerAccountObject extends AccountObject {
     private String id; // Only ever set by the database. Is generated when saving a new account.
     private String username;
     private String password;
