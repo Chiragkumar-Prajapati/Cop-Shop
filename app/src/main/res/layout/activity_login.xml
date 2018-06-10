@@ -28,19 +28,18 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <EditText
+    <TextView
         android:id="@+id/editText5"
         android:layout_width="82dp"
         android:layout_height="40dp"
         android:layout_marginEnd="40dp"
         android:layout_marginTop="98dp"
         android:ems="10"
-        android:inputType="textPersonName"
         android:text="Email"
         app:layout_constraintEnd_toStartOf="@+id/email"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <EditText
+    <TextView
         android:id="@+id/editText6"
         android:layout_width="97dp"
         android:layout_height="48dp"
@@ -48,7 +47,6 @@
         android:layout_marginEnd="40dp"
         android:layout_marginTop="40dp"
         android:ems="10"
-        android:inputType="textPersonName"
         android:text="Password:"
         app:layout_constraintBottom_toTopOf="@+id/registerPrompt"
         app:layout_constraintEnd_toStartOf="@+id/password"
@@ -96,7 +94,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
 
-    <EditText
+    <TextView
         android:id="@+id/login_prompt"
         android:layout_width="415dp"
         android:layout_height="78dp"
@@ -118,7 +116,7 @@
         android:layout_marginEnd="272dp"
         android:layout_marginStart="270dp"
         android:layout_marginTop="44dp"
-        android:textColor="?attr/colorError"
+        android:textColor="#ff0000"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/password" />

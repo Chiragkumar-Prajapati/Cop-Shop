@@ -26,7 +26,7 @@ public class CreateAccountActivity extends AppCompatActivity {
         btnBidder.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //go to Register page for Precinct
+                //go to Register page for Bidder
             }
         });
     }
