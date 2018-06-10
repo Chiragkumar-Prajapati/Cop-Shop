@@ -8,8 +8,8 @@ import com.ctrlaltelite.copshop.objects.ListingObject;
 import org.apache.commons.lang3.StringUtils;
 
 public class CreateListingService implements ICreateListingService {
-    private static final int TIME_LENGTH = 4;
-    private static final int DATE_LENGTH = 8;
+    private static final int TIME_LENGTH = 5;
+    private static final int DATE_LENGTH = 10;
     private static final int JAN = 1, FEB = 2, MAR = 3, APR = 4, MAY = 5, JUN = 6,
                              JUL = 7, AUG = 8, SEP = 9, OCT = 10, NOV = 11, DEC = 12;
     private static final int APP_SUPPORT_TILL_YEAR = 2050;
@@ -42,7 +42,11 @@ public class CreateListingService implements ICreateListingService {
      */
     private boolean validateInputForm(ListingObject listingObject) {
 
-        String current = listingObject.getInitPrice();
+        String current;
+
+        // ListingTitle
+        current = listingObject.getTitle();
+        validationObject.setTitleValid(validateTitle(current));
 
         // InitPrice
         current = listingObject.getInitPrice();
@@ -68,14 +72,21 @@ public class CreateListingService implements ICreateListingService {
         current = listingObject.getAuctionEndTime();
         validationObject.setAuctionEndTimeValid(validateTime(current));
 
+        current = listingObject.getDescription();
+        validationObject.setDescriptionValid(validateDescription(current));
+
         return validationObject.isAllValid();
+    }
+
+    private boolean validateTitle(String title){
+        return title != null && !title.isEmpty();
     }
 
     private boolean validateBidPrice(String value){
         boolean isValid = true;
 
         if (value.contains(".")){
-            String[] priceParts = value.split(".");
+            String[] priceParts = value.split("\\.");
             if(priceParts[1].length() > 2){
                 isValid = false;
             }
@@ -96,7 +107,7 @@ public class CreateListingService implements ICreateListingService {
     private boolean validateDate(String date){
         boolean isValid = true;
 
-        if (date == null || date.isEmpty() || !(date.contains("/")) || (StringUtils.countMatches(date, "/") != 2) || !(date.length() == DATE_LENGTH)){
+        if (date == null || (StringUtils.countMatches(date, "/") != 2) || !(date.length() == DATE_LENGTH)){
             isValid = false;
         }
 
@@ -198,5 +209,9 @@ public class CreateListingService implements ICreateListingService {
         }
 
         return isLeap;
+    }
+
+    private boolean validateDescription (String description){
+        return description != null && !description.isEmpty();
     }
 }

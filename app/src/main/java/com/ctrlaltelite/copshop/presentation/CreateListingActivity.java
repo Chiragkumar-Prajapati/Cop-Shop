@@ -11,7 +11,6 @@ import android.widget.EditText;
 import com.ctrlaltelite.copshop.R;
 import com.ctrlaltelite.copshop.logic.CopShopApp;
 import com.ctrlaltelite.copshop.objects.ListingFormValidationObject;
-import com.ctrlaltelite.copshop.logic.services.stubs.CreateListingService;
 import com.ctrlaltelite.copshop.objects.ListingObject;
 
 public class CreateListingActivity extends AppCompatActivity {
@@ -48,6 +47,70 @@ public class CreateListingActivity extends AppCompatActivity {
                 //TODO: CheckForValidationErrors
                 // if validationObject.isAllValid() != true, set appropriate fields to have red border,
                 // indicating to the user that input is invalid and needs to be fixed
+
+                if (!validationObject.isAllValid()) {
+
+                    if (!validationObject.getTitleValid()) {
+                        findViewById(R.id.txtListingTitle).setBackgroundResource(R.drawable.txt_field_red_border);
+                    } else {
+                        findViewById(R.id.txtListingTitle).setBackgroundResource(R.drawable.txt_field_black_border);
+                    }
+
+                    if (!validationObject.getInitPriceValid()) {
+                        findViewById(R.id.txtInitialPrice).setBackgroundResource(R.drawable.txt_field_red_border);
+                    } else {
+                        findViewById(R.id.txtInitialPrice).setBackgroundResource(R.drawable.txt_field_black_border);
+                    }
+
+                    if (!validationObject.getMinBidValid()) {
+                        findViewById(R.id.txtMinBid).setBackgroundResource(R.drawable.txt_field_red_border);
+                    } else {
+                        findViewById(R.id.txtMinBid).setBackgroundResource(R.drawable.txt_field_black_border);
+                    }
+
+                    if (!validationObject.getAuctionStartDateValid()) {
+                        findViewById(R.id.txtStartDay).setBackgroundResource(R.drawable.txt_field_red_border);
+                        findViewById(R.id.txtStartMonth).setBackgroundResource(R.drawable.txt_field_red_border);
+                        findViewById(R.id.txtStartYear).setBackgroundResource(R.drawable.txt_field_red_border);
+                    } else {
+                        findViewById(R.id.txtStartDay).setBackgroundResource(R.drawable.txt_field_black_border);
+                        findViewById(R.id.txtStartMonth).setBackgroundResource(R.drawable.txt_field_black_border);
+                        findViewById(R.id.txtStartYear).setBackgroundResource(R.drawable.txt_field_black_border);
+                    }
+
+                    if (!validationObject.getAuctionStartTimeValid()) {
+                        findViewById(R.id.txtStartTimeHour).setBackgroundResource(R.drawable.txt_field_red_border);
+                        findViewById(R.id.txtStartTimeMinute).setBackgroundResource(R.drawable.txt_field_red_border);
+                    } else {
+                        findViewById(R.id.txtStartTimeHour).setBackgroundResource(R.drawable.txt_field_black_border);
+                        findViewById(R.id.txtStartTimeMinute).setBackgroundResource(R.drawable.txt_field_black_border);
+                    }
+
+                    if (!validationObject.getAuctionEndDateValid()) {
+                        findViewById(R.id.txtEndDay).setBackgroundResource(R.drawable.txt_field_red_border);
+                        findViewById(R.id.txtEndMonth).setBackgroundResource(R.drawable.txt_field_red_border);
+                        findViewById(R.id.txtEndYear).setBackgroundResource(R.drawable.txt_field_red_border);
+                    } else {
+                        findViewById(R.id.txtEndDay).setBackgroundResource(R.drawable.txt_field_black_border);
+                        findViewById(R.id.txtEndMonth).setBackgroundResource(R.drawable.txt_field_black_border);
+                        findViewById(R.id.txtEndYear).setBackgroundResource(R.drawable.txt_field_black_border);
+                    }
+
+                    if (!validationObject.getAuctionEndTimeValid()) {
+                        findViewById(R.id.txtEndTimeHour).setBackgroundResource(R.drawable.txt_field_red_border);
+                        findViewById(R.id.txtEndTimeMinute).setBackgroundResource(R.drawable.txt_field_red_border);
+                    } else {
+                        findViewById(R.id.txtEndTimeHour).setBackgroundResource(R.drawable.txt_field_black_border);
+                        findViewById(R.id.txtEndTimeMinute).setBackgroundResource(R.drawable.txt_field_black_border);
+                    }
+
+                    if (!validationObject.getDescriptionValid()) {
+                        findViewById(R.id.txtAreaDescription).setBackgroundResource(R.drawable.txt_field_red_border);
+                    } else {
+                        findViewById(R.id.txtAreaDescription).setBackgroundResource(R.drawable.txt_field_black_border);
+                    }
+
+                }
 
                 //System.out.println(listingObject.toString());
 
