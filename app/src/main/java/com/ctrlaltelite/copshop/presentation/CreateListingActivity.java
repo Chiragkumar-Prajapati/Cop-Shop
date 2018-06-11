@@ -28,7 +28,7 @@ public class CreateListingActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Log.i("SubmitButton", "Clicked!");
-                //create
+                // Create
 
                 ListingObject listingObject = new ListingObject(
                         "ignored",
@@ -45,38 +45,54 @@ public class CreateListingActivity extends AppCompatActivity {
 
                 ListingFormValidationObject validationObject = CopShopApp.createListingService.create(listingObject);
 
-                //check validation object to see if all fields are valid
-                //if valid: store form data in listing database
-                //else invalid: check each form field, highlighting those that are invalid in red
+                // Check validation object to see if all fields are valid
+                // If valid: store form data in listing database
+                // Else invalid: check each form field, highlighting those that are invalid in red
                 if (validationObject.isAllValid()) {
                     CopShopApp.createListingService.saveNewListing(listingObject);
+
+                    // Make sure all form fields are set back to black on success
+                    findViewById(R.id.txtStartDay).setBackgroundResource(R.drawable.txt_field_black_border);
+                    findViewById(R.id.txtStartMonth).setBackgroundResource(R.drawable.txt_field_black_border);
+                    findViewById(R.id.txtStartYear).setBackgroundResource(R.drawable.txt_field_black_border);
+                    findViewById(R.id.txtStartTimeHour).setBackgroundResource(R.drawable.txt_field_black_border);
+                    findViewById(R.id.txtStartTimeMinute).setBackgroundResource(R.drawable.txt_field_black_border);
+                    findViewById(R.id.txtListingTitle).setBackgroundResource(R.drawable.txt_field_black_border);
+                    findViewById(R.id.txtInitialPrice).setBackgroundResource(R.drawable.txt_field_black_border);
+                    findViewById(R.id.txtMinBid).setBackgroundResource(R.drawable.txt_field_black_border);
+                    findViewById(R.id.txtEndDay).setBackgroundResource(R.drawable.txt_field_black_border);
+                    findViewById(R.id.txtEndMonth).setBackgroundResource(R.drawable.txt_field_black_border);
+                    findViewById(R.id.txtEndYear).setBackgroundResource(R.drawable.txt_field_black_border);
+                    findViewById(R.id.txtEndTimeHour).setBackgroundResource(R.drawable.txt_field_black_border);
+                    findViewById(R.id.txtEndTimeMinute).setBackgroundResource(R.drawable.txt_field_black_border);
+                    findViewById(R.id.txtAreaDescription).setBackgroundResource(R.drawable.txt_field_black_border);
 
                     // Goto listing list page
                     startActivity(new Intent(CreateListingActivity.this, ListingListActivity.class));
                 } else {
 
-                    //check listing title
+                    // Check listing title
                     if (!validationObject.getTitleValid()) {
                         findViewById(R.id.txtListingTitle).setBackgroundResource(R.drawable.txt_field_red_border);
                     } else {
                         findViewById(R.id.txtListingTitle).setBackgroundResource(R.drawable.txt_field_black_border);
                     }
 
-                    //check listing initial price
+                    // Check listing initial price
                     if (!validationObject.getInitPriceValid()) {
                         findViewById(R.id.txtInitialPrice).setBackgroundResource(R.drawable.txt_field_red_border);
                     } else {
                         findViewById(R.id.txtInitialPrice).setBackgroundResource(R.drawable.txt_field_black_border);
                     }
 
-                    //check listing minimum bet increase amount
+                    // Check listing minimum bet increase amount
                     if (!validationObject.getMinBidValid()) {
                         findViewById(R.id.txtMinBid).setBackgroundResource(R.drawable.txt_field_red_border);
                     } else {
                         findViewById(R.id.txtMinBid).setBackgroundResource(R.drawable.txt_field_black_border);
                     }
 
-                    //check all fields relating to listing start date and time
+                    // Check all fields relating to listing start date and time
                     if (!validationObject.getStartDateAndTimeValid()) {
                         findViewById(R.id.txtStartDay).setBackgroundResource(R.drawable.txt_field_red_border);
                         findViewById(R.id.txtStartMonth).setBackgroundResource(R.drawable.txt_field_red_border);
@@ -91,7 +107,7 @@ public class CreateListingActivity extends AppCompatActivity {
                         findViewById(R.id.txtStartTimeMinute).setBackgroundResource(R.drawable.txt_field_black_border);
                     }
 
-                    //check all fields relating to listing end date and time
+                    // Check all fields relating to listing end date and time
                     if (!validationObject.getEndDateAndTimeValid()) {
                         findViewById(R.id.txtEndDay).setBackgroundResource(R.drawable.txt_field_red_border);
                         findViewById(R.id.txtEndMonth).setBackgroundResource(R.drawable.txt_field_red_border);
@@ -106,7 +122,7 @@ public class CreateListingActivity extends AppCompatActivity {
                         findViewById(R.id.txtEndTimeMinute).setBackgroundResource(R.drawable.txt_field_black_border);
                     }
 
-                    //check listing description
+                    // Check listing description
                     if (!validationObject.getDescriptionValid()) {
                         findViewById(R.id.txtAreaDescription).setBackgroundResource(R.drawable.txt_field_red_border);
                     } else {
