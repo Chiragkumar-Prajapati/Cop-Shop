@@ -59,10 +59,10 @@ public class CreateListingService implements ICreateListingService {
         // EndDateAndTime
         validationObject.setEndDateAndTimeValid(validateDateAndTime(listingObject.getAuctionEndDate(),
                                                                     listingObject.getAuctionEndTime()) &&
-                                                                    isEndAfterStart(listingObject.getAuctionStartDate(),
-                                                                    listingObject.getAuctionStartTime(),
-                                                                    listingObject.getAuctionEndDate(),
-                                                                    listingObject.getAuctionEndTime()));
+                                                isEndAfterStart(listingObject.getAuctionStartDate(),
+                                                                listingObject.getAuctionStartTime(),
+                                                                listingObject.getAuctionEndDate(),
+                                                                listingObject.getAuctionEndTime()));
 
         // Description
         validationObject.setDescriptionValid(validateDescription(listingObject.getDescription()));
@@ -80,18 +80,17 @@ public class CreateListingService implements ICreateListingService {
             isValid = false;
         } else {
 
-            if (value.contains(".")) {
-                String[] priceParts = value.split("\\.");
-                if (priceParts[1].length() > 2) {
-                    isValid = false;
-                }
-            }
-
             try {
                 Float valueFloat = Float.valueOf(value);
             } catch (NumberFormatException e) {
                 isValid = false;
-                Log.i(TAG, "Error parsing: " + value + " to Float.");
+            }
+
+            if (isValid && value.contains(".")) {
+                String[] priceParts = value.split("\\.");
+                if (priceParts[1].length() > 2) {
+                    isValid = false;
+                }
             }
         }
 

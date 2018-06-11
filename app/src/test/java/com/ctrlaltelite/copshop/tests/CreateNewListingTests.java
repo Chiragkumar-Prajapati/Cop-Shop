@@ -215,7 +215,7 @@ public class CreateNewListingTests {
         assertFalse("Form was incorrectly validated", validationObject.isAllValid());
         assertFalse("Expected invalid field was valid", validationObject.getEndDateAndTimeValid());
 
-        //invalid due to currency: e.g decimal too large
+        //invalid due to currency: e.g decimal too large, invalid format
         invalidListing = new ListingObject("ignored","title", "description", "2.1234", "2",
                 "02/02/2019", "10:00", "02/02/2020", "12:00", "sellerId");
         validationObject = createListingService.create(invalidListing);
@@ -223,6 +223,18 @@ public class CreateNewListingTests {
         assertFalse("Expected invalid field was valid", validationObject.getInitPriceValid());
 
         invalidListing = new ListingObject("ignored","title", "description", "2", "2.1234",
+                "02/02/2019", "10:00", "02/02/2020", "12:00", "sellerId");
+        validationObject = createListingService.create(invalidListing);
+        assertFalse("Form was incorrectly validated", validationObject.isAllValid());
+        assertFalse("Expected invalid field was valid", validationObject.getMinBidValid());
+
+        invalidListing = new ListingObject("ignored","title", "description", ".", "2",
+                "02/02/2019", "10:00", "02/02/2020", "12:00", "sellerId");
+        validationObject = createListingService.create(invalidListing);
+        assertFalse("Form was incorrectly validated", validationObject.isAllValid());
+        assertFalse("Expected invalid field was valid", validationObject.getInitPriceValid());
+
+        invalidListing = new ListingObject("ignored","title", "description", "2", ".",
                 "02/02/2019", "10:00", "02/02/2020", "12:00", "sellerId");
         validationObject = createListingService.create(invalidListing);
         assertFalse("Form was incorrectly validated", validationObject.isAllValid());
