@@ -7,6 +7,7 @@ import android.widget.Button;
 import android.content.Intent;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.content.SharedPreferences;
 
 import com.ctrlaltelite.copshop.R;
 import com.ctrlaltelite.copshop.logic.CopShopApp;
@@ -21,6 +22,7 @@ public class LoginActivity extends AppCompatActivity {
         setContentView(R.layout.activity_login); //grab xml file and display it
 
         final TextView errorMsg = (TextView) findViewById(R.id.incorrectCredentialsMsg); //get error ready, just in case
+        final SharedPreferences sharedPreferences = getSharedPreferences("currentUser", 0);
 
         Button btnLogin = (Button) findViewById(R.id.btnLogin);
         btnLogin.setOnClickListener(new View.OnClickListener() {
@@ -39,10 +41,14 @@ public class LoginActivity extends AppCompatActivity {
                     errorMsg.setText("What's all this, then? You're going to need" +
                             " a valid username and password. Try again.");
                 } else {
-                    //go to Listings page for current user
-                    //Intent intent = new Intent(LoginActivity.this, LISTING ACTIVITY NAME .class)
-                    //intent.putExtra("CurrentUser", user); //adds user to things getting passed
-                    //startActivity(intent); //goes to listing activity
+                    SharedPreferences.Editor editor = sharedPreferences.edit();
+                    editor.putString("userID", user.getId());
+                    editor.putString("username", user.getUsername());
+                    editor.commit(); //saves user info in the SharedPreferences object
+
+                    //go to Listings page
+                    Intent intent = new Intent(LoginActivity.this, ListingListActivity.class);
+                    startActivity(intent); //goes to listing activity
                 }
             }
         });
