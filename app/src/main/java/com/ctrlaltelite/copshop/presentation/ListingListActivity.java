@@ -1,6 +1,7 @@
 package com.ctrlaltelite.copshop.presentation;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -11,6 +12,8 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.ListView;
+import android.widget.TextView;
+
 import com.ctrlaltelite.copshop.R;
 import com.ctrlaltelite.copshop.logic.CopShopApp;
 import com.ctrlaltelite.copshop.logic.classes.ListingObjectArrayAdapter;
@@ -23,6 +26,8 @@ public class ListingListActivity extends AppCompatActivity implements Navigation
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_listing_list);
+        //for accessing user info
+        SharedPreferences sharedPreferences = getSharedPreferences("currentUser", 0);
 
         // Setup top bar on list page
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
@@ -40,8 +45,17 @@ public class ListingListActivity extends AppCompatActivity implements Navigation
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
-        // Set text for logged in user
-        // TODO
+        //text for user if logged in
+        TextView greeting = (TextView) findViewById(R.id.textHello);
+        if((sharedPreferences.getString("username", "-1")).equals("-1")) {
+            //sharedPreferences returns defValue if nothing there
+            //nothing there if user not logged in
+            greeting.setText("Please Login, Stranger.");
+        }
+        else {
+            String name = sharedPreferences.getString("username", "-1");
+            greeting.setText("Hello, "+name+"!");
+        }
 
         // Populate list of listings
         ArrayList<ListingObject> listingItems = CopShopApp.listingListService.fetchListings();
