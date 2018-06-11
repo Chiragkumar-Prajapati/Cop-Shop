@@ -1,6 +1,5 @@
 package com.ctrlaltelite.copshop.logic.services.stubs;
 
-import android.util.Log;
 import java.util.Calendar;
 import com.ctrlaltelite.copshop.persistence.IListingModel;
 import com.ctrlaltelite.copshop.logic.services.ICreateListingService;
@@ -23,13 +22,22 @@ public class CreateListingService implements ICreateListingService {
         this.listingModel = listingModel;
     }
 
+    /**
+     * Saves a listingObject to the database
+     * @param listingObject ListingObject that contains the form data
+     * @return String containing the next PK of the table
+     */
     public String saveNewListing(ListingObject listingObject) {
         return listingModel.createNew(listingObject);
     }
 
+    /**
+     * Create an object to store the current validity of the new listing form data
+     * @param listingObject ListingObject that contains the form data
+     * @return ListingFormValidationObject which contains the validity of all form fields
+     */
     public ListingFormValidationObject create(ListingObject listingObject) {
         this.validateInputForm(listingObject);
-
         return validationObject;
     }
 
@@ -69,10 +77,20 @@ public class CreateListingService implements ICreateListingService {
 
     }
 
+    /**
+     * Determine if title form field is valid(non-empty)
+     * @param title String containing the form field text
+     * @return Boolean indicating if valid
+     */
     private boolean validateTitle(String title){
         return title != null && !title.isEmpty();
     }
 
+    /**
+     * Determine if a currency form field is valid
+     * @param value String containing the form field text
+     * @return Boolean indicating if valid
+     */
     private boolean validateBidPrice(String value){
         boolean isValid = true;
 
@@ -97,7 +115,12 @@ public class CreateListingService implements ICreateListingService {
         return isValid;
     }
 
-    // Format: DD/MM/YEAR
+    /**
+     * Determine if a date and time form field is valid
+     * @param date String containing the date form fields combined text data (Format: DD/MM/YEAR)
+     * @param time String containing the time form fields combined text data (Format: HH:MM)
+     * @return Boolean indicating if valid
+     */
     private boolean validateDateAndTime(String date, String time){
         boolean isValid = true;
 
@@ -106,25 +129,25 @@ public class CreateListingService implements ICreateListingService {
             isValid = false;
         } else {
 
-            //split the date and time strings into managable parts and store in array
+            // Split the date and time strings into managable parts and store in array
             String[] dateParts = date.split("/");
             String[] timeParts = time.split(":");
 
-            //convert the form date parts into int values
+            // Convert the form date parts into int values
             int day = Integer.parseInt(dateParts[0]);
             int month = Integer.parseInt(dateParts[1]);
             int year = Integer.parseInt(dateParts[2]);
 
-            //get the current date in int values
+            // Get the current date in int values
             int currDay = Calendar.getInstance().get(Calendar.DAY_OF_MONTH);
             int currMonth = Calendar.getInstance().get(Calendar.MONTH) +1; //plus one to have first month int value be 1
             int currYear = Calendar.getInstance().get(Calendar.YEAR);
 
-            //convert the form time parts into int values
+            // Convert the form time parts into int values
             int hour = Integer.parseInt(timeParts[0]);
             int minutes = Integer.parseInt(timeParts[1]);
 
-            //get the current time in int values
+            // Get the current time in int values
             int currHour = Calendar.getInstance().get(Calendar.HOUR);
             int currMinute = Calendar.getInstance().get(Calendar.MINUTE);
 
@@ -177,28 +200,36 @@ public class CreateListingService implements ICreateListingService {
                 isValid = false;
             }
 
-            //after validating all form dates are valid, confirm they are future dates
+            // After validating all form dates are valid, confirm they are future dates
             if (year == currYear) {
                 if (month == currMonth) {
                     if (day == currDay) {
                         if (hour == currHour) {
                             if (minutes < currMinute) {
                                 isValid = false;
-                            } //current or future minute with current hour, day, month, and year, therefore valid
+                            } // Current or future minute with current hour, day, month, and year, therefore valid
                         } else if (hour < currHour) {
                             isValid = false;
-                        } //future hour, with current day, month and year, therefore valid
+                        } // Future hour, with current day, month and year, therefore valid
                     } else if (day < currDay) {
                         isValid = false;
-                    } //future day with current month and year, therefore valid
+                    } // Future day with current month and year, therefore valid
                 } else if (month < currMonth) {
                     isValid = false;
-                } //future month with current year, therefore valid
-            } //future year, therefore valid
+                } // Future month with current year, therefore valid
+            } // Future year, therefore valid
         }
         return isValid;
     }
 
+    /**
+     * Determine if the given start date and time occurs before the end date and time given
+     * @param startDate String containing a given start date (Format: DD/MM/YEAR)
+     * @param startTime String containing a given start time (Format: HH:MM)
+     * @param endDate String containing a given end date (Format: DD/MM/YEAR)
+     * @param endTime String containing a given end time (Format: HH:MM)
+     * @return Boolean indicating if valid(end time occurs after start time)
+     */
     private boolean isEndAfterStart(String startDate, String startTime, String endDate, String endTime){
         boolean isValid = true;
 
@@ -210,13 +241,13 @@ public class CreateListingService implements ICreateListingService {
             isValid = false;
         } else {
 
-            //split the date and time strings into managable parts and store in array
+            // Split the date and time strings into managable parts and store in array
             String[] startDateParts = startDate.split("/");
             String[] startTimeParts = startTime.split(":");
             String[] endDateParts = endDate.split("/");
             String[] endTimeParts = endTime.split(":");
 
-            //convert the form date and time parts into int values
+            // Convert the form date and time parts into int values
             int startDay = Integer.parseInt(startDateParts[0]);
             int startMonth = Integer.parseInt(startDateParts[1]);
             int startYear = Integer.parseInt(startDateParts[2]);
@@ -229,32 +260,31 @@ public class CreateListingService implements ICreateListingService {
             int endHour = Integer.parseInt(endTimeParts[0]);
             int endMinutes = Integer.parseInt(endTimeParts[1]);
 
-            //after validating all form dates are valid, confirm they are future dates
+            // After validating all form dates are valid, confirm they are future dates
             if (endYear == startYear) {
                 if (endMonth == startMonth) {
                     if (endDay == startDay) {
                         if (endHour == startHour) {
                             if (endMinutes <= startMinutes) {
                                 isValid = false;
-                            } //current or future minute with current hour, day, month, and year, therefore valid
+                            } // Current or future minute with current hour, day, month, and year, therefore valid
                         } else if (endHour < startHour) {
                             isValid = false;
-                        } //future hour, with current day, month and year, therefore valid
+                        } // Future hour, with current day, month and year, therefore valid
                     } else if (endDay < startDay) {
                         isValid = false;
-                    } //future day with current month and year, therefore valid
+                    } // Future day with current month and year, therefore valid
                 } else if (endMonth < startMonth) {
                     isValid = false;
-                } //future month with current year, therefore valid
-            } //future year, therefore valid
+                } // Future month with current year, therefore valid
+            } // Future year, therefore valid
         }
         return isValid;
     }
 
     /**
      * Determine if year passed as a parameter is a leap year
-     *
-     * @param year int to determine leapness
+     * @param year int representing year to check
      * @return Boolean indicating if year is a leap year
      */
     private boolean isLeapYear (int year){
@@ -274,6 +304,11 @@ public class CreateListingService implements ICreateListingService {
         return isLeap;
     }
 
+    /**
+     * Determine if description form field is valid(non-empty)
+     * @param description String containing the form field text
+     * @return Boolean indicating if valid
+     */
     private boolean validateDescription (String description){
         return description != null && !description.isEmpty();
     }

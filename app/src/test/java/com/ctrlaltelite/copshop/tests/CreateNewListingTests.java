@@ -25,7 +25,7 @@ public class CreateNewListingTests {
         ListingObject listing = new ListingObject("ignored","title", "description", "2", "2",
                 "02/02/2019", "10:00", "02/02/2020", "12:00", "sellerId");
 
-        //save the new listings
+        // Save the new listings
         String id1 = createListingService.saveNewListing(listing);
         String id2 = createListingService.saveNewListing(listing);
         String id3 = createListingService.saveNewListing(listing);
@@ -45,7 +45,7 @@ public class CreateNewListingTests {
         ListingObject validListing;
         ListingObject invalidListing;
 
-        //valid listing objects for testing
+        //--------------------------------------Valid listing objects for testing------------------------------------------------//
         validListing = new ListingObject("ignored","title", "description", "2", "2",
                 "02/02/2019", "10:00", "02/02/2020", "12:00", "sellerId");
         validationObject = createListingService.create(validListing);
@@ -61,8 +61,10 @@ public class CreateNewListingTests {
         validationObject = createListingService.create(validListing);
         assertTrue("Form was incorrectly validated", validationObject.isAllValid());
 
-        //invalid listing objects for testing
-        //invalid due to null
+
+        //--------------------------------------Invalid listing objects for testing-----------------------------------------------//
+
+        //================================================Invalid due to null=====================================================//
         invalidListing = new ListingObject("ignored", null, "description", "2", "2",
                 "02/02/2019", "10:00", "02/02/2020", "10:00", "sellerId");
         validationObject = createListingService.create(invalidListing);
@@ -111,7 +113,8 @@ public class CreateNewListingTests {
         assertFalse("Form was incorrectly validated", validationObject.isAllValid());
         assertFalse("Expected invalid field was valid", validationObject.getEndDateAndTimeValid());
 
-        //invalid due to empty String
+
+        //==============================================Invalid due to empty String==============================================//
         invalidListing = new ListingObject("ignored", "", "description", "2", "2",
                 "02/02/2019", "10:00", "02/02/2020", "10:00", "sellerId");
         validationObject = createListingService.create(invalidListing);
@@ -160,12 +163,37 @@ public class CreateNewListingTests {
         assertFalse("Form was incorrectly validated", validationObject.isAllValid());
         assertFalse("Expected invalid field was valid", validationObject.getEndDateAndTimeValid());
 
-        //invalid due to time/date: e.g: in the past, improper format, end = start times
+
+        //=============================Invalid due to time/date: e.g: in the past, improper format, end = start times=============//
         invalidListing = new ListingObject("ignored","title", "description", "2", "2",
                 "02/02/2017", "10:00", "02/02/2020", "12:00", "sellerId");
         validationObject = createListingService.create(invalidListing);
         assertFalse("Form was incorrectly validated", validationObject.isAllValid());
         assertFalse("Expected invalid field was valid", validationObject.getStartDateAndTimeValid());
+
+        invalidListing = new ListingObject("ignored","title", "description", "2", "2",
+                "02/02/2019", "10:59", "02/02/2019", "10:00", "sellerId");
+        validationObject = createListingService.create(invalidListing);
+        assertFalse("Form was incorrectly validated", validationObject.isAllValid());
+        assertFalse("Expected invalid field was valid", validationObject.getEndDateAndTimeValid());
+
+        invalidListing = new ListingObject("ignored","title", "description", "2", "2",
+                "02/02/2019", "10:00", "02/02/2019", "9:00", "sellerId");
+        validationObject = createListingService.create(invalidListing);
+        assertFalse("Form was incorrectly validated", validationObject.isAllValid());
+        assertFalse("Expected invalid field was valid", validationObject.getEndDateAndTimeValid());
+
+        invalidListing = new ListingObject("ignored","title", "description", "2", "2",
+                "02/02/2019", "10:00", "01/02/2019", "12:00", "sellerId");
+        validationObject = createListingService.create(invalidListing);
+        assertFalse("Form was incorrectly validated", validationObject.isAllValid());
+        assertFalse("Expected invalid field was valid", validationObject.getEndDateAndTimeValid());
+
+        invalidListing = new ListingObject("ignored","title", "description", "2", "2",
+                "02/02/2019", "10:00", "02/01/2019", "12:00", "sellerId");
+        validationObject = createListingService.create(invalidListing);
+        assertFalse("Form was incorrectly validated", validationObject.isAllValid());
+        assertFalse("Expected invalid field was valid", validationObject.getEndDateAndTimeValid());
 
         invalidListing = new ListingObject("ignored","title", "description", "2.0", "2.0",
                 "02/02/2019", "10:00", "02/02/2019", "10:00", "sellerId");
@@ -215,7 +243,8 @@ public class CreateNewListingTests {
         assertFalse("Form was incorrectly validated", validationObject.isAllValid());
         assertFalse("Expected invalid field was valid", validationObject.getEndDateAndTimeValid());
 
-        //invalid due to currency: e.g decimal too large, invalid format
+
+        //=============================Invalid due to currency: e.g decimal too large, invalid format================================//
         invalidListing = new ListingObject("ignored","title", "description", "2.1234", "2",
                 "02/02/2019", "10:00", "02/02/2020", "12:00", "sellerId");
         validationObject = createListingService.create(invalidListing);
