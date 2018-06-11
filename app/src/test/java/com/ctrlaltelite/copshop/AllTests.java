@@ -1,6 +1,7 @@
 package com.ctrlaltelite.copshop;
 
 import com.ctrlaltelite.copshop.tests.BuyerModelTests;
+import com.ctrlaltelite.copshop.tests.CreateNewListingTests;
 import com.ctrlaltelite.copshop.tests.DatabaseTests;
 import com.ctrlaltelite.copshop.tests.ListingModelTests;
 import com.ctrlaltelite.copshop.tests.SellerModelTests;
@@ -13,7 +14,8 @@ import org.junit.runners.Suite;
         BuyerModelTests.class,
         DatabaseTests.class,
         ListingModelTests.class,
-        SellerModelTests.class
+        SellerModelTests.class,
+        CreateNewListingTests.class
 })
 public class AllTests
 {
