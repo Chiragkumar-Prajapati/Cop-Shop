@@ -243,9 +243,9 @@ public class DatabaseTests {
 
         ArrayList<Hashtable<String, String>> list = database.getAllRows("TestTable");
         assertEquals("Fetched too many rows", 3, list.size());
-        assertEquals("Wrong row fetched", "Test1", list.get(2).get("TestColumn"));
+        assertEquals("Wrong row fetched", "Test1", list.get(0).get("TestColumn"));
         assertEquals("Wrong row fetched", "Test2", list.get(1).get("TestColumn"));
-        assertEquals("Wrong row fetched", "Test3", list.get(0).get("TestColumn"));
+        assertEquals("Wrong row fetched", "Test3", list.get(2).get("TestColumn"));
 
     }
 

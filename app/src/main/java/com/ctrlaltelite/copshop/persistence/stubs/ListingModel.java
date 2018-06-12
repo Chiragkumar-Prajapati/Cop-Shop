@@ -53,7 +53,7 @@ public class ListingModel implements IListingModel {
         if (this.database.rowExists(TABLE_NAME, id)) {
             boolean success = true;
 
-            success = success && (null != this.database.updateColumn(TABLE_NAME, id, "title", updatedListing.getTitle()));
+            success = (null != this.database.updateColumn(TABLE_NAME, id, "title", updatedListing.getTitle()));
             success = success && (null != this.database.updateColumn(TABLE_NAME, id, "description", updatedListing.getDescription()));
             success = success && (null != this.database.updateColumn(TABLE_NAME, id, "initPrice", updatedListing.getInitPrice()));
             success = success && (null != this.database.updateColumn(TABLE_NAME, id, "minBid", updatedListing.getMinBid()));
@@ -97,7 +97,7 @@ public class ListingModel implements IListingModel {
         if (null != hashTableRows) {
             for (int id = hashTableRows.size()-1; id >= 0; id--) {
                 Hashtable<String, String> row = hashTableRows.get(id);
-                String stringId = Integer.toString(id);
+                String stringId = Integer.toString(id+1); // IDs in DB are not zero based, must add 1
 
                 ListingObject listing = new ListingObject(
                         stringId,

@@ -8,12 +8,13 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ListView;
 import com.ctrlaltelite.copshop.R;
 import com.ctrlaltelite.copshop.logic.CopShopApp;
-import com.ctrlaltelite.copshop.logic.classes.ListingObjectArrayAdapter;
+import com.ctrlaltelite.copshop.presentation.classes.ListingObjectArrayAdapter;
 import com.ctrlaltelite.copshop.objects.ListingObject;
 import java.util.ArrayList;
 
@@ -41,33 +42,29 @@ public class ListingListActivity extends AppCompatActivity implements Navigation
         navigationView.setNavigationItemSelectedListener(this);
 
         // Set text for logged in user
-        // TODO
 
         // Populate list of listings
-        ArrayList<ListingObject> listingItems = CopShopApp.listingListService.fetchListings();
+        ArrayList<ListingObject> listingItems = CopShopApp.listingService.fetchListings();
+        final ListView listingView = (ListView) findViewById(R.id.listing_list);
+
         ListingObjectArrayAdapter listAdapter;
-        ListView listingView = (ListView) findViewById(R.id.listing_list);
+        listAdapter = new ListingObjectArrayAdapter(this, listingItems);
 
-        listAdapter = new ListingObjectArrayAdapter(
-                this,
-                android.R.layout.simple_list_item_1,
-                listingItems);
+        // Set clicked listeners for listings
+        listingView.setOnItemClickListener(new ListView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                ListingObject clickedListing = (ListingObject)listingView.getItemAtPosition(position);
+
+                Intent intent = new Intent(ListingListActivity.this, ListingViewActivity.class);
+                intent.putExtra("listingId", clickedListing.getId());
+
+                startActivity(intent);
+            }
+        });
+
         listingView.setAdapter(listAdapter);
-    }
 
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
-        }
-
-        return super.onOptionsItemSelected(item);
     }
 
     @Override
@@ -81,13 +78,6 @@ public class ListingListActivity extends AppCompatActivity implements Navigation
         }
     }
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.listing_list, menu);
-        return true;
-    }
-
     @SuppressWarnings("StatementWithEmptyBody")
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
@@ -96,12 +86,7 @@ public class ListingListActivity extends AppCompatActivity implements Navigation
         // Handle navigation view item clicks here.
         int id = item.getItemId();
 
-        if (id == R.id.nav_listings) {
-            // Goto listing list page
-            startActivity(new Intent(this, ListingListActivity.class));
-        } else if (id == R.id.nav_account) {
-            // TODO: Goto view account page
-        } else if (id == R.id.nav_new_listing) {
+         if (id == R.id.nav_new_listing) {
             // Goto create new listing page
             startActivity(new Intent(this, CreateListingActivity.class));
         } else if (id == R.id.nav_login) {

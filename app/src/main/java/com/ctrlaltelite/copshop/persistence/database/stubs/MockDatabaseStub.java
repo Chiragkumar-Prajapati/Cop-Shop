@@ -1,7 +1,10 @@
 package com.ctrlaltelite.copshop.persistence.database.stubs;
 
+import android.util.Log;
+
 import com.ctrlaltelite.copshop.persistence.database.IDatabase;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Enumeration;
 import java.util.Hashtable;
@@ -161,12 +164,15 @@ public class MockDatabaseStub implements IDatabase {
         if (null == tableName) { throw new IllegalArgumentException("tableName cannot be null"); }
 
         Hashtable<String, Hashtable<String, String>> table = database.get(tableName);
+        ArrayList<Hashtable<String, String>> arrayList = new ArrayList<>();
 
-        if (null != table) {
-            return new ArrayList<>(table.values());
+        int currKey = 1;
+        while (currKey <= Integer.parseInt(this.dbTablesHighestPrimaryKey.get(tableName))) {
+            arrayList.add(table.get(Integer.toString(currKey)));
+            ++currKey;
         }
 
-        return null;
+        return arrayList;
     }
 
     @Override
