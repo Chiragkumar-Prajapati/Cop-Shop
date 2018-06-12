@@ -23,6 +23,7 @@
         <activity
             android:name=".presentation.CreateListingActivity"
             android:label="CopShop - Create Listing"
+            android:windowSoftInputMode="stateHidden"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".presentation.LoginActivity"
