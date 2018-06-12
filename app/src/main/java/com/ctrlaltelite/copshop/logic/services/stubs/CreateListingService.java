@@ -140,7 +140,7 @@ public class CreateListingService implements ICreateListingService {
 
             // Get the current date in int values
             int currDay = Calendar.getInstance().get(Calendar.DAY_OF_MONTH);
-            int currMonth = Calendar.getInstance().get(Calendar.MONTH) +1; //plus one to have first month int value be 1
+            int currMonth = Calendar.getInstance().get(Calendar.MONTH) + 1; // Unlike Day and Year, Month returns as -1, i.e. Jan is 00 and not 01
             int currYear = Calendar.getInstance().get(Calendar.YEAR);
 
             // Convert the form time parts into int values
@@ -149,7 +149,7 @@ public class CreateListingService implements ICreateListingService {
 
             // Get the current time in int values
             int currHour = Calendar.getInstance().get(Calendar.HOUR);
-            int currMinute = Calendar.getInstance().get(Calendar.MINUTE);
+            int currMinutes = Calendar.getInstance().get(Calendar.MINUTE);
 
             // Month
             if (month < 1 || month > 12) {
@@ -178,7 +178,7 @@ public class CreateListingService implements ICreateListingService {
             // February - 28 days
             if (isValid && (month == FEB)) {
 
-                if (isLeapYear(year)){
+                if (isLeapYear(year)) {
                     if (day < 0 || day > 29) {
                         isValid = false;
                     }
@@ -200,24 +200,8 @@ public class CreateListingService implements ICreateListingService {
                 isValid = false;
             }
 
-            // After validating all form dates are valid, confirm they are future dates
-            if (year == currYear) {
-                if (month == currMonth) {
-                    if (day == currDay) {
-                        if (hour == currHour) {
-                            if (minutes < currMinute) {
-                                isValid = false;
-                            } // Current or future minute with current hour, day, month, and year, therefore valid
-                        } else if (hour < currHour) {
-                            isValid = false;
-                        } // Future hour, with current day, month and year, therefore valid
-                    } else if (day < currDay) {
-                        isValid = false;
-                    } // Future day with current month and year, therefore valid
-                } else if (month < currMonth) {
-                    isValid = false;
-                } // Future month with current year, therefore valid
-            } // Future year, therefore valid
+            // ensure listing start date/time is after curr date/time
+            isValid = validateDateInFuture(currYear, year, currMonth, month, currDay, day, currHour, hour, currMinutes, minutes);
         }
         return isValid;
     }
@@ -233,9 +217,9 @@ public class CreateListingService implements ICreateListingService {
     private boolean isEndAfterStart(String startDate, String startTime, String endDate, String endTime){
         boolean isValid = true;
 
-        if (startDate == null || (StringUtils.countMatches(startDate, "/") != 2) || !(startDate.length() == DATE_LENGTH)||
+        if (    validateDateAndTime(startDate, startTime) || // More robust check of start date/time since it's independent
+                                                             // and therefore we don't know if it's valid
                 endDate == null || (StringUtils.countMatches(endDate, "/") != 2) || !(endDate.length() == DATE_LENGTH)||
-                startTime == null || (StringUtils.countMatches(startTime, ":") != 1) || !(startTime.length() == TIME_LENGTH) ||
                 endTime == null || (StringUtils.countMatches(endTime, ":") != 1) || !(endTime.length() == TIME_LENGTH)){
 
             isValid = false;
@@ -260,26 +244,51 @@ public class CreateListingService implements ICreateListingService {
             int endHour = Integer.parseInt(endTimeParts[0]);
             int endMinutes = Integer.parseInt(endTimeParts[1]);
 
-            // After validating all form dates are valid, confirm they are future dates
-            if (endYear == startYear) {
-                if (endMonth == startMonth) {
-                    if (endDay == startDay) {
-                        if (endHour == startHour) {
-                            if (endMinutes <= startMinutes) {
-                                isValid = false;
-                            } // Current or future minute with current hour, day, month, and year, therefore valid
-                        } else if (endHour < startHour) {
-                            isValid = false;
-                        } // Future hour, with current day, month and year, therefore valid
-                    } else if (endDay < startDay) {
-                        isValid = false;
-                    } // Future day with current month and year, therefore valid
-                } else if (endMonth < startMonth) {
-                    isValid = false;
-                } // Future month with current year, therefore valid
-            } // Future year, therefore valid
+            // ensure end date/time is after start date/time
+            isValid = validateDateInFuture(startYear, endYear, startMonth, endMonth, startDay, endDay, startHour, endHour, startMinutes, endMinutes);
         }
         return isValid;
+    }
+
+    /**
+     *
+     * Validates the dates to ensure that next Date/Time doesn't occur before prev Date/Time
+     *
+     * @param prevYear prev Date's year
+     * @param nextYear next Date's year
+     * @param prevMonth prev Date's month
+     * @param nextMonth next Date's month
+     * @param prevDay prev Date's day
+     * @param nextDay next Date's day
+     * @param prevHour prev Time's hour
+     * @param nextHour next Time's hour
+     * @param prevMinutes prev Time's minutes
+     * @param nextMinutes next Time's minutes
+     * @return
+     */
+    private boolean validateDateInFuture(int prevYear, int nextYear, int prevMonth, int nextMonth, int prevDay, int nextDay, int prevHour, int nextHour, int prevMinutes, int nextMinutes) {
+        boolean valid = true;
+
+        // After validating all form dates are valid, confirm they are future dates
+        if (nextYear == prevYear) {
+            if (nextMonth == prevMonth) {
+                if (nextDay == prevDay) {
+                    if (nextHour == prevHour) {
+                        if (nextMinutes <= prevMinutes) {
+                            valid = false;
+                        } // Current or future minute with current hour, day, month, and year, therefore valid
+                    } else if (nextHour < prevHour) {
+                        valid = false;
+                    } // Future hour, with current day, month and year, therefore valid
+                } else if (nextDay < prevDay) {
+                    valid = false;
+                } // Future day with current month and year, therefore valid
+            } else if (nextMonth < prevMonth) {
+                valid = false;
+            } // Future month with current year, therefore valid
+        } // Future year, therefore valid
+
+        return valid;
     }
 
     /**
