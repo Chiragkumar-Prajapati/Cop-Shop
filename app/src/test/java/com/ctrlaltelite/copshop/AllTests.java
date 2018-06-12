@@ -2,7 +2,7 @@ package com.ctrlaltelite.copshop;
 
 import com.ctrlaltelite.copshop.tests.AccountServiceTests;
 import com.ctrlaltelite.copshop.tests.BuyerModelTests;
-import com.ctrlaltelite.copshop.tests.CreateNewListingTests;
+import com.ctrlaltelite.copshop.tests.CreateListingServiceTests;
 import com.ctrlaltelite.copshop.tests.DatabaseTests;
 import com.ctrlaltelite.copshop.tests.ListingModelTests;
 import com.ctrlaltelite.copshop.tests.ListingServiceTests;
@@ -19,7 +19,7 @@ import org.junit.runners.Suite;
         ListingModelTests.class,
         SellerModelTests.class,
 
-        CreateNewListingTests.class,
+        CreateListingServiceTests.class,
         AccountServiceTests.class,
         ListingServiceTests.class,
 })

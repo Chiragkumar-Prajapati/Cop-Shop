@@ -31,12 +31,4 @@ public interface ISellerModel {
      * @return BuyerAccountObject with their details, or null
      */
     SellerAccountObject findByUsername(String username);
-
-    /**
-     * Checks if a pair of credentials match a user in the DB
-     * @param username Their username
-     * @param password Their password
-     * @return Boolean indicating if there was a credentials match or not
-     */
-    boolean checkUsernamePasswordMatch(String username, String password);
 }

@@ -98,25 +98,4 @@ public class SellerModelTests {
         assertEquals("Did not find correct user", "name3", sellerModel.findByUsername("name3").getUsername());
         assertFalse("Found nonexistent user", null != sellerModel.findByUsername("name4"));
     }
-
-    @Test
-    public void checkUsernamePasswordMatch_verifiesLoginProperly() {
-        IDatabase database = new MockDatabaseStub();
-        ISellerModel sellerModel = new SellerModel(database);
-
-        SellerAccountObject account1 = new SellerAccountObject("ignored","name1", "pass1", "email1");
-        SellerAccountObject account2 = new SellerAccountObject("ignored","name2", "pass2", "email2");
-        SellerAccountObject account3 = new SellerAccountObject("ignored","name3", "pass3", "email3");
-
-        // Create the accounts
-        String id1 = sellerModel.createNew(account1);
-        String id2 = sellerModel.createNew(account2);
-        String id3 = sellerModel.createNew(account3);
-
-        // Check credential pairs
-        assertTrue("Did not verify correct credentials", sellerModel.checkUsernamePasswordMatch("name1", "pass1"));
-        assertTrue("Did not verify correct credentials", sellerModel.checkUsernamePasswordMatch("name2", "pass2"));
-        assertTrue("Did not verify correct credentials", sellerModel.checkUsernamePasswordMatch("name3", "pass3"));
-        assertFalse("Verified false credentials", sellerModel.checkUsernamePasswordMatch("name1", "pass3"));
-    }
 }

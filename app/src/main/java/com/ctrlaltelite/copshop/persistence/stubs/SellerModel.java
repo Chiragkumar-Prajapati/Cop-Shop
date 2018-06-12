@@ -59,18 +59,4 @@ public class SellerModel implements ISellerModel {
 
         return null;
     }
-
-    @Override
-    public boolean checkUsernamePasswordMatch(String username, String inputPassword) {
-        ArrayList<String> users = this.database.findByColumnValue(TABLE_NAME, "username", username);
-
-        // We should only get back one user max, ignore extras
-        if (!users.isEmpty()) {
-            String id = users.get(0);
-            String password = this.database.fetchColumn(TABLE_NAME, id, "password");
-            return password.equals(inputPassword);
-        }
-
-        return false;
-    }
 }
