@@ -1,5 +1,7 @@
 package com.ctrlaltelite.copshop;
 
+import com.ctrlaltelite.copshop.logic.services.stubs.AccountService;
+import com.ctrlaltelite.copshop.tests.AccountServiceTests;
 import com.ctrlaltelite.copshop.tests.BuyerModelTests;
 import com.ctrlaltelite.copshop.tests.CreateNewListingTests;
 import com.ctrlaltelite.copshop.tests.DatabaseTests;
@@ -15,7 +17,8 @@ import org.junit.runners.Suite;
         DatabaseTests.class,
         ListingModelTests.class,
         SellerModelTests.class,
-        CreateNewListingTests.class
+        CreateNewListingTests.class,
+        AccountServiceTests.class
 })
 public class AllTests
 {
