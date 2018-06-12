@@ -16,20 +16,16 @@ public class ListingFormValidationObject {
         this.descriptionValid = true;
         this.initPriceValid = true;
         this.minBidValid = true;
-        this.auctionStartDateValid = true;
-        this.auctionStartTimeValid = true;
-        this.auctionEndDateValid = true;
-        this.auctionEndTimeValid = true;
+        this.startDateAndTimeValid = true;
+        this.endDateAndTimeValid = true;
     }
 
     private Boolean titleValid;
     private Boolean descriptionValid;
     private Boolean initPriceValid;
     private Boolean minBidValid; // Minimum amount by which a bid can increment
-    private Boolean auctionStartDateValid; // Format: DD/MM/YEAR
-    private Boolean auctionStartTimeValid; // Format: HR:MN (24 HR)
-    private Boolean auctionEndDateValid; // Format: DD/MM/YEAR
-    private Boolean auctionEndTimeValid; //Format: HR:MN (24 HR)
+    private Boolean startDateAndTimeValid; // Format - Date: DD/MM/YEAR Time: HR:MN (24 HR)
+    private Boolean endDateAndTimeValid; // Format - Date: DD/MM/YEAR Time: HR:MN (24 HR)
 
     public Boolean getTitleValid() {
         return titleValid;
@@ -63,36 +59,20 @@ public class ListingFormValidationObject {
         this.minBidValid = minBidValid;
     }
 
-    public Boolean getAuctionStartDateValid() {
-        return auctionStartDateValid;
+    public Boolean getStartDateAndTimeValid() {
+        return startDateAndTimeValid;
     }
 
-    public void setAuctionStartDateValid(Boolean auctionStartDateValid) {
-        this.auctionStartDateValid = auctionStartDateValid;
+    public void setStartDateAndTimeValid(Boolean auctionStartDateValid) {
+        this.startDateAndTimeValid = auctionStartDateValid;
     }
 
-    public Boolean getAuctionStartTimeValid() {
-        return auctionStartTimeValid;
+    public Boolean getEndDateAndTimeValid() {
+        return endDateAndTimeValid;
     }
 
-    public void setAuctionStartTimeValid(Boolean auctionStartTimeValid) {
-        this.auctionStartTimeValid = auctionStartTimeValid;
-    }
-
-    public Boolean getAuctionEndDateValid() {
-        return auctionEndDateValid;
-    }
-
-    public void setAuctionEndDateValid(Boolean auctionEndDateValid) {
-        this.auctionEndDateValid = auctionEndDateValid;
-    }
-
-    public Boolean getAuctionEndTimeValid() {
-        return auctionEndTimeValid;
-    }
-
-    public void setAuctionEndTimeValid(Boolean auctionEndTimeValid) {
-        this.auctionEndTimeValid = auctionEndTimeValid;
+    public void setEndDateAndTimeValid(Boolean auctionEndDateValid) {
+        this.endDateAndTimeValid = auctionEndDateValid;
     }
 
     /**
@@ -104,9 +84,7 @@ public class ListingFormValidationObject {
                 descriptionValid &&
                 initPriceValid &&
                 minBidValid &&
-                auctionStartDateValid &&
-                auctionStartTimeValid &&
-                auctionEndDateValid &&
-                auctionEndTimeValid);
+                startDateAndTimeValid &&
+                endDateAndTimeValid);
     }
 }
