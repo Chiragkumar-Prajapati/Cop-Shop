@@ -65,9 +65,7 @@ public class CreateListingService implements ICreateListingService {
                                                                       listingObject.getAuctionStartTime()));
 
         // EndDateAndTime
-        validationObject.setEndDateAndTimeValid(validateDateAndTime(listingObject.getAuctionEndDate(),
-                                                                    listingObject.getAuctionEndTime()) &&
-                                                isEndAfterStart(listingObject.getAuctionStartDate(),
+        validationObject.setEndDateAndTimeValid(validateEndDateAndTime(listingObject.getAuctionStartDate(),
                                                                 listingObject.getAuctionStartTime(),
                                                                 listingObject.getAuctionEndDate(),
                                                                 listingObject.getAuctionEndTime()));
@@ -201,7 +199,7 @@ public class CreateListingService implements ICreateListingService {
             }
 
             // ensure listing start date/time is after curr date/time
-            isValid = validateDateInFuture(currYear, year, currMonth, month, currDay, day, currHour, hour, currMinutes, minutes);
+            isValid = isValid && validateDateInFuture(currYear, year, currMonth, month, currDay, day, currHour, hour, currMinutes, minutes);
         }
         return isValid;
     }
@@ -214,17 +212,12 @@ public class CreateListingService implements ICreateListingService {
      * @param endTime String containing a given end time (Format: HH:MM)
      * @return Boolean indicating if valid(end time occurs after start time)
      */
-    private boolean isEndAfterStart(String startDate, String startTime, String endDate, String endTime){
+    private boolean validateEndDateAndTime(String startDate, String startTime, String endDate, String endTime){
         boolean isValid = true;
 
-        if (    validateDateAndTime(startDate, startTime) || // More robust check of start date/time since it's independent
-                                                             // and therefore we don't know if it's valid
-                endDate == null || (StringUtils.countMatches(endDate, "/") != 2) || !(endDate.length() == DATE_LENGTH)||
-                endTime == null || (StringUtils.countMatches(endTime, ":") != 1) || !(endTime.length() == TIME_LENGTH)){
-
+        if (!validateDateAndTime(endDate, endTime)) {
             isValid = false;
-        } else {
-
+        } else if (validateDateAndTime(startDate, startTime)) {
             // Split the date and time strings into managable parts and store in array
             String[] startDateParts = startDate.split("/");
             String[] startTimeParts = startTime.split(":");
@@ -246,49 +239,48 @@ public class CreateListingService implements ICreateListingService {
 
             // ensure end date/time is after start date/time
             isValid = validateDateInFuture(startYear, endYear, startMonth, endMonth, startDay, endDay, startHour, endHour, startMinutes, endMinutes);
-        }
+        }// If start time isn't valid we can't check to see if end date is before it
         return isValid;
     }
 
     /**
      *
-     * Validates the dates to ensure that next Date/Time doesn't occur before prev Date/Time
-     *
-     * @param prevYear prev Date's year
-     * @param nextYear next Date's year
-     * @param prevMonth prev Date's month
-     * @param nextMonth next Date's month
-     * @param prevDay prev Date's day
-     * @param nextDay next Date's day
-     * @param prevHour prev Time's hour
-     * @param nextHour next Time's hour
-     * @param prevMinutes prev Time's minutes
-     * @param nextMinutes next Time's minutes
+     * Validates the a given date range to ensure that start Date/Time doesn't occur before end Date/Time
+     * @param startYear beginning year in the given start-end date range
+     * @param endYear ending year in the given start-end date range
+     * @param startMonth beginning month in the given start-end date range
+     * @param endMonth ending month in the given start-end date range
+     * @param startDay beginning day in the given start-end date range
+     * @param endDay ending day in the given start-end date range
+     * @param startHour beginning hour in the given start-end date range
+     * @param endHour ending hour in the given start-end date range
+     * @param startMinutes beginning min in the given start-end date range
+     * @param endMinutes ending min in the given start-end date range
      * @return
      */
-    private boolean validateDateInFuture(int prevYear, int nextYear, int prevMonth, int nextMonth, int prevDay, int nextDay, int prevHour, int nextHour, int prevMinutes, int nextMinutes) {
-        boolean valid = true;
+    private boolean validateDateInFuture(int startYear, int endYear, int startMonth, int endMonth, int startDay, int endDay, int startHour, int endHour, int startMinutes, int endMinutes) {
+        boolean isValid = true;
 
         // After validating all form dates are valid, confirm they are future dates
-        if (nextYear == prevYear) {
-            if (nextMonth == prevMonth) {
-                if (nextDay == prevDay) {
-                    if (nextHour == prevHour) {
-                        if (nextMinutes <= prevMinutes) {
-                            valid = false;
+        if (endYear == startYear) {
+            if (endMonth == startMonth) {
+                if (endDay == startDay) {
+                    if (endHour == startHour) {
+                        if (endMinutes <= startMinutes) {
+                            isValid = false;
                         } // Current or future minute with current hour, day, month, and year, therefore valid
-                    } else if (nextHour < prevHour) {
-                        valid = false;
+                    } else if (endHour < startHour) {
+                        isValid = false;
                     } // Future hour, with current day, month and year, therefore valid
-                } else if (nextDay < prevDay) {
-                    valid = false;
+                } else if (endDay < startDay) {
+                    isValid = false;
                 } // Future day with current month and year, therefore valid
-            } else if (nextMonth < prevMonth) {
-                valid = false;
+            } else if (endMonth < startMonth) {
+                isValid = false;
             } // Future month with current year, therefore valid
         } // Future year, therefore valid
 
-        return valid;
+        return isValid;
     }
 
     /**
