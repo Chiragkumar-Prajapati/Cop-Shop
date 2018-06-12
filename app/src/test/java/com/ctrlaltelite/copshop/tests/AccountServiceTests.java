@@ -38,7 +38,7 @@ public class AccountServiceTests {
 
         // Check credential pairs
         assertTrue("Did not verify correct credentials", buyer1 != null);
-        assertTrue("Did not verify correct credentials", buyer1.getClass().isInstance(BuyerAccountObject.class));
+        assertTrue("Returned wrong object type", buyer1 instanceof BuyerAccountObject);
         assertTrue("Verified false credentials", buyer2 == null);
         assertTrue("Verified false credentials", buyer3 == null);
 
@@ -49,7 +49,7 @@ public class AccountServiceTests {
 
         // Check credential pairs
         assertTrue("Did not verify correct credentials", seller1 != null);
-        assertTrue("Did not verify correct credentials", seller1.getClass().isInstance(SellerAccountObject.class));
+        assertTrue("Returned wrong object type", seller1 instanceof SellerAccountObject);
         assertTrue("Verified false credentials", seller2 == null);
         assertTrue("Verified false credentials", seller3 == null);
     }
