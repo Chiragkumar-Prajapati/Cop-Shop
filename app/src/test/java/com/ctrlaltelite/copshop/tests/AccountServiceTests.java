@@ -26,7 +26,8 @@ public class AccountServiceTests {
         IAccountService accountService = new AccountService(sellerModel, buyerModel);
 
         // Create an account
-        BuyerAccountObject account1 = new BuyerAccountObject("ignored","name1", "pass1", "email1");
+        BuyerAccountObject account1 = new BuyerAccountObject("ignored","name1", "other",
+                "123 Someplace", "h0h 0h0","MB","email1", "pass1");
         SellerAccountObject account2 = new SellerAccountObject("ignored","name2", "pass2", "email2");
         String id1 = buyerModel.createNew(account1);
         String id2 = sellerModel.createNew(account2);
