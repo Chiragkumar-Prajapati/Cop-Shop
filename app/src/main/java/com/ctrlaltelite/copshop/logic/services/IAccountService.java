@@ -18,5 +18,4 @@ public interface IAccountService {
 
     String registerNewBuyer(BuyerAccountObject newBuyer);
 
-    BuyerAccountValidationObject validateInputForm(BuyerAccountObject buyerObject);
 }

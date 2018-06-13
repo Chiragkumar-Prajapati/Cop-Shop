@@ -26,8 +26,6 @@ public class AccountService implements com.ctrlaltelite.copshop.logic.services.I
     public AccountService(ISellerModel sellerModel, IBuyerModel buyerModel) {
         this.sellerModel = sellerModel;
         this.buyerModel = buyerModel;
-
-
     }
 
     public AccountObject validateUsernameAndPassword (String username, String password) {
@@ -48,7 +46,7 @@ public class AccountService implements com.ctrlaltelite.copshop.logic.services.I
     }
 
     public BuyerAccountValidationObject create(BuyerAccountObject buyerObject) {
-        validationBuyerObject = validateInputForm(buyerObject);
+        this.validateInputForm(buyerObject);
         return validationBuyerObject;
     }
 
@@ -56,7 +54,7 @@ public class AccountService implements com.ctrlaltelite.copshop.logic.services.I
         return buyerModel.createNew(newBuyer);
     }
 
-    public BuyerAccountValidationObject validateInputForm(BuyerAccountObject buyerObject) {
+    private void validateInputForm(BuyerAccountObject buyerObject) {
 
         validationBuyerObject.setValidFirstName(validateFirstName(buyerObject.getFirstName()));
         validationBuyerObject.setValidLastName(validateLastName(buyerObject.getLastName()));
@@ -65,8 +63,6 @@ public class AccountService implements com.ctrlaltelite.copshop.logic.services.I
         validationBuyerObject.setValidProvince(validateProvince(buyerObject.getProvince()));
         validationBuyerObject.setValidEmail(validateEmail(buyerObject.getEmail()));
         validationBuyerObject.setValidPassword(validatePassword(buyerObject.getPassword()));
-        //TODO : write tests for each field in BuyerAccountObject
-        return validationBuyerObject;
     }
 
     /**
