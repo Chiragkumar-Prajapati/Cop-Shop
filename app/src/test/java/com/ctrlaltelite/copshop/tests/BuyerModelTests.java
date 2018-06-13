@@ -13,14 +13,15 @@ public class BuyerModelTests {
     @Test
     public void createNew_addsAccountAndReturnsId() {
         IDatabase database = new MockDatabaseStub();
-        IBuyerModel sellerModel = new BuyerModel(database);
+        IBuyerModel buyerModel = new BuyerModel(database);
 
-        BuyerAccountObject account = new BuyerAccountObject("ignored","name", "pass", "email");
+        BuyerAccountObject account = new BuyerAccountObject("ignored","name", "other",
+                "123 Someplace", "h0h 0h0","MB","email", "pass");
 
         // Create the accounts
-        String id1 = sellerModel.createNew(account);
-        String id2 = sellerModel.createNew(account);
-        String id3 = sellerModel.createNew(account);
+        String id1 = buyerModel.createNew(account);
+        String id2 = buyerModel.createNew(account);
+        String id3 = buyerModel.createNew(account);
 
         // Verify they were created
         assertTrue("Row was not created", database.rowExists("Buyers", id1));
@@ -31,18 +32,21 @@ public class BuyerModelTests {
     @Test
     public void update_updatesAccount() {
         IDatabase database = new MockDatabaseStub();
-        IBuyerModel sellerModel = new BuyerModel(database);
+        IBuyerModel buyerModel = new BuyerModel(database);
 
-        BuyerAccountObject account = new BuyerAccountObject("ignored","name", "pass", "email");
+        BuyerAccountObject account = new BuyerAccountObject("ignored","name", "other",
+                "123 Someplace", "h0h 0h0","MB","email", "pass");
 
         // Create the accounts
-        String id1 = sellerModel.createNew(account);
-        String id2 = sellerModel.createNew(account);
-        String id3 = sellerModel.createNew(account);
+        String id1 = buyerModel.createNew(account);
+        String id2 = buyerModel.createNew(account);
+        String id3 = buyerModel.createNew(account);
 
         // Update a account
-        BuyerAccountObject updatedAccount = new BuyerAccountObject("ignored","updated-name", "updated-pass", "updated-email");
-        assertTrue("Did not get success back from update", sellerModel.update(id2, updatedAccount));
+        BuyerAccountObject updatedAccount = new BuyerAccountObject("ignored","updated-name", "other",
+                "123 Someplace", "h0h 0h0","MB","updated-email", "updated-pass");
+
+        assertTrue("Did not get success back from update", buyerModel.update(id2, updatedAccount));
 
         // Verify it updated the correct account
         assertEquals("Account username was not updated", "updated-name", database.fetchColumn("Buyers", id2, "username"));
@@ -61,62 +65,71 @@ public class BuyerModelTests {
     @Test
     public void fetch_fetchesCorrectAccount() {
         IDatabase database = new MockDatabaseStub();
-        IBuyerModel sellerModel = new BuyerModel(database);
+        IBuyerModel buyerModel = new BuyerModel(database);
 
-        BuyerAccountObject account1 = new BuyerAccountObject("ignored","name1", "pass1", "email1");
-        BuyerAccountObject account2 = new BuyerAccountObject("ignored","name2", "pass2", "email2");
-        BuyerAccountObject account3 = new BuyerAccountObject("ignored","name3", "pass3", "email3");
+        BuyerAccountObject account1 = new BuyerAccountObject("ignored","name1", "other",
+                "123 Someplace", "h0h 0h0","MB","email1", "pass1");
+        BuyerAccountObject account2 = new BuyerAccountObject("ignored","name2", "other",
+                "123 Someplace", "h0h 0h0","MB","email2", "pass2");
+        BuyerAccountObject account3 = new BuyerAccountObject("ignored","name3", "other",
+                "123 Someplace", "h0h 0h0","MB","email3", "pass3");
 
         // Create the accounts
-        String id1 = sellerModel.createNew(account1);
-        String id2 = sellerModel.createNew(account2);
-        String id3 = sellerModel.createNew(account3);
+        String id1 = buyerModel.createNew(account1);
+        String id2 = buyerModel.createNew(account2);
+        String id3 = buyerModel.createNew(account3);
 
         // Verify correct accounts fetched
-        assertEquals("Wrong account fetched", "name1", sellerModel.fetch(id1).getUsername());
-        assertEquals("Wrong account fetched", "name2", sellerModel.fetch(id2).getUsername());
-        assertEquals("Wrong account fetched", "name3", sellerModel.fetch(id3).getUsername());
+        assertEquals("Wrong account fetched", "name1", buyerModel.fetch(id1).getUsername());
+        assertEquals("Wrong account fetched", "name2", buyerModel.fetch(id2).getUsername());
+        assertEquals("Wrong account fetched", "name3", buyerModel.fetch(id3).getUsername());
     }
 
     @Test
     public void findByUsername_findsCorrectUser() {
         IDatabase database = new MockDatabaseStub();
-        IBuyerModel sellerModel = new BuyerModel(database);
+        IBuyerModel buyerModel = new BuyerModel(database);
 
-        BuyerAccountObject account1 = new BuyerAccountObject("ignored","name1", "pass1", "email1");
-        BuyerAccountObject account2 = new BuyerAccountObject("ignored","name2", "pass2", "email2");
-        BuyerAccountObject account3 = new BuyerAccountObject("ignored","name3", "pass3", "email3");
+        BuyerAccountObject account1 = new BuyerAccountObject("ignored","name1", "other",
+                "123 Someplace", "h0h 0h0","MB","email1", "pass1");
+        BuyerAccountObject account2 = new BuyerAccountObject("ignored","name2", "other",
+                "123 Someplace", "h0h 0h0","MB","email2", "pass2");
+        BuyerAccountObject account3 = new BuyerAccountObject("ignored","name3", "other",
+                "123 Someplace", "h0h 0h0","MB","email3", "pass3");
 
         // Create the accounts
-        String id1 = sellerModel.createNew(account1);
-        String id2 = sellerModel.createNew(account2);
-        String id3 = sellerModel.createNew(account3);
+        String id1 = buyerModel.createNew(account1);
+        String id2 = buyerModel.createNew(account2);
+        String id3 = buyerModel.createNew(account3);
 
         // Verify the correct user is found
-        assertEquals("Did not find correct user", "name2", sellerModel.findByUsername("name2").getUsername());
-        assertEquals("Did not find correct user", "name1", sellerModel.findByUsername("name1").getUsername());
-        assertEquals("Did not find correct user", "name3", sellerModel.findByUsername("name3").getUsername());
-        assertFalse("Found nonexistent user", null != sellerModel.findByUsername("name4"));
+        assertEquals("Did not find correct user", "name2", buyerModel.findByUsername("name2").getUsername());
+        assertEquals("Did not find correct user", "name1", buyerModel.findByUsername("name1").getUsername());
+        assertEquals("Did not find correct user", "name3", buyerModel.findByUsername("name3").getUsername());
+        assertFalse("Found nonexistent user", null != buyerModel.findByUsername("name4"));
     }
 
     @Test
     public void checkUsernamePasswordMatch_verifiesLoginProperly() {
         IDatabase database = new MockDatabaseStub();
-        IBuyerModel sellerModel = new BuyerModel(database);
+        IBuyerModel buyerModel = new BuyerModel(database);
 
-        BuyerAccountObject account1 = new BuyerAccountObject("ignored","name1", "pass1", "email1");
-        BuyerAccountObject account2 = new BuyerAccountObject("ignored","name2", "pass2", "email2");
-        BuyerAccountObject account3 = new BuyerAccountObject("ignored","name3", "pass3", "email3");
+        BuyerAccountObject account1 = new BuyerAccountObject("ignored","name1", "other",
+                "123 Someplace", "h0h 0h0","MB","email1", "pass1");
+        BuyerAccountObject account2 = new BuyerAccountObject("ignored","name2", "other",
+                "123 Someplace", "h0h 0h0","MB","email2", "pass2");
+        BuyerAccountObject account3 = new BuyerAccountObject("ignored","name3", "other",
+                "123 Someplace", "h0h 0h0","MB","email3", "pass3");
 
         // Create the accounts
-        String id1 = sellerModel.createNew(account1);
-        String id2 = sellerModel.createNew(account2);
-        String id3 = sellerModel.createNew(account3);
+        String id1 = buyerModel.createNew(account1);
+        String id2 = buyerModel.createNew(account2);
+        String id3 = buyerModel.createNew(account3);
 
         // Check credential pairs
-        assertTrue("Did not verify correct credentials", sellerModel.checkUsernamePasswordMatch("name1", "pass1"));
-        assertTrue("Did not verify correct credentials", sellerModel.checkUsernamePasswordMatch("name2", "pass2"));
-        assertTrue("Did not verify correct credentials", sellerModel.checkUsernamePasswordMatch("name3", "pass3"));
-        assertFalse("Verified false credentials", sellerModel.checkUsernamePasswordMatch("name1", "pass3"));
+        assertTrue("Did not verify correct credentials", buyerModel.checkUsernamePasswordMatch("name1", "pass1"));
+        assertTrue("Did not verify correct credentials", buyerModel.checkUsernamePasswordMatch("name2", "pass2"));
+        assertTrue("Did not verify correct credentials", buyerModel.checkUsernamePasswordMatch("name3", "pass3"));
+        assertFalse("Verified false credentials", buyerModel.checkUsernamePasswordMatch("name1", "pass3"));
     }
 }

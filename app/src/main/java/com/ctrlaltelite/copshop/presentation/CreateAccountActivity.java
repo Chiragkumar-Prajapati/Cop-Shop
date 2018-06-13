@@ -20,6 +20,7 @@ public class CreateAccountActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 //TODO: go to Register page for Precinct
+                //TODO: change visibility for button when PrecinctRegister page exists
             }
         });
 
