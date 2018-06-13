@@ -1,5 +1,6 @@
 package com.ctrlaltelite.copshop.presentation;
 
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -18,7 +19,7 @@ public class CreateAccountActivity extends AppCompatActivity {
         btnPrecinct.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //go to Register page for Precinct
+                //TODO: go to Register page for Precinct
             }
         });
 
@@ -26,7 +27,8 @@ public class CreateAccountActivity extends AppCompatActivity {
         btnBidder.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //go to Register page for Bidder
+                Intent intent = new Intent(CreateAccountActivity.this, CreateBuyerAccountActivity.class);
+                startActivity(intent);
             }
         });
     }
