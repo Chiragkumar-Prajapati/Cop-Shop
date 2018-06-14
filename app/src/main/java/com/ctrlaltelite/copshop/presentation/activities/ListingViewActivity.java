@@ -1,4 +1,4 @@
-package com.ctrlaltelite.copshop.presentation;
+package com.ctrlaltelite.copshop.presentation.activities;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
