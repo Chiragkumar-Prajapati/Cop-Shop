@@ -30,10 +30,10 @@ public class LoginActivity extends AppCompatActivity {
             public void onClick(View v) {
 
                EditText etEmail = (EditText) findViewById(R.id.email);
-                String userEmail = etEmail.toString(); // Grab text from text box
+                String userEmail = etEmail.getText().toString(); // Grab text from text box
 
                 EditText etPassword = (EditText) findViewById(R.id.password);
-                String password = etPassword.toString(); // Grab password from textbox
+                String password = etPassword.getText().toString(); // Grab password from textbox
 
                 AccountObject user = CopShopApp.accountService.validateUsernameAndPassword(userEmail,password);
 

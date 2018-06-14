@@ -46,8 +46,8 @@ public class AccountService implements com.ctrlaltelite.copshop.logic.services.I
         }
         // If no luck, look for a matching buyer account
         if (user == null) {
-            if (buyerModel.checkUsernamePasswordMatch(username, password) ) {
-                user = buyerModel.findByUsername(username);
+            if (buyerModel.checkEmailPasswordMatch(username, password) ) {
+                user = buyerModel.findByEmail(username);
             }
         }
 

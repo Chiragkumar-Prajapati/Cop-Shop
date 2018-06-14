@@ -66,8 +66,8 @@ public class BuyerModel implements IBuyerModel {
     }
 
     @Override
-    public BuyerAccountObject findByUsername(String username) {
-        ArrayList<String> users = this.database.findByColumnValue(TABLE_NAME, "username", username);
+    public BuyerAccountObject findByEmail(String email) {
+        ArrayList<String> users = this.database.findByColumnValue(TABLE_NAME, "email", email);
 
         // We should only get back one user max, ignore extras
         if (!users.isEmpty()) {
@@ -79,8 +79,8 @@ public class BuyerModel implements IBuyerModel {
     }
 
     @Override
-    public boolean checkUsernamePasswordMatch(String username, String inputPassword) {
-        ArrayList<String> users = this.database.findByColumnValue(TABLE_NAME, "username", username);
+    public boolean checkEmailPasswordMatch(String email, String inputPassword) {
+        ArrayList<String> users = this.database.findByColumnValue(TABLE_NAME, "email", email);
 
         // We should only get back one user max, ignore extras
         if (!users.isEmpty()) {
