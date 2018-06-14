@@ -4,6 +4,7 @@ import android.app.Application;
 
 import com.ctrlaltelite.copshop.logic.services.ICreateListingService;
 import com.ctrlaltelite.copshop.logic.services.stubs.CreateListingService;
+import com.ctrlaltelite.copshop.objects.BuyerAccountObject;
 import com.ctrlaltelite.copshop.objects.SellerAccountObject;
 import com.ctrlaltelite.copshop.persistence.database.IDatabase;
 import com.ctrlaltelite.copshop.persistence.IBuyerModel;
@@ -58,7 +59,10 @@ public class CopShopApp extends Application {
         listingModel.createNew(newListing6);
         listingModel.createNew(newListing7);
         listingModel.createNew(newListing8);
+
         // Buyer accounts
+        BuyerAccountObject newBuyerAccount1 = new BuyerAccountObject("", "John", "Smith", "123 Street", "A1A 1A1", "MB", "john@email.com", "john");
+        buyerModel.createNew(newBuyerAccount1);
 
         // Seller accounts
         SellerAccountObject newSeller = new SellerAccountObject("1", "Local Precinct", "12345", "local@police.com");

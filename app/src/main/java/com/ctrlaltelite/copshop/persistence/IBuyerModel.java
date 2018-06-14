@@ -30,5 +30,13 @@ public interface IBuyerModel {
      * @param username Their username
      * @return BuyerAccountObject with their details, or null
      */
-    BuyerAccountObject findByUsername(String username);
+    BuyerAccountObject findByEmail(String email);
+
+    /**
+     * Checks if a pair of credentials match a user in the DB
+     * @param username Their username
+     * @param password Their password
+     * @return Boolean indicating if there was a credentials match or not
+     */
+    boolean checkEmailPasswordMatch(String email, String password);
 }

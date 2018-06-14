@@ -1,6 +1,7 @@
 package com.ctrlaltelite.copshop.presentation;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -8,10 +9,13 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
+import android.widget.TextView;
+
 import com.ctrlaltelite.copshop.R;
 import com.ctrlaltelite.copshop.logic.CopShopApp;
 import com.ctrlaltelite.copshop.presentation.classes.ListingObjectArrayAdapter;
@@ -40,8 +44,6 @@ public class ListingListActivity extends AppCompatActivity implements Navigation
         // Setup drawer slide out page
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
-
-        // Set text for logged in user
 
         // Populate list of listings
         ArrayList<ListingObject> listingItems = CopShopApp.listingService.fetchListings();
@@ -76,6 +78,29 @@ public class ListingListActivity extends AppCompatActivity implements Navigation
         } else {
             super.onBackPressed();
         }
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // For accessing user info
+        SharedPreferences sharedPreferences = getSharedPreferences("currentUser", 0);
+
+        // Text for user if logged in
+        TextView greeting = (TextView) findViewById(R.id.nav_header_greeting);
+        if (null != greeting) {
+            if ((sharedPreferences.getString("username", "-1")).equals("-1")) {
+                // SharedPreferences returns defValue if nothing there
+                // Nothing there if user not logged in
+                greeting.setText("Please Login, Stranger.");
+            } else {
+                String name = sharedPreferences.getString("username", "-1");
+                greeting.setText("Hello, " + name + "!");
+            }
+        }
+
+        // Inflate the menu; this adds items to the action bar if it is present.
+        getMenuInflater().inflate(R.menu.listing_list, menu);
+        return true;
     }
 
     @SuppressWarnings("StatementWithEmptyBody")

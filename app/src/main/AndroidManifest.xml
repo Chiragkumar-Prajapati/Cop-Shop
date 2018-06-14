@@ -34,6 +34,7 @@
             android:label="CopShop - View Listing"
             android:theme="@style/AppTheme.NoActionBar">
         </activity>
+        <activity android:name=".presentation.CreateBuyerAccountActivity"></activity>
     </application>
 
 </manifest>
