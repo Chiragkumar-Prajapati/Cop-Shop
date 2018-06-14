@@ -14,7 +14,6 @@ import java.util.regex.Pattern;
 public class AccountService implements com.ctrlaltelite.copshop.logic.services.IAccountService {
     private ISellerModel sellerModel;
     private IBuyerModel buyerModel;
-    private BuyerAccountValidationObject validationBuyerObject;
 
     private static String[] provinces = {"Alberta", "British Columbia", "Manitoba", "New Brunswick",
     "Newfoundland and Labrador", "Northwest Territories", "Nova Scotia", "Nunavut",
@@ -29,7 +28,6 @@ public class AccountService implements com.ctrlaltelite.copshop.logic.services.I
     public AccountService(ISellerModel sellerModel, IBuyerModel buyerModel) {
         this.sellerModel = sellerModel;
         this.buyerModel = buyerModel;
-        this.validationBuyerObject = new BuyerAccountValidationObject();
     }
 
     /**
@@ -61,9 +59,8 @@ public class AccountService implements com.ctrlaltelite.copshop.logic.services.I
      * @param buyerObject the object to add to the DB.
      * @return the validation object we created to do the validation.
      */
-    public BuyerAccountValidationObject create(BuyerAccountObject buyerObject) {
-        this.validateInputForm(buyerObject);
-        return validationBuyerObject;
+    public BuyerAccountValidationObject validate(BuyerAccountObject buyerObject) {
+        return this.validateInputForm(buyerObject);
     }
 
     /**
@@ -79,8 +76,11 @@ public class AccountService implements com.ctrlaltelite.copshop.logic.services.I
      * Ensures that the all the values in the form are valid, by calling the
      * other methods below this one.
      * @param buyerObject An object populated with the form fields.
+     * @return BuyerAccountValidationObject
      */
-    private void validateInputForm(BuyerAccountObject buyerObject) {
+    private BuyerAccountValidationObject validateInputForm(BuyerAccountObject buyerObject) {
+        BuyerAccountValidationObject validationBuyerObject = new BuyerAccountValidationObject();
+
         validationBuyerObject.setValidFirstName(validateFirstName(buyerObject.getFirstName()));
         validationBuyerObject.setValidLastName(validateLastName(buyerObject.getLastName()));
         validationBuyerObject.setValidStreetAddress(validateStreetAddress(buyerObject.getStreetAddress()));
@@ -88,6 +88,8 @@ public class AccountService implements com.ctrlaltelite.copshop.logic.services.I
         validationBuyerObject.setValidProvince(validateProvince(buyerObject.getProvince()));
         validationBuyerObject.setValidEmail(validateEmail(buyerObject.getEmail()));
         validationBuyerObject.setValidPassword(validatePassword(buyerObject.getPassword()));
+
+        return validationBuyerObject;
     }
 
     /**

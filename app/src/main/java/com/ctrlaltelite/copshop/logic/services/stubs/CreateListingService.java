@@ -13,8 +13,6 @@ public class CreateListingService implements ICreateListingService {
     private static final int JAN = 1, FEB = 2, MAR = 3, APR = 4, MAY = 5, JUN = 6,
                              JUL = 7, AUG = 8, SEP = 9, OCT = 10, NOV = 11, DEC = 12;
     private static final int APP_SUPPORT_TILL_YEAR = 2050;
-    private static final String TAG = "CreateNewListing";
-    private static ListingFormValidationObject validationObject = new ListingFormValidationObject();
 
     private IListingModel listingModel;
 
@@ -36,9 +34,8 @@ public class CreateListingService implements ICreateListingService {
      * @param listingObject ListingObject that contains the form data
      * @return ListingFormValidationObject which contains the validity of all form fields
      */
-    public ListingFormValidationObject create(ListingObject listingObject) {
-        this.validateInputForm(listingObject);
-        return validationObject;
+    public ListingFormValidationObject validate(ListingObject listingObject) {
+        return this.validateInputForm(listingObject);
     }
 
     /**
@@ -48,8 +45,11 @@ public class CreateListingService implements ICreateListingService {
      *
      * Validates: txtTitle, initPrice, minBid, auctionStartDate, auctionStartTime,
      * auctionEndDate, auctionEndTime and description fields
+     * @param listingObject The listing to validate
+     * @return ListingFormValidationObject
      */
-    private void validateInputForm(ListingObject listingObject) {
+    private ListingFormValidationObject validateInputForm(ListingObject listingObject) {
+        ListingFormValidationObject validationObject = new ListingFormValidationObject();
 
         // ListingTitle
         validationObject.setTitleValid(validateTitle(listingObject.getTitle()));
@@ -73,6 +73,7 @@ public class CreateListingService implements ICreateListingService {
         // Description
         validationObject.setDescriptionValid(validateDescription(listingObject.getDescription()));
 
+        return validationObject;
     }
 
     /**

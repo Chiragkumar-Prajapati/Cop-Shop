@@ -10,7 +10,7 @@ public interface ICreateListingService {
      * @param listingObject The object containing the field values to be validated
      * @return ListingFormValidationObject containing validity of fields in form
      */
-    ListingFormValidationObject create(ListingObject listingObject);
+    ListingFormValidationObject validate(ListingObject listingObject);
 
     /**
      * Creates a new listing object and inserts it into the database

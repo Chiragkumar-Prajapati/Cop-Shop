@@ -36,7 +36,7 @@ public class AccountServiceTests {
         AccountObject buyer3 = accountService.validateEmailAndPassword("email1", "passWrong");
 
         // Check credential pairs
-        assertTrue("Did not verify correct credentials", buyer1 != null);
+        assertTrue("Did not validate correct credentials", buyer1 != null);
         assertTrue("Returned wrong object type", buyer1 instanceof BuyerAccountObject);
         assertTrue("Verified false credentials", buyer2 == null);
         assertTrue("Verified false credentials", buyer3 == null);
@@ -79,12 +79,12 @@ public class AccountServiceTests {
 
         validAccountInfo = new BuyerAccountObject("ignored","Santa", "Claus",
                 "123 North Pole", "H0H 0H0","NT","santa@northpole.ca", "SantaBaby#112Aap20&");
-        validationObject = accountService.create(validAccountInfo);
+        validationObject = accountService.validate(validAccountInfo);
         assertTrue("Form was incorrectly validated", validationObject.allValid());
 
         validAccountInfo = new BuyerAccountObject("ignored","Mary", "Jane",
                 "420 Legalnow", "R3V 2X4","MB","maryjane@high.ca", "12Aap20&");
-        validationObject = accountService.create(validAccountInfo);
+        validationObject = accountService.validate(validAccountInfo);
         assertTrue("Form was incorrectly validated", validationObject.allValid());
 
         //--------------------------------------Invalid listing objects for testing-----------------------------------------------//
@@ -92,43 +92,43 @@ public class AccountServiceTests {
         //================================================Invalid due to null=====================================================//
         invalidAccountInfo = new BuyerAccountObject("ignored",null, "Claus",
                 "123 North Pole", "HOH 0H0","NT","santa@northpole.ca", "Santa1!");
-        validationObject = accountService.create(invalidAccountInfo);
+        validationObject = accountService.validate(invalidAccountInfo);
         assertFalse("Form was incorrectly validated", validationObject.allValid());
         assertFalse("Expected invalid field was valid", validationObject.getValidFirstName());
 
         invalidAccountInfo = new BuyerAccountObject("ignored","Santa", null,
                 "123 North Pole", "HOH 0H0","NT","santa@northpole.ca", "Santa1!");
-        validationObject = accountService.create(invalidAccountInfo);
+        validationObject = accountService.validate(invalidAccountInfo);
         assertFalse("Form was incorrectly validated", validationObject.allValid());
         assertFalse("Expected invalid field was valid", validationObject.getValidLastName());
 
         invalidAccountInfo = new BuyerAccountObject("ignored","Santa", "Clause",
                 null, "HOH 0H0","NT","santa@northpole.ca", "Santa1!");
-        validationObject = accountService.create(invalidAccountInfo);
+        validationObject = accountService.validate(invalidAccountInfo);
         assertFalse("Form was incorrectly validated", validationObject.allValid());
         assertFalse("Expected invalid field was valid", validationObject.getValidStreetAddress());
 
         invalidAccountInfo = new BuyerAccountObject("ignored","Santa", "Clause",
                 "123 North Pole", null,"NT","santa@northpole.ca", "Santa1!");
-        validationObject = accountService.create(invalidAccountInfo);
+        validationObject = accountService.validate(invalidAccountInfo);
         assertFalse("Form was incorrectly validated", validationObject.allValid());
         assertFalse("Expected invalid field was valid", validationObject.getValidPostalCode());
 
         invalidAccountInfo = new BuyerAccountObject("ignored","Santa", "Claus",
                 "123 North Pole", "HOH 0H0",null,"santa@northpole.ca", "Santa1!");
-        validationObject = accountService.create(invalidAccountInfo);
+        validationObject = accountService.validate(invalidAccountInfo);
         assertFalse("Form was incorrectly validated", validationObject.allValid());
         assertFalse("Expected invalid field was valid", validationObject.getValidProvince());
 
         invalidAccountInfo = new BuyerAccountObject("ignored","Santa", "Claus",
                 "123 North Pole", "HOH 0H0","NT",null, "Santa1!");
-        validationObject = accountService.create(invalidAccountInfo);
+        validationObject = accountService.validate(invalidAccountInfo);
         assertFalse("Form was incorrectly validated", validationObject.allValid());
         assertFalse("Expected invalid field was valid", validationObject.getValidEmail());
 
         invalidAccountInfo = new BuyerAccountObject("ignored","Santa", "Claus",
                 "123 North Pole", "HOH 0H0","NT","santa@northpole.ca", null);
-        validationObject = accountService.create(invalidAccountInfo);
+        validationObject = accountService.validate(invalidAccountInfo);
         assertFalse("Form was incorrectly validated", validationObject.allValid());
         assertFalse("Expected invalid field was valid", validationObject.getValidPassword());
     }

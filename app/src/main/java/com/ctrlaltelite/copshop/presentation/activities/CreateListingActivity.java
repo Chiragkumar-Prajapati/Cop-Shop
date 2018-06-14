@@ -20,6 +20,7 @@ public class CreateListingActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_create_listing);
+
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
@@ -40,10 +41,10 @@ public class CreateListingActivity extends AppCompatActivity {
                         ((EditText) findViewById(R.id.txtStartTimeHour)).getText().toString() + ":" + ((EditText) findViewById(R.id.txtStartTimeMinute)).getText().toString(),
                         ((EditText) findViewById(R.id.txtEndDay)).getText().toString() + "/" +  ((EditText) findViewById(R.id.txtEndMonth)).getText().toString() + "/" + ((EditText) findViewById(R.id.txtEndYear)).getText().toString(),
                         ((EditText) findViewById(R.id.txtEndTimeHour)).getText().toString() + ":" + ((EditText) findViewById(R.id.txtEndTimeMinute)).getText().toString(),
-                        "1" // Currently logged in seller's id, change when login is implemented
+                        "1" // Currently logged in seller's id, change when differentiated login is implemented
                 );
 
-                ListingFormValidationObject validationObject = CopShopApp.createListingService.create(listingObject);
+                ListingFormValidationObject validationObject = CopShopApp.createListingService.validate(listingObject);
 
                 // Check validation object to see if all fields are valid
                 // If valid: store form data in listing database
