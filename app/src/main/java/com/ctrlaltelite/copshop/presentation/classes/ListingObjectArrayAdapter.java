@@ -11,7 +11,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.ctrlaltelite.copshop.R;
-import com.ctrlaltelite.copshop.logic.CopShopApp;
+import com.ctrlaltelite.copshop.application.CopShopApp;
 import com.ctrlaltelite.copshop.presentation.utilities.StringUtility;
 import com.ctrlaltelite.copshop.objects.ListingObject;
 

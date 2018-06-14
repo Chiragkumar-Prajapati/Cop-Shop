@@ -13,7 +13,7 @@ import com.ctrlaltelite.copshop.persistence.stubs.SellerModel;
 
 import org.junit.Test;
 import java.util.ArrayList;
-import java.util.Hashtable;
+
 import static org.junit.Assert.*;
 
 public class ListingServiceTests {
@@ -45,9 +45,9 @@ public class ListingServiceTests {
         IListingService listingService = new ListingService(listingModel, sellerModel);
 
         // Create the accounts
-        SellerAccountObject a1 = new SellerAccountObject("","one", "pass", "email");
-        SellerAccountObject a2 = new SellerAccountObject("","two", "pass", "email");
-        SellerAccountObject a3 = new SellerAccountObject("","three", "pass", "email");
+        SellerAccountObject a1 = new SellerAccountObject("", "pass", "email", "one");
+        SellerAccountObject a2 = new SellerAccountObject("", "pass", "email", "two");
+        SellerAccountObject a3 = new SellerAccountObject("", "pass", "email", "three");
         String sId1 = sellerModel.createNew(a1);
         String sId2 = sellerModel.createNew(a2);
         String sId3 = sellerModel.createNew(a3);
@@ -75,9 +75,9 @@ public class ListingServiceTests {
         IListingService listingService = new ListingService(listingModel, sellerModel);
 
         // Create the accounts
-        SellerAccountObject a1 = new SellerAccountObject("","one", "pass", "email");
-        SellerAccountObject a2 = new SellerAccountObject("","two", "pass", "email");
-        SellerAccountObject a3 = new SellerAccountObject("","three", "pass", "email");
+        SellerAccountObject a1 = new SellerAccountObject("", "pass", "email1", "one");
+        SellerAccountObject a2 = new SellerAccountObject("", "pass", "email2", "two");
+        SellerAccountObject a3 = new SellerAccountObject("", "pass", "email3", "three");
         String sId1 = sellerModel.createNew(a1);
         String sId2 = sellerModel.createNew(a2);
         String sId3 = sellerModel.createNew(a3);

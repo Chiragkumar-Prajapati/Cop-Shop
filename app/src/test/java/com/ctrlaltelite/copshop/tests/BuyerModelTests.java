@@ -49,15 +49,12 @@ public class BuyerModelTests {
         assertTrue("Did not get success back from update", buyerModel.update(id2, updatedAccount));
 
         // Verify it updated the correct account
-        assertEquals("Account username was not updated", "updated-name", database.fetchColumn("Buyers", id2, "username"));
         assertEquals("Account password was not updated", "updated-pass", database.fetchColumn("Buyers", id2, "password"));
         assertEquals("Account email was not updated", "updated-email", database.fetchColumn("Buyers", id2, "email"));
 
-        assertEquals("Wrong account username updated", "name", database.fetchColumn("Buyers", id1, "username"));
         assertEquals("Wrong account password updated", "pass", database.fetchColumn("Buyers", id1, "password"));
         assertEquals("Wrong account password updated", "email", database.fetchColumn("Buyers", id1, "email"));
 
-        assertEquals("Wrong account username updated", "name", database.fetchColumn("Buyers", id3, "username"));
         assertEquals("Wrong account password updated", "pass", database.fetchColumn("Buyers", id3, "password"));
         assertEquals("Wrong account password updated", "email", database.fetchColumn("Buyers", id3, "email"));
     }
@@ -80,13 +77,13 @@ public class BuyerModelTests {
         String id3 = buyerModel.createNew(account3);
 
         // Verify correct accounts fetched
-        assertEquals("Wrong account fetched", "name1", buyerModel.fetch(id1).getUsername());
-        assertEquals("Wrong account fetched", "name2", buyerModel.fetch(id2).getUsername());
-        assertEquals("Wrong account fetched", "name3", buyerModel.fetch(id3).getUsername());
+        assertEquals("Wrong account fetched", "name1", buyerModel.fetch(id1).getFirstName());
+        assertEquals("Wrong account fetched", "name2", buyerModel.fetch(id2).getFirstName());
+        assertEquals("Wrong account fetched", "name3", buyerModel.fetch(id3).getFirstName());
     }
 
     @Test
-    public void findByUsername_findsCorrectUser() {
+    public void findByEmail_findsCorrectUser() {
         IDatabase database = new MockDatabaseStub();
         IBuyerModel buyerModel = new BuyerModel(database);
 
@@ -103,14 +100,14 @@ public class BuyerModelTests {
         String id3 = buyerModel.createNew(account3);
 
         // Verify the correct user is found
-        assertEquals("Did not find correct user", "name2", buyerModel.findByEmail("email2").getUsername());
-        assertEquals("Did not find correct user", "name1", buyerModel.findByEmail("email1").getUsername());
-        assertEquals("Did not find correct user", "name3", buyerModel.findByEmail("email3").getUsername());
+        assertEquals("Did not find correct user", "name2", buyerModel.findByEmail("email2").getFirstName());
+        assertEquals("Did not find correct user", "name1", buyerModel.findByEmail("email1").getFirstName());
+        assertEquals("Did not find correct user", "name3", buyerModel.findByEmail("email3").getFirstName());
         assertFalse("Found nonexistent user", null != buyerModel.findByEmail("email4"));
     }
 
     @Test
-    public void checkUsernamePasswordMatch_verifiesLoginProperly() {
+    public void checkEmailPasswordMatch_verifiesLoginProperly() {
         IDatabase database = new MockDatabaseStub();
         IBuyerModel buyerModel = new BuyerModel(database);
 

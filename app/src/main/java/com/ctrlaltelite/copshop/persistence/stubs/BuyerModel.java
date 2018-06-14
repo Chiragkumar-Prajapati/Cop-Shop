@@ -21,7 +21,6 @@ public class BuyerModel implements IBuyerModel {
     public String createNew(BuyerAccountObject newAccount) {
         Hashtable<String, String> newRow = new Hashtable<>();
 
-        newRow.put("username", newAccount.getFirstName());
         newRow.put("firstName", newAccount.getFirstName());
         newRow.put("lastName", newAccount.getLastName());
         newRow.put("streetAddress", newAccount.getStreetAddress());
@@ -36,9 +35,9 @@ public class BuyerModel implements IBuyerModel {
 
     @Override
     public boolean update(String id, BuyerAccountObject updatedAccount) {
-        boolean success = true;
-        success = success && (null != this.database.updateColumn(TABLE_NAME, id, "username", updatedAccount.getFirstName()));
-        success = success && (null != this.database.updateColumn(TABLE_NAME, id, "firstName", updatedAccount.getFirstName()));
+        boolean success;
+
+        success = (null != this.database.updateColumn(TABLE_NAME, id, "firstName", updatedAccount.getFirstName()));
         success = success && (null != this.database.updateColumn(TABLE_NAME, id, "lastName", updatedAccount.getLastName()));
         success = success && (null != this.database.updateColumn(TABLE_NAME, id, "streetAddress", updatedAccount.getStreetAddress()));
         success = success && (null != this.database.updateColumn(TABLE_NAME, id, "postalCode", updatedAccount.getPostalCode()));

@@ -27,8 +27,16 @@ public interface ISellerModel {
 
     /**
      * Fetch a specific account's details by their login info
-     * @param username Their username
-     * @return BuyerAccountObject with their details, or null
+     * @param email Their email
+     * @return SellerAccountObject with their details, or null
      */
-    SellerAccountObject findByUsername(String username);
+    SellerAccountObject findByEmail(String email);
+
+    /**
+     * Checks if a pair of credentials match a user in the DB
+     * @param email Their email
+     * @param password Their password
+     * @return Boolean indicating if there was a credentials match or not
+     */
+    boolean checkEmailPasswordMatch(String email, String password);
 }

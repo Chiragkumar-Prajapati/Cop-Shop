@@ -10,7 +10,7 @@ import android.widget.TextView;
 import android.content.SharedPreferences;
 
 import com.ctrlaltelite.copshop.R;
-import com.ctrlaltelite.copshop.logic.CopShopApp;
+import com.ctrlaltelite.copshop.application.CopShopApp;
 import com.ctrlaltelite.copshop.objects.AccountObject;
 
 public class LoginActivity extends AppCompatActivity {
@@ -43,7 +43,7 @@ public class LoginActivity extends AppCompatActivity {
                 } else {
                     SharedPreferences.Editor editor = sharedPreferences.edit();
                     editor.putString("userID", user.getId());
-                    editor.putString("username", user.getUsername());
+                    editor.putString("email", user.getEmail());
                     editor.commit(); //saves user info in the SharedPreferences object
 
                     //go to Listings page

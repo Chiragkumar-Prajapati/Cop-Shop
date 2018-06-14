@@ -10,7 +10,7 @@ import android.widget.Button;
 import android.widget.EditText;
 
 import com.ctrlaltelite.copshop.R;
-import com.ctrlaltelite.copshop.logic.CopShopApp;
+import com.ctrlaltelite.copshop.application.CopShopApp;
 import com.ctrlaltelite.copshop.objects.ListingFormValidationObject;
 import com.ctrlaltelite.copshop.objects.ListingObject;
 

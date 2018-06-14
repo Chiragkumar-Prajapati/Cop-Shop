@@ -17,7 +17,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import com.ctrlaltelite.copshop.R;
-import com.ctrlaltelite.copshop.logic.CopShopApp;
+import com.ctrlaltelite.copshop.application.CopShopApp;
 import com.ctrlaltelite.copshop.presentation.classes.ListingObjectArrayAdapter;
 import com.ctrlaltelite.copshop.objects.ListingObject;
 import java.util.ArrayList;
@@ -88,18 +88,18 @@ public class ListingListActivity extends AppCompatActivity implements Navigation
         // Text for user if logged in
         TextView greeting = (TextView) findViewById(R.id.nav_header_greeting);
         if (null != greeting) {
-            if ((sharedPreferences.getString("username", "-1")).equals("-1")) {
+            if ((sharedPreferences.getString("email", "-1")).equals("-1")) {
                 // SharedPreferences returns defValue if nothing there
                 // Nothing there if user not logged in
                 greeting.setText("Please Login, Stranger.");
             } else {
-                String name = sharedPreferences.getString("username", "-1");
-                greeting.setText("Hello, " + name + "!");
+                String loggedInEmail = sharedPreferences.getString("email", "-1");
+                greeting.setText(loggedInEmail);
             }
         }
 
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.listing_list, menu);
+//        getMenuInflater().inflate(R.menu.listing_list, menu);
         return true;
     }
 

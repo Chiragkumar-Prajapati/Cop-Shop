@@ -13,7 +13,7 @@ public class BuyerAccountObject extends AccountObject {
 
     public BuyerAccountObject(String id, String firstName, String lastName, String streetAddress,
                               String postalCode, String province, String email, String password) {
-        super(id, firstName, password, email);
+        super(id, password, email);
 
         this.id = id;
         this.firstName = firstName;

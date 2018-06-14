@@ -34,25 +34,26 @@ public class AccountService implements com.ctrlaltelite.copshop.logic.services.I
 
     /**
      * Used by the login page to check whether a user's login credentials are legit.
-     * @param username The username of the user attempting to log in
+     * @param email The email of the user attempting to log in
      * @param password The password of the user attempting to log in
      * @return The BuyerAccountObject or SellerAccountObject, or null if not legit.
      */
-    public AccountObject validateUsernameAndPassword (String username, String password) {
-        AccountObject user = null;
+    public AccountObject validateUsernameAndPassword (String email, String password) {
+        // Check for a matching seller account
+        AccountObject account = this.sellerModel.findByEmail(email);
 
-        // First look for a matching seller account
-        if (sellerModel.checkUsernamePasswordMatch(username, password) ) {
-            user = sellerModel.findByUsername(username);
-        }
-        // If no luck, look for a matching buyer account
-        if (user == null) {
-            if (buyerModel.checkEmailPasswordMatch(username, password) ) {
-                user = buyerModel.findByEmail(username);
-            }
+        // Otherwise check for a matching buyer account
+        if (null == account) {
+            account = this.buyerModel.findByEmail(email);
         }
 
-        return user;
+        // Verify password matches
+        if (null != account && account.getPassword().equals(password)) {
+            return account;
+        }
+
+        // Otherwise no match
+        return null;
     }
 
     /**

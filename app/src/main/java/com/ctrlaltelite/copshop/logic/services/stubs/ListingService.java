@@ -1,5 +1,7 @@
 package com.ctrlaltelite.copshop.logic.services.stubs;
 
+import android.support.annotation.NonNull;
+
 import com.ctrlaltelite.copshop.objects.SellerAccountObject;
 import com.ctrlaltelite.copshop.persistence.IListingModel;
 import com.ctrlaltelite.copshop.logic.services.IListingService;
@@ -36,7 +38,7 @@ public class ListingService implements IListingService {
     @Override
     public String getSellerName(String sellerId) {
         SellerAccountObject seller = sellerModel.fetch(sellerId);
-        return seller.getUsername();
+        return seller.getOrganizationName();
     }
 
 //    @Override

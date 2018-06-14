@@ -1,4 +1,4 @@
-package com.ctrlaltelite.copshop.logic;
+package com.ctrlaltelite.copshop.application;
 
 import android.app.Application;
 
@@ -65,7 +65,7 @@ public class CopShopApp extends Application {
         buyerModel.createNew(newBuyerAccount1);
 
         // Seller accounts
-        SellerAccountObject newSeller = new SellerAccountObject("1", "Local Precinct", "12345", "local@police.com");
+        SellerAccountObject newSeller = new SellerAccountObject("", "12345", "local@police.com", "Local Precinct");
         sellerModel.createNew(newSeller);
     }
 }
