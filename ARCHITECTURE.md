@@ -6,7 +6,7 @@ Image is also available in root of repo.
 ## Architectural Overview
 CopShop is designed to employ a 3-tier architecture. Tiers are broken down into Persistence, Logic, and Presentation. All communication between these tiers is done through intermediary classes that have corresponding interfaces. These classes are implemented as singleton instances that are created and are accessible via one root class, CopShopApp, which is initialized automatically by Android on startup.   
 
-Model classes are used for database interaction, and Service classes communication with the logic layer. Activities in the presentation layer call Service methods in the logic layer, which in turn call Model methods, which are wrappers for Database queries.  
+Communication with the database is done through Model classes, and communication with the logic layer is done through Service classes. Activities in the presentation layer call Service methods in the logic layer, which in turn call Model methods, which are wrappers for Database queries.  
 
 Currently, users can create new listings, and view basic information about existing listings. Users can also create buyer accounts and log into them.  
 
