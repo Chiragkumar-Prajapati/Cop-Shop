@@ -123,8 +123,8 @@ public class ListingModelTests {
         // Fetch listings and ensure all are in list
         ArrayList<ListingObject> list = listingModel.fetchAll();
         assertEquals("Fetched too many listings", 3, list.size());
-        assertEquals("Wrong listing fetched", "t1", list.get(0).getTitle());
+        assertEquals("Wrong listing fetched", "t1", list.get(2).getTitle());
         assertEquals("Wrong listing fetched", "t2", list.get(1).getTitle());
-        assertEquals("Wrong listing fetched", "t3", list.get(2).getTitle());
+        assertEquals("Wrong listing fetched", "t3", list.get(0).getTitle());
     }
 }

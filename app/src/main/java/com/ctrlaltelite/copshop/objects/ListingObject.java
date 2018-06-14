@@ -66,23 +66,17 @@ public class ListingObject {
         return sellerId;
     }
 
+    // Implement once bids are implemented
     public String getLocation() {
-        // TODO: Get listing address from seller
         return "PLACEHOLDER";
     }
-
     public String getCurrentPrice() {
-        // TODO: Get current price from highest bid
-        return this.initPrice;
+        return "00.00";
     }
-
     public String getNumBids() {
-        // TODO: Get num bids from all bids on listing
         return "0";
     }
-
     public String getTimeLeft() {
-        // TODO: Get the amount of time left on the listing auction
         return "0 days";
     }
 

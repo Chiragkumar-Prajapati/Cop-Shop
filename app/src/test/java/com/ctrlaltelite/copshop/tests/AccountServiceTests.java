@@ -7,7 +7,6 @@ import com.ctrlaltelite.copshop.persistence.IBuyerModel;
 import com.ctrlaltelite.copshop.persistence.ISellerModel;
 import com.ctrlaltelite.copshop.objects.AccountObject;
 import com.ctrlaltelite.copshop.objects.BuyerAccountObject;
-import com.ctrlaltelite.copshop.objects.SellerAccountObject;
 import com.ctrlaltelite.copshop.persistence.database.IDatabase;
 import com.ctrlaltelite.copshop.persistence.database.stubs.MockDatabaseStub;
 import com.ctrlaltelite.copshop.persistence.stubs.BuyerModel;
@@ -32,9 +31,9 @@ public class AccountServiceTests {
         String id1 = buyerModel.createNew(account1);
 
         // Try pulling some accounts, given some creds
-        AccountObject buyer1 = accountService.validateUsernameAndPassword("email1", "pass1");
-        AccountObject buyer2 = accountService.validateUsernameAndPassword("emailWrong", "pass1");
-        AccountObject buyer3 = accountService.validateUsernameAndPassword("email1", "passWrong");
+        AccountObject buyer1 = accountService.validateEmailAndPassword("email1", "pass1");
+        AccountObject buyer2 = accountService.validateEmailAndPassword("emailWrong", "pass1");
+        AccountObject buyer3 = accountService.validateEmailAndPassword("email1", "passWrong");
 
         // Check credential pairs
         assertTrue("Did not verify correct credentials", buyer1 != null);

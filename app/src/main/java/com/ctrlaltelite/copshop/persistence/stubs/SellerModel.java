@@ -21,19 +21,19 @@ public class SellerModel implements ISellerModel {
     public String createNew(SellerAccountObject newAccount) {
         Hashtable<String, String> newRow = new Hashtable<>();
 
-        newRow.put("username", newAccount.getUsername());
         newRow.put("password", newAccount.getPassword());
         newRow.put("email", newAccount.getEmail());
+        newRow.put("name", newAccount.getOrganizationName());
 
         return this.database.insertRow(TABLE_NAME, newRow);
     }
 
     @Override
     public boolean update(String id, SellerAccountObject updatedAccount) {
-        boolean success = true;
-        success = success && (null != this.database.updateColumn(TABLE_NAME, id, "username", updatedAccount.getUsername()));
-        success = success && (null != this.database.updateColumn(TABLE_NAME, id, "password", updatedAccount.getPassword()));
+        boolean success;
+        success = (null != this.database.updateColumn(TABLE_NAME, id, "password", updatedAccount.getPassword()));
         success = success && (null != this.database.updateColumn(TABLE_NAME, id, "email", updatedAccount.getEmail()));
+        success = success && (null != this.database.updateColumn(TABLE_NAME, id, "name", updatedAccount.getOrganizationName()));
         return success;
     }
 
@@ -41,15 +41,15 @@ public class SellerModel implements ISellerModel {
     public SellerAccountObject fetch(String id) {
         return new SellerAccountObject(
                 id,
-                this.database.fetchColumn(TABLE_NAME, id, "username"),
                 this.database.fetchColumn(TABLE_NAME, id, "password"),
-                this.database.fetchColumn(TABLE_NAME, id, "email")
+                this.database.fetchColumn(TABLE_NAME, id, "email"),
+                this.database.fetchColumn(TABLE_NAME, id, "name")
         );
     }
 
     @Override
-    public SellerAccountObject findByUsername(String username) {
-        ArrayList<String> users = this.database.findByColumnValue(TABLE_NAME, "username", username);
+    public SellerAccountObject findByEmail(String email) {
+        ArrayList<String> users = this.database.findByColumnValue(TABLE_NAME, "email", email);
 
         // We should only get back one user max, ignore extras
         if (!users.isEmpty()) {
@@ -61,8 +61,8 @@ public class SellerModel implements ISellerModel {
     }
 
     @Override
-    public boolean checkUsernamePasswordMatch(String username, String inputPassword) {
-        ArrayList<String> users = this.database.findByColumnValue(TABLE_NAME, "username", username);
+    public boolean checkEmailPasswordMatch(String email, String inputPassword) {
+        ArrayList<String> users = this.database.findByColumnValue(TABLE_NAME, "email", email);
 
         // We should only get back one user max, ignore extras
         if (!users.isEmpty()) {

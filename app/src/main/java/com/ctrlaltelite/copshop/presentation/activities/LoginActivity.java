@@ -1,4 +1,4 @@
-package com.ctrlaltelite.copshop.presentation;
+package com.ctrlaltelite.copshop.presentation.activities;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -10,7 +10,7 @@ import android.widget.TextView;
 import android.content.SharedPreferences;
 
 import com.ctrlaltelite.copshop.R;
-import com.ctrlaltelite.copshop.logic.CopShopApp;
+import com.ctrlaltelite.copshop.application.CopShopApp;
 import com.ctrlaltelite.copshop.objects.AccountObject;
 
 public class LoginActivity extends AppCompatActivity {
@@ -35,7 +35,7 @@ public class LoginActivity extends AppCompatActivity {
                 EditText etPassword = (EditText) findViewById(R.id.password);
                 String password = etPassword.getText().toString(); // Grab password from textbox
 
-                AccountObject user = CopShopApp.accountService.validateUsernameAndPassword(userEmail,password);
+                AccountObject user = CopShopApp.accountService.validateEmailAndPassword(userEmail,password);
 
                 if (user == null) {
                     errorMsg.setText("What's all this, then? You're going to need" +
@@ -43,7 +43,7 @@ public class LoginActivity extends AppCompatActivity {
                 } else {
                     SharedPreferences.Editor editor = sharedPreferences.edit();
                     editor.putString("userID", user.getId());
-                    editor.putString("username", user.getUsername());
+                    editor.putString("email", user.getEmail());
                     editor.commit(); //saves user info in the SharedPreferences object
 
                     //go to Listings page

@@ -27,14 +27,14 @@ public interface IBuyerModel {
 
     /**
      * Fetch a specific account's details by their login info
-     * @param username Their username
+     * @param email Their email
      * @return BuyerAccountObject with their details, or null
      */
     BuyerAccountObject findByEmail(String email);
 
     /**
      * Checks if a pair of credentials match a user in the DB
-     * @param username Their username
+     * @param email Their email
      * @param password Their password
      * @return Boolean indicating if there was a credentials match or not
      */

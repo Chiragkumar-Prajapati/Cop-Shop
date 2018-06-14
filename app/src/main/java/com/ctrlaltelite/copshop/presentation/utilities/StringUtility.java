@@ -1,4 +1,4 @@
-package com.ctrlaltelite.copshop.logic.utilities;
+package com.ctrlaltelite.copshop.presentation.utilities;
 
 public class StringUtility {
 

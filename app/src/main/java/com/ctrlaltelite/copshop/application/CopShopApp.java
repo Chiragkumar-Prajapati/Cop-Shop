@@ -1,18 +1,19 @@
-package com.ctrlaltelite.copshop.logic;
+package com.ctrlaltelite.copshop.application;
 
 import android.app.Application;
 
 import com.ctrlaltelite.copshop.logic.services.ICreateListingService;
 import com.ctrlaltelite.copshop.logic.services.stubs.CreateListingService;
 import com.ctrlaltelite.copshop.objects.BuyerAccountObject;
+import com.ctrlaltelite.copshop.objects.SellerAccountObject;
 import com.ctrlaltelite.copshop.persistence.database.IDatabase;
 import com.ctrlaltelite.copshop.persistence.IBuyerModel;
 import com.ctrlaltelite.copshop.persistence.IListingModel;
 import com.ctrlaltelite.copshop.persistence.ISellerModel;
 import com.ctrlaltelite.copshop.logic.services.IAccountService;
-import com.ctrlaltelite.copshop.logic.services.IListingListService;
+import com.ctrlaltelite.copshop.logic.services.IListingService;
 import com.ctrlaltelite.copshop.logic.services.stubs.AccountService;
-import com.ctrlaltelite.copshop.logic.services.stubs.ListingListService;
+import com.ctrlaltelite.copshop.logic.services.stubs.ListingService;
 import com.ctrlaltelite.copshop.objects.ListingObject;
 import com.ctrlaltelite.copshop.persistence.stubs.BuyerModel;
 import com.ctrlaltelite.copshop.persistence.stubs.ListingModel;
@@ -34,24 +35,22 @@ public class CopShopApp extends Application {
     public static ISellerModel sellerModel = new SellerModel(database);
     public static IListingModel listingModel = new ListingModel(database);
     // Services
-    public static IListingListService listingListService = new ListingListService(listingModel);
+    public static IListingService listingService = new ListingService(listingModel, sellerModel);
     public static IAccountService accountService = new AccountService(sellerModel, buyerModel);
     public static ICreateListingService createListingService = new CreateListingService(listingModel);
 
     public CopShopApp() {
         super();
-
         // Initialize tables with dummy data
         // Listings
-        ListingObject newListing1 = new ListingObject("", "Sample 1", "This is a sample description that describes this sample listing", "10.00", "1.00", "01/02/2018", "12:00", "10/02/2018", "20:00", "1");
-        ListingObject newListing2 = new ListingObject("", "Sample 2", "This is a description that is a sample to describe this listing", "10.00", "1.00", "01/02/2018", "12:00", "10/02/2018", "20:00", "1");
-        ListingObject newListing3 = new ListingObject("", "Sample 3", "This is a listing sample with a sample description", "10.00", "1.00", "01/02/2018", "12:00", "10/02/2018", "20:00", "1");
-        ListingObject newListing4 = new ListingObject("", "Sample 4", "This is a description for a sample listing, this description is a very long description and should be truncated with ellipsis.", "10.00", "1.00", "01/02/2018", "12:00", "10/02/2018", "20:00", "1");
-        ListingObject newListing5 = new ListingObject("", "Sample 5", "This is a sample description that describes this sample listing", "10.00", "1.00", "01/02/2018", "12:00", "10/02/2018", "20:00", "1");
-        ListingObject newListing6 = new ListingObject("", "Sample 6", "This is a description that is a sample to describe this listing", "10.00", "1.00", "01/02/2018", "12:00", "10/02/2018", "20:00", "1");
-        ListingObject newListing7 = new ListingObject("", "Sample 7", "This is a listing sample with a sample description", "10.00", "1.00", "01/02/2018", "12:00", "10/02/2018", "20:00", "1");
-        ListingObject newListing8 = new ListingObject("", "Sample 8", "This is a description for a sample listing, this description is a very long description and should be truncated with ellipsis.", "10.00", "1.00", "01/02/2018", "12:00", "10/02/2018", "20:00", "1");
-
+        ListingObject newListing1 = new ListingObject("", "Bicycle 1", "Poor condition, was found stuck in a tree upon day of seizure.", "10.00", "1.00", "01/02/2018", "12:00", "10/02/2018", "20:00", "1");
+        ListingObject newListing2 = new ListingObject("", "Nondescript Firearm 2", "It's a gun. We think it shoots bullets, maybe nerf darts. Hard to say.", "10.00", "1.00", "01/02/2018", "12:00", "10/02/2018", "20:00", "1");
+        ListingObject newListing3 = new ListingObject("", "Old Hotdog 3", "Still smells alright.", "10.00", "1.00", "01/02/2018", "12:00", "10/02/2018", "20:00", "1");
+        ListingObject newListing4 = new ListingObject("", "Toothbrush 4", "Pre-lubricated. The handle is filed to a sharp point to spare you expense in toothpicks. Has probably never been used before.", "10.00", "1.00", "01/02/2018", "12:00", "10/02/2018", "20:00", "1");
+        ListingObject newListing5 = new ListingObject("", "Several Gerbils 5", "Assorted colors. You might need a net to come pick them up.", "10.00", "1.00", "01/02/2018", "12:00", "10/02/2018", "20:00", "1");
+        ListingObject newListing6 = new ListingObject("", "Pen 6", "Blue ink. It doesn't write very well.", "10.00", "1.00", "01/02/2018", "12:00", "10/02/2018", "20:00", "1");
+        ListingObject newListing7 = new ListingObject("", "Live Octopus 7", "It keeps oozing out of its tank and escaping. Please take it away.", "10.00", "1.00", "01/02/2018", "12:00", "10/02/2018", "20:00", "1");
+        ListingObject newListing8 = new ListingObject("", "Riding Lawnmower 8", "Front tire is flat and needs to be replaced. Doesn't cut grass evenly. Has a couple of stains and dents. You need a license to drive this machine.", "10.00", "1.00", "01/02/2018", "12:00", "10/02/2018", "20:00", "1");
         listingModel.createNew(newListing1);
         listingModel.createNew(newListing2);
         listingModel.createNew(newListing3);
@@ -66,5 +65,7 @@ public class CopShopApp extends Application {
         buyerModel.createNew(newBuyerAccount1);
 
         // Seller accounts
+        SellerAccountObject newSeller = new SellerAccountObject("", "12345", "local@police.com", "Local Precinct");
+        sellerModel.createNew(newSeller);
     }
 }

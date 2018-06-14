@@ -1,4 +1,4 @@
-package com.ctrlaltelite.copshop.presentation;
+package com.ctrlaltelite.copshop.presentation.activities;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -11,12 +11,14 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.TextView;
 
 import com.ctrlaltelite.copshop.R;
-import com.ctrlaltelite.copshop.logic.CopShopApp;
-import com.ctrlaltelite.copshop.logic.classes.ListingObjectArrayAdapter;
+import com.ctrlaltelite.copshop.application.CopShopApp;
+import com.ctrlaltelite.copshop.presentation.classes.ListingObjectArrayAdapter;
 import com.ctrlaltelite.copshop.objects.ListingObject;
 import java.util.ArrayList;
 
@@ -44,30 +46,27 @@ public class ListingListActivity extends AppCompatActivity implements Navigation
         navigationView.setNavigationItemSelectedListener(this);
 
         // Populate list of listings
-        ArrayList<ListingObject> listingItems = CopShopApp.listingListService.fetchListings();
+        ArrayList<ListingObject> listingItems = CopShopApp.listingService.fetchListings();
+        final ListView listingView = (ListView) findViewById(R.id.listing_list);
+
         ListingObjectArrayAdapter listAdapter;
-        ListView listingView = (ListView) findViewById(R.id.listing_list);
+        listAdapter = new ListingObjectArrayAdapter(this, listingItems);
 
-        listAdapter = new ListingObjectArrayAdapter(
-                this,
-                android.R.layout.simple_list_item_1,
-                listingItems);
+        // Set clicked listeners for listings
+        listingView.setOnItemClickListener(new ListView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                ListingObject clickedListing = (ListingObject)listingView.getItemAtPosition(position);
+
+                Intent intent = new Intent(ListingListActivity.this, ListingViewActivity.class);
+                intent.putExtra("listingId", clickedListing.getId());
+
+                startActivity(intent);
+            }
+        });
+
         listingView.setAdapter(listAdapter);
-    }
 
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
-        }
-
-        return super.onOptionsItemSelected(item);
     }
 
     @Override
@@ -89,18 +88,18 @@ public class ListingListActivity extends AppCompatActivity implements Navigation
         // Text for user if logged in
         TextView greeting = (TextView) findViewById(R.id.nav_header_greeting);
         if (null != greeting) {
-            if ((sharedPreferences.getString("username", "-1")).equals("-1")) {
+            if ((sharedPreferences.getString("email", "-1")).equals("-1")) {
                 // SharedPreferences returns defValue if nothing there
                 // Nothing there if user not logged in
                 greeting.setText("Please Login, Stranger.");
             } else {
-                String name = sharedPreferences.getString("username", "-1");
-                greeting.setText("Hello, " + name + "!");
+                String loggedInEmail = sharedPreferences.getString("email", "-1");
+                greeting.setText(loggedInEmail);
             }
         }
 
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.listing_list, menu);
+//        getMenuInflater().inflate(R.menu.listing_list, menu);
         return true;
     }
 
@@ -112,12 +111,7 @@ public class ListingListActivity extends AppCompatActivity implements Navigation
         // Handle navigation view item clicks here.
         int id = item.getItemId();
 
-        if (id == R.id.nav_listings) {
-            // Goto listing list page
-            startActivity(new Intent(this, ListingListActivity.class));
-        } else if (id == R.id.nav_account) {
-            // TODO: Goto view account page
-        } else if (id == R.id.nav_new_listing) {
+         if (id == R.id.nav_new_listing) {
             // Goto create new listing page
             startActivity(new Intent(this, CreateListingActivity.class));
         } else if (id == R.id.nav_login) {
