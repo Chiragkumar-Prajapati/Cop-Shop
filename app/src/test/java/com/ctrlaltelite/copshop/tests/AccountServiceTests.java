@@ -29,14 +29,12 @@ public class AccountServiceTests {
         // Create an account
         BuyerAccountObject account1 = new BuyerAccountObject("ignored","name1", "other",
                 "123 Someplace", "h0h 0h0","MB","email1", "pass1");
-        SellerAccountObject account2 = new SellerAccountObject("ignored","name2", "pass2", "email2");
         String id1 = buyerModel.createNew(account1);
-        String id2 = sellerModel.createNew(account2);
 
         // Try pulling some accounts, given some creds
-        AccountObject buyer1 = accountService.validateUsernameAndPassword("name1", "pass1");
-        AccountObject buyer2 = accountService.validateUsernameAndPassword("nameWrong", "pass1");
-        AccountObject buyer3 = accountService.validateUsernameAndPassword("name1", "passWrong");
+        AccountObject buyer1 = accountService.validateUsernameAndPassword("email1", "pass1");
+        AccountObject buyer2 = accountService.validateUsernameAndPassword("emailWrong", "pass1");
+        AccountObject buyer3 = accountService.validateUsernameAndPassword("email1", "passWrong");
 
         // Check credential pairs
         assertTrue("Did not verify correct credentials", buyer1 != null);
@@ -44,16 +42,6 @@ public class AccountServiceTests {
         assertTrue("Verified false credentials", buyer2 == null);
         assertTrue("Verified false credentials", buyer3 == null);
 
-        // Try pulling some accounts, given some creds
-        AccountObject seller1 = accountService.validateUsernameAndPassword("name2", "pass2");
-        AccountObject seller2 = accountService.validateUsernameAndPassword("nameWrong", "pass2");
-        AccountObject seller3 = accountService.validateUsernameAndPassword("name2", "passWrong");
-
-        // Check credential pairs
-        assertTrue("Did not verify correct credentials", seller1 != null);
-        assertTrue("Returned wrong object type", seller1 instanceof SellerAccountObject);
-        assertTrue("Verified false credentials", seller2 == null);
-        assertTrue("Verified false credentials", seller3 == null);
     }
 
     @Test

@@ -103,10 +103,10 @@ public class BuyerModelTests {
         String id3 = buyerModel.createNew(account3);
 
         // Verify the correct user is found
-        assertEquals("Did not find correct user", "name2", buyerModel.findByUsername("name2").getUsername());
-        assertEquals("Did not find correct user", "name1", buyerModel.findByUsername("name1").getUsername());
-        assertEquals("Did not find correct user", "name3", buyerModel.findByUsername("name3").getUsername());
-        assertFalse("Found nonexistent user", null != buyerModel.findByUsername("name4"));
+        assertEquals("Did not find correct user", "name2", buyerModel.findByEmail("email2").getUsername());
+        assertEquals("Did not find correct user", "name1", buyerModel.findByEmail("email1").getUsername());
+        assertEquals("Did not find correct user", "name3", buyerModel.findByEmail("email3").getUsername());
+        assertFalse("Found nonexistent user", null != buyerModel.findByEmail("email4"));
     }
 
     @Test
@@ -127,9 +127,9 @@ public class BuyerModelTests {
         String id3 = buyerModel.createNew(account3);
 
         // Check credential pairs
-        assertTrue("Did not verify correct credentials", buyerModel.checkUsernamePasswordMatch("name1", "pass1"));
-        assertTrue("Did not verify correct credentials", buyerModel.checkUsernamePasswordMatch("name2", "pass2"));
-        assertTrue("Did not verify correct credentials", buyerModel.checkUsernamePasswordMatch("name3", "pass3"));
-        assertFalse("Verified false credentials", buyerModel.checkUsernamePasswordMatch("name1", "pass3"));
+        assertTrue("Did not verify correct credentials", buyerModel.checkEmailPasswordMatch("email1", "pass1"));
+        assertTrue("Did not verify correct credentials", buyerModel.checkEmailPasswordMatch("email2", "pass2"));
+        assertTrue("Did not verify correct credentials", buyerModel.checkEmailPasswordMatch("email3", "pass3"));
+        assertFalse("Verified false credentials", buyerModel.checkEmailPasswordMatch("email1", "pass3"));
     }
 }
