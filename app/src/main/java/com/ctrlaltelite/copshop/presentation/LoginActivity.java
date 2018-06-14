@@ -35,7 +35,7 @@ public class LoginActivity extends AppCompatActivity {
                 EditText etPassword = (EditText) findViewById(R.id.password);
                 String password = etPassword.getText().toString(); // Grab password from textbox
 
-                AccountObject user = CopShopApp.accountService.validateUsernameAndPassword(userEmail,password);
+                AccountObject user = CopShopApp.accountService.validateEmailAndPassword(userEmail,password);
 
                 if (user == null) {
                     errorMsg.setText("What's all this, then? You're going to need" +

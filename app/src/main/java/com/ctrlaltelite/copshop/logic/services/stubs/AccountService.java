@@ -38,7 +38,7 @@ public class AccountService implements com.ctrlaltelite.copshop.logic.services.I
      * @param password The password of the user attempting to log in
      * @return The BuyerAccountObject or SellerAccountObject, or null if not legit.
      */
-    public AccountObject validateUsernameAndPassword (String email, String password) {
+    public AccountObject validateEmailAndPassword(String email, String password) {
         // Check for a matching seller account
         AccountObject account = this.sellerModel.findByEmail(email);
 
