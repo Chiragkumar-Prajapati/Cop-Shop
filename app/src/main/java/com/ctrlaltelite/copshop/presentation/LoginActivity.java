@@ -19,9 +19,9 @@ public class LoginActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        setContentView(R.layout.activity_login); //grab xml file and display it
+        setContentView(R.layout.activity_login); // Grab xml file and display it
 
-        final TextView errorMsg = (TextView) findViewById(R.id.incorrectCredentialsMsg); //get error ready, just in case
+        final TextView errorMsg = (TextView) findViewById(R.id.incorrectCredentialsMsg); // Get error ready, just in case
         final SharedPreferences sharedPreferences = getSharedPreferences("currentUser", 0);
 
         Button btnLogin = (Button) findViewById(R.id.btnLogin);
@@ -30,14 +30,14 @@ public class LoginActivity extends AppCompatActivity {
             public void onClick(View v) {
 
                EditText etEmail = (EditText) findViewById(R.id.email);
-                String userEmail = etEmail.toString(); //grab text from text box
+                String userEmail = etEmail.toString(); // Grab text from text box
 
                 EditText etPassword = (EditText) findViewById(R.id.password);
-                String password = etPassword.toString(); //grab password from textbox
+                String password = etPassword.toString(); // Grab password from textbox
 
                 AccountObject user = CopShopApp.accountService.validateUsernameAndPassword(userEmail,password);
 
-                if (user==null){
+                if (user == null) {
                     errorMsg.setText("What's all this, then? You're going to need" +
                             " a valid username and password. Try again.");
                 } else {
@@ -52,6 +52,8 @@ public class LoginActivity extends AppCompatActivity {
                 }
             }
         });
+
+        // Register button
         Button btnRegister = (Button) findViewById(R.id.btnRegister);
         btnRegister.setOnClickListener(new View.OnClickListener() {
             @Override

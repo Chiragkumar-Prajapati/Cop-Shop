@@ -13,12 +13,14 @@ import java.util.regex.Pattern;
 public class AccountService implements com.ctrlaltelite.copshop.logic.services.IAccountService {
     private ISellerModel sellerModel;
     private IBuyerModel buyerModel;
-    private static BuyerAccountValidationObject validationBuyerObject;
+    private BuyerAccountValidationObject validationBuyerObject;
+
     private static String[] provinces = {"Alberta", "British Columbia", "Manitoba", "New Brunswick",
     "Newfoundland and Labrador", "Northwest Territories", "Nova Scotia", "Nunavut",
     "Ontario", "Prince Edward Island", "Quebec", "Saskatchewan", "Yukon"};
     private static String[] provinceAbbr = {"AB", "BC", "MB", "NB", "NL", "NT", "NS", "NU", "ON",
     "PE", "PEI", "QC", "SK", "YT"};
+
     private static String postalCodeRegex = "^(?!.*[DFIOQU])[A-VXY][0-9][A-Z] ?[0-9][A-Z][0-9]$";
     private static String emailRegex = "^(.+)@(.+)$";
     private static String passwordRegex = "((?=.*[a-z])(?=.*d)(?=.*[@#$%])(?=.*[A-Z]))";
