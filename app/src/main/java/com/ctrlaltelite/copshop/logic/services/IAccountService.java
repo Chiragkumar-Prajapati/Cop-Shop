@@ -1,6 +1,8 @@
 package com.ctrlaltelite.copshop.logic.services;
 
 import com.ctrlaltelite.copshop.objects.AccountObject;
+import com.ctrlaltelite.copshop.objects.BuyerAccountObject;
+import com.ctrlaltelite.copshop.objects.BuyerAccountValidationObject;
 
 public interface IAccountService {
 
@@ -11,5 +13,9 @@ public interface IAccountService {
      * @return An AccountObject to represent the user if successfully logged in, else null
      */
     AccountObject validateUsernameAndPassword (String username, String password);
+
+    BuyerAccountValidationObject create(BuyerAccountObject buyerAccount);
+
+    String registerNewBuyer(BuyerAccountObject newBuyer);
 
 }

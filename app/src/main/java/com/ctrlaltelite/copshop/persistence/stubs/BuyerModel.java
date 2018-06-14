@@ -21,9 +21,15 @@ public class BuyerModel implements IBuyerModel {
     public String createNew(BuyerAccountObject newAccount) {
         Hashtable<String, String> newRow = new Hashtable<>();
 
-        newRow.put("username", newAccount.getUsername());
-        newRow.put("password", newAccount.getPassword());
+        newRow.put("username", newAccount.getFirstName());
+        newRow.put("firstName", newAccount.getFirstName());
+        newRow.put("lastName", newAccount.getLastName());
+        newRow.put("streetAddress", newAccount.getStreetAddress());
+        newRow.put("postalCode", newAccount.getPostalCode());
+        newRow.put("province", newAccount.getProvince());
         newRow.put("email", newAccount.getEmail());
+        newRow.put("password", newAccount.getPassword());
+
 
         return this.database.insertRow(TABLE_NAME, newRow);
     }
@@ -31,9 +37,15 @@ public class BuyerModel implements IBuyerModel {
     @Override
     public boolean update(String id, BuyerAccountObject updatedAccount) {
         boolean success = true;
-        success = success && (null != this.database.updateColumn(TABLE_NAME, id, "username", updatedAccount.getUsername()));
-        success = success && (null != this.database.updateColumn(TABLE_NAME, id, "password", updatedAccount.getPassword()));
+        success = success && (null != this.database.updateColumn(TABLE_NAME, id, "username", updatedAccount.getFirstName()));
+        success = success && (null != this.database.updateColumn(TABLE_NAME, id, "firstName", updatedAccount.getFirstName()));
+        success = success && (null != this.database.updateColumn(TABLE_NAME, id, "lastName", updatedAccount.getLastName()));
+        success = success && (null != this.database.updateColumn(TABLE_NAME, id, "streetAddress", updatedAccount.getStreetAddress()));
+        success = success && (null != this.database.updateColumn(TABLE_NAME, id, "postalCode", updatedAccount.getPostalCode()));
+        success = success && (null != this.database.updateColumn(TABLE_NAME, id, "province", updatedAccount.getProvince()));
         success = success && (null != this.database.updateColumn(TABLE_NAME, id, "email", updatedAccount.getEmail()));
+        success = success && (null != this.database.updateColumn(TABLE_NAME, id, "password", updatedAccount.getPassword()));
+
         return success;
     }
 
@@ -41,17 +53,21 @@ public class BuyerModel implements IBuyerModel {
     public BuyerAccountObject fetch(String id) {
         BuyerAccountObject account = new BuyerAccountObject(
                 id,
-                this.database.fetchColumn(TABLE_NAME, id, "username"),
-                this.database.fetchColumn(TABLE_NAME, id, "password"),
-                this.database.fetchColumn(TABLE_NAME, id, "email")
+                this.database.fetchColumn(TABLE_NAME, id, "firstName"),
+                this.database.fetchColumn(TABLE_NAME, id, "lastName"),
+                this.database.fetchColumn(TABLE_NAME, id, "streetAddress"),
+                this.database.fetchColumn(TABLE_NAME, id, "postalCode"),
+                this.database.fetchColumn(TABLE_NAME, id, "province"),
+                this.database.fetchColumn(TABLE_NAME, id, "email"),
+                this.database.fetchColumn(TABLE_NAME, id, "password")
         );
 
         return account;
     }
 
     @Override
-    public BuyerAccountObject findByUsername(String username) {
-        ArrayList<String> users = this.database.findByColumnValue(TABLE_NAME, "username", username);
+    public BuyerAccountObject findByEmail(String email) {
+        ArrayList<String> users = this.database.findByColumnValue(TABLE_NAME, "email", email);
 
         // We should only get back one user max, ignore extras
         if (!users.isEmpty()) {
@@ -63,8 +79,8 @@ public class BuyerModel implements IBuyerModel {
     }
 
     @Override
-    public boolean checkUsernamePasswordMatch(String username, String inputPassword) {
-        ArrayList<String> users = this.database.findByColumnValue(TABLE_NAME, "username", username);
+    public boolean checkEmailPasswordMatch(String email, String inputPassword) {
+        ArrayList<String> users = this.database.findByColumnValue(TABLE_NAME, "email", email);
 
         // We should only get back one user max, ignore extras
         if (!users.isEmpty()) {
