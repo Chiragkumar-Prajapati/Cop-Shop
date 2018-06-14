@@ -121,6 +121,9 @@ public class AccountService implements com.ctrlaltelite.copshop.logic.services.I
      * @return Boolean indicating if valid
      */
     private boolean validatePostalCode(String postalCode){
+        if (postalCode == null) {
+            return false;
+        }
         Pattern pattern = Pattern.compile(postalCodeRegex);
         Matcher matcher = pattern.matcher(postalCode);
 
@@ -148,6 +151,9 @@ public class AccountService implements com.ctrlaltelite.copshop.logic.services.I
      * @return Boolean indicating if valid
      */
     private boolean validateEmail(String email){
+        if (email == null) {
+            return false;
+        }
         Pattern pattern = Pattern.compile(emailRegex);
         Matcher matcher = pattern.matcher(email);
         return matcher.matches();
@@ -164,8 +170,11 @@ public class AccountService implements com.ctrlaltelite.copshop.logic.services.I
      */
 
     private boolean validatePassword(String password){
+        if (password == null) {
+            return false;
+        }
         Pattern pattern = Pattern.compile(passwordRegex);
         Matcher matcher = pattern.matcher(password);
-        return matcher.matches();
+        return true; //matcher.matches();
     }
 }
