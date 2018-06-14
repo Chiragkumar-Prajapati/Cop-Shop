@@ -35,6 +35,9 @@ and unnecessary visits to the police station.
 The project will be considered successful if it shows superiority over traditional police auctions in 
 the following comparisons. Firstly, police precincts that utilize the app will be surveyed on 
 whether or not they prefer to use the application over their former method of selling or disposing 
-of impounded property. Secondly, the number of people viewing and bidding on items will be 
-compared to the numbers from previous auctions. Finally, the funds raised from the sale of 
-items through the application will be compared to funds raised before the its utilization.
+of impounded property. The success criterion in this case would be having more than 60% of precincts
+prefer the application over their former method. Secondly, the number of people viewing and bidding on 
+items will be compared to the numbers from previous auctions. The app will be considered a success in
+this case if the number of people who bid increases by 1.5 times. Finally, the funds raised from the 
+sale of items through the application will be compared to funds raised before the its utilization. An
+increase in revenue margin by 35% would be indicative of the application's success.
