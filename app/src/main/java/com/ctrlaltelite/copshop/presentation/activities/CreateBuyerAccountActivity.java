@@ -24,7 +24,7 @@ public class CreateBuyerAccountActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
             BuyerAccountObject buyerAccount = new BuyerAccountObject(
-                    "ignored",
+                    "",
                     ((EditText) findViewById(R.id.editTextFirstName)).getText().toString(),
                     ((EditText) findViewById(R.id.editTextLastName)).getText().toString(),
                     ((EditText) findViewById(R.id.editTextStreetAddress)).getText().toString(),
@@ -34,7 +34,7 @@ public class CreateBuyerAccountActivity extends AppCompatActivity {
                     ((EditText) findViewById(R.id.editTextPassword)).getText().toString()
             );
 
-            BuyerAccountValidationObject validationObject = CopShopApp.accountService.create(buyerAccount);
+            BuyerAccountValidationObject validationObject = CopShopApp.accountService.validate(buyerAccount);
 
             // Check validation object to see if all fields are valid
             // If valid: store user information

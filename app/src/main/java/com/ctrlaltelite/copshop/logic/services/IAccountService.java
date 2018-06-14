@@ -14,7 +14,7 @@ public interface IAccountService {
      */
     AccountObject validateEmailAndPassword(String username, String password);
 
-    BuyerAccountValidationObject create(BuyerAccountObject buyerAccount);
+    BuyerAccountValidationObject validate(BuyerAccountObject buyerAccount);
 
     String registerNewBuyer(BuyerAccountObject newBuyer);
 

@@ -1,7 +1,5 @@
 package com.ctrlaltelite.copshop.logic.services.stubs;
 
-import android.support.annotation.NonNull;
-
 import com.ctrlaltelite.copshop.objects.SellerAccountObject;
 import com.ctrlaltelite.copshop.persistence.IListingModel;
 import com.ctrlaltelite.copshop.logic.services.IListingService;

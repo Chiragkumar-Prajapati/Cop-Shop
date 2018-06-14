@@ -15,17 +15,17 @@ public class CreateAccountActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_create_account);
 
-        Button btnPrecinct = (Button) findViewById(R.id.btnPrecint);
-        btnPrecinct.setOnClickListener(new View.OnClickListener() {
+        Button btnSeller = (Button) findViewById(R.id.register_seller_btn);
+        btnSeller.setVisibility(View.INVISIBLE); // Change visibility for button when SellerRegister page exists
+        btnSeller.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //TODO: go to Register page for Precinct
-                //TODO: change visibility for button when PrecinctRegister page exists
+                // Go to Register page for Seller when SellerRegister page exists
             }
         });
 
-        Button btnBidder = (Button) findViewById(R.id.btnBidder);
-        btnBidder.setOnClickListener(new View.OnClickListener() {
+        Button btnBuyer = (Button) findViewById(R.id.register_buyer_btn);
+        btnBuyer.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(CreateAccountActivity.this, CreateBuyerAccountActivity.class);
