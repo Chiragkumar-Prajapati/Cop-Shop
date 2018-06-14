@@ -36,6 +36,7 @@
         android:layout_marginTop="98dp"
         android:ems="10"
         android:text="Email"
+        android:textAlignment="textEnd"
         app:layout_constraintEnd_toStartOf="@+id/email"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -47,7 +48,8 @@
         android:layout_marginEnd="40dp"
         android:layout_marginTop="40dp"
         android:ems="10"
-        android:text="Password:"
+        android:text="Password"
+        android:textAlignment="textEnd"
         app:layout_constraintBottom_toTopOf="@+id/registerPrompt"
         app:layout_constraintEnd_toStartOf="@+id/password"
         app:layout_constraintTop_toBottomOf="@+id/editText5"
@@ -97,15 +99,16 @@
     <TextView
         android:id="@+id/login_prompt"
         android:layout_width="415dp"
-        android:layout_height="78dp"
+        android:layout_height="58dp"
         android:layout_marginEnd="1dp"
         android:layout_marginStart="1dp"
-        android:layout_marginTop="3dp"
+        android:layout_marginTop="20dp"
         android:ems="10"
         android:inputType="textPersonName"
         android:text="Please log in to CopShop for access to all features"
         android:textAlignment="center"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.502"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 

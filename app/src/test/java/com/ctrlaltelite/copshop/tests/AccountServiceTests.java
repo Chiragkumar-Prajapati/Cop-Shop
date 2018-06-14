@@ -91,8 +91,8 @@ public class AccountServiceTests {
         //--------------------------------------Valid listing objects for testing------------------------------------------------//
 
         validAccountInfo = new BuyerAccountObject("ignored","Santa", "Claus",
-                "123 North Pole", "HOH 0H0","NT","santa@northpole.ca", "Santa1!");
-                validationObject = accountService.create(validAccountInfo);
+                "123 North Pole", "H0H 0H0","NT","santa@northpole.ca", "SantaBaby#112Aap20&");
+        validationObject = accountService.create(validAccountInfo);
         assertTrue("Form was incorrectly validated", validationObject.allValid());
 
         validAccountInfo = new BuyerAccountObject("ignored","Mary", "Jane",

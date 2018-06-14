@@ -26,8 +26,15 @@ public class AccountService implements com.ctrlaltelite.copshop.logic.services.I
     public AccountService(ISellerModel sellerModel, IBuyerModel buyerModel) {
         this.sellerModel = sellerModel;
         this.buyerModel = buyerModel;
+        this.validationBuyerObject = new BuyerAccountValidationObject();
     }
 
+    /**
+     * Used by the login page to check whether a user's login credentials are legit.
+     * @param username The username of the user attempting to log in
+     * @param password The password of the user attempting to log in
+     * @return The BuyerAccountObject or SellerAccountObject, or null if not legit.
+     */
     public AccountObject validateUsernameAndPassword (String username, String password) {
         AccountObject user = null;
 
@@ -45,17 +52,31 @@ public class AccountService implements com.ctrlaltelite.copshop.logic.services.I
         return user;
     }
 
+    /**
+     * Validate that the object has legal data and then add to the database.
+     * @param buyerObject the object to add to the DB.
+     * @return the validation object we created to do the validation.
+     */
     public BuyerAccountValidationObject create(BuyerAccountObject buyerObject) {
         this.validateInputForm(buyerObject);
         return validationBuyerObject;
     }
 
+    /**
+     * Actually creates the BuyerAccount in the database
+     * @param newBuyer The object to add to the DB
+     * @return the primary key of the DB row
+     */
     public String registerNewBuyer(BuyerAccountObject newBuyer){
         return buyerModel.createNew(newBuyer);
     }
 
+    /**
+     * Ensures that the all the values in the form are valid, by calling the
+     * other methods below this one.
+     * @param buyerObject An object populated with the form fields.
+     */
     private void validateInputForm(BuyerAccountObject buyerObject) {
-
         validationBuyerObject.setValidFirstName(validateFirstName(buyerObject.getFirstName()));
         validationBuyerObject.setValidLastName(validateLastName(buyerObject.getLastName()));
         validationBuyerObject.setValidStreetAddress(validateStreetAddress(buyerObject.getStreetAddress()));
