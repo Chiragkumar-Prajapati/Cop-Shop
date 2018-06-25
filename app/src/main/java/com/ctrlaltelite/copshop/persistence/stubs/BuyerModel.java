@@ -6,6 +6,7 @@ import com.ctrlaltelite.copshop.persistence.database.IDatabase;
 
 import java.util.ArrayList;
 import java.util.Hashtable;
+import java.util.List;
 
 public class BuyerModel implements IBuyerModel {
     private static String TABLE_NAME = "Buyers";
@@ -66,7 +67,7 @@ public class BuyerModel implements IBuyerModel {
 
     @Override
     public BuyerAccountObject findByEmail(String email) {
-        ArrayList<String> users = this.database.findByColumnValue(TABLE_NAME, "email", email);
+        List<String> users = this.database.findByColumnValue(TABLE_NAME, "email", email);
 
         // We should only get back one user max, ignore extras
         if (!users.isEmpty()) {
@@ -79,7 +80,7 @@ public class BuyerModel implements IBuyerModel {
 
     @Override
     public boolean checkEmailPasswordMatch(String email, String inputPassword) {
-        ArrayList<String> users = this.database.findByColumnValue(TABLE_NAME, "email", email);
+        List<String> users = this.database.findByColumnValue(TABLE_NAME, "email", email);
 
         // We should only get back one user max, ignore extras
         if (!users.isEmpty()) {

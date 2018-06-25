@@ -1,7 +1,7 @@
 package com.ctrlaltelite.copshop.persistence.database;
 
-import java.util.ArrayList;
 import java.util.Hashtable;
+import java.util.List;
 
 public interface IDatabase {
 
@@ -65,16 +65,16 @@ public interface IDatabase {
      * @param tableName Name of table
      * @param columnName Column name to search under
      * @param searchValue Value to search for in column
-     * @return An ArrayList of all primary keys with the given column value
+     * @return A List of all primary keys with the given column value
      */
-    ArrayList<String> findByColumnValue(String tableName, String columnName, String searchValue);
+    List<String> findByColumnValue(String tableName, String columnName, String searchValue);
 
     /**
      * Get an ArrayList of every row in the table
      * @param tableName The name of the table
-     * @return ArrayList containing all rows in table
+     * @return List containing all rows in table
      */
-    ArrayList<Hashtable<String, String>> getAllRows(String tableName);
+    List<Hashtable<String, String>> getAllRows(String tableName);
 
     /**
      * Removes the row with the given primaryKey from the table

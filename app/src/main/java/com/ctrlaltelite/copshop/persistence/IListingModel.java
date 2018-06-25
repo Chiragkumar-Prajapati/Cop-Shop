@@ -1,8 +1,7 @@
 package com.ctrlaltelite.copshop.persistence;
 
 import com.ctrlaltelite.copshop.objects.ListingObject;
-
-import java.util.ArrayList;
+import java.util.List;
 
 public interface IListingModel {
     /**
@@ -36,7 +35,7 @@ public interface IListingModel {
 
     /**
      * Fetches all listing objects from the database
-     * @return ArrayList containing all listings as ListingObjects
+     * @return List containing all listings as ListingObjects
      */
-    ArrayList<ListingObject> fetchAll();
+    List<ListingObject> fetchAll();
 }

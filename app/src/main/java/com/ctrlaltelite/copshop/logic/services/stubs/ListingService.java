@@ -6,7 +6,7 @@ import com.ctrlaltelite.copshop.logic.services.IListingService;
 import com.ctrlaltelite.copshop.objects.ListingObject;
 import com.ctrlaltelite.copshop.persistence.ISellerModel;
 
-import java.util.ArrayList;
+import java.util.List;
 
 public class ListingService implements IListingService {
     private IListingModel listingModel;
@@ -17,7 +17,7 @@ public class ListingService implements IListingService {
         this.sellerModel = sellerModel;
     }
 
-    public ArrayList<ListingObject> fetchListings() {
+    public List<ListingObject> fetchListings() {
         return this.listingModel.fetchAll();
     }
 
