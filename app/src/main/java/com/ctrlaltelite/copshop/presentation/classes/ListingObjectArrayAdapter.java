@@ -14,15 +14,13 @@ import com.ctrlaltelite.copshop.R;
 import com.ctrlaltelite.copshop.application.CopShopApp;
 import com.ctrlaltelite.copshop.presentation.utilities.StringUtility;
 import com.ctrlaltelite.copshop.objects.ListingObject;
-
-import java.util.ArrayList;
 import java.util.List;
 
 public class ListingObjectArrayAdapter extends ArrayAdapter<ListingObject> {
     private Context context;
     private List<ListingObject> listingInfo;
 
-    public ListingObjectArrayAdapter(Context context, ArrayList<ListingObject> objects) {
+    public ListingObjectArrayAdapter(Context context, List<ListingObject> objects) {
         super(context, 0, objects);
         this.context = context;
         this.listingInfo = objects;

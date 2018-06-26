@@ -1,15 +1,14 @@
 package com.ctrlaltelite.copshop.logic.services;
 
 import com.ctrlaltelite.copshop.objects.ListingObject;
-
-import java.util.ArrayList;
+import java.util.List;
 
 public interface IListingService {
     /**
      * Fetch all listings
      * @return List of all unfiltered listings
      */
-    ArrayList<ListingObject> fetchListings();
+    List<ListingObject> fetchListings();
 
 //    /**
 //     * Fetch all listings, filtered

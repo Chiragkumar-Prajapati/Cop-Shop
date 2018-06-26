@@ -1,13 +1,11 @@
 package com.ctrlaltelite.copshop.persistence.database.stubs;
 
-import android.util.Log;
-
 import com.ctrlaltelite.copshop.persistence.database.IDatabase;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Enumeration;
 import java.util.Hashtable;
+import java.util.List;
 
 public class MockDatabaseStub implements IDatabase {
     private Hashtable<String, Hashtable<String, Hashtable<String, String>>> database;
@@ -130,11 +128,11 @@ public class MockDatabaseStub implements IDatabase {
     }
 
     @Override
-    public ArrayList<String> findByColumnValue(String tableName, String columnName, String searchValue) {
+    public List<String> findByColumnValue(String tableName, String columnName, String searchValue) {
         if (null == tableName) { throw new IllegalArgumentException("tableName cannot be null"); }
         if (null == columnName) { throw new IllegalArgumentException("columnName cannot be null"); }
 
-        ArrayList<String> found = new ArrayList<>();
+        List<String> found = new ArrayList<>();
         Hashtable<String, Hashtable<String, String>> table = database.get(tableName);
 
         if (null != table) {
@@ -160,19 +158,19 @@ public class MockDatabaseStub implements IDatabase {
     }
 
     @Override
-    public ArrayList<Hashtable<String, String>> getAllRows(String tableName) {
+    public List<Hashtable<String, String>> getAllRows(String tableName) {
         if (null == tableName) { throw new IllegalArgumentException("tableName cannot be null"); }
 
         Hashtable<String, Hashtable<String, String>> table = database.get(tableName);
-        ArrayList<Hashtable<String, String>> arrayList = new ArrayList<>();
+        List<Hashtable<String, String>> list = new ArrayList<>();
 
         int currKey = 1;
         while (currKey <= Integer.parseInt(this.dbTablesHighestPrimaryKey.get(tableName))) {
-            arrayList.add(table.get(Integer.toString(currKey)));
+            list.add(table.get(Integer.toString(currKey)));
             ++currKey;
         }
 
-        return arrayList;
+        return list;
     }
 
     @Override

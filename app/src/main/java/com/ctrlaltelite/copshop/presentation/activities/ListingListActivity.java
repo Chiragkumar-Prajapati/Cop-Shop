@@ -20,7 +20,7 @@ import com.ctrlaltelite.copshop.R;
 import com.ctrlaltelite.copshop.application.CopShopApp;
 import com.ctrlaltelite.copshop.presentation.classes.ListingObjectArrayAdapter;
 import com.ctrlaltelite.copshop.objects.ListingObject;
-import java.util.ArrayList;
+import java.util.List;
 
 public class ListingListActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
@@ -46,7 +46,7 @@ public class ListingListActivity extends AppCompatActivity implements Navigation
         navigationView.setNavigationItemSelectedListener(this);
 
         // Populate list of listings
-        ArrayList<ListingObject> listingItems = CopShopApp.listingService.fetchListings();
+        List<ListingObject> listingItems = CopShopApp.listingService.fetchListings();
         final ListView listingView = (ListView) findViewById(R.id.listing_list);
 
         ListingObjectArrayAdapter listAdapter;

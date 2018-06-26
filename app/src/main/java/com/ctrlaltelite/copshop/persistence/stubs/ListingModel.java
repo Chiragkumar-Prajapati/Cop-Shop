@@ -6,6 +6,7 @@ import com.ctrlaltelite.copshop.persistence.database.IDatabase;
 
 import java.util.ArrayList;
 import java.util.Hashtable;
+import java.util.List;
 
 public class ListingModel implements IListingModel {
     private static String TABLE_NAME = "Listings";
@@ -90,9 +91,9 @@ public class ListingModel implements IListingModel {
     }
 
     @Override
-    public ArrayList<ListingObject> fetchAll() {
-        ArrayList<Hashtable<String, String>> hashTableRows = this.database.getAllRows(TABLE_NAME);
-        ArrayList<ListingObject> results = new ArrayList<>();
+    public List<ListingObject> fetchAll() {
+        List<Hashtable<String, String>> hashTableRows = this.database.getAllRows(TABLE_NAME);
+        List<ListingObject> results = new ArrayList<>();
 
         if (null != hashTableRows) {
             for (int id = hashTableRows.size()-1; id >= 0; id--) {
