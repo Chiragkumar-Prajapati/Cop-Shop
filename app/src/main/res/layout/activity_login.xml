@@ -9,104 +9,92 @@
     <EditText
         android:id="@+id/password"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="124dp"
-        android:layout_marginTop="40dp"
+        android:layout_height="40dp"
+        android:background="@drawable/txt_field_black_border"
         android:ems="10"
         android:inputType="textPassword"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/email" />
+        app:layout_constraintStart_toStartOf="@+id/email"
+        app:layout_constraintTop_toTopOf="@+id/editText6" />
 
     <EditText
         android:id="@+id/email"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="124dp"
-        android:layout_marginTop="98dp"
+        android:layout_height="40dp"
+        android:layout_marginStart="40dp"
+        android:background="@drawable/txt_field_black_border"
         android:ems="10"
         android:inputType="textEmailAddress"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintStart_toEndOf="@+id/editText5"
+        app:layout_constraintTop_toTopOf="@+id/editText5" />
 
     <TextView
         android:id="@+id/editText5"
-        android:layout_width="82dp"
-        android:layout_height="40dp"
-        android:layout_marginEnd="40dp"
-        android:layout_marginTop="98dp"
+        android:layout_width="80dp"
+        android:layout_height="20dp"
+        android:layout_marginStart="140dp"
+        android:layout_marginTop="40dp"
         android:ems="10"
         android:text="Email"
         android:textAlignment="textEnd"
-        app:layout_constraintEnd_toStartOf="@+id/email"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/login_prompt" />
 
     <TextView
         android:id="@+id/editText6"
-        android:layout_width="97dp"
-        android:layout_height="48dp"
-        android:layout_marginBottom="124dp"
-        android:layout_marginEnd="40dp"
-        android:layout_marginTop="40dp"
+        android:layout_width="80dp"
+        android:layout_height="20dp"
+        android:layout_marginTop="48dp"
         android:ems="10"
         android:text="Password"
         android:textAlignment="textEnd"
-        app:layout_constraintBottom_toTopOf="@+id/registerPrompt"
-        app:layout_constraintEnd_toStartOf="@+id/password"
-        app:layout_constraintTop_toBottomOf="@+id/editText5"
-        app:layout_constraintVertical_bias="0.04" />
+        app:layout_constraintStart_toStartOf="@+id/editText5"
+        app:layout_constraintTop_toBottomOf="@+id/editText5" />
 
     <Button
         android:id="@+id/btnLogin"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="256dp"
-        android:layout_marginStart="257dp"
-        android:layout_marginTop="72dp"
+        android:layout_marginTop="20dp"
+        android:background="?attr/colorButtonNormal"
         android:text="Login"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/password" />
+        app:layout_constraintTop_toBottomOf="@+id/incorrectCredentialsMsg" />
 
     <Button
         android:id="@+id/btnRegister"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="165dp"
-        android:layout_marginEnd="162dp"
-        android:layout_marginStart="162dp"
-        android:layout_marginTop="57dp"
+        android:layout_marginTop="20dp"
         android:background="#07337a"
         android:text="Register"
-        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/btnLogin"
-        app:layout_constraintVertical_bias="0.195"
+        app:layout_constraintTop_toBottomOf="@+id/registerPrompt"
         tools:textColor="#ffffff" />
 
     <TextView
         android:id="@+id/registerPrompt"
-        android:layout_width="279dp"
+        android:layout_width="400dp"
         android:layout_height="36dp"
-        android:layout_marginBottom="1dp"
-        android:layout_marginEnd="130dp"
-        android:layout_marginStart="150dp"
+        android:layout_marginTop="48dp"
         android:text="New to CopShop?  Create an Account!"
-        app:layout_constraintBottom_toTopOf="@+id/btnRegister"
+        android:textAlignment="center"
+        android:textSize="18sp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/btnLogin" />
 
     <TextView
         android:id="@+id/login_prompt"
-        android:layout_width="415dp"
-        android:layout_height="58dp"
-        android:layout_marginEnd="1dp"
-        android:layout_marginStart="1dp"
-        android:layout_marginTop="20dp"
+        android:layout_width="420dp"
+        android:layout_height="36dp"
+        android:layout_marginTop="60dp"
         android:ems="10"
         android:inputType="textPersonName"
         android:text="Please log in to CopShop for access to all features"
         android:textAlignment="center"
+        android:textSize="18sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.502"
         app:layout_constraintStart_toStartOf="parent"
@@ -114,11 +102,10 @@
 
     <TextView
         android:id="@+id/incorrectCredentialsMsg"
-        android:layout_width="wrap_content"
+        android:layout_width="400dp"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="272dp"
-        android:layout_marginStart="270dp"
-        android:layout_marginTop="44dp"
+        android:layout_marginTop="20dp"
+        android:textAlignment="center"
         android:textColor="#ff0000"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

@@ -6,32 +6,38 @@
     android:layout_height="match_parent"
     tools:context=".presentation.activities.CreateAccountActivity">
 
-    <Button
-        android:id="@+id/register_buyer_btn"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="162dp"
-        android:layout_marginEnd="162dp"
-        android:layout_marginStart="162dp"
-        android:layout_marginTop="410dp"
-        android:text="Bidder"
-        app:layout_constraintBottom_toTopOf="@+id/register_seller_btn"
+    <TextView
+        android:id="@+id/accountTypePrompt2"
+        android:layout_width="400dp"
+        android:layout_height="24dp"
+        android:layout_marginTop="100dp"
+        android:text="What type of account would you like to create?"
+        android:textAlignment="center"
+        android:textSize="18sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <Button
+        android:id="@+id/register_buyer_btn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="100dp"
+        android:background="?attr/colorButtonNormal"
+        android:text="Bidder"
+        android:visibility="visible"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/accountTypePrompt2" />
+
+    <Button
         android:id="@+id/register_seller_btn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="558dp"
-        android:layout_marginEnd="162dp"
-        android:layout_marginStart="162dp"
-        android:layout_marginTop="62dp"
+        android:layout_marginTop="100dp"
         android:background="#07337a"
         android:text="Precinct"
         android:visibility="visible"
-        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/register_buyer_btn"

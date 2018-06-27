@@ -1,32 +1,31 @@
 package com.ctrlaltelite.copshop.presentation.activities;
 
 import android.content.Intent;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 
 import com.ctrlaltelite.copshop.R;
 import com.ctrlaltelite.copshop.application.CopShopApp;
-import com.ctrlaltelite.copshop.objects.BuyerAccountObject;
-import com.ctrlaltelite.copshop.objects.BuyerAccountValidationObject;
+import com.ctrlaltelite.copshop.objects.SellerAccountObject;
+import com.ctrlaltelite.copshop.objects.SellerAccountValidationObject;
 
-public class CreateBuyerAccountActivity extends AppCompatActivity {
+public class CreateSellerAccountActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_create_buyer_account);
+        setContentView(R.layout.activity_create_seller_account);
 
-        Button createBuyerAccount = findViewById(R.id.btnCreateBuyerAccount);
-        createBuyerAccount.setOnClickListener(new View.OnClickListener() {
+        Button createSellerAccount = findViewById(R.id.btnCreateSellerAccount);
+        createSellerAccount.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-            BuyerAccountObject buyerAccount = new BuyerAccountObject(
+                SellerAccountObject sellerAccount = new SellerAccountObject(
                     "",
                     ((EditText) findViewById(R.id.editTextOrganizationName)).getText().toString(),
-                    ((EditText) findViewById(R.id.editTextLastName)).getText().toString(),
                     ((EditText) findViewById(R.id.editTextStreetAddress)).getText().toString(),
                     ((EditText) findViewById(R.id.editTextPostalCode)).getText().toString(),
                     ((EditText) findViewById(R.id.editTextProvince)).getText().toString(),
@@ -34,17 +33,16 @@ public class CreateBuyerAccountActivity extends AppCompatActivity {
                     ((EditText) findViewById(R.id.editTextPassword)).getText().toString()
             );
 
-            BuyerAccountValidationObject validationObject = CopShopApp.accountService.validate(buyerAccount);
+                SellerAccountValidationObject validationObject = CopShopApp.accountService.validate(sellerAccount);
 
             // Check validation object to see if all fields are valid
             // If valid: store user information
             // Else invalid: check each form field, highlighting those that are invalid in red
             if (validationObject.allValid()) {
-                CopShopApp.accountService.registerNewBuyer(buyerAccount);
+                CopShopApp.accountService.registerNewSeller(sellerAccount);
 
                 // Make sure all form fields are set back to black on success
                 findViewById(R.id.editTextOrganizationName).setBackgroundResource(R.drawable.txt_field_black_border);
-                findViewById(R.id.editTextLastName).setBackgroundResource(R.drawable.txt_field_black_border);
                 findViewById(R.id.editTextStreetAddress).setBackgroundResource(R.drawable.txt_field_black_border);
                 findViewById(R.id.editTextPostalCode).setBackgroundResource(R.drawable.txt_field_black_border);
                 findViewById(R.id.editTextProvince).setBackgroundResource(R.drawable.txt_field_black_border);
@@ -53,21 +51,14 @@ public class CreateBuyerAccountActivity extends AppCompatActivity {
 
 
                 // Go to login page
-                startActivity(new Intent(CreateBuyerAccountActivity.this, LoginActivity.class));
+                startActivity(new Intent(CreateSellerAccountActivity.this, LoginActivity.class));
             } else {
 
-                // Check first name
-                if (!validationObject.getValidFirstName()) {
+                // Check precinct name
+                if (!validationObject.getValidOrganizationName()) {
                     findViewById(R.id.editTextOrganizationName).setBackgroundResource(R.drawable.txt_field_red_border);
                 } else {
                     findViewById(R.id.editTextOrganizationName).setBackgroundResource(R.drawable.txt_field_black_border);
-                }
-
-                // Check last name
-                if (!validationObject.getValidLastName()) {
-                    findViewById(R.id.editTextLastName).setBackgroundResource(R.drawable.txt_field_red_border);
-                } else {
-                    findViewById(R.id.editTextLastName).setBackgroundResource(R.drawable.txt_field_black_border);
                 }
 
                 // Check street address
