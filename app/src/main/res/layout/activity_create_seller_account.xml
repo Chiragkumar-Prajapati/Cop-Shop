@@ -10,49 +10,50 @@
         android:id="@+id/precinctName"
         android:layout_width="@dimen/smallTextLabelWidth"
         android:layout_height="wrap_content"
-        android:layout_marginStart="92dp"
         android:text="Precinct Name"
-        app:layout_constraintStart_toStartOf="parent"
+        android:textAlignment="textEnd"
+        app:layout_constraintStart_toStartOf="@+id/textFormFilloutPrompt"
         app:layout_constraintTop_toTopOf="@+id/editTextOrganizationName" />
 
     <TextView
         android:id="@+id/textStreetAddress"
         android:layout_width="@dimen/smallTextLabelWidth"
         android:layout_height="wrap_content"
-        android:layout_marginStart="92dp"
         android:text="Street Address"
-        app:layout_constraintStart_toStartOf="parent"
+        android:textAlignment="textEnd"
+        app:layout_constraintStart_toStartOf="@+id/precinctName"
         app:layout_constraintTop_toTopOf="@+id/editTextStreetAddress" />
 
     <TextView
         android:id="@+id/textPostalCode"
         android:layout_width="@dimen/smallTextLabelWidth"
         android:layout_height="wrap_content"
-        android:layout_marginStart="92dp"
         android:text="Postal Code"
-        app:layout_constraintStart_toStartOf="parent"
+        android:textAlignment="textEnd"
+        app:layout_constraintStart_toStartOf="@+id/textStreetAddress"
         app:layout_constraintTop_toTopOf="@+id/editTextPostalCode" />
 
     <EditText
         android:id="@+id/editTextOrganizationName"
         android:layout_width="wrap_content"
         android:layout_height="40dp"
-        android:layout_marginEnd="146dp"
+        android:layout_marginStart="40dp"
         android:layout_marginTop="30dp"
         android:background="@drawable/txt_field_black_border"
         android:ems="10"
         android:inputType="textPersonName"
-        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/precinctName"
         app:layout_constraintTop_toBottomOf="@+id/textFormFilloutPrompt" />
 
     <TextView
         android:id="@+id/textFormFilloutPrompt"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="94dp"
         android:layout_marginTop="60dp"
         android:text="Please provide your details to create an account."
+        android:textAlignment="center"
         android:textSize="18sp"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -60,92 +61,87 @@
         android:id="@+id/editTextStreetAddress"
         android:layout_width="wrap_content"
         android:layout_height="40dp"
-        android:layout_marginEnd="146dp"
         android:layout_marginTop="24dp"
         android:background="@drawable/txt_field_black_border"
         android:ems="10"
         android:inputType="textPersonName"
-        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="@+id/editTextOrganizationName"
         app:layout_constraintTop_toBottomOf="@+id/editTextOrganizationName" />
 
     <EditText
         android:id="@+id/editTextPostalCode"
         android:layout_width="wrap_content"
         android:layout_height="40dp"
-        android:layout_marginEnd="146dp"
         android:layout_marginTop="24dp"
         android:background="@drawable/txt_field_black_border"
         android:ems="10"
         android:inputType="textPersonName"
-        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="@+id/editTextStreetAddress"
         app:layout_constraintTop_toBottomOf="@+id/editTextStreetAddress" />
 
     <TextView
         android:id="@+id/textView2"
         android:layout_width="@dimen/smallTextLabelWidth"
         android:layout_height="wrap_content"
-        android:layout_marginStart="92dp"
         android:text="Province"
-        app:layout_constraintStart_toStartOf="parent"
+        android:textAlignment="textEnd"
+        app:layout_constraintStart_toStartOf="@+id/textPostalCode"
         app:layout_constraintTop_toTopOf="@+id/editTextProvince" />
 
     <EditText
         android:id="@+id/editTextProvince"
         android:layout_width="wrap_content"
         android:layout_height="40dp"
-        android:layout_marginEnd="146dp"
         android:layout_marginTop="24dp"
         android:background="@drawable/txt_field_black_border"
         android:ems="10"
         android:inputType="textPersonName"
-        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="@+id/editTextPostalCode"
         app:layout_constraintTop_toBottomOf="@+id/editTextPostalCode" />
 
     <TextView
         android:id="@+id/textEmail"
         android:layout_width="@dimen/smallTextLabelWidth"
         android:layout_height="wrap_content"
-        android:layout_marginStart="92dp"
         android:text="Email"
-        app:layout_constraintStart_toStartOf="parent"
+        android:textAlignment="textEnd"
+        app:layout_constraintStart_toStartOf="@+id/textView2"
         app:layout_constraintTop_toTopOf="@+id/editTextEmail" />
 
     <TextView
         android:id="@+id/textPassword"
         android:layout_width="@dimen/smallTextLabelWidth"
         android:layout_height="wrap_content"
-        android:layout_marginStart="92dp"
         android:text="Password"
-        app:layout_constraintStart_toStartOf="parent"
+        android:textAlignment="textEnd"
+        app:layout_constraintStart_toStartOf="@+id/textEmail"
         app:layout_constraintTop_toTopOf="@+id/editTextPassword" />
 
     <EditText
         android:id="@+id/editTextEmail"
         android:layout_width="wrap_content"
         android:layout_height="40dp"
-        android:layout_marginEnd="146dp"
         android:layout_marginTop="24dp"
         android:background="@drawable/txt_field_black_border"
         android:ems="10"
         android:inputType="textEmailAddress"
-        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="@+id/editTextProvince"
         app:layout_constraintTop_toBottomOf="@+id/editTextProvince" />
 
     <EditText
         android:id="@+id/editTextPassword"
         android:layout_width="wrap_content"
         android:layout_height="40dp"
-        android:layout_marginEnd="146dp"
         android:layout_marginTop="24dp"
         android:background="@drawable/txt_field_black_border"
         android:ems="10"
         android:inputType="textPassword"
-        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="@+id/editTextEmail"
         app:layout_constraintTop_toBottomOf="@+id/editTextEmail" />
 
     <Button
         android:id="@+id/btnCreateSellerAccount"
-        android:layout_width="150dp"
+        android:layout_width="160dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="36dp"
         android:background="?attr/colorButtonNormal"
