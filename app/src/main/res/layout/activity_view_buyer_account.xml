@@ -159,14 +159,14 @@
         app:layout_constraintTop_toBottomOf="@+id/editTextEmail" />
 
     <Button
-        android:id="@+id/btnCreateBuyerAccount"
+        android:id="@+id/btnEditBuyerAccount"
         android:layout_width="160dp"
         android:layout_height="wrap_content"
         android:layout_marginEnd="227dp"
         android:layout_marginStart="228dp"
         android:layout_marginTop="36dp"
         android:background="?attr/colorButtonNormal"
-        android:text="Create Account"
+        android:text="Edit Account"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/editTextPassword" />
