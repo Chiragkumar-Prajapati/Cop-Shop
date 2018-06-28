@@ -98,4 +98,28 @@ public class SellerModelTests {
         assertEquals("Did not find correct user", "email3", sellerModel.findByEmail("email3").getEmail());
         assertFalse("Found nonexistent user", null != sellerModel.findByEmail("email4"));
     }
+
+    @Test
+    public void checkEmailPasswordMatch_verifiesLoginProperly() {
+        IDatabase database = new MockDatabaseStub();
+        ISellerModel sellerModel = new SellerModel(database);
+
+        SellerAccountObject account1 = new SellerAccountObject("ignored","name1",
+                "123 Someplace", "h0h 0h0","MB","email1", "pass1");
+        SellerAccountObject account2 = new SellerAccountObject("ignored","name2",
+                "123 Someplace", "h0h 0h0","MB","email2", "pass2");
+        SellerAccountObject account3 = new SellerAccountObject("ignored","name3",
+                "123 Someplace", "h0h 0h0","MB","email3", "pass3");
+
+        // Create the accounts
+        String id1 = sellerModel.createNew(account1);
+        String id2 = sellerModel.createNew(account2);
+        String id3 = sellerModel.createNew(account3);
+
+        // Check credential pairs
+        assertTrue("Did not verify correct credentials", sellerModel.checkEmailPasswordMatch("email1", "pass1"));
+        assertTrue("Did not verify correct credentials", sellerModel.checkEmailPasswordMatch("email2", "pass2"));
+        assertTrue("Did not verify correct credentials", sellerModel.checkEmailPasswordMatch("email3", "pass3"));
+        assertFalse("Verified false credentials", sellerModel.checkEmailPasswordMatch("email1", "pass3"));
+    }
 }
