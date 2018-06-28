@@ -25,7 +25,7 @@ public class CreateBuyerAccountActivity extends AppCompatActivity {
             public void onClick(View v) {
             BuyerAccountObject buyerAccount = new BuyerAccountObject(
                     "",
-                    ((EditText) findViewById(R.id.editTextOrganizationName)).getText().toString(),
+                    ((EditText) findViewById(R.id.editTextFirstName)).getText().toString(),
                     ((EditText) findViewById(R.id.editTextLastName)).getText().toString(),
                     ((EditText) findViewById(R.id.editTextStreetAddress)).getText().toString(),
                     ((EditText) findViewById(R.id.editTextPostalCode)).getText().toString(),
@@ -43,7 +43,7 @@ public class CreateBuyerAccountActivity extends AppCompatActivity {
                 CopShopApp.accountService.registerNewBuyer(buyerAccount);
 
                 // Make sure all form fields are set back to black on success
-                findViewById(R.id.editTextOrganizationName).setBackgroundResource(R.drawable.txt_field_black_border);
+                findViewById(R.id.editTextFirstName).setBackgroundResource(R.drawable.txt_field_black_border);
                 findViewById(R.id.editTextLastName).setBackgroundResource(R.drawable.txt_field_black_border);
                 findViewById(R.id.editTextStreetAddress).setBackgroundResource(R.drawable.txt_field_black_border);
                 findViewById(R.id.editTextPostalCode).setBackgroundResource(R.drawable.txt_field_black_border);
@@ -58,9 +58,9 @@ public class CreateBuyerAccountActivity extends AppCompatActivity {
 
                 // Check first name
                 if (!validationObject.getValidFirstName()) {
-                    findViewById(R.id.editTextOrganizationName).setBackgroundResource(R.drawable.txt_field_red_border);
+                    findViewById(R.id.editTextFirstName).setBackgroundResource(R.drawable.txt_field_red_border);
                 } else {
-                    findViewById(R.id.editTextOrganizationName).setBackgroundResource(R.drawable.txt_field_black_border);
+                    findViewById(R.id.editTextFirstName).setBackgroundResource(R.drawable.txt_field_black_border);
                 }
 
                 // Check last name

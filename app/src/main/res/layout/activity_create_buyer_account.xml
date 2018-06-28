@@ -7,13 +7,13 @@
     tools:context=".presentation.activities.CreateBuyerAccountActivity">
 
     <TextView
-        android:id="@+id/textFname"
+        android:id="@+id/textFirstName"
         android:layout_width="@dimen/smallTextLabelWidth"
         android:layout_height="wrap_content"
         android:text="First Name"
         android:textAlignment="textEnd"
         app:layout_constraintStart_toStartOf="@+id/textFormFilloutPrompt"
-        app:layout_constraintTop_toTopOf="@+id/editTextOrganizationName" />
+        app:layout_constraintTop_toTopOf="@+id/editTextFirstName" />
 
     <TextView
         android:id="@+id/textLastName"
@@ -21,7 +21,7 @@
         android:layout_height="wrap_content"
         android:text="Last Name"
         android:textAlignment="textEnd"
-        app:layout_constraintStart_toStartOf="@+id/textFname"
+        app:layout_constraintStart_toStartOf="@+id/textFirstName"
         app:layout_constraintTop_toTopOf="@+id/editTextLastName" />
 
     <TextView
@@ -43,7 +43,7 @@
         app:layout_constraintTop_toTopOf="@+id/editTextPostalCode" />
 
     <EditText
-        android:id="@+id/editTextOrganizationName"
+        android:id="@+id/editTextFirstName"
         android:layout_width="wrap_content"
         android:layout_height="40dp"
         android:layout_marginStart="40dp"
@@ -51,7 +51,7 @@
         android:background="@drawable/txt_field_black_border"
         android:ems="10"
         android:inputType="textPersonName"
-        app:layout_constraintStart_toEndOf="@+id/textFname"
+        app:layout_constraintStart_toEndOf="@+id/textFirstName"
         app:layout_constraintTop_toBottomOf="@+id/textFormFilloutPrompt" />
 
     <TextView
@@ -73,8 +73,8 @@
         android:background="@drawable/txt_field_black_border"
         android:ems="10"
         android:inputType="textPersonName"
-        app:layout_constraintStart_toStartOf="@+id/editTextOrganizationName"
-        app:layout_constraintTop_toBottomOf="@+id/editTextOrganizationName" />
+        app:layout_constraintStart_toStartOf="@+id/editTextFirstName"
+        app:layout_constraintTop_toBottomOf="@+id/editTextFirstName" />
 
     <EditText
         android:id="@+id/editTextStreetAddress"
