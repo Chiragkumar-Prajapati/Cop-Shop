@@ -68,6 +68,7 @@
         android:layout_marginTop="20dp"
         android:background="#07337a"
         android:text="Register"
+        android:textColor="@android:color/white"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/registerPrompt"

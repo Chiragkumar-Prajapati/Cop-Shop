@@ -37,6 +37,7 @@
         android:layout_marginTop="100dp"
         android:background="#07337a"
         android:text="Precinct"
+        android:textColor="@android:color/white"
         android:visibility="visible"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
