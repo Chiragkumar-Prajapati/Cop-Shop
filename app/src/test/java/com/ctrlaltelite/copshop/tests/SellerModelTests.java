@@ -15,7 +15,7 @@ public class SellerModelTests {
         IDatabase database = new MockDatabaseStub();
         ISellerModel sellerModel = new SellerModel(database);
 
-        SellerAccountObject account = new SellerAccountObject("ignored", "pass", "email", "name");
+        SellerAccountObject account = new SellerAccountObject("ignored", "name", "123 Street", "A1A 1A1", "MB", "email", "pass");
 
         // Create the accounts
         String id1 = sellerModel.createNew(account);
@@ -33,7 +33,7 @@ public class SellerModelTests {
         IDatabase database = new MockDatabaseStub();
         ISellerModel sellerModel = new SellerModel(database);
 
-        SellerAccountObject account = new SellerAccountObject("ignored", "pass", "email", "name");
+        SellerAccountObject account = new SellerAccountObject("ignored", "name", "123 Street", "A1A 1A1", "MB", "email", "pass");
 
         // Create the accounts
         String id1 = sellerModel.createNew(account);
@@ -41,7 +41,7 @@ public class SellerModelTests {
         String id3 = sellerModel.createNew(account);
 
         // Update a account
-        SellerAccountObject updatedAccount = new SellerAccountObject("ignored", "updated-pass", "updated-email", "updated-name");
+        SellerAccountObject updatedAccount = new SellerAccountObject("ignored", "updated-name", "123 Street", "A1A 1A1", "MB", "updated-email", "updated-pass");
         assertTrue("Did not get success back from update", sellerModel.update(id2, updatedAccount));
 
         // Verify it updated the correct account
@@ -63,9 +63,9 @@ public class SellerModelTests {
         IDatabase database = new MockDatabaseStub();
         ISellerModel sellerModel = new SellerModel(database);
 
-        SellerAccountObject account1 = new SellerAccountObject("ignored", "pass1", "email1", "name1");
-        SellerAccountObject account2 = new SellerAccountObject("ignored", "pass2", "email2", "name2");
-        SellerAccountObject account3 = new SellerAccountObject("ignored", "pass3", "email3", "name3");
+        SellerAccountObject account1 = new SellerAccountObject("ignored", "name1", "123 Street", "A1A 1A1", "MB", "email1", "pass1");
+        SellerAccountObject account2 = new SellerAccountObject("ignored", "name2", "123 Street", "A1A 1A1", "MB", "email2", "pass2");
+        SellerAccountObject account3 = new SellerAccountObject("ignored", "name3", "123 Street", "A1A 1A1", "MB", "email3", "pass2");
 
         // Create the accounts
         String id1 = sellerModel.createNew(account1);
@@ -83,9 +83,9 @@ public class SellerModelTests {
         IDatabase database = new MockDatabaseStub();
         ISellerModel sellerModel = new SellerModel(database);
 
-        SellerAccountObject account1 = new SellerAccountObject("ignored", "pass1", "email1", "name1");
-        SellerAccountObject account2 = new SellerAccountObject("ignored", "pass2", "email2", "name2");
-        SellerAccountObject account3 = new SellerAccountObject("ignored", "pass3", "email3", "name3");
+        SellerAccountObject account1 = new SellerAccountObject("ignored", "name1", "123 Street", "A1A 1A1", "MB", "email1", "pass1");
+        SellerAccountObject account2 = new SellerAccountObject("ignored", "name2", "123 Street", "A1A 1A1", "MB", "email2", "pass2");
+        SellerAccountObject account3 = new SellerAccountObject("ignored", "name3", "123 Street", "A1A 1A1", "MB", "email3", "pass2");
 
         // Create the accounts
         String id1 = sellerModel.createNew(account1);
