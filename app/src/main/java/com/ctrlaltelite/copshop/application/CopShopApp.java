@@ -65,7 +65,7 @@ public class CopShopApp extends Application {
         buyerModel.createNew(newBuyerAccount1);
 
         // Seller accounts
-        SellerAccountObject newSeller = new SellerAccountObject("", "12345", "local@police.com", "Local Precinct");
+        SellerAccountObject newSeller = new SellerAccountObject("", "Local Precinct", "124 Street", "A1A 1A1", "MB", "local@police.com", "12345");
         sellerModel.createNew(newSeller);
     }
 }

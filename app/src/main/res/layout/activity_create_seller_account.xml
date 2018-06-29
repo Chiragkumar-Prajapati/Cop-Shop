@@ -7,22 +7,13 @@
     tools:context=".presentation.activities.CreateBuyerAccountActivity">
 
     <TextView
-        android:id="@+id/textFirstName"
+        android:id="@+id/precinctName"
         android:layout_width="@dimen/smallTextLabelWidth"
         android:layout_height="wrap_content"
-        android:text="First Name"
+        android:text="Precinct Name"
         android:textAlignment="textEnd"
         app:layout_constraintStart_toStartOf="@+id/textFormFilloutPrompt"
-        app:layout_constraintTop_toTopOf="@+id/editTextFirstName" />
-
-    <TextView
-        android:id="@+id/textLastName"
-        android:layout_width="@dimen/smallTextLabelWidth"
-        android:layout_height="wrap_content"
-        android:text="Last Name"
-        android:textAlignment="textEnd"
-        app:layout_constraintStart_toStartOf="@+id/textFirstName"
-        app:layout_constraintTop_toTopOf="@+id/editTextLastName" />
+        app:layout_constraintTop_toTopOf="@+id/editTextOrganizationName" />
 
     <TextView
         android:id="@+id/textStreetAddress"
@@ -30,7 +21,7 @@
         android:layout_height="wrap_content"
         android:text="Street Address"
         android:textAlignment="textEnd"
-        app:layout_constraintStart_toStartOf="@+id/textLastName"
+        app:layout_constraintStart_toStartOf="@+id/precinctName"
         app:layout_constraintTop_toTopOf="@+id/editTextStreetAddress" />
 
     <TextView
@@ -43,7 +34,7 @@
         app:layout_constraintTop_toTopOf="@+id/editTextPostalCode" />
 
     <EditText
-        android:id="@+id/editTextFirstName"
+        android:id="@+id/editTextOrganizationName"
         android:layout_width="wrap_content"
         android:layout_height="40dp"
         android:layout_marginStart="40dp"
@@ -51,7 +42,7 @@
         android:background="@drawable/txt_field_black_border"
         android:ems="10"
         android:inputType="textPersonName"
-        app:layout_constraintStart_toEndOf="@+id/textFirstName"
+        app:layout_constraintStart_toEndOf="@+id/precinctName"
         app:layout_constraintTop_toBottomOf="@+id/textFormFilloutPrompt" />
 
     <TextView
@@ -60,21 +51,11 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="60dp"
         android:text="Please provide your details to create an account."
+        android:textAlignment="center"
         android:textSize="18sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
-
-    <EditText
-        android:id="@+id/editTextLastName"
-        android:layout_width="wrap_content"
-        android:layout_height="40dp"
-        android:layout_marginTop="24dp"
-        android:background="@drawable/txt_field_black_border"
-        android:ems="10"
-        android:inputType="textPersonName"
-        app:layout_constraintStart_toStartOf="@+id/editTextFirstName"
-        app:layout_constraintTop_toBottomOf="@+id/editTextFirstName" />
 
     <EditText
         android:id="@+id/editTextStreetAddress"
@@ -84,8 +65,8 @@
         android:background="@drawable/txt_field_black_border"
         android:ems="10"
         android:inputType="textPersonName"
-        app:layout_constraintStart_toStartOf="@+id/editTextLastName"
-        app:layout_constraintTop_toBottomOf="@+id/editTextLastName" />
+        app:layout_constraintStart_toStartOf="@+id/editTextOrganizationName"
+        app:layout_constraintTop_toBottomOf="@+id/editTextOrganizationName" />
 
     <EditText
         android:id="@+id/editTextPostalCode"
@@ -159,15 +140,14 @@
         app:layout_constraintTop_toBottomOf="@+id/editTextEmail" />
 
     <Button
-        android:id="@+id/btnCreateBuyerAccount"
+        android:id="@+id/btnCreateSellerAccount"
         android:layout_width="160dp"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="227dp"
-        android:layout_marginStart="228dp"
         android:layout_marginTop="36dp"
         android:background="?attr/colorButtonNormal"
         android:text="Create Account"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/editTextPassword" />
+
 </android.support.constraint.ConstraintLayout>

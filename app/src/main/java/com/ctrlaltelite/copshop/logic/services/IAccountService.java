@@ -3,6 +3,8 @@ package com.ctrlaltelite.copshop.logic.services;
 import com.ctrlaltelite.copshop.objects.AccountObject;
 import com.ctrlaltelite.copshop.objects.BuyerAccountObject;
 import com.ctrlaltelite.copshop.objects.BuyerAccountValidationObject;
+import com.ctrlaltelite.copshop.objects.SellerAccountObject;
+import com.ctrlaltelite.copshop.objects.SellerAccountValidationObject;
 
 public interface IAccountService {
 
@@ -16,6 +18,10 @@ public interface IAccountService {
 
     BuyerAccountValidationObject validate(BuyerAccountObject buyerAccount);
 
+    SellerAccountValidationObject validate(SellerAccountObject sellerAccount);
+
     String registerNewBuyer(BuyerAccountObject newBuyer);
+
+    String registerNewSeller(SellerAccountObject newSeller);
 
 }

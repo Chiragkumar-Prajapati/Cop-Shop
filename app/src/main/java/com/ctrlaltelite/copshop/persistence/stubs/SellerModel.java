@@ -24,6 +24,10 @@ public class SellerModel implements ISellerModel {
         newRow.put("password", newAccount.getPassword());
         newRow.put("email", newAccount.getEmail());
         newRow.put("name", newAccount.getOrganizationName());
+        newRow.put("streetAddress", newAccount.getStreetAddress());
+        newRow.put("postalCode", newAccount.getPostalCode());
+        newRow.put("province", newAccount.getProvince());
+
 
         return this.database.insertRow(TABLE_NAME, newRow);
     }
@@ -31,9 +35,14 @@ public class SellerModel implements ISellerModel {
     @Override
     public boolean update(String id, SellerAccountObject updatedAccount) {
         boolean success;
+
         success = (null != this.database.updateColumn(TABLE_NAME, id, "password", updatedAccount.getPassword()));
         success = success && (null != this.database.updateColumn(TABLE_NAME, id, "email", updatedAccount.getEmail()));
         success = success && (null != this.database.updateColumn(TABLE_NAME, id, "name", updatedAccount.getOrganizationName()));
+        success = success && (null != this.database.updateColumn(TABLE_NAME, id, "streetAddress", updatedAccount.getStreetAddress()));
+        success = success && (null != this.database.updateColumn(TABLE_NAME, id, "postalCode", updatedAccount.getPostalCode()));
+        success = success && (null != this.database.updateColumn(TABLE_NAME, id, "province", updatedAccount.getProvince()));
+
         return success;
     }
 
@@ -41,9 +50,12 @@ public class SellerModel implements ISellerModel {
     public SellerAccountObject fetch(String id) {
         return new SellerAccountObject(
                 id,
-                this.database.fetchColumn(TABLE_NAME, id, "password"),
+                this.database.fetchColumn(TABLE_NAME, id, "name"),
+                this.database.fetchColumn(TABLE_NAME, id, "streetAddress"),
+                this.database.fetchColumn(TABLE_NAME, id, "postalCode"),
+                this.database.fetchColumn(TABLE_NAME, id, "province"),
                 this.database.fetchColumn(TABLE_NAME, id, "email"),
-                this.database.fetchColumn(TABLE_NAME, id, "name")
+                this.database.fetchColumn(TABLE_NAME, id, "password")
         );
     }
 

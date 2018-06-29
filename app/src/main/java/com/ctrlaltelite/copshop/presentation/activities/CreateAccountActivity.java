@@ -16,11 +16,12 @@ public class CreateAccountActivity extends AppCompatActivity {
         setContentView(R.layout.activity_create_account);
 
         Button btnSeller = (Button) findViewById(R.id.register_seller_btn);
-        btnSeller.setVisibility(View.INVISIBLE); // Change visibility for button when SellerRegister page exists
         btnSeller.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // Go to Register page for Seller when SellerRegister page exists
+                // Go to Register page for Seller (now that SellerRegister page exists)
+                Intent intent = new Intent(CreateAccountActivity.this, CreateSellerAccountActivity.class);
+                startActivity(intent);
             }
         });
 
