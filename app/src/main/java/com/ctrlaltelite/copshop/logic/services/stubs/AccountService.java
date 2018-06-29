@@ -54,6 +54,17 @@ public class AccountService implements com.ctrlaltelite.copshop.logic.services.I
         return null;
     }
 
+    public AccountObject fetchAccountByEmail(String email) {
+        // Check for a matching seller account
+        AccountObject account = this.sellerModel.findByEmail(email);
+
+        // Otherwise check for a matching buyer account
+        if (null == account) {
+            account = this.buyerModel.findByEmail(email);
+        }
+        return account;
+    }
+
     /**
      * Validate that the object has legal data and then add to the database.
      * @param buyerObject the object to add to the DB.
@@ -70,6 +81,15 @@ public class AccountService implements com.ctrlaltelite.copshop.logic.services.I
      */
     public String registerNewBuyer(BuyerAccountObject newBuyer){
         return buyerModel.createNew(newBuyer);
+    }
+
+    /**
+     * Updates the BuyerAccount in the database
+     * @param buyerAccount The object to update in the DB
+     * @return whether the operation was successful
+     */
+    public boolean updateBuyerAccount(String id, BuyerAccountObject buyerAccount){
+        return buyerModel.update(id, buyerAccount);
     }
 
     /**

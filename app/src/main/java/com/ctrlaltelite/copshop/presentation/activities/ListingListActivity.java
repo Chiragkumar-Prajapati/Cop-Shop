@@ -24,6 +24,8 @@ import java.util.List;
 
 public class ListingListActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
+    Menu theMenu;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -70,6 +72,16 @@ public class ListingListActivity extends AppCompatActivity implements Navigation
     }
 
     @Override
+    public void onResume() {
+        super.onResume();
+
+        if (theMenu != null) {
+            setupMenu();
+        }
+
+    }
+
+    @Override
     public void onBackPressed() {
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
 
@@ -82,26 +94,36 @@ public class ListingListActivity extends AppCompatActivity implements Navigation
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        // For accessing user info
-        SharedPreferences sharedPreferences = getSharedPreferences("currentUser", 0);
-
-        // Text for user if logged in
-        TextView greeting = (TextView) findViewById(R.id.nav_header_greeting);
-        if (null != greeting) {
-            if ((sharedPreferences.getString("email", "-1")).equals("-1")) {
-                // SharedPreferences returns defValue if nothing there
-                // Nothing there if user not logged in
-                greeting.setText("Please Login, Stranger.");
-            } else {
-                String loggedInEmail = sharedPreferences.getString("email", "-1");
-                greeting.setText(loggedInEmail);
-            }
-        }
-
+        //super.onCreateOptionsMenu(menu);
+        this.theMenu = menu;
+        setupMenu();
         // Inflate the menu; this adds items to the action bar if it is present.
 //        getMenuInflater().inflate(R.menu.listing_list, menu);
+
+        getMenuInflater().inflate(R.menu.activity_listing_list_drawer, menu);
+
+        MenuItem accountDetails = theMenu.findItem(R.id.nav_new_listing);
+        //invalidateOptionsMenu();
         return true;
     }
+//
+//    @Override
+//    public boolean onPrepareOptionsMenu(Menu menu) {
+//
+//        boolean success = setEmailDisplay();
+//        MenuItem accountDetails = menu.findItem(R.id.nav_account_details);
+//
+//        if (accountDetails != null) {
+//            if (!success) {
+//                accountDetails.setVisible(false);
+//            }
+//            else {
+//                accountDetails.setVisible(true);
+//                //findViewById(R.id.nav_account_details).setVisibility( View.VISIBLE );
+//            }
+//        }
+//        return super.onPrepareOptionsMenu(menu);
+//    }
 
     @SuppressWarnings("StatementWithEmptyBody")
     @Override
@@ -124,6 +146,51 @@ public class ListingListActivity extends AppCompatActivity implements Navigation
 
         drawer.closeDrawer(GravityCompat.START);
         return true;
+    }
+
+    private void setupMenu() {
+        if (theMenu != null) {
+            boolean success = setEmailDisplay();
+            MenuItem accountDetails = theMenu.findItem(R.id.nav_new_listing);
+
+            if (accountDetails != null) {
+                if (!success) {
+                    accountDetails.setVisible(false);
+                }
+                else {
+                    accountDetails.setVisible(true);
+                    //findViewById(R.id.nav_account_details).setVisibility( View.VISIBLE );
+                }
+            }
+
+        }
+    }
+
+    private boolean setEmailDisplay() {
+        boolean success = false;
+        // For accessing user info
+        SharedPreferences sharedPreferences = getSharedPreferences("currentUser", 0);
+
+        // Text for user if logged in
+        TextView greeting = (TextView) findViewById(R.id.nav_header_greeting);
+        if (null != greeting) {
+            String loggedInEmail = sharedPreferences.getString("email", "-1");
+            if (loggedInEmail.equals("-1")) {
+                // SharedPreferences returns defValue if nothing there
+                // Nothing there if user not logged in
+                greeting.setText("Please Login, Stranger.");
+            } else {
+                if (CopShopApp.accountService.fetchAccountByEmail(loggedInEmail) == null) {
+                    greeting.setText("Please Login, Stranger.");
+                }
+                else {
+                    greeting.setText(loggedInEmail);
+                    success = true;
+                }
+
+            }
+        }
+        return success;
     }
 
 }

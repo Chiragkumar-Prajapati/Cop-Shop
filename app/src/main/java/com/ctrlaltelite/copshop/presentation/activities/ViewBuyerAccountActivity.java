@@ -1,14 +1,17 @@
 package com.ctrlaltelite.copshop.presentation.activities;
 
+import android.content.SharedPreferences;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 
 import com.ctrlaltelite.copshop.R;
 import com.ctrlaltelite.copshop.application.CopShopApp;
+import com.ctrlaltelite.copshop.logic.services.stubs.AccountService;
 import com.ctrlaltelite.copshop.objects.BuyerAccountObject;
 import com.ctrlaltelite.copshop.objects.BuyerAccountValidationObject;
 
@@ -23,6 +26,9 @@ public class ViewBuyerAccountActivity extends AppCompatActivity {
         final Button saveBuyerAccount = findViewById(R.id.btnSaveBuyerAccount);
         final Button cancelSaveBuyerAccount = findViewById(R.id.btnCancelSaveBuyerAccount);
 
+        final TextView errorMsg = findViewById(R.id.notLoggedInMsg); // Get error ready, just in case
+
+
 
         // View mode 1
         setFieldFocusability(false);
@@ -31,10 +37,13 @@ public class ViewBuyerAccountActivity extends AppCompatActivity {
         saveBuyerAccount.setVisibility( View.GONE );
         cancelSaveBuyerAccount.setVisibility( View.GONE );
 
+        populateAccountInfo();
 
         cancelSaveBuyerAccount.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                populateAccountInfo();
+
                 // View mode 1
                 setFieldFocusability(false);
                 setFieldBorder(false);
@@ -76,7 +85,23 @@ public class ViewBuyerAccountActivity extends AppCompatActivity {
                 // If valid: store user information
                 // Else invalid: check each form field, highlighting those that are invalid in red
                 if (validationObject.allValid()) {
-                    CopShopApp.accountService.registerNewBuyer(buyerAccount);
+                    boolean success = false;
+                    SharedPreferences sharedPreferences = getSharedPreferences("currentUser", 0);
+                    String idPref = sharedPreferences.getString("userID", "-1");
+                    if (!idPref.equals("-1")) {
+                        success = CopShopApp.accountService.updateBuyerAccount(idPref, buyerAccount);
+                    }
+                    if (success) {
+                        SharedPreferences.Editor editor = sharedPreferences.edit();
+
+                        editor.putString("email", buyerAccount.getEmail());
+                        editor.commit(); //saves user info in the SharedPreferences object
+
+                        errorMsg.setText("Account info updated successfully");
+                    }
+                    else {
+                        errorMsg.setText("Account info could not be updated");
+                    }
 
                     // Make sure all form fields are set back to black on success
                     findViewById(R.id.editTextFirstName).setBackgroundResource(R.drawable.txt_field_black_border);
@@ -87,9 +112,16 @@ public class ViewBuyerAccountActivity extends AppCompatActivity {
                     findViewById(R.id.editTextEmail).setBackgroundResource(R.drawable.txt_field_black_border);
                     findViewById(R.id.editTextPassword).setBackgroundResource(R.drawable.txt_field_black_border);
 
+                    //go to Listings page
+                    //Intent intent = new Intent(ViewBuyerAccountActivity.this, ListingListActivity.class);
+                    //startActivity(intent); //goes to listing activity
 
-                    // Go to login page
-                    startActivity(new Intent(ViewBuyerAccountActivity.this, LoginActivity.class));
+                    // View mode 1
+                    setFieldFocusability(false);
+                    setFieldBorder(false);
+                    editBuyerAccount.setVisibility( View.VISIBLE );
+                    saveBuyerAccount.setVisibility( View.GONE );
+                    cancelSaveBuyerAccount.setVisibility( View.GONE );
                 } else {
 
                     // Check first name
@@ -183,6 +215,64 @@ public class ViewBuyerAccountActivity extends AppCompatActivity {
                 findViewById(R.id.editTextEmail).setBackgroundResource(0);
                 findViewById(R.id.editTextPassword).setBackgroundResource(0);
             }
+
+        }
+
+        protected void populateAccountInfo() {
+            // For accessing user info
+            SharedPreferences sharedPreferences = getSharedPreferences("currentUser", 0);
+
+            // Text for user if logged in
+            //TextView greeting = (TextView) findViewById(R.id.editTextFirstName);
+            TextView editTextFirstName = findViewById(R.id.editTextFirstName);
+            TextView editTextLastName = findViewById(R.id.editTextLastName);
+            TextView editTextStreetAddress = findViewById(R.id.editTextStreetAddress);
+            TextView editTextPostalCode = findViewById(R.id.editTextPostalCode);
+            TextView editTextProvince = findViewById(R.id.editTextProvince);
+            TextView editTextEmail = findViewById(R.id.editTextEmail);
+            TextView editTextPassword = findViewById(R.id.editTextPassword);
+
+            TextView errorMsg = findViewById(R.id.notLoggedInMsg); // Get error ready, just in case
+
+            // SharedPreferences returns defValue if nothing there
+            // Nothing there if user not logged in
+            String emailPref = sharedPreferences.getString("email", "-1");
+            if (!emailPref.equals("-1")) {
+                BuyerAccountObject buyer = (BuyerAccountObject)CopShopApp.accountService.fetchAccountByEmail(emailPref);
+
+                if (buyer == null) {
+                    errorMsg.setText("No account found");
+                    findViewById(R.id.btnEditBuyerAccount).setVisibility( View.GONE );
+                }
+                else {
+                    if (editTextFirstName != null) {
+                        editTextFirstName.setText(buyer.getFirstName());
+                    }
+                    if (editTextLastName != null) {
+                        editTextLastName.setText(buyer.getLastName());
+                    }
+                    if (editTextStreetAddress != null) {
+                        editTextStreetAddress.setText(buyer.getStreetAddress());
+                    }
+                    if (editTextPostalCode != null) {
+                        editTextPostalCode.setText(buyer.getPostalCode());
+                    }
+                    if (editTextProvince != null) {
+                        editTextProvince.setText(buyer.getProvince());
+                    }
+                    if (editTextEmail != null) {
+                        editTextEmail.setText(buyer.getEmail());
+                    }
+                    if (editTextPassword != null) {
+                        editTextPassword.setText(buyer.getPassword());
+                    }
+                }
+
+
+            }
+
+
+
 
         }
     }

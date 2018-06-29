@@ -4,7 +4,6 @@ import com.ctrlaltelite.copshop.persistence.IBuyerModel;
 import com.ctrlaltelite.copshop.objects.BuyerAccountObject;
 import com.ctrlaltelite.copshop.persistence.database.IDatabase;
 
-import java.util.ArrayList;
 import java.util.Hashtable;
 import java.util.List;
 

@@ -12,7 +12,7 @@ import com.ctrlaltelite.copshop.persistence.stubs.ListingModel;
 import com.ctrlaltelite.copshop.persistence.stubs.SellerModel;
 
 import org.junit.Test;
-import java.util.ArrayList;
+import java.util.List;
 
 import static org.junit.Assert.*;
 
@@ -33,7 +33,7 @@ public class ListingServiceTests {
         String lId2 = listingModel.createNew(l2);
         String lId3 = listingModel.createNew(l3);
 
-        ArrayList listings = listingService.fetchListings();
+        List listings = listingService.fetchListings();
         assertEquals("Did not fetch correct number of listings", 3, listings.size());
     }
 

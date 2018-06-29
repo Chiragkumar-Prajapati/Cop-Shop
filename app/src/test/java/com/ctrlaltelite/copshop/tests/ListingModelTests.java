@@ -6,7 +6,7 @@ import com.ctrlaltelite.copshop.persistence.database.IDatabase;
 import com.ctrlaltelite.copshop.persistence.database.stubs.MockDatabaseStub;
 import com.ctrlaltelite.copshop.persistence.stubs.ListingModel;
 import org.junit.Test;
-import java.util.ArrayList;
+import java.util.List;
 import static org.junit.Assert.*;
 
 public class ListingModelTests {
@@ -121,7 +121,7 @@ public class ListingModelTests {
         String id3 = listingModel.createNew(listing3);
 
         // Fetch listings and ensure all are in list
-        ArrayList<ListingObject> list = listingModel.fetchAll();
+        List<ListingObject> list = listingModel.fetchAll();
         assertEquals("Fetched too many listings", 3, list.size());
         assertEquals("Wrong listing fetched", "t1", list.get(2).getTitle());
         assertEquals("Wrong listing fetched", "t2", list.get(1).getTitle());

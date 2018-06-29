@@ -7,6 +7,16 @@
     tools:context=".presentation.activities.CreateBuyerAccountActivity">
 
     <TextView
+        android:id="@+id/notLoggedInMsg"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:textColor="#ff0000"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textFormFilloutPrompt" />
+
+    <TextView
         android:id="@+id/textFirstName"
         android:layout_width="@dimen/smallTextLabelWidth"
         android:layout_height="wrap_content"
@@ -47,19 +57,20 @@
         android:layout_width="wrap_content"
         android:layout_height="40dp"
         android:layout_marginStart="40dp"
-        android:layout_marginTop="30dp"
+        android:layout_marginTop="16dp"
         android:background="@drawable/txt_field_black_border"
         android:ems="10"
         android:inputType="textPersonName"
         app:layout_constraintStart_toEndOf="@+id/textFirstName"
-        app:layout_constraintTop_toBottomOf="@+id/textFormFilloutPrompt" />
+        app:layout_constraintTop_toBottomOf="@+id/notLoggedInMsg" />
 
     <TextView
         android:id="@+id/textFormFilloutPrompt"
-        android:layout_width="wrap_content"
+        android:layout_width="400dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="60dp"
-        android:text="Please provide your details to create an account."
+        android:text="Account Details"
+        android:textAlignment="center"
         android:textSize="18sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -164,7 +175,7 @@
         android:layout_height="wrap_content"
         android:layout_marginEnd="227dp"
         android:layout_marginStart="228dp"
-        android:layout_marginTop="30dp"
+        android:layout_marginTop="24dp"
         android:background="?attr/colorButtonNormal"
         android:text="Cancel"
         app:layout_constraintEnd_toEndOf="parent"

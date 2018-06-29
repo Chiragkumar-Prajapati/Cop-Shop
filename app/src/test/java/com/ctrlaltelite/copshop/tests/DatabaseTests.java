@@ -3,7 +3,7 @@ package com.ctrlaltelite.copshop.tests;
 import com.ctrlaltelite.copshop.persistence.database.IDatabase;
 import com.ctrlaltelite.copshop.persistence.database.stubs.MockDatabaseStub;
 import org.junit.Test;
-import java.util.ArrayList;
+import java.util.List;
 import java.util.Hashtable;
 import static org.junit.Assert.*;
 
@@ -188,7 +188,7 @@ public class DatabaseTests {
         String PK3 = database.insertRow("TestTable", row3);
 
         // Get all PKs that have Alpha in column TestB
-        ArrayList results = database.findByColumnValue("TestTable", "TestB", "Alpha");
+        List results = database.findByColumnValue("TestTable", "TestB", "Alpha");
 
         // Verify the right ones have been found
         assertTrue("Did not find correct PK", results.contains(PK1));
@@ -241,7 +241,7 @@ public class DatabaseTests {
         String PK2 = database.insertRow("TestTable", row2);
         String PK3 = database.insertRow("TestTable", row3);
 
-        ArrayList<Hashtable<String, String>> list = database.getAllRows("TestTable");
+        List<Hashtable<String, String>> list = database.getAllRows("TestTable");
         assertEquals("Fetched too many rows", 3, list.size());
         assertEquals("Wrong row fetched", "Test1", list.get(0).get("TestColumn"));
         assertEquals("Wrong row fetched", "Test2", list.get(1).get("TestColumn"));

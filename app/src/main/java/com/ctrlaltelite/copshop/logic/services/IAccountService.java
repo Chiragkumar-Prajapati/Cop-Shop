@@ -12,10 +12,14 @@ public interface IAccountService {
      * @param password The password of the user attempting to log in
      * @return An AccountObject to represent the user if successfully logged in, else null
      */
+    AccountObject fetchAccountByEmail(String email);
+
     AccountObject validateEmailAndPassword(String username, String password);
 
     BuyerAccountValidationObject validate(BuyerAccountObject buyerAccount);
 
     String registerNewBuyer(BuyerAccountObject newBuyer);
+
+    boolean updateBuyerAccount(String id, BuyerAccountObject buyerAccount);
 
 }
