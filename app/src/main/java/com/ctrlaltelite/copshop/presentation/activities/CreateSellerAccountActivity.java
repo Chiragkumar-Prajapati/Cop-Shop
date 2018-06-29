@@ -39,19 +39,25 @@ public class CreateSellerAccountActivity extends AppCompatActivity {
             // If valid: store user information
             // Else invalid: check each form field, highlighting those that are invalid in red
             if (validationObject.allValid()) {
-                CopShopApp.accountService.registerNewSeller(sellerAccount);
+                String id = CopShopApp.accountService.registerNewSeller(sellerAccount);
+                if (id == null) {
+                    // It actually failed, presumably due to a duplicate email address.
+                    findViewById(R.id.editTextEmail).setBackgroundResource(R.drawable.txt_field_red_border);
+                }
+                else // success!
+                {
+                    // Make sure all form fields are set back to black on success
+                    findViewById(R.id.editTextOrganizationName).setBackgroundResource(R.drawable.txt_field_black_border);
+                    findViewById(R.id.editTextStreetAddress).setBackgroundResource(R.drawable.txt_field_black_border);
+                    findViewById(R.id.editTextPostalCode).setBackgroundResource(R.drawable.txt_field_black_border);
+                    findViewById(R.id.editTextProvince).setBackgroundResource(R.drawable.txt_field_black_border);
+                    findViewById(R.id.editTextEmail).setBackgroundResource(R.drawable.txt_field_black_border);
+                    findViewById(R.id.editTextPassword).setBackgroundResource(R.drawable.txt_field_black_border);
 
-                // Make sure all form fields are set back to black on success
-                findViewById(R.id.editTextOrganizationName).setBackgroundResource(R.drawable.txt_field_black_border);
-                findViewById(R.id.editTextStreetAddress).setBackgroundResource(R.drawable.txt_field_black_border);
-                findViewById(R.id.editTextPostalCode).setBackgroundResource(R.drawable.txt_field_black_border);
-                findViewById(R.id.editTextProvince).setBackgroundResource(R.drawable.txt_field_black_border);
-                findViewById(R.id.editTextEmail).setBackgroundResource(R.drawable.txt_field_black_border);
-                findViewById(R.id.editTextPassword).setBackgroundResource(R.drawable.txt_field_black_border);
 
-
-                // Go to login page
-                startActivity(new Intent(CreateSellerAccountActivity.this, LoginActivity.class));
+                    // Go to login page
+                    startActivity(new Intent(CreateSellerAccountActivity.this, LoginActivity.class));
+                }
             } else {
 
                 // Check precinct name

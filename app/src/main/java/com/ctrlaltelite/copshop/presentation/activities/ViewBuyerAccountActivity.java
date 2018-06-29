@@ -117,6 +117,8 @@ public class ViewBuyerAccountActivity extends AppCompatActivity {
                     //Intent intent = new Intent(ViewBuyerAccountActivity.this, ListingListActivity.class);
                     //startActivity(intent); //goes to listing activity
 
+                    populateAccountInfo();
+
                     // View mode 1
                     setFieldFocusability(false);
                     setFieldBorder(false);

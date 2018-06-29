@@ -113,6 +113,8 @@ public class ViewSellerAccountActivity extends AppCompatActivity {
                     //Intent intent = new Intent(ViewSellerAccountActivity.this, ListingListActivity.class);
                     //startActivity(intent); //goes to listing activity
 
+                    populateAccountInfo();
+
                     // View mode 1
                     setFieldFocusability(false);
                     setFieldBorder(false);

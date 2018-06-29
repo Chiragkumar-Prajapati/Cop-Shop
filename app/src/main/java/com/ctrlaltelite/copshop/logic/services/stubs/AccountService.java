@@ -90,15 +90,25 @@ public class AccountService implements com.ctrlaltelite.copshop.logic.services.I
      * @return the primary key of the DB row
      */
     public String registerNewBuyer(BuyerAccountObject newBuyer){
+        if (fetchAccountByEmail(newBuyer.getEmail()) != null) {
+            return null;
+        }
         return buyerModel.createNew(newBuyer);
     }
 
     /**
-     * Updates the BuyerAccount in the database
+     * Updates the BuyerAccount in the database (and maintains uniqueness)
      * @param buyerAccount The object to update in the DB
      * @return whether the operation was successful
      */
     public boolean updateBuyerAccount(String id, BuyerAccountObject buyerAccount) {
+        AccountObject currAccount = fetchAccountByEmail(buyerAccount.getEmail());
+        if (currAccount != null && !currAccount.getId().equals(id)) {
+            return false;
+        }
+        if (currAccount != null && !(currAccount instanceof BuyerAccountObject)) {
+            return false;
+        }
         return buyerModel.update(id, buyerAccount);
     }
 
@@ -108,15 +118,25 @@ public class AccountService implements com.ctrlaltelite.copshop.logic.services.I
      * @return the primary key of the DB row
      */
     public String registerNewSeller(SellerAccountObject newSeller) {
+        if (fetchAccountByEmail(newSeller.getEmail()) != null) {
+            return null;
+        }
         return sellerModel.createNew(newSeller);
     }
 
     /**
-     * Updates the SellerAccount in the database
+     * Updates the SellerAccount in the database (and maintains uniqueness)
      * @param sellerAccount The object to update in the DB
      * @return whether the operation was successful
      */
     public boolean updateSellerAccount(String id, SellerAccountObject sellerAccount) {
+        AccountObject currAccount = fetchAccountByEmail(sellerAccount.getEmail());
+        if (currAccount != null && !currAccount.getId().equals(id)) {
+            return false;
+        }
+        if (currAccount != null && !(currAccount instanceof SellerAccountObject)) {
+            return false;
+        }
         return sellerModel.update(id, sellerAccount);
     }
 
