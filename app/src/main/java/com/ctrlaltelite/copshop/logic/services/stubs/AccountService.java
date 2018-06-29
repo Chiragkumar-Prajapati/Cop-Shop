@@ -112,6 +112,15 @@ public class AccountService implements com.ctrlaltelite.copshop.logic.services.I
     }
 
     /**
+     * Updates the SellerAccount in the database
+     * @param sellerAccount The object to update in the DB
+     * @return whether the operation was successful
+     */
+    public boolean updateSellerAccount(String id, SellerAccountObject sellerAccount) {
+        return sellerModel.update(id, sellerAccount);
+    }
+
+    /**
      * Ensures that the all the values in the form are valid, by calling the
      * other methods below this one.
      * @param buyerObject An object populated with the form fields.

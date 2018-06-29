@@ -4,7 +4,28 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".presentation.activities.CreateBuyerAccountActivity">
+    tools:context=".presentation.activities.CreateSellerAccountActivity">
+
+    <EditText
+        android:id="@+id/editTextOrganizationName"
+        android:layout_width="wrap_content"
+        android:layout_height="40dp"
+        android:layout_marginStart="40dp"
+        android:layout_marginTop="16dp"
+        android:background="@drawable/txt_field_black_border"
+        android:ems="10"
+        android:inputType="textPersonName"
+        app:layout_constraintStart_toEndOf="@+id/precinctName"
+        app:layout_constraintTop_toBottomOf="@+id/notLoggedInMsg" />
+
+    <TextView
+        android:id="@+id/precinctName"
+        android:layout_width="@dimen/smallTextLabelWidth"
+        android:layout_height="wrap_content"
+        android:text="Precinct Name"
+        android:textAlignment="textEnd"
+        app:layout_constraintStart_toStartOf="@+id/textFormFilloutPrompt"
+        app:layout_constraintTop_toTopOf="@+id/editTextOrganizationName" />
 
     <TextView
         android:id="@+id/notLoggedInMsg"
@@ -17,30 +38,12 @@
         app:layout_constraintTop_toBottomOf="@+id/textFormFilloutPrompt" />
 
     <TextView
-        android:id="@+id/textFirstName"
-        android:layout_width="@dimen/smallTextLabelWidth"
-        android:layout_height="wrap_content"
-        android:text="First Name"
-        android:textAlignment="textEnd"
-        app:layout_constraintStart_toStartOf="@+id/textFormFilloutPrompt"
-        app:layout_constraintTop_toTopOf="@+id/editTextFirstName" />
-
-    <TextView
-        android:id="@+id/textLastName"
-        android:layout_width="@dimen/smallTextLabelWidth"
-        android:layout_height="wrap_content"
-        android:text="Last Name"
-        android:textAlignment="textEnd"
-        app:layout_constraintStart_toStartOf="@+id/textFirstName"
-        app:layout_constraintTop_toTopOf="@+id/editTextLastName" />
-
-    <TextView
         android:id="@+id/textStreetAddress"
         android:layout_width="@dimen/smallTextLabelWidth"
         android:layout_height="wrap_content"
         android:text="Street Address"
         android:textAlignment="textEnd"
-        app:layout_constraintStart_toStartOf="@+id/textLastName"
+        app:layout_constraintStart_toStartOf="@+id/precinctName"
         app:layout_constraintTop_toTopOf="@+id/editTextStreetAddress" />
 
     <TextView
@@ -51,18 +54,6 @@
         android:textAlignment="textEnd"
         app:layout_constraintStart_toStartOf="@+id/textStreetAddress"
         app:layout_constraintTop_toTopOf="@+id/editTextPostalCode" />
-
-    <EditText
-        android:id="@+id/editTextFirstName"
-        android:layout_width="wrap_content"
-        android:layout_height="40dp"
-        android:layout_marginStart="40dp"
-        android:layout_marginTop="16dp"
-        android:background="@drawable/txt_field_black_border"
-        android:ems="10"
-        android:inputType="textPersonName"
-        app:layout_constraintStart_toEndOf="@+id/textFirstName"
-        app:layout_constraintTop_toBottomOf="@+id/notLoggedInMsg" />
 
     <TextView
         android:id="@+id/textFormFilloutPrompt"
@@ -77,17 +68,6 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <EditText
-        android:id="@+id/editTextLastName"
-        android:layout_width="wrap_content"
-        android:layout_height="40dp"
-        android:layout_marginTop="24dp"
-        android:background="@drawable/txt_field_black_border"
-        android:ems="10"
-        android:inputType="textPersonName"
-        app:layout_constraintStart_toStartOf="@+id/editTextFirstName"
-        app:layout_constraintTop_toBottomOf="@+id/editTextFirstName" />
-
-    <EditText
         android:id="@+id/editTextStreetAddress"
         android:layout_width="wrap_content"
         android:layout_height="40dp"
@@ -95,8 +75,8 @@
         android:background="@drawable/txt_field_black_border"
         android:ems="10"
         android:inputType="textPersonName"
-        app:layout_constraintStart_toStartOf="@+id/editTextLastName"
-        app:layout_constraintTop_toBottomOf="@+id/editTextLastName" />
+        app:layout_constraintStart_toStartOf="@+id/editTextOrganizationName"
+        app:layout_constraintTop_toBottomOf="@+id/editTextOrganizationName" />
 
     <EditText
         android:id="@+id/editTextPostalCode"
@@ -170,7 +150,7 @@
         app:layout_constraintTop_toBottomOf="@+id/editTextEmail" />
 
     <Button
-        android:id="@+id/btnCancelSaveBuyerAccount"
+        android:id="@+id/btnCancelSaveSellerAccount"
         android:layout_width="160dp"
         android:layout_height="wrap_content"
         android:layout_marginEnd="227dp"
@@ -180,10 +160,10 @@
         android:text="Cancel"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/btnSaveBuyerAccount" />
+        app:layout_constraintTop_toBottomOf="@+id/btnSaveSellerAccount" />
 
     <Button
-        android:id="@+id/btnSaveBuyerAccount"
+        android:id="@+id/btnSaveSellerAccount"
         android:layout_width="160dp"
         android:layout_height="wrap_content"
         android:layout_marginEnd="227dp"
@@ -197,7 +177,7 @@
         app:layout_constraintTop_toBottomOf="@+id/editTextPassword" />
 
     <Button
-        android:id="@+id/btnEditBuyerAccount"
+        android:id="@+id/btnEditSellerAccount"
         android:layout_width="160dp"
         android:layout_height="wrap_content"
         android:layout_marginEnd="227dp"

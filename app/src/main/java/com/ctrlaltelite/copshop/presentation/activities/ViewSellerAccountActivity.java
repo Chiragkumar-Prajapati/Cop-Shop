@@ -1,7 +1,6 @@
 package com.ctrlaltelite.copshop.presentation.activities;
 
 import android.content.SharedPreferences;
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
@@ -11,21 +10,20 @@ import android.widget.TextView;
 
 import com.ctrlaltelite.copshop.R;
 import com.ctrlaltelite.copshop.application.CopShopApp;
-import com.ctrlaltelite.copshop.logic.services.stubs.AccountService;
 import com.ctrlaltelite.copshop.objects.AccountObject;
-import com.ctrlaltelite.copshop.objects.BuyerAccountObject;
-import com.ctrlaltelite.copshop.objects.BuyerAccountValidationObject;
+import com.ctrlaltelite.copshop.objects.SellerAccountObject;
+import com.ctrlaltelite.copshop.objects.SellerAccountValidationObject;
 
-public class ViewBuyerAccountActivity extends AppCompatActivity {
+public class ViewSellerAccountActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_view_buyer_account);
+        setContentView(R.layout.activity_view_seller_account);
 
-        final Button editBuyerAccount = findViewById(R.id.btnEditBuyerAccount);
-        final Button saveBuyerAccount = findViewById(R.id.btnSaveBuyerAccount);
-        final Button cancelSaveBuyerAccount = findViewById(R.id.btnCancelSaveBuyerAccount);
+        final Button editSellerAccount = findViewById(R.id.btnEditSellerAccount);
+        final Button saveSellerAccount = findViewById(R.id.btnSaveSellerAccount);
+        final Button cancelSaveSellerAccount = findViewById(R.id.btnCancelSaveSellerAccount);
 
         final TextView errorMsg = findViewById(R.id.notLoggedInMsg); // Get error ready, just in case
 
@@ -34,13 +32,13 @@ public class ViewBuyerAccountActivity extends AppCompatActivity {
         // View mode 1
         setFieldFocusability(false);
         setFieldBorder(false);
-        editBuyerAccount.setVisibility( View.VISIBLE );
-        saveBuyerAccount.setVisibility( View.GONE );
-        cancelSaveBuyerAccount.setVisibility( View.GONE );
+        editSellerAccount.setVisibility( View.VISIBLE );
+        saveSellerAccount.setVisibility( View.GONE );
+        cancelSaveSellerAccount.setVisibility( View.GONE );
 
         populateAccountInfo();
 
-        cancelSaveBuyerAccount.setOnClickListener(new View.OnClickListener() {
+        cancelSaveSellerAccount.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 populateAccountInfo();
@@ -48,31 +46,30 @@ public class ViewBuyerAccountActivity extends AppCompatActivity {
                 // View mode 1
                 setFieldFocusability(false);
                 setFieldBorder(false);
-                editBuyerAccount.setVisibility( View.VISIBLE );
-                saveBuyerAccount.setVisibility( View.GONE );
-                cancelSaveBuyerAccount.setVisibility( View.GONE );
+                editSellerAccount.setVisibility( View.VISIBLE );
+                saveSellerAccount.setVisibility( View.GONE );
+                cancelSaveSellerAccount.setVisibility( View.GONE );
             }
         });
 
-        editBuyerAccount.setOnClickListener(new View.OnClickListener() {
+        editSellerAccount.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 // View mode 2
                 setFieldFocusability(true);
                 setFieldBorder(true);
-                editBuyerAccount.setVisibility( View.GONE );
-                saveBuyerAccount.setVisibility( View.VISIBLE );
-                cancelSaveBuyerAccount.setVisibility( View.VISIBLE );
+                editSellerAccount.setVisibility( View.GONE );
+                saveSellerAccount.setVisibility( View.VISIBLE );
+                cancelSaveSellerAccount.setVisibility( View.VISIBLE );
             }
         });
 
-        saveBuyerAccount.setOnClickListener(new View.OnClickListener() {
+        saveSellerAccount.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                BuyerAccountObject buyerAccount = new BuyerAccountObject(
+                SellerAccountObject sellerAccount = new SellerAccountObject(
                         "",
-                        ((EditText) findViewById(R.id.editTextFirstName)).getText().toString(),
-                        ((EditText) findViewById(R.id.editTextLastName)).getText().toString(),
+                        ((EditText) findViewById(R.id.editTextOrganizationName)).getText().toString(),
                         ((EditText) findViewById(R.id.editTextStreetAddress)).getText().toString(),
                         ((EditText) findViewById(R.id.editTextPostalCode)).getText().toString(),
                         ((EditText) findViewById(R.id.editTextProvince)).getText().toString(),
@@ -80,7 +77,7 @@ public class ViewBuyerAccountActivity extends AppCompatActivity {
                         ((EditText) findViewById(R.id.editTextPassword)).getText().toString()
                 );
 
-                BuyerAccountValidationObject validationObject = CopShopApp.accountService.validate(buyerAccount);
+                SellerAccountValidationObject validationObject = CopShopApp.accountService.validate(sellerAccount);
 
                 // Check validation object to see if all fields are valid
                 // If valid: store user information
@@ -90,12 +87,12 @@ public class ViewBuyerAccountActivity extends AppCompatActivity {
                     SharedPreferences sharedPreferences = getSharedPreferences("currentUser", 0);
                     String idPref = sharedPreferences.getString("userID", "-1");
                     if (!idPref.equals("-1")) {
-                        success = CopShopApp.accountService.updateBuyerAccount(idPref, buyerAccount);
+                        success = CopShopApp.accountService.updateSellerAccount(idPref, sellerAccount);
                     }
                     if (success) {
                         SharedPreferences.Editor editor = sharedPreferences.edit();
 
-                        editor.putString("email", buyerAccount.getEmail());
+                        editor.putString("email", sellerAccount.getEmail());
                         editor.commit(); //saves user info in the SharedPreferences object
 
                         errorMsg.setText("Account info updated successfully");
@@ -105,8 +102,7 @@ public class ViewBuyerAccountActivity extends AppCompatActivity {
                     }
 
                     // Make sure all form fields are set back to black on success
-                    findViewById(R.id.editTextFirstName).setBackgroundResource(R.drawable.txt_field_black_border);
-                    findViewById(R.id.editTextLastName).setBackgroundResource(R.drawable.txt_field_black_border);
+                    findViewById(R.id.editTextOrganizationName).setBackgroundResource(R.drawable.txt_field_black_border);
                     findViewById(R.id.editTextStreetAddress).setBackgroundResource(R.drawable.txt_field_black_border);
                     findViewById(R.id.editTextPostalCode).setBackgroundResource(R.drawable.txt_field_black_border);
                     findViewById(R.id.editTextProvince).setBackgroundResource(R.drawable.txt_field_black_border);
@@ -114,29 +110,22 @@ public class ViewBuyerAccountActivity extends AppCompatActivity {
                     findViewById(R.id.editTextPassword).setBackgroundResource(R.drawable.txt_field_black_border);
 
                     //go to Listings page
-                    //Intent intent = new Intent(ViewBuyerAccountActivity.this, ListingListActivity.class);
+                    //Intent intent = new Intent(ViewSellerAccountActivity.this, ListingListActivity.class);
                     //startActivity(intent); //goes to listing activity
 
                     // View mode 1
                     setFieldFocusability(false);
                     setFieldBorder(false);
-                    editBuyerAccount.setVisibility( View.VISIBLE );
-                    saveBuyerAccount.setVisibility( View.GONE );
-                    cancelSaveBuyerAccount.setVisibility( View.GONE );
+                    editSellerAccount.setVisibility( View.VISIBLE );
+                    saveSellerAccount.setVisibility( View.GONE );
+                    cancelSaveSellerAccount.setVisibility( View.GONE );
                 } else {
 
                     // Check first name
-                    if (!validationObject.getValidFirstName()) {
-                        findViewById(R.id.editTextFirstName).setBackgroundResource(R.drawable.txt_field_red_border);
+                    if (!validationObject.getValidOrganizationName()) {
+                        findViewById(R.id.editTextOrganizationName).setBackgroundResource(R.drawable.txt_field_red_border);
                     } else {
-                        findViewById(R.id.editTextFirstName).setBackgroundResource(R.drawable.txt_field_black_border);
-                    }
-
-                    // Check last name
-                    if (!validationObject.getValidLastName()) {
-                        findViewById(R.id.editTextLastName).setBackgroundResource(R.drawable.txt_field_red_border);
-                    } else {
-                        findViewById(R.id.editTextLastName).setBackgroundResource(R.drawable.txt_field_black_border);
+                        findViewById(R.id.editTextOrganizationName).setBackgroundResource(R.drawable.txt_field_black_border);
                     }
 
                     // Check street address
@@ -179,16 +168,14 @@ public class ViewBuyerAccountActivity extends AppCompatActivity {
         }
 
         protected void setFieldFocusability(boolean focusable) {
-            findViewById(R.id.editTextFirstName).setFocusable(focusable);
-            findViewById(R.id.editTextLastName).setFocusable(focusable);
+            findViewById(R.id.editTextOrganizationName).setFocusable(focusable);
             findViewById(R.id.editTextStreetAddress).setFocusable(focusable);
             findViewById(R.id.editTextPostalCode).setFocusable(focusable);
             findViewById(R.id.editTextProvince).setFocusable(focusable);
             findViewById(R.id.editTextEmail).setFocusable(focusable);
             findViewById(R.id.editTextPassword).setFocusable(focusable);
 
-            findViewById(R.id.editTextFirstName).setFocusableInTouchMode(focusable);
-            findViewById(R.id.editTextLastName).setFocusableInTouchMode(focusable);
+            findViewById(R.id.editTextOrganizationName).setFocusableInTouchMode(focusable);
             findViewById(R.id.editTextStreetAddress).setFocusableInTouchMode(focusable);
             findViewById(R.id.editTextPostalCode).setFocusableInTouchMode(focusable);
             findViewById(R.id.editTextProvince).setFocusableInTouchMode(focusable);
@@ -199,8 +186,7 @@ public class ViewBuyerAccountActivity extends AppCompatActivity {
 
         protected void setFieldBorder(boolean wantBorder) {
             if (wantBorder) {
-                findViewById(R.id.editTextFirstName).setBackgroundResource(R.drawable.txt_field_black_border);
-                findViewById(R.id.editTextLastName).setBackgroundResource(R.drawable.txt_field_black_border);
+                findViewById(R.id.editTextOrganizationName).setBackgroundResource(R.drawable.txt_field_black_border);
                 findViewById(R.id.editTextStreetAddress).setBackgroundResource(R.drawable.txt_field_black_border);
                 findViewById(R.id.editTextPostalCode).setBackgroundResource(R.drawable.txt_field_black_border);
                 findViewById(R.id.editTextProvince).setBackgroundResource(R.drawable.txt_field_black_border);
@@ -208,8 +194,7 @@ public class ViewBuyerAccountActivity extends AppCompatActivity {
                 findViewById(R.id.editTextPassword).setBackgroundResource(R.drawable.txt_field_black_border);
             }
             else {
-                findViewById(R.id.editTextFirstName).setBackgroundResource(0);
-                findViewById(R.id.editTextLastName).setBackgroundResource(0);
+                findViewById(R.id.editTextOrganizationName).setBackgroundResource(0);
                 findViewById(R.id.editTextStreetAddress).setBackgroundResource(0);
                 findViewById(R.id.editTextPostalCode).setBackgroundResource(0);
                 findViewById(R.id.editTextProvince).setBackgroundResource(0);
@@ -224,9 +209,8 @@ public class ViewBuyerAccountActivity extends AppCompatActivity {
             SharedPreferences sharedPreferences = getSharedPreferences("currentUser", 0);
 
             // Text for user if logged in
-            //TextView greeting = (TextView) findViewById(R.id.editTextFirstName);
-            TextView editTextFirstName = findViewById(R.id.editTextFirstName);
-            TextView editTextLastName = findViewById(R.id.editTextLastName);
+            //TextView greeting = (TextView) findViewById(R.id.editTextOrganizationName);
+            TextView editTextOrganizationName = findViewById(R.id.editTextOrganizationName);
             TextView editTextStreetAddress = findViewById(R.id.editTextStreetAddress);
             TextView editTextPostalCode = findViewById(R.id.editTextPostalCode);
             TextView editTextProvince = findViewById(R.id.editTextProvince);
@@ -239,43 +223,39 @@ public class ViewBuyerAccountActivity extends AppCompatActivity {
             // Nothing there if user not logged in
             String emailPref = sharedPreferences.getString("email", "-1");
             if (!emailPref.equals("-1")) {
-
                 AccountObject account = CopShopApp.accountService.fetchAccountByEmail(emailPref);
 
-                if (account instanceof BuyerAccountObject) {
-                    BuyerAccountObject buyer = (BuyerAccountObject)account;
+                if (account instanceof SellerAccountObject) {
+                    SellerAccountObject seller = (SellerAccountObject)account;
 
-                    if (buyer == null) {
+                    if (seller == null) {
                         errorMsg.setText("No account found");
-                        findViewById(R.id.btnEditBuyerAccount).setVisibility( View.GONE );
+                        findViewById(R.id.btnEditSellerAccount).setVisibility( View.GONE );
                     }
                     else {
-                        if (editTextFirstName != null) {
-                            editTextFirstName.setText(buyer.getFirstName());
-                        }
-                        if (editTextLastName != null) {
-                            editTextLastName.setText(buyer.getLastName());
+                        if (editTextOrganizationName != null) {
+                            editTextOrganizationName.setText(seller.getOrganizationName());
                         }
                         if (editTextStreetAddress != null) {
-                            editTextStreetAddress.setText(buyer.getStreetAddress());
+                            editTextStreetAddress.setText(seller.getStreetAddress());
                         }
                         if (editTextPostalCode != null) {
-                            editTextPostalCode.setText(buyer.getPostalCode());
+                            editTextPostalCode.setText(seller.getPostalCode());
                         }
                         if (editTextProvince != null) {
-                            editTextProvince.setText(buyer.getProvince());
+                            editTextProvince.setText(seller.getProvince());
                         }
                         if (editTextEmail != null) {
-                            editTextEmail.setText(buyer.getEmail());
+                            editTextEmail.setText(seller.getEmail());
                         }
                         if (editTextPassword != null) {
-                            editTextPassword.setText(buyer.getPassword());
+                            editTextPassword.setText(seller.getPassword());
                         }
                     }
                 }
                 else {
                     errorMsg.setText("No account found");
-                    findViewById(R.id.btnEditBuyerAccount).setVisibility( View.GONE );
+                    findViewById(R.id.btnEditSellerAccount).setVisibility( View.GONE );
                 }
             }
         }

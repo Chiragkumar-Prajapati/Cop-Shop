@@ -28,4 +28,6 @@ public interface IAccountService {
 
     String registerNewSeller(SellerAccountObject newSeller);
 
+    boolean updateSellerAccount(String id, SellerAccountObject sellerAccount);
+
 }
