@@ -3,6 +3,7 @@ package com.ctrlaltelite.copshop.logic.services.stubs;
 import com.ctrlaltelite.copshop.objects.BuyerAccountObject;
 import com.ctrlaltelite.copshop.objects.BuyerAccountValidationObject;
 import com.ctrlaltelite.copshop.objects.SellerAccountObject;
+import com.ctrlaltelite.copshop.objects.SellerAccountValidationObject;
 import com.ctrlaltelite.copshop.persistence.IBuyerModel;
 import com.ctrlaltelite.copshop.persistence.ISellerModel;
 import com.ctrlaltelite.copshop.objects.AccountObject;
@@ -75,6 +76,15 @@ public class AccountService implements com.ctrlaltelite.copshop.logic.services.I
     }
 
     /**
+     * Validate that the object has legal data and then add to the database.
+     * @param sellerObject the object to add to the DB.
+     * @return the validation object we created to do the validation.
+     */
+    public SellerAccountValidationObject validate(SellerAccountObject sellerObject) {
+        return this.validateInputForm(sellerObject);
+    }
+
+    /**
      * Actually creates the BuyerAccount in the database
      * @param newBuyer The object to add to the DB
      * @return the primary key of the DB row
@@ -88,8 +98,17 @@ public class AccountService implements com.ctrlaltelite.copshop.logic.services.I
      * @param buyerAccount The object to update in the DB
      * @return whether the operation was successful
      */
-    public boolean updateBuyerAccount(String id, BuyerAccountObject buyerAccount){
+    public boolean updateBuyerAccount(String id, BuyerAccountObject buyerAccount) {
         return buyerModel.update(id, buyerAccount);
+    }
+
+    /**
+     * Actually creates the SellerAccount in the database
+     * @param newSeller The object to add to the DB
+     * @return the primary key of the DB row
+     */
+    public String registerNewSeller(SellerAccountObject newSeller) {
+        return sellerModel.createNew(newSeller);
     }
 
     /**
@@ -110,6 +129,34 @@ public class AccountService implements com.ctrlaltelite.copshop.logic.services.I
         validationBuyerObject.setValidPassword(validatePassword(buyerObject.getPassword()));
 
         return validationBuyerObject;
+    }
+
+    /**
+     * Ensures that the all the values in the form are valid, by calling the
+     * other methods below this one.
+     * @param sellerObject An object populated with the form fields.
+     * @return SellerAccountValidationObject
+     */
+    private SellerAccountValidationObject validateInputForm(SellerAccountObject sellerObject) {
+        SellerAccountValidationObject validationSellerObject = new SellerAccountValidationObject();
+
+        validationSellerObject.setValidOrganizationName(validateFirstName(sellerObject.getOrganizationName()));
+        validationSellerObject.setValidStreetAddress(validateStreetAddress(sellerObject.getStreetAddress()));
+        validationSellerObject.setValidPostalCode(validatePostalCode(sellerObject.getPostalCode()));
+        validationSellerObject.setValidProvince(validateProvince(sellerObject.getProvince()));
+        validationSellerObject.setValidEmail(validateEmail(sellerObject.getEmail()));
+        validationSellerObject.setValidPassword(validatePassword(sellerObject.getPassword()));
+
+        return validationSellerObject;
+    }
+
+    /**
+     * Determine if precinct name field is valid(non-empty)
+     * @param organizationName String
+     * @return Boolean indicating if valid
+     */
+    private boolean validateOrganizationName(String organizationName) {
+        return organizationName != null && !organizationName.isEmpty();
     }
 
     /**
