@@ -10,6 +10,9 @@
         <item
             android:id="@+id/nav_login"
             android:title="Login" />
+        <item
+            android:id="@+id/nav_account_details"
+            android:title="Account Details" />
     </group>
 
     <item android:title="Filters">

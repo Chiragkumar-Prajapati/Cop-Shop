@@ -117,7 +117,10 @@ public class ListingListActivity extends AppCompatActivity implements Navigation
         } else if (id == R.id.nav_login) {
             // Goto login page
             startActivity(new Intent(this, LoginActivity.class));
-        }
+        } else if (id == R.id.nav_account_details) {
+             // Goto account details page
+             startActivity(new Intent(this, ViewBuyerAccountActivity.class));
+         }
 
         drawer.closeDrawer(GravityCompat.START);
         return true;
