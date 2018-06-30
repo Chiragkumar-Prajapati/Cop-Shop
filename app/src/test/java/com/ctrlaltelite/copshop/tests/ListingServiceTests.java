@@ -46,9 +46,9 @@ public class ListingServiceTests {
         IListingService listingService = new ListingService(listingModel, sellerModel);
 
         // Create the accounts
-        SellerAccountObject a1 = new SellerAccountObject("", "pass", "email", "one");
-        SellerAccountObject a2 = new SellerAccountObject("", "pass", "email", "two");
-        SellerAccountObject a3 = new SellerAccountObject("", "pass", "email", "three");
+        SellerAccountObject a1 = new SellerAccountObject("", "one", "123 Street", "A1A 1A1", "MB", "e@mail.com", "pass");
+        SellerAccountObject a2 = new SellerAccountObject("", "two", "123 Street", "A1A 1A1", "MB", "e@mail.com", "pass");
+        SellerAccountObject a3 = new SellerAccountObject("", "three", "123 Street", "A1A 1A1", "MB", "e@mail.com", "pass");
         String sId1 = sellerModel.createNew(a1);
         String sId2 = sellerModel.createNew(a2);
         String sId3 = sellerModel.createNew(a3);
@@ -76,9 +76,9 @@ public class ListingServiceTests {
         IListingService listingService = new ListingService(listingModel, sellerModel);
 
         // Create the accounts
-        SellerAccountObject a1 = new SellerAccountObject("", "pass", "email1", "one");
-        SellerAccountObject a2 = new SellerAccountObject("", "pass", "email2", "two");
-        SellerAccountObject a3 = new SellerAccountObject("", "pass", "email3", "three");
+        SellerAccountObject a1 = new SellerAccountObject("", "one", "123 Street", "A1A 1A1", "MB", "e@mail.com", "pass");
+        SellerAccountObject a2 = new SellerAccountObject("", "two", "123 Street", "A1A 1A1", "MB", "e@mail.com", "pass");
+        SellerAccountObject a3 = new SellerAccountObject("", "three", "123 Street", "A1A 1A1", "MB", "e@mail.com", "pass");
         String sId1 = sellerModel.createNew(a1);
         String sId2 = sellerModel.createNew(a2);
         String sId3 = sellerModel.createNew(a3);
