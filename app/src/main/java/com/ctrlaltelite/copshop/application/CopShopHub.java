@@ -87,7 +87,7 @@ public class CopShopHub
             } else {
                 sellerModel = new SellerModel(getDatabase());
                 // Add sample data
-                SellerAccountObject newSeller = new SellerAccountObject("", "12345",  "local@police.com", "Local Precinct");
+                SellerAccountObject newSeller = new SellerAccountObject("", "Local Precinct",  "60 Police St", "R2R3H3", "Manitoba", "local@police.com", "12345");
                 sellerModel.createNew(newSeller);
 
             }

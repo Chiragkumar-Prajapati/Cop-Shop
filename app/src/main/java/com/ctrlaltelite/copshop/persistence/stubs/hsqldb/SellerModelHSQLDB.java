@@ -183,10 +183,13 @@ public class SellerModelHSQLDB implements ISellerModel {
         if (null == rs) { throw new IllegalArgumentException("resultSet cannot be null"); }
 
         final String name = HSQLDBUtil.getStringFromResultSet(rs,"name");
+        final String address = HSQLDBUtil.getStringFromResultSet(rs,"address");
+        final String postalCode = HSQLDBUtil.getStringFromResultSet(rs,"postalcode");
+        final String province = HSQLDBUtil.getStringFromResultSet(rs,"province");
         final String email = HSQLDBUtil.getStringFromResultSet(rs,"email");
         final String password = HSQLDBUtil.getStringFromResultSet(rs,"password");
         final String id = HSQLDBUtil.getStringFromResultSet(rs,"id");
 
-        return new SellerAccountObject(id, name, email, password);
+        return new SellerAccountObject(id, name, address, postalCode, province, email, password);
     }
 }
