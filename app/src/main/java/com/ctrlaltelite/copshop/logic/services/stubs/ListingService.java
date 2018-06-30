@@ -27,6 +27,8 @@ public class ListingService implements IListingService {
 
     @Override
     public String getSellerNameFromListing(String listingId) {
+        if (null == listingId) { throw new IllegalArgumentException("listingId cannot be null"); }
+
         ListingObject listing = listingModel.fetch(listingId);
         String sellerId = listing.getSellerId();
 
@@ -35,6 +37,8 @@ public class ListingService implements IListingService {
 
     @Override
     public String getSellerName(String sellerId) {
+        if (null == sellerId) { throw new IllegalArgumentException("sellerId cannot be null"); }
+
         SellerAccountObject seller = sellerModel.fetch(sellerId);
         return seller.getOrganizationName();
     }
@@ -44,4 +48,10 @@ public class ListingService implements IListingService {
 //        return "1.00";
 //    }
 
+    @Override
+    public ListingObject fetchListing(String listingId) {
+        if (null == listingId) { throw new IllegalArgumentException("listingId cannot be null"); }
+
+        return listingModel.fetch(listingId);
+    }
 }
