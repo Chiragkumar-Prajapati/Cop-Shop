@@ -31,10 +31,10 @@ public interface IListingService {
      */
     String getSellerName(String sellerId);
 
-//    /**
-//     * Get the next highest bid amount
-//     * @param listing the listing
-//     * @return String float representing next bid
-//     */
-//    String getNextBidTotal(ListingObject listing);
+    /**
+     * Get the next highest bid amount
+     * @param listing the listing
+     * @return String float representing next bid
+     */
+    String getNextBidTotal(ListingObject listing);
 }

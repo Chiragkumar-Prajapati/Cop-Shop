@@ -39,9 +39,9 @@ public class ListingService implements IListingService {
         return seller.getOrganizationName();
     }
 
-//    @Override
-//    public String getNextBidTotal(ListingObject listing) {
-//        return "1.00";
-//    }
+    @Override
+    public String getNextBidTotal(ListingObject listing) {
+        return "1.00";
+    }
 
 }

@@ -52,10 +52,10 @@ public class ListingViewActivity extends AppCompatActivity {
             postedBy.setText(CopShopApp.listingService.getSellerName(listing.getSellerId()));
 
             // Hide the bid button, list, and field until bidding feature is complete
-            // bidInput.setHint(CopShopApp.viewListingService.getNextBidTotal(listing));
-            bidInput.setVisibility(View.INVISIBLE);
-            bidList.setVisibility(View.INVISIBLE);
-            bidButton.setVisibility(View.INVISIBLE);
+            bidInput.setHint(CopShopApp.listingService.getNextBidTotal(listing));
+//            bidInput.setVisibility(View.INVISIBLE);
+//            bidList.setVisibility(View.INVISIBLE);
+//            bidButton.setVisibility(View.INVISIBLE);
 
             // Hide the auction timer until auction stuff is complete and date-time processing is ready
             timeLeftDaysHours.setVisibility(View.INVISIBLE);
