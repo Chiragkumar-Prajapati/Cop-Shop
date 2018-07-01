@@ -10,7 +10,7 @@ import android.widget.Button;
 import android.widget.EditText;
 
 import com.ctrlaltelite.copshop.R;
-import com.ctrlaltelite.copshop.application.CopShopApp;
+import com.ctrlaltelite.copshop.application.CopShopHub;
 import com.ctrlaltelite.copshop.objects.ListingFormValidationObject;
 import com.ctrlaltelite.copshop.objects.ListingObject;
 
@@ -41,16 +41,16 @@ public class CreateListingActivity extends AppCompatActivity {
                         ((EditText) findViewById(R.id.txtStartTimeHour)).getText().toString() + ":" + ((EditText) findViewById(R.id.txtStartTimeMinute)).getText().toString(),
                         ((EditText) findViewById(R.id.txtEndDay)).getText().toString() + "/" +  ((EditText) findViewById(R.id.txtEndMonth)).getText().toString() + "/" + ((EditText) findViewById(R.id.txtEndYear)).getText().toString(),
                         ((EditText) findViewById(R.id.txtEndTimeHour)).getText().toString() + ":" + ((EditText) findViewById(R.id.txtEndTimeMinute)).getText().toString(),
-                        "1" // Currently logged in seller's id, change when differentiated login is implemented
+                        "0" // Currently logged in seller's id, change when differentiated login is implemented
                 );
 
-                ListingFormValidationObject validationObject = CopShopApp.createListingService.validate(listingObject);
+                ListingFormValidationObject validationObject = CopShopHub.getCreateListingService().validate(listingObject);
 
                 // Check validation object to see if all fields are valid
                 // If valid: store form data in listing database
                 // Else invalid: check each form field, highlighting those that are invalid in red
                 if (validationObject.isAllValid()) {
-                    CopShopApp.createListingService.saveNewListing(listingObject);
+                    CopShopHub.getCreateListingService().saveNewListing(listingObject);
 
                     // Make sure all form fields are set back to black on success
                     findViewById(R.id.txtStartDay).setBackgroundResource(R.drawable.txt_field_black_border);

@@ -164,7 +164,7 @@ public class MockDatabaseStub implements IDatabase {
         Hashtable<String, Hashtable<String, String>> table = database.get(tableName);
         List<Hashtable<String, String>> list = new ArrayList<>();
 
-        int currKey = 1;
+        int currKey = 0;
         while (currKey <= Integer.parseInt(this.dbTablesHighestPrimaryKey.get(tableName))) {
             list.add(table.get(Integer.toString(currKey)));
             ++currKey;
@@ -192,7 +192,7 @@ public class MockDatabaseStub implements IDatabase {
 
         Hashtable<String, Hashtable<String, String>> newTable = new Hashtable<>(100);
         this.database.put(tableName, newTable);
-        this.dbTablesHighestPrimaryKey.put(tableName, "0");
+        this.dbTablesHighestPrimaryKey.put(tableName, "-1");
     }
 
     /**

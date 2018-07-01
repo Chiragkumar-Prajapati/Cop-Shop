@@ -37,4 +37,11 @@ public interface IListingService {
 //     * @return String float representing next bid
 //     */
 //    String getNextBidTotal(ListingObject listing);
+
+    /**
+     * Fetch a listing from the db by listingId
+     * @param listingId The listing id
+     * @return ListingObject
+     */
+    ListingObject fetchListing(String listingId);
 }
