@@ -10,7 +10,7 @@ import android.widget.TextView;
 import android.content.SharedPreferences;
 
 import com.ctrlaltelite.copshop.R;
-import com.ctrlaltelite.copshop.application.CopShopApp;
+import com.ctrlaltelite.copshop.application.CopShopHub;
 import com.ctrlaltelite.copshop.objects.AccountObject;
 
 public class LoginActivity extends AppCompatActivity {
@@ -35,7 +35,7 @@ public class LoginActivity extends AppCompatActivity {
                 EditText etPassword = (EditText) findViewById(R.id.password);
                 String password = etPassword.getText().toString(); // Grab password from textbox
 
-                AccountObject user = CopShopApp.accountService.validateEmailAndPassword(userEmail,password);
+                AccountObject user = CopShopHub.getAccountService().validateEmailAndPassword(userEmail,password);
 
                 if (user == null) {
                     errorMsg.setText("What's all this, then? You're going to need" +
