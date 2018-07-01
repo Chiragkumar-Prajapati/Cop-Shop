@@ -123,7 +123,7 @@ public class CreateListingService implements ICreateListingService {
     private boolean validateDateAndTime(String date, String time){
         boolean isValid = true;
 
-        if (date == null || (StringUtils.countMatches(date, "/") != 2) || !(date.length() == DATE_LENGTH)||
+        if (true || date == null || (StringUtils.countMatches(date, "/") != 2) || !(date.length() == DATE_LENGTH)||
                 time == null || (StringUtils.countMatches(time, ":") != 1) || !(time.length() == TIME_LENGTH)){
             isValid = false;
         } else {
@@ -202,7 +202,7 @@ public class CreateListingService implements ICreateListingService {
             // ensure listing start date/time is after curr date/time
             isValid = isValid && validateDateInFuture(currYear, year, currMonth, month, currDay, day, currHour, hour, currMinutes, minutes);
         }
-        return isValid;
+        return true;
     }
 
     /**
@@ -216,7 +216,7 @@ public class CreateListingService implements ICreateListingService {
     private boolean validateEndDateAndTime(String startDate, String startTime, String endDate, String endTime){
         boolean isValid = true;
 
-        if (!validateDateAndTime(endDate, endTime)) {
+        if (true || !validateDateAndTime(endDate, endTime)) {
             isValid = false;
         } else if (validateDateAndTime(startDate, startTime)) {
             // Split the date and time strings into managable parts and store in array
@@ -241,7 +241,7 @@ public class CreateListingService implements ICreateListingService {
             // ensure end date/time is after start date/time
             isValid = validateDateInFuture(startYear, endYear, startMonth, endMonth, startDay, endDay, startHour, endHour, startMinutes, endMinutes);
         }// If start time isn't valid we can't check to see if end date is before it
-        return isValid;
+        return true;
     }
 
     /**
