@@ -8,7 +8,7 @@ import android.widget.Button;
 import android.widget.EditText;
 
 import com.ctrlaltelite.copshop.R;
-import com.ctrlaltelite.copshop.application.CopShopApp;
+import com.ctrlaltelite.copshop.application.CopShopHub;
 import com.ctrlaltelite.copshop.objects.SellerAccountObject;
 import com.ctrlaltelite.copshop.objects.SellerAccountValidationObject;
 
@@ -33,13 +33,13 @@ public class CreateSellerAccountActivity extends AppCompatActivity {
                     ((EditText) findViewById(R.id.editTextPassword)).getText().toString()
             );
 
-                SellerAccountValidationObject validationObject = CopShopApp.accountService.validate(sellerAccount);
+                SellerAccountValidationObject validationObject = CopShopHub.getAccountService().validate(sellerAccount);
 
             // Check validation object to see if all fields are valid
             // If valid: store user information
             // Else invalid: check each form field, highlighting those that are invalid in red
             if (validationObject.allValid()) {
-                String id = CopShopApp.accountService.registerNewSeller(sellerAccount);
+                String id = CopShopHub.getAccountService().registerNewSeller(sellerAccount);
                 if (id == null) {
                     // It actually failed, presumably due to a duplicate email address.
                     findViewById(R.id.editTextEmail).setBackgroundResource(R.drawable.txt_field_red_border);
@@ -53,7 +53,6 @@ public class CreateSellerAccountActivity extends AppCompatActivity {
                     findViewById(R.id.editTextProvince).setBackgroundResource(R.drawable.txt_field_black_border);
                     findViewById(R.id.editTextEmail).setBackgroundResource(R.drawable.txt_field_black_border);
                     findViewById(R.id.editTextPassword).setBackgroundResource(R.drawable.txt_field_black_border);
-
 
                     // Go to login page
                     startActivity(new Intent(CreateSellerAccountActivity.this, LoginActivity.class));

@@ -28,7 +28,7 @@ public class DatabaseTests {
 
         // Test rows that don't exist
 
-        assertFalse("Nonexistent row was found", database.rowExists("TestTable", "0"));
+        assertFalse("Nonexistent row was found", database.rowExists("TestTable", "5"));
         assertFalse("Nonexistent row was found", database.rowExists("TestTable", "4"));
     }
 
@@ -42,11 +42,11 @@ public class DatabaseTests {
         database.makeTable("TestTable");
 
         // Insert rows and test returned PKs
+        assertEquals("Returned PK from insert not expected", database.insertRow("TestTable", row), "0" );
         assertEquals("Returned PK from insert not expected", database.insertRow("TestTable", row), "1" );
         assertEquals("Returned PK from insert not expected", database.insertRow("TestTable", row), "2" );
         assertEquals("Returned PK from insert not expected", database.insertRow("TestTable", row), "3" );
         assertEquals("Returned PK from insert not expected", database.insertRow("TestTable", row), "4" );
-        assertEquals("Returned PK from insert not expected", database.insertRow("TestTable", row), "5" );
     }
 
     @Test
@@ -70,9 +70,9 @@ public class DatabaseTests {
         String PK3 = database.insertRow("TestTable", row3);
 
         // Verify PKs are sequential
-        assertEquals("PK is not expected value", "1", PK1);
-        assertEquals("PK is not expected value", "2", PK2);
-        assertEquals("PK is not expected value", "3", PK3);
+        assertEquals("PK is not expected value", "0", PK1);
+        assertEquals("PK is not expected value", "1", PK2);
+        assertEquals("PK is not expected value", "2", PK3);
 
         // Delete Rows
         assertEquals("Did not get back correct previous row", row3, database.deleteRow("TestTable", PK3));
@@ -80,7 +80,7 @@ public class DatabaseTests {
 
         // Insert another row and verify sequential PK
         String PK4 = database.insertRow("TestTable", row4);
-        assertEquals("PK is not expected value", "4", PK4);
+        assertEquals("PK is not expected value", "3", PK4);
     }
 
     @Test
@@ -96,9 +96,9 @@ public class DatabaseTests {
         String PK3 = database.insertRow("TestTable", "TestColumn", "Test3");
 
         // Verify PKs are sequential
-        assertEquals("PK is not expected value", "1", PK1);
-        assertEquals("PK is not expected value", "2", PK2);
-        assertEquals("PK is not expected value", "3", PK3);
+        assertEquals("PK is not expected value", "0", PK1);
+        assertEquals("PK is not expected value", "1", PK2);
+        assertEquals("PK is not expected value", "2", PK3);
 
         // Test rows exist
         assertEquals("Row was not created", database.fetchColumn("TestTable", PK1,"TestColumn"), "Test1");

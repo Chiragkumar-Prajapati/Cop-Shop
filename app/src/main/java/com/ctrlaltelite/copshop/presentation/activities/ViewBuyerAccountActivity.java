@@ -10,7 +10,7 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 import com.ctrlaltelite.copshop.R;
-import com.ctrlaltelite.copshop.application.CopShopApp;
+import com.ctrlaltelite.copshop.application.CopShopHub;
 import com.ctrlaltelite.copshop.logic.services.stubs.AccountService;
 import com.ctrlaltelite.copshop.objects.AccountObject;
 import com.ctrlaltelite.copshop.objects.BuyerAccountObject;
@@ -80,7 +80,7 @@ public class ViewBuyerAccountActivity extends AppCompatActivity {
                         ((EditText) findViewById(R.id.editTextPassword)).getText().toString()
                 );
 
-                BuyerAccountValidationObject validationObject = CopShopApp.accountService.validate(buyerAccount);
+                BuyerAccountValidationObject validationObject = CopShopHub.getAccountService().validate(buyerAccount);
 
                 // Check validation object to see if all fields are valid
                 // If valid: store user information
@@ -90,7 +90,7 @@ public class ViewBuyerAccountActivity extends AppCompatActivity {
                     SharedPreferences sharedPreferences = getSharedPreferences("currentUser", 0);
                     String idPref = sharedPreferences.getString("userID", "-1");
                     if (!idPref.equals("-1")) {
-                        success = CopShopApp.accountService.updateBuyerAccount(idPref, buyerAccount);
+                        success = CopShopHub.getAccountService().updateBuyerAccount(idPref, buyerAccount);
                     }
                     if (success) {
                         SharedPreferences.Editor editor = sharedPreferences.edit();
@@ -242,7 +242,7 @@ public class ViewBuyerAccountActivity extends AppCompatActivity {
             String emailPref = sharedPreferences.getString("email", "-1");
             if (!emailPref.equals("-1")) {
 
-                AccountObject account = CopShopApp.accountService.fetchAccountByEmail(emailPref);
+                AccountObject account = CopShopHub.getAccountService().fetchAccountByEmail(emailPref);
 
                 if (account instanceof BuyerAccountObject) {
                     BuyerAccountObject buyer = (BuyerAccountObject)account;

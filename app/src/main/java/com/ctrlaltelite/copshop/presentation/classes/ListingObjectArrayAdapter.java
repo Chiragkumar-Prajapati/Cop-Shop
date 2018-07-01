@@ -11,7 +11,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.ctrlaltelite.copshop.R;
-import com.ctrlaltelite.copshop.application.CopShopApp;
+import com.ctrlaltelite.copshop.application.CopShopHub;
 import com.ctrlaltelite.copshop.presentation.utilities.StringUtility;
 import com.ctrlaltelite.copshop.objects.ListingObject;
 import java.util.List;
@@ -48,7 +48,7 @@ public class ListingObjectArrayAdapter extends ArrayAdapter<ListingObject> {
         // Trim and set the description and other fields
         title.setText(info.getTitle());
         description.setText(StringUtility.ellipsize(info.getDescription(), 80));
-        seller.setText(CopShopApp.listingService.getSellerNameFromListing(info.getSellerId()));
+        seller.setText(CopShopHub.getListingService().getSellerNameFromListing(info.getSellerId()));
 
         // Get the image associated with this listing
 //        int imageID = context.getResources().getIdentifier(info.getImage(), "drawable", context.getPackageName());

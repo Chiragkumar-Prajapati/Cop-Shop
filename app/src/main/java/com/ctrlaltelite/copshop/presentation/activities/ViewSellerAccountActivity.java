@@ -9,7 +9,7 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 import com.ctrlaltelite.copshop.R;
-import com.ctrlaltelite.copshop.application.CopShopApp;
+import com.ctrlaltelite.copshop.application.CopShopHub;
 import com.ctrlaltelite.copshop.objects.AccountObject;
 import com.ctrlaltelite.copshop.objects.SellerAccountObject;
 import com.ctrlaltelite.copshop.objects.SellerAccountValidationObject;
@@ -77,7 +77,7 @@ public class ViewSellerAccountActivity extends AppCompatActivity {
                         ((EditText) findViewById(R.id.editTextPassword)).getText().toString()
                 );
 
-                SellerAccountValidationObject validationObject = CopShopApp.accountService.validate(sellerAccount);
+                SellerAccountValidationObject validationObject = CopShopHub.getAccountService().validate(sellerAccount);
 
                 // Check validation object to see if all fields are valid
                 // If valid: store user information
@@ -87,7 +87,7 @@ public class ViewSellerAccountActivity extends AppCompatActivity {
                     SharedPreferences sharedPreferences = getSharedPreferences("currentUser", 0);
                     String idPref = sharedPreferences.getString("userID", "-1");
                     if (!idPref.equals("-1")) {
-                        success = CopShopApp.accountService.updateSellerAccount(idPref, sellerAccount);
+                        success = CopShopHub.getAccountService().updateSellerAccount(idPref, sellerAccount);
                     }
                     if (success) {
                         SharedPreferences.Editor editor = sharedPreferences.edit();
@@ -225,7 +225,7 @@ public class ViewSellerAccountActivity extends AppCompatActivity {
             // Nothing there if user not logged in
             String emailPref = sharedPreferences.getString("email", "-1");
             if (!emailPref.equals("-1")) {
-                AccountObject account = CopShopApp.accountService.fetchAccountByEmail(emailPref);
+                AccountObject account = CopShopHub.getAccountService().fetchAccountByEmail(emailPref);
 
                 if (account instanceof SellerAccountObject) {
                     SellerAccountObject seller = (SellerAccountObject)account;

@@ -8,7 +8,7 @@ import android.widget.Button;
 import android.widget.EditText;
 
 import com.ctrlaltelite.copshop.R;
-import com.ctrlaltelite.copshop.application.CopShopApp;
+import com.ctrlaltelite.copshop.application.CopShopHub;
 import com.ctrlaltelite.copshop.objects.BuyerAccountObject;
 import com.ctrlaltelite.copshop.objects.BuyerAccountValidationObject;
 
@@ -34,13 +34,13 @@ public class CreateBuyerAccountActivity extends AppCompatActivity {
                     ((EditText) findViewById(R.id.editTextPassword)).getText().toString()
             );
 
-            BuyerAccountValidationObject validationObject = CopShopApp.accountService.validate(buyerAccount);
+            BuyerAccountValidationObject validationObject = CopShopHub.getAccountService().validate(buyerAccount);
 
             // Check validation object to see if all fields are valid
             // If valid: store user information
             // Else invalid: check each form field, highlighting those that are invalid in red
             if (validationObject.allValid()) {
-                String id = CopShopApp.accountService.registerNewBuyer(buyerAccount);
+                String id = CopShopHub.getAccountService().registerNewBuyer(buyerAccount);
                 if (id == null) {
                     // It actually failed, presumably due to a duplicate email address.
                     findViewById(R.id.editTextEmail).setBackgroundResource(R.drawable.txt_field_red_border);
@@ -55,7 +55,6 @@ public class CreateBuyerAccountActivity extends AppCompatActivity {
                     findViewById(R.id.editTextProvince).setBackgroundResource(R.drawable.txt_field_black_border);
                     findViewById(R.id.editTextEmail).setBackgroundResource(R.drawable.txt_field_black_border);
                     findViewById(R.id.editTextPassword).setBackgroundResource(R.drawable.txt_field_black_border);
-
 
                     // Go to login page
                     startActivity(new Intent(CreateBuyerAccountActivity.this, LoginActivity.class));
