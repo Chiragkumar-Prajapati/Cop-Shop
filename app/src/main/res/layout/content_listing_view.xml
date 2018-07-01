@@ -4,11 +4,11 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:focusable="true"
+    android:focusableInTouchMode="true"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
     tools:context=".presentation.activities.ListingViewActivity"
-    tools:showIn="@layout/activity_listing_view"
-    android:focusable="true"
-    android:focusableInTouchMode="true">
+    tools:showIn="@layout/activity_listing_view">
 
     <TextView
         android:id="@+id/view_listing_ending_in_time_date"
@@ -149,8 +149,7 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/view_listing_ending_in_time_date"
-        app:layout_constraintTop_toBottomOf="@+id/view_listing_bid_input">
-    </ListView>
+        app:layout_constraintTop_toBottomOf="@+id/view_listing_bid_input"></ListView>
 
     <EditText
         android:id="@+id/view_listing_bid_input"
@@ -175,6 +174,7 @@
         android:layout_width="60dp"
         android:layout_height="0dp"
         android:layout_marginEnd="16dp"
+        android:background="@color/colorPrimaryDark"
         android:backgroundTint="@color/colorPrimaryDark"
         android:hapticFeedbackEnabled="true"
         android:text="Bid"
@@ -182,4 +182,17 @@
         app:layout_constraintBottom_toBottomOf="@+id/view_listing_bid_input"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="@+id/view_listing_bid_input" />
+
+    <Button
+        android:id="@+id/view_listing_edit_button"
+        android:layout_width="102dp"
+        android:layout_height="0dp"
+        android:background="?attr/colorButtonNormal"
+        android:backgroundTint="?attr/colorButtonNormal"
+        android:hapticFeedbackEnabled="true"
+        android:text="Edit Listing"
+        android:textColor="@android:color/black"
+        app:layout_constraintBottom_toBottomOf="@+id/view_listing_title"
+        app:layout_constraintEnd_toEndOf="@+id/view_listing_title"
+        app:layout_constraintTop_toTopOf="@+id/view_listing_title" />
 </android.support.constraint.ConstraintLayout>

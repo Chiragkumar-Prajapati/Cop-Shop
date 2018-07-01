@@ -44,4 +44,19 @@ public interface IListingService {
      * @return ListingObject
      */
     ListingObject fetchListing(String listingId);
+
+    /**
+     * Delete a listing from the db by listingId
+     * @param listingId The listing id
+     * @return success or not
+     */
+    boolean deleteListing(String listingId);
+
+    /**
+     * Update a listing in the db by listingId
+     * @param listingId The listing id
+     * @param updatedObj The new version of the listing
+     * @return success or not
+     */
+    boolean updateListing(String listingId, ListingObject updatedObj);
 }

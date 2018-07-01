@@ -54,4 +54,19 @@ public class ListingService implements IListingService {
 
         return listingModel.fetch(listingId);
     }
+
+    @Override
+    public boolean deleteListing(String listingId) {
+        if (null == listingId) { throw new IllegalArgumentException("listingId cannot be null"); }
+
+        return listingModel.delete(listingId);
+    }
+
+    @Override
+    public boolean updateListing(String listingId, ListingObject updatedObj) {
+        if (null == listingId) { throw new IllegalArgumentException("listingId cannot be null"); }
+        if (null == updatedObj) { throw new IllegalArgumentException("updated object cannot be null"); }
+
+        return listingModel.update(listingId, updatedObj);
+    }
 }
