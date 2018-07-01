@@ -10,7 +10,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import com.ctrlaltelite.copshop.R;
-import com.ctrlaltelite.copshop.application.CopShopApp;
+import com.ctrlaltelite.copshop.application.CopShopHub;
 import com.ctrlaltelite.copshop.objects.ListingObject;
 
 public class ListingViewActivity extends AppCompatActivity {
@@ -31,7 +31,7 @@ public class ListingViewActivity extends AppCompatActivity {
             listingId = extras.getString("listingId");
         }
         if (null != listingId) {
-            listing = CopShopApp.listingModel.fetch(listingId);
+            listing = CopShopHub.getListingService().fetchListing(listingId);
         }
 
         // Render all information on page
@@ -49,10 +49,10 @@ public class ListingViewActivity extends AppCompatActivity {
 
             title.setText(listing.getTitle());
             description.setText(listing.getDescription());
-            postedBy.setText(CopShopApp.listingService.getSellerName(listing.getSellerId()));
+            postedBy.setText(CopShopHub.getListingService().getSellerName(listing.getSellerId()));
 
             // Hide the bid button, list, and field until bidding feature is complete
-            bidInput.setHint(CopShopApp.listingService.getNextBidTotal(listing));
+            bidInput.setHint(CopShopHub.getViewListingService().getNextBidTotal(listing));
 //            bidInput.setVisibility(View.INVISIBLE);
 //            bidList.setVisibility(View.INVISIBLE);
 //            bidButton.setVisibility(View.INVISIBLE);

@@ -32,6 +32,13 @@ public interface IListingService {
     String getSellerName(String sellerId);
 
     /**
+     * Fetch a listing from the db by listingId
+     * @param listingId The listing id
+     * @return ListingObject
+     */
+    ListingObject fetchListing(String listingId);
+
+    /**
      * Get the next highest bid amount
      * @param listing the listing
      * @return String float representing next bid

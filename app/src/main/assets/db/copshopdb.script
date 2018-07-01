@@ -1,0 +1,21 @@
+CREATE SCHEMA PUBLIC AUTHORIZATION DBA
+CREATE MEMORY TABLE PUBLIC.BUYERS(id INTEGER NOT NULL IDENTITY, firstname VARCHAR(100), lastname VARCHAR(100), address VARCHAR(100), postalcode VARCHAR(100), province VARCHAR(100), email VARCHAR(100), password VARCHAR(100))
+CREATE MEMORY TABLE PUBLIC.SELLERS(id INTEGER NOT NULL IDENTITY, name VARCHAR(100), address VARCHAR(100), postalcode VARCHAR(100), province VARCHAR(100), email VARCHAR(200), password VARCHAR(100))
+CREATE MEMORY TABLE PUBLIC.LISTINGS(id INTEGER NOT NULL IDENTITY, title VARCHAR(100), description VARCHAR(1000), initprice VARCHAR(100), minbid VARCHAR(100), auctionstartdate VARCHAR(100), auctionstarttime VARCHAR(100), auctionenddate VARCHAR(100), auctionendtime VARCHAR(100), sellerid INTEGER NOT NULL, CONSTRAINT CONSTRAINT1 FOREIGN KEY(sellerid) REFERENCES SELLERS(id))
+CREATE USER SA PASSWORD DIGEST 'd41d8cd98f00b204e9800998ecf8427e'
+ALTER USER SA SET LOCAL TRUE
+CREATE SCHEMA PUBLIC AUTHORIZATION DBA
+SET DATABASE DEFAULT INITIAL SCHEMA PUBLIC
+GRANT DBA TO SA
+SET WRITE_DELAY FALSE
+SET SCHEMA PUBLIC
+INSERT INTO BUYERS VALUES(0, 'John', 'Smith', '123 Street', 'A1A 1A1', 'MB', 'john@email.com', 'john')
+INSERT INTO SELLERS VALUES(0, 'Local Precinct', '60 Police St', 'R2R3H3', 'Manitoba', 'local@police.com', '12345')
+INSERT INTO LISTINGS VALUES(0, 'Bicycle 1', 'Poor condition, was found stuck in a tree upon day of seizure.', '10.00', '1.00', '01/02/2018', '12:00', '10/02/2018', '20:00', 0)
+INSERT INTO LISTINGS VALUES(1, 'Nondescript Firearm 2', 'It is a gun. We think it shoots bullets, maybe nerf darts. Hard to say.', '10.00', '1.00', '01/02/2018', '12:00', '10/02/2018', '20:00', 0)
+INSERT INTO LISTINGS VALUES(2, 'Old Hotdog 3', 'Still smells alright.', '10.00', '1.00', '01/02/2018', '12:00', '10/02/2018', '20:00', 0)
+INSERT INTO LISTINGS VALUES(3, 'Toothbrush 4', 'Pre-lubricated. The handle is filed to a sharp point to spare you expense in toothpicks. Has probably never been used before.', '10.00', '1.00', '01/02/2018', '12:00', '10/02/2018', '20:00', 0)
+INSERT INTO LISTINGS VALUES(4, 'Several Gerbils 5', 'Assorted colors. You might need a net to come pick them up.', '10.00', '1.00', '01/02/2018', '12:00', '10/02/2018', '20:00', 0)
+INSERT INTO LISTINGS VALUES(5, 'Pen 6', 'Blue ink. It does not write very well.', '10.00', '1.00', '01/02/2018', '12:00', '10/02/2018', '20:00', 0)
+INSERT INTO LISTINGS VALUES(6, 'Live Octopus 7', 'It keeps oozing out of its tank and escaping. Please take it away.', '10.00', '1.00', '01/02/2018', '12:00', '10/02/2018', '20:00', 0)
+INSERT INTO LISTINGS VALUES(7, 'Riding Lawnmower 8', 'Front tire is flat and needs to be replaced. Does not cut grass evenly. Has a couple of stains and dents. You need a license to drive this machine.', '10.00', '1.00', '01/02/2018', '12:00', '10/02/2018', '20:00', 0)
