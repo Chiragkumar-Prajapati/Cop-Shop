@@ -169,7 +169,7 @@ public class AccountService implements com.ctrlaltelite.copshop.logic.services.I
     private SellerAccountValidationObject validateInputForm(SellerAccountObject sellerObject) {
         SellerAccountValidationObject validationSellerObject = new SellerAccountValidationObject();
 
-        validationSellerObject.setValidOrganizationName(validateFirstName(sellerObject.getOrganizationName()));
+        validationSellerObject.setValidOrganizationName(validateOrganizationName(sellerObject.getOrganizationName()));
         validationSellerObject.setValidStreetAddress(validateStreetAddress(sellerObject.getStreetAddress()));
         validationSellerObject.setValidPostalCode(validatePostalCode(sellerObject.getPostalCode()));
         validationSellerObject.setValidProvince(validateProvince(sellerObject.getProvince()));

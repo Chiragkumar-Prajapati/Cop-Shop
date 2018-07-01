@@ -52,18 +52,20 @@ public class AccountServiceTests {
         IBuyerModel buyerModel = new BuyerModel(database);
         IAccountService accountService = new AccountService(sellerModel, buyerModel);
 
-        BuyerAccountObject account = new BuyerAccountObject("ignored","name1", "other",
+        BuyerAccountObject account1 = new BuyerAccountObject("ignored","name1", "other",
                 "123 Someplace", "h0h 0h0","MB","email1", "pass1");
+        BuyerAccountObject account2 = new BuyerAccountObject("ignored","name2", "other",
+                "123 Someplace", "h0h 0h0","MB","email2", "pass2");
 
         // Save the new listings
-        String id1 = accountService.registerNewBuyer(account);
-        String id2 = accountService.registerNewBuyer(account);
-        String id3 = accountService.registerNewBuyer(account);
+        String id1 = accountService.registerNewBuyer(account1);
+        String id2 = accountService.registerNewBuyer(account2);
+        String id3 = accountService.registerNewBuyer(account1);
 
         // Verify they were created
         assertTrue("Row was not created", database.rowExists("Buyers", id1));
         assertTrue("Row was not created", database.rowExists("Buyers", id2));
-        assertTrue("Row was not created", database.rowExists("Buyers", id3));
+        assertNull("Row with duplicate email created", id3);
 
     }
 
@@ -74,19 +76,75 @@ public class AccountServiceTests {
         IBuyerModel buyerModel = new BuyerModel(database);
         IAccountService accountService = new AccountService(sellerModel, buyerModel);
 
-        SellerAccountObject account = new SellerAccountObject("ignored","name1",
+        SellerAccountObject account1 = new SellerAccountObject("ignored","name1",
                 "123 Someplace", "h0h 0h0","MB","email1", "pass1");
+        SellerAccountObject account2 = new SellerAccountObject("ignored","name2",
+                "123 Someplace", "h0h 0h0","MB","email2", "pass2");
 
         // Save the new listings
-        String id1 = accountService.registerNewSeller(account);
-        String id2 = accountService.registerNewSeller(account);
-        String id3 = accountService.registerNewSeller(account);
+        String id1 = accountService.registerNewSeller(account1);
+        String id2 = accountService.registerNewSeller(account2);
+        String id3 = accountService.registerNewSeller(account1);
 
         // Verify they were created
         assertTrue("Row was not created", database.rowExists("Sellers", id1));
         assertTrue("Row was not created", database.rowExists("Sellers", id2));
-        assertTrue("Row was not created", database.rowExists("Sellers", id3));
+        assertNull("Row with duplicate email created", id3);
 
+    }
+
+    @Test
+    public void updateBuyer_savesAccountChanges(){
+        IDatabase database = new MockDatabaseStub();
+        ISellerModel sellerModel = new SellerModel(database);
+        IBuyerModel buyerModel = new BuyerModel(database);
+        IAccountService accountService = new AccountService(sellerModel, buyerModel);
+
+        BuyerAccountObject account1 = new BuyerAccountObject("ignored","name1", "other",
+                "123 Someplace", "h0h 0h0","MB","email1", "pass1");
+        BuyerAccountObject account2 = new BuyerAccountObject("ignored","name2", "other",
+                "123 Someplace", "h0h 0h0","MB","email2", "pass2");
+
+        // Save the new listings
+        String id1 = accountService.registerNewBuyer(account1);
+        String id2 = accountService.registerNewBuyer(account2);
+
+        BuyerAccountObject account3 = new BuyerAccountObject("ignored","name1", "other",
+                "123 Someplace", "h0h 0h0","MB","email3", "pass1");
+
+        boolean success = accountService.updateBuyerAccount(id1, account3);
+        assertTrue("Row was not updated", success);
+
+        // Verify they were updated
+        assertNull("Row with old email exists", accountService.fetchAccountByEmail("email1"));
+        assertNotNull("Row with new email does not exist", accountService.fetchAccountByEmail("email3"));
+    }
+
+    @Test
+    public void updateSeller_savesAccountChanges(){
+        IDatabase database = new MockDatabaseStub();
+        ISellerModel sellerModel = new SellerModel(database);
+        IBuyerModel buyerModel = new BuyerModel(database);
+        IAccountService accountService = new AccountService(sellerModel, buyerModel);
+
+        SellerAccountObject account1 = new SellerAccountObject("ignored","name1",
+                "123 Someplace", "h0h 0h0","MB","email1", "pass1");
+        SellerAccountObject account2 = new SellerAccountObject("ignored","name2",
+                "123 Someplace", "h0h 0h0","MB","email2", "pass2");
+
+        // Save the new listings
+        String id1 = accountService.registerNewSeller(account1);
+        String id2 = accountService.registerNewSeller(account2);
+
+        SellerAccountObject account3 = new SellerAccountObject("ignored","name1",
+                "123 Someplace", "h0h 0h0","MB","email3", "pass1");
+
+        boolean success = accountService.updateSellerAccount(id1, account3);
+        assertTrue("Row was not updated", success);
+
+        // Verify they were updated
+        assertNull("Row with old email exists", accountService.fetchAccountByEmail("email1"));
+        assertNotNull("Row with new email does not exist", accountService.fetchAccountByEmail("email3"));
     }
 
     @Test
