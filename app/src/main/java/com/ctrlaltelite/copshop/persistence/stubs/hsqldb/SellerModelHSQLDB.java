@@ -242,7 +242,7 @@ public class SellerModelHSQLDB implements ISellerModel {
 
     @Override
     public String[] getAllSellerNames() {
-        String[] locations = new String[getNumSellers()];
+        String[] locations = new String[getNumSellers()+1];
 
         PreparedStatement st = null;
         ResultSet rs = null;
@@ -252,7 +252,8 @@ public class SellerModelHSQLDB implements ISellerModel {
             st = dbConn.prepareStatement("SELECT DISTINCT name FROM " + TABLE_NAME);
             rs = st.executeQuery();
 
-            int i = 0;
+            locations[0] = "";
+            int i = 1;
             while (rs.next()) {
                 // populate array with the locations
                 locations[i] = HSQLDBUtil.getStringFromResultSet(rs, "name");

@@ -69,6 +69,15 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <Spinner
+        android:id="@+id/category_spinner"
+        android:layout_width="377dp"
+        android:layout_height="45dp"
+        android:layout_marginStart="160dp"
+        android:layout_marginTop="268dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <Spinner
         android:id="@+id/status_spinner"
         android:layout_width="377dp"
         android:layout_height="41dp"
@@ -98,20 +107,6 @@
         android:background="@drawable/txt_field_black_border"
         android:ems="10"
         android:hint="Norco Nomad Cruiser"
-        android:inputType="textPersonName"
-        android:textSize="24sp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <EditText
-        android:id="@+id/txtFilterCategory"
-        android:layout_width="379dp"
-        android:layout_height="54dp"
-        android:layout_marginStart="152dp"
-        android:layout_marginTop="260dp"
-        android:background="@drawable/txt_field_black_border"
-        android:ems="10"
-        android:hint="Bikes"
         android:inputType="textPersonName"
         android:textSize="24sp"
         app:layout_constraintStart_toStartOf="parent"

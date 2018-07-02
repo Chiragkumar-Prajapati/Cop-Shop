@@ -73,4 +73,16 @@ public interface IListingModel {
      * @return List containing all listings as ListingObjects
      */
     List<ListingObject> fetchAll();
+
+    /**
+     * Get a count of all the various categories that exist in the database
+     * @return int equal to the number of sellers in the database
+     */
+    int getNumCategories();
+
+    /**
+     * Get all the various categories of the listings
+     * @return String[] array containing all the categories
+     */
+    String[] getAllCategories();
 }

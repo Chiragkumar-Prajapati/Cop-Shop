@@ -27,6 +27,7 @@ public class ListingFormValidationObject {
         this.initPriceValid = true;
         this.minBidValid = true;
         this.startDateAndTimeValid = true;
+        this.categoryValid = true;
         this.endDateAndTimeValid = true;
     }
 
@@ -36,6 +37,7 @@ public class ListingFormValidationObject {
     private Boolean minBidValid; // Minimum amount by which a bid can increment
     private Boolean startDateAndTimeValid; // Format - Date: DD/MM/YEAR Time: HR:MN (24 HR)
     private Boolean endDateAndTimeValid; // Format - Date: DD/MM/YEAR Time: HR:MN (24 HR)
+    private Boolean categoryValid;
 
     public Boolean getTitleValid() {
         return titleValid;
@@ -83,6 +85,14 @@ public class ListingFormValidationObject {
 
     private void setEndDateAndTimeValid(Boolean auctionEndDateValid) {
         this.endDateAndTimeValid = auctionEndDateValid;
+    }
+
+    public Boolean getCategoryValid() {
+        return categoryValid;
+    }
+
+    private void setCategoryValid(Boolean categoryValid) {
+        this.categoryValid = categoryValid;
     }
 
     /**
@@ -207,6 +217,16 @@ public class ListingFormValidationObject {
             }
         }
         setEndDateAndTimeValid(isValid);
+    }
+
+    /**
+     * Determine if category form field is valid(non-empty)
+     * Sets the boolean value indicating validity once done
+     * @param category String containing the form field text
+     */
+    public void validateCategory (String category){
+        boolean isValid = category != null && !category.isEmpty();
+        setDescriptionValid(isValid);
     }
 
     /**

@@ -27,6 +27,18 @@ public class FilterListingsActivity extends AppCompatActivity {
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
+        /*Category spinner(drop-down list)*/
+        // get array containing all locations
+        String[] categories = CopShopHub.getListingModel().getAllCategories();
+        // add locations to location spinner
+        Spinner categorySpinner = (Spinner) findViewById(R.id.category_spinner);
+        // Create an ArrayAdapter using the string array and a default spinner layout
+        ArrayAdapter<String> categoryAdapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, categories);
+        // Specify the layout to use when the list of choices appears
+        categoryAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        // Apply the adapter to the spinner
+        categorySpinner.setAdapter(categoryAdapter);
+
         /*Location spinner(drop-down list)*/
         // get array containing all locations
         String[] locations = CopShopHub.getSellerModel().getAllSellerNames();
@@ -56,7 +68,7 @@ public class FilterListingsActivity extends AppCompatActivity {
                 Intent intent = new Intent(FilterListingsActivity.this, ListingListActivity.class);
                 intent.putExtra("name", ((EditText) findViewById(R.id.txtFilterName)).getText().toString());
                 intent.putExtra("location", ((Spinner) findViewById(R.id.locations_spinner)).getSelectedItem().toString());
-                intent.putExtra("category", ((EditText) findViewById(R.id.txtFilterCategory)).getText().toString());
+                intent.putExtra("category", ((Spinner) findViewById(R.id.category_spinner)).getSelectedItem().toString());
                 intent.putExtra("status", ((Spinner) findViewById(R.id.status_spinner)).getSelectedItem().toString());
                 startActivity(intent);
             }

@@ -61,6 +61,9 @@ public class CreateListingService implements ICreateListingService {
         // EndDateAndTime
         validationObject.validateEndDateAndTime(listingObject.getAuctionStartDate(), listingObject.getAuctionEndDate());
 
+        // Category
+        validationObject.validateDescription(listingObject.getCategory());
+
         // Description
         validationObject.validateDescription(listingObject.getDescription());
 

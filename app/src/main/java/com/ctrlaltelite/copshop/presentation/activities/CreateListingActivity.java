@@ -94,6 +94,7 @@ public class CreateListingActivity extends AppCompatActivity {
                         ((EditText) findViewById(R.id.txtMinBid)).getText().toString(),
                         ((TextView) findViewById(R.id.txtStartDate)).getText().toString(),
                         ((TextView) findViewById(R.id.txtEndDate)).getText().toString(),
+                        ((TextView) findViewById(R.id.txtCategory)).getText().toString(),
                         "0" // Currently logged in seller's id, change when differentiated login is implemented
                 );
 
@@ -111,6 +112,7 @@ public class CreateListingActivity extends AppCompatActivity {
                     findViewById(R.id.txtMinBid).setBackgroundResource(R.drawable.txt_field_black_border);
                     findViewById(R.id.txtStartDate).setBackgroundResource(R.drawable.txt_field_black_border);
                     findViewById(R.id.txtEndDate).setBackgroundResource(R.drawable.txt_field_black_border);
+                    findViewById(R.id.txtCategory).setBackgroundResource(R.drawable.txt_field_black_border);
                     findViewById(R.id.txtAreaDescription).setBackgroundResource(R.drawable.txt_field_black_border);
 
                     // Goto listing list page
@@ -150,6 +152,13 @@ public class CreateListingActivity extends AppCompatActivity {
                         findViewById(R.id.txtEndDate).setBackgroundResource(R.drawable.txt_field_red_border);
                     } else {
                         findViewById(R.id.txtEndDate).setBackgroundResource(R.drawable.txt_field_black_border);
+                    }
+
+                    // Check all fields relating to listing end date and time
+                    if (!validationObject.getEndDateAndTimeValid()) {
+                        findViewById(R.id.txtCategory).setBackgroundResource(R.drawable.txt_field_red_border);
+                    } else {
+                        findViewById(R.id.txtCategory).setBackgroundResource(R.drawable.txt_field_black_border);
                     }
 
                     // Check listing description

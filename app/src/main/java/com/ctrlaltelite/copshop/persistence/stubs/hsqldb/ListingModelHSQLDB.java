@@ -39,8 +39,8 @@ public class ListingModelHSQLDB implements IListingModel {
         try {
             st = dbConn.prepareStatement(
                     "INSERT INTO " + TABLE_NAME + " " +
-                        "(title,description,initprice,minbid,auctionstartdate,auctionenddate,sellerid) " +
-                        "VALUES (?, ?, ?, ?, ?, ?, ?)",
+                        "(title,description,initprice,minbid,auctionstartdate,auctionenddate,category,sellerid) " +
+                        "VALUES (?, ?, ?, ?, ?, ?, ?, ?)",
                     RETURN_GENERATED_KEYS);
             st.setString(1, newListing.getTitle());
             st.setString(2, newListing.getDescription());
@@ -48,7 +48,8 @@ public class ListingModelHSQLDB implements IListingModel {
             st.setString(4, newListing.getMinBid());
             st.setString(5, newListing.getAuctionStartDate());
             st.setString(6, newListing.getAuctionEndDate());
-            st.setInt(7, Integer.parseInt(newListing.getSellerId()));
+            st.setString(7, newListing.getCategory());
+            st.setInt(8, Integer.parseInt(newListing.getSellerId()));
             int updated = st.executeUpdate();
 
             if (updated >= 1) {
@@ -107,6 +108,7 @@ public class ListingModelHSQLDB implements IListingModel {
                         "minbid = ?, " +
                         "auctionstartdate = ?, " +
                         "auctionenddate = ?, " +
+                        "category = ?, " +
                         "sellerid = ? " +
                         "WHERE id = ?");
             st.setString(1, updatedListing.getTitle());
@@ -115,8 +117,9 @@ public class ListingModelHSQLDB implements IListingModel {
             st.setString(4, updatedListing.getMinBid());
             st.setString(5, updatedListing.getAuctionStartDate());
             st.setString(6, updatedListing.getAuctionEndDate());
-            st.setInt(7, Integer.parseInt(updatedListing.getSellerId()));
-            st.setInt(8, Integer.parseInt(id));
+            st.setString(7, updatedListing.getCategory());
+            st.setInt(8, Integer.parseInt(updatedListing.getSellerId()));
+            st.setInt(9, Integer.parseInt(id));
             st.executeUpdate();
             return true;
 
@@ -166,15 +169,17 @@ public class ListingModelHSQLDB implements IListingModel {
         ResultSet rs = null;
 
         try {
-            st = dbConn.prepareStatement("SELECT * FROM " + TABLE_NAME + " WHERE name = ?");
-            st.setInt(1, Integer.parseInt(name));
-            rs = st.executeQuery();
+            if(!name.isEmpty()) {
+                st = dbConn.prepareStatement("SELECT * FROM " + TABLE_NAME);
+                rs = st.executeQuery();
 
-            while (rs.next()) {
-                ListingObject listingObject = fromResultSet(rs);
-                results.add(listingObject);
+                while (rs.next()) {
+                    ListingObject listingObject = fromResultSet(rs);
+                    if(listingObject.getTitle().contains(name) || listingObject.getDescription().contains(name)) {
+                        results.add(listingObject);
+                    }
+                }
             }
-
         } catch (final SQLException e) {
             e.printStackTrace();
 
@@ -199,16 +204,16 @@ public class ListingModelHSQLDB implements IListingModel {
         String sellerID = CopShopHub.getSellerModel().getSellerID(location);
 
         try {
+            if(!location.isEmpty()) {
+                st = dbConn.prepareStatement("SELECT * FROM " + TABLE_NAME + " WHERE sellerid = ?");
+                st.setInt(1, Integer.parseInt(sellerID));
+                rs = st.executeQuery();
 
-            st = dbConn.prepareStatement("SELECT * FROM " + TABLE_NAME + " WHERE sellerid = ?");
-            st.setInt(1, Integer.parseInt(sellerID));
-            rs = st.executeQuery();
-
-            while (rs.next()) {
-                ListingObject listingObject = fromResultSet(rs);
-                results.add(listingObject);
+                while (rs.next()) {
+                    ListingObject listingObject = fromResultSet(rs);
+                    results.add(listingObject);
+                }
             }
-
         } catch (final SQLException e) {
             e.printStackTrace();
 
@@ -230,7 +235,7 @@ public class ListingModelHSQLDB implements IListingModel {
 
         try {
             st = dbConn.prepareStatement("SELECT * FROM " + TABLE_NAME + " WHERE category = ?");
-            st.setInt(1, Integer.parseInt(category));
+            st.setString(1, category);
             rs = st.executeQuery();
 
             while (rs.next()) {
@@ -408,6 +413,65 @@ public class ListingModelHSQLDB implements IListingModel {
         return results;
     }
 
+    @Override
+    public int getNumCategories() {
+        int numCategories = 0;
+
+        PreparedStatement st = null;
+        ResultSet rs = null;
+
+        try {
+            st = dbConn.prepareStatement("SELECT COUNT (DISTINCT category) AS NumCategories FROM " + TABLE_NAME);
+            rs = st.executeQuery();
+
+            if (rs.next()) {
+                numCategories = Integer.parseInt(HSQLDBUtil.getStringFromResultSet(rs, "NumCategories"));
+            }
+            return numCategories;
+
+        } catch (final SQLException e) {
+            e.printStackTrace();
+            return -1;
+
+        } finally {
+            HSQLDBUtil.quietlyClose(rs);
+            HSQLDBUtil.quietlyClose(st);
+        }
+    }
+
+    @Override
+    public String[] getAllCategories() {
+        String[] categories = new String[getNumCategories()+1];
+
+        PreparedStatement st = null;
+        ResultSet rs = null;
+
+        // get all seller table rows
+        try {
+            st = dbConn.prepareStatement("SELECT DISTINCT category FROM " + TABLE_NAME);
+            rs = st.executeQuery();
+
+            categories[0] = "";
+
+            int i = 1;
+            while (rs.next()) {
+                // populate array with the locations
+                categories[i] = HSQLDBUtil.getStringFromResultSet(rs, "category");
+                i++;
+            }
+
+            return categories;
+
+        } catch (final SQLException e) {
+            e.printStackTrace();
+            return null;
+
+        } finally {
+            HSQLDBUtil.quietlyClose(rs);
+            HSQLDBUtil.quietlyClose(st);
+        }
+    }
+
     private ListingObject fromResultSet(final ResultSet rs) throws SQLException {
         if (null == rs) { throw new IllegalArgumentException("resultSet cannot be null"); }
 
@@ -417,10 +481,11 @@ public class ListingModelHSQLDB implements IListingModel {
         String minBid = HSQLDBUtil.getStringFromResultSet(rs, "minbid");
         String startDate = HSQLDBUtil.getStringFromResultSet(rs, "auctionstartdate");
         String endDate = HSQLDBUtil.getStringFromResultSet(rs, "auctionenddate");
+        String category = HSQLDBUtil.getStringFromResultSet(rs, "category");
         String sellerId = HSQLDBUtil.getIntAsStringFromResultSet(rs, "sellerid");
         String id = HSQLDBUtil.getIntAsStringFromResultSet(rs, "id");
 
         //System.out.println("Created Listing Object: " + id + ", " + title + ", " + desc + ", " + initPrice + ", " + minBid + ", " + startDate + ", " + endDate + ", " + sellerId);
-        return new ListingObject(id, title, desc, initPrice, minBid, startDate, endDate, sellerId);
+        return new ListingObject(id, title, desc, initPrice, minBid, startDate, endDate, category, sellerId);
     }
 }

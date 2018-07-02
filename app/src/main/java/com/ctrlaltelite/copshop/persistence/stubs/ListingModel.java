@@ -78,6 +78,7 @@ public class ListingModel implements IListingModel {
                     this.database.fetchColumn(TABLE_NAME, id, "minBid"),
                     this.database.fetchColumn(TABLE_NAME, id, "auctionStartDate"),
                     this.database.fetchColumn(TABLE_NAME, id, "auctionEndDate"),
+                    this.database.fetchColumn(TABLE_NAME, id, "category"),
                     this.database.fetchColumn(TABLE_NAME, id, "sellerId")
             );
         }
@@ -127,6 +128,7 @@ public class ListingModel implements IListingModel {
                         row.get("minBid"),
                         row.get("auctionStartDate"),
                         row.get("auctionEndDate"),
+                        row.get("category"),
                         row.get("sellerId")
                 );
 
@@ -135,5 +137,15 @@ public class ListingModel implements IListingModel {
         }
 
         return results;
+    }
+
+    @Override
+    public int getNumCategories() {
+        return 0;
+    }
+
+    @Override
+    public String[] getAllCategories() {
+        return new String[0];
     }
 }
