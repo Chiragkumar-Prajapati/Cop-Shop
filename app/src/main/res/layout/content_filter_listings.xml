@@ -116,10 +116,22 @@
         android:id="@+id/btnSearch"
         android:layout_width="162dp"
         android:layout_height="72dp"
-        android:layout_marginStart="228dp"
-        android:layout_marginTop="604dp"
+        android:layout_marginStart="348dp"
+        android:layout_marginTop="612dp"
         android:background="#1A5276"
         android:text="Search"
+        android:textColor="@android:color/white"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <Button
+        android:id="@+id/btnCancel"
+        android:layout_width="162dp"
+        android:layout_height="72dp"
+        android:layout_marginStart="96dp"
+        android:layout_marginTop="612dp"
+        android:background="#1A5276"
+        android:text="Cancel / Show All"
         android:textColor="@android:color/white"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />

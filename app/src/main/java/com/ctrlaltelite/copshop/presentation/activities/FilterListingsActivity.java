@@ -61,8 +61,8 @@ public class FilterListingsActivity extends AppCompatActivity {
         statusSpinner.setAdapter(statusAdapter);
 
         // Handle search button click
-        Button button = (Button) findViewById(R.id.btnSearch);
-        button.setOnClickListener(new View.OnClickListener() {
+        Button searchButton = (Button) findViewById(R.id.btnSearch);
+        searchButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 // Update listings and goto ListingList page
                 Intent intent = new Intent(FilterListingsActivity.this, ListingListActivity.class);
@@ -70,6 +70,16 @@ public class FilterListingsActivity extends AppCompatActivity {
                 intent.putExtra("location", ((Spinner) findViewById(R.id.locations_spinner)).getSelectedItem().toString());
                 intent.putExtra("category", ((Spinner) findViewById(R.id.category_spinner)).getSelectedItem().toString());
                 intent.putExtra("status", ((Spinner) findViewById(R.id.status_spinner)).getSelectedItem().toString());
+                startActivity(intent);
+            }
+        });
+
+        // Handle clear button click
+        Button clearButton = (Button) findViewById(R.id.btnCancel);
+        clearButton.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                // Goto ListingList page
+                Intent intent = new Intent(FilterListingsActivity.this, ListingListActivity.class);
                 startActivity(intent);
             }
         });
