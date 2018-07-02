@@ -35,18 +35,16 @@ public class ListingModelHSQLDB implements IListingModel {
         try {
             st = dbConn.prepareStatement(
                     "INSERT INTO " + TABLE_NAME + " " +
-                        "(title,description,initprice,minbid,auctionstartdate,auctionstarttime,auctionenddate,auctionendtime,sellerid) " +
-                        "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)",
+                        "(title,description,initprice,minbid,auctionstartdate,auctionenddate,sellerid) " +
+                        "VALUES (?, ?, ?, ?, ?, ?, ?)",
                     RETURN_GENERATED_KEYS);
             st.setString(1, newListing.getTitle());
             st.setString(2, newListing.getDescription());
             st.setString(3, newListing.getInitPrice());
             st.setString(4, newListing.getMinBid());
             st.setString(5, newListing.getAuctionStartDate());
-            st.setString(6, newListing.getAuctionStartTime());
-            st.setString(7, newListing.getAuctionEndDate());
-            st.setString(8, newListing.getAuctionEndTime());
-            st.setInt(9, Integer.parseInt(newListing.getSellerId()));
+            st.setString(6, newListing.getAuctionEndDate());
+            st.setInt(7, Integer.parseInt(newListing.getSellerId()));
             int updated = st.executeUpdate();
 
             if (updated >= 1) {
@@ -104,9 +102,7 @@ public class ListingModelHSQLDB implements IListingModel {
                         "initprice = ?, " +
                         "minbid = ?, " +
                         "auctionstartdate = ?, " +
-                        "auctionstarttime = ?, " +
                         "auctionenddate = ?, " +
-                        "auctionendtime = ?, " +
                         "sellerid = ? " +
                         "WHERE id = ?");
             st.setString(1, updatedListing.getTitle());
@@ -114,11 +110,9 @@ public class ListingModelHSQLDB implements IListingModel {
             st.setString(3, updatedListing.getInitPrice());
             st.setString(4, updatedListing.getMinBid());
             st.setString(5, updatedListing.getAuctionStartDate());
-            st.setString(6, updatedListing.getAuctionStartTime());
-            st.setString(7, updatedListing.getAuctionEndDate());
-            st.setString(8, updatedListing.getAuctionEndTime());
-            st.setInt(9, Integer.parseInt(updatedListing.getSellerId()));
-            st.setInt(10, Integer.parseInt(id));
+            st.setString(6, updatedListing.getAuctionEndDate());
+            st.setInt(7, Integer.parseInt(updatedListing.getSellerId()));
+            st.setInt(8, Integer.parseInt(id));
             st.executeUpdate();
             return true;
 
@@ -193,13 +187,11 @@ public class ListingModelHSQLDB implements IListingModel {
         String initPrice = HSQLDBUtil.getStringFromResultSet(rs, "initprice");
         String minBid = HSQLDBUtil.getStringFromResultSet(rs, "minbid");
         String startDate = HSQLDBUtil.getStringFromResultSet(rs, "auctionstartdate");
-        String startTime = HSQLDBUtil.getStringFromResultSet(rs, "auctionstarttime");
         String endDate = HSQLDBUtil.getStringFromResultSet(rs, "auctionenddate");
-        String endTime = HSQLDBUtil.getStringFromResultSet(rs, "auctionendtime");
         String sellerId = HSQLDBUtil.getIntAsStringFromResultSet(rs, "sellerid");
         String id = HSQLDBUtil.getIntAsStringFromResultSet(rs, "id");
 
-        //System.out.println("Created Listing Object: " + id + ", " + title + ", " + desc + ", " + initPrice + ", " + minBid + ", " + startDate + ", " + startTime + ", " + endDate + ", " + endTime + ", " + sellerId);
-        return new ListingObject(id, title, desc, initPrice, minBid, startDate, startTime, endDate, endTime, sellerId);
+        //System.out.println("Created Listing Object: " + id + ", " + title + ", " + desc + ", " + initPrice + ", " + minBid + ", " + startDate + ", " + endDate + ", " + sellerId);
+        return new ListingObject(id, title, desc, initPrice, minBid, startDate, endDate, sellerId);
     }
 }

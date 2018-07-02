@@ -1,11 +1,19 @@
 package com.ctrlaltelite.copshop.objects;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.Locale;
+
 /**
  * Data object that stores (Boolean) values for
  * each field in the CreateNewListing form indicating
  * whether or not data in it is valid
  */
 public class ListingFormValidationObject {
+
+    private static final int MIN_DATE_LEN = 12;
 
     /**
      * Initially assume fields are valid,
@@ -31,7 +39,7 @@ public class ListingFormValidationObject {
         return titleValid;
     }
 
-    public void setTitleValid(Boolean titleValid) {
+    private void setTitleValid(Boolean titleValid) {
         this.titleValid = titleValid;
     }
 
@@ -39,7 +47,7 @@ public class ListingFormValidationObject {
         return descriptionValid;
     }
 
-    public void setDescriptionValid(Boolean descriptionValid) {
+    private void setDescriptionValid(Boolean descriptionValid) {
         this.descriptionValid = descriptionValid;
     }
 
@@ -47,7 +55,7 @@ public class ListingFormValidationObject {
         return initPriceValid;
     }
 
-    public void setInitPriceValid(Boolean initPriceValid) {
+    private void setInitPriceValid(Boolean initPriceValid) {
         this.initPriceValid = initPriceValid;
     }
 
@@ -55,7 +63,7 @@ public class ListingFormValidationObject {
         return minBidValid;
     }
 
-    public void setMinBidValid(Boolean minBidValid) {
+    private void setMinBidValid(Boolean minBidValid) {
         this.minBidValid = minBidValid;
     }
 
@@ -63,7 +71,7 @@ public class ListingFormValidationObject {
         return startDateAndTimeValid;
     }
 
-    public void setStartDateAndTimeValid(Boolean auctionStartDateValid) {
+    private void setStartDateAndTimeValid(Boolean auctionStartDateValid) {
         this.startDateAndTimeValid = auctionStartDateValid;
     }
 
@@ -71,7 +79,7 @@ public class ListingFormValidationObject {
         return endDateAndTimeValid;
     }
 
-    public void setEndDateAndTimeValid(Boolean auctionEndDateValid) {
+    private void setEndDateAndTimeValid(Boolean auctionEndDateValid) {
         this.endDateAndTimeValid = auctionEndDateValid;
     }
 
@@ -86,5 +94,156 @@ public class ListingFormValidationObject {
                 minBidValid &&
                 startDateAndTimeValid &&
                 endDateAndTimeValid);
+    }
+
+
+    /**
+     * Determine if title form field is valid(non-empty)
+     * Sets the boolean value indicating validity once done
+     * @param title String containing the form field text
+     */
+    public void validateTitle(String title){
+        boolean isValid =  title != null && !title.isEmpty();
+        setTitleValid(isValid);
+    }
+
+    /**
+     * Determine if value in the initPrice field is valid,
+     * calls validateInitPrice() to do so
+     * Sets the boolean value indicating validity once done
+     * @param value String containing the form field text
+     */
+    public void validateInitPrice(String value){
+        boolean isValid = validateBidPrice(value);
+        setInitPriceValid(isValid);
+    }
+
+    /**
+     * Determine if value in the minBid field is valid,
+     * calls validateInitPrice() to do so
+     * Sets the boolean value indicating validity once done
+     * @param value String containing the form field text
+     */
+    public void validateMinBid(String value){
+        boolean isValid = validateBidPrice(value);
+        setMinBidValid(isValid);
+    }
+
+    /**
+     * Determine if a currency form field is valid
+     * @param value String containing the form field text
+     * @return Boolean indicating if valid
+     */
+    private boolean validateBidPrice(String value){
+        boolean isValid = true;
+
+        if (value == null || value.isEmpty()) {
+            isValid = false;
+        } else {
+
+            try {
+                Float valueFloat = Float.valueOf(value);
+            } catch (NumberFormatException e) {
+                isValid = false;
+            }
+
+            if (isValid && value.contains(".")) {
+                String[] priceParts = value.split("\\.");
+                if (priceParts[1].length() > 2) {
+                    isValid = false;
+                }
+            }
+        }
+
+        return isValid;
+    }
+
+    /**
+     * Determine if start date and time form field is valid,
+     * calls validateDateAndTime() to do so
+     * Sets the boolean value indicating validity once done
+     * @param date String containing the date form fields text data (Format: DD/MM/YEAR HH:MM)
+     */
+    public void validateStartDateAndTime(String date){
+        setStartDateAndTimeValid(validateDateAndTime(date));
+    }
+
+    /**
+     * Convert a given date string to a calendar date object
+     * @param date String containing the date form fields text data (Format: DD/MM/YEAR HH:MM)
+     * @return Calendar object containing the date string data
+     */
+    private Calendar convertToDateObj(String date) {
+
+        //initialize cal date to invalid time
+        Calendar cal = Calendar.getInstance(Locale.CANADA);
+        cal.add(Calendar.DATE, -1);
+
+        if (date != null && !date.isEmpty()) {
+            SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy HH:mm", Locale.CANADA);
+            try {
+                Date dateObj = sdf.parse(date);
+                cal = Calendar.getInstance();
+                cal.setLenient(false);
+                cal.setTime(dateObj);
+                try {
+                    cal.getTime();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
+        }
+        return cal;
+    }
+
+    /**
+     * Determine if a date and time form field is valid
+     * @param date String containing the date form fields text data (Format: DD/MM/YEAR HH:MM)
+     * @return Boolean indicating if valid
+     */
+    private boolean validateDateAndTime(String date) {
+        boolean isValid;
+
+        if(date != null && !date.isEmpty() && date.length() < MIN_DATE_LEN) {
+            isValid = false;
+        } else {
+            Calendar cal = convertToDateObj(date);
+            isValid = cal.after(Calendar.getInstance(Locale.CANADA));
+        }
+
+        return isValid;
+    }
+
+    /**
+     * Determine if the given start date and time occurs before the end date and time given
+     * @param startDate String containing a given start date (Format: DD/MM/YEAR HH:MM)
+     * @param endDate String containing a given end date (Format: DD/MM/YEAR HH:MM)
+     * @return Boolean indicating if valid(end time occurs after start time)
+     */
+    public void validateEndDateAndTime(String startDate, String endDate) {
+        boolean isValid = false;
+        if (!validateDateAndTime(startDate)) {
+            isValid = validateDateAndTime(endDate); //End date can still be valid if start date isn't
+        } else {
+            if (validateDateAndTime(endDate)) {
+                // If startDate is valid, then End date must be valid and occur after start date
+                Calendar startCal = convertToDateObj(startDate);
+                Calendar endCal = convertToDateObj(endDate);
+                isValid = startCal.before(endCal);
+            }
+        }
+        setEndDateAndTimeValid(isValid);
+    }
+
+    /**
+     * Determine if description form field is valid(non-empty)
+     * Sets the boolean value indicating validity once done
+     * @param description String containing the form field text
+     */
+    public void validateDescription (String description){
+        boolean isValid = description != null && !description.isEmpty();
+        setDescriptionValid(isValid);
     }
 }

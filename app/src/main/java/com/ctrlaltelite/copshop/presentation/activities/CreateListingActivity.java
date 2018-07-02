@@ -2,17 +2,22 @@ package com.ctrlaltelite.copshop.presentation.activities;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.app.DialogFragment;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 
 import com.ctrlaltelite.copshop.R;
 import com.ctrlaltelite.copshop.application.CopShopHub;
 import com.ctrlaltelite.copshop.objects.ListingFormValidationObject;
 import com.ctrlaltelite.copshop.objects.ListingObject;
+import com.ctrlaltelite.copshop.presentation.classes.DatePickerFragment;
+import com.ctrlaltelite.copshop.presentation.classes.TimePickerFragment;
 
 public class CreateListingActivity extends AppCompatActivity {
 
@@ -24,8 +29,58 @@ public class CreateListingActivity extends AppCompatActivity {
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
+        // Triggers date and time picker for Start date
+        final Button startDateButton = findViewById(R.id.btnStartDate);
+        startDateButton.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                DialogFragment startDateFragment = new DatePickerFragment();
+                Bundle params = new Bundle();
+                params.putInt("id", 1);
+                startDateFragment.setArguments(params);
+                startDateFragment.show(getSupportFragmentManager(), "startDatePicker");
+            }
+        });
+
+        Button startTimeButton = findViewById(R.id.btnStartTime);
+        startTimeButton.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                DialogFragment startTimeFragment = new TimePickerFragment();
+                Bundle params = new Bundle();
+                params.putInt("id", 1);
+                startTimeFragment.setArguments(params);
+                startTimeFragment.show(getSupportFragmentManager(), "startTimePicker");
+            }
+        });
+
+        // Triggers date and time picker for End date
+        final Button endDateButton = findViewById(R.id.btnEndDate);
+        endDateButton.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                DialogFragment endDateFragment = new DatePickerFragment();
+                Bundle params = new Bundle();
+                params.putInt("id", 2);
+                endDateFragment.setArguments(params);
+                endDateFragment.show(getSupportFragmentManager(), "endDatePicker");
+            }
+        });
+
+        Button endTimeButton = findViewById(R.id.btnEndTime);
+        endTimeButton.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                DialogFragment endTimeFragment = new TimePickerFragment();
+                Bundle params = new Bundle();
+                params.putInt("id", 2);
+                endTimeFragment.setArguments(params);
+                endTimeFragment.show(getSupportFragmentManager(), "endTimePicker");
+            }
+        });
+
         Button submitButton = findViewById(R.id.btnCreateListing);
-        submitButton.setOnClickListener(new View.OnClickListener() {
+        submitButton.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
                 Log.i("SubmitButton", "Clicked!");
@@ -37,10 +92,8 @@ public class CreateListingActivity extends AppCompatActivity {
                         ((EditText) findViewById(R.id.txtAreaDescription)).getText().toString(),
                         ((EditText) findViewById(R.id.txtInitialPrice)).getText().toString(),
                         ((EditText) findViewById(R.id.txtMinBid)).getText().toString(),
-                        ((EditText) findViewById(R.id.txtStartDay)).getText().toString() + "/" + ((EditText) findViewById(R.id.txtStartMonth)).getText().toString() + "/" + ((EditText) findViewById(R.id.txtStartYear)).getText().toString(),
-                        ((EditText) findViewById(R.id.txtStartTimeHour)).getText().toString() + ":" + ((EditText) findViewById(R.id.txtStartTimeMinute)).getText().toString(),
-                        ((EditText) findViewById(R.id.txtEndDay)).getText().toString() + "/" +  ((EditText) findViewById(R.id.txtEndMonth)).getText().toString() + "/" + ((EditText) findViewById(R.id.txtEndYear)).getText().toString(),
-                        ((EditText) findViewById(R.id.txtEndTimeHour)).getText().toString() + ":" + ((EditText) findViewById(R.id.txtEndTimeMinute)).getText().toString(),
+                        ((TextView) findViewById(R.id.txtStartDate)).getText().toString(),
+                        ((TextView) findViewById(R.id.txtEndDate)).getText().toString(),
                         "0" // Currently logged in seller's id, change when differentiated login is implemented
                 );
 
@@ -53,19 +106,11 @@ public class CreateListingActivity extends AppCompatActivity {
                     CopShopHub.getCreateListingService().saveNewListing(listingObject);
 
                     // Make sure all form fields are set back to black on success
-                    findViewById(R.id.txtStartDay).setBackgroundResource(R.drawable.txt_field_black_border);
-                    findViewById(R.id.txtStartMonth).setBackgroundResource(R.drawable.txt_field_black_border);
-                    findViewById(R.id.txtStartYear).setBackgroundResource(R.drawable.txt_field_black_border);
-                    findViewById(R.id.txtStartTimeHour).setBackgroundResource(R.drawable.txt_field_black_border);
-                    findViewById(R.id.txtStartTimeMinute).setBackgroundResource(R.drawable.txt_field_black_border);
                     findViewById(R.id.txtListingTitle).setBackgroundResource(R.drawable.txt_field_black_border);
                     findViewById(R.id.txtInitialPrice).setBackgroundResource(R.drawable.txt_field_black_border);
                     findViewById(R.id.txtMinBid).setBackgroundResource(R.drawable.txt_field_black_border);
-                    findViewById(R.id.txtEndDay).setBackgroundResource(R.drawable.txt_field_black_border);
-                    findViewById(R.id.txtEndMonth).setBackgroundResource(R.drawable.txt_field_black_border);
-                    findViewById(R.id.txtEndYear).setBackgroundResource(R.drawable.txt_field_black_border);
-                    findViewById(R.id.txtEndTimeHour).setBackgroundResource(R.drawable.txt_field_black_border);
-                    findViewById(R.id.txtEndTimeMinute).setBackgroundResource(R.drawable.txt_field_black_border);
+                    findViewById(R.id.txtStartDate).setBackgroundResource(R.drawable.txt_field_black_border);
+                    findViewById(R.id.txtEndDate).setBackgroundResource(R.drawable.txt_field_black_border);
                     findViewById(R.id.txtAreaDescription).setBackgroundResource(R.drawable.txt_field_black_border);
 
                     // Goto listing list page
@@ -95,32 +140,16 @@ public class CreateListingActivity extends AppCompatActivity {
 
                     // Check all fields relating to listing start date and time
                     if (!validationObject.getStartDateAndTimeValid()) {
-                        findViewById(R.id.txtStartDay).setBackgroundResource(R.drawable.txt_field_red_border);
-                        findViewById(R.id.txtStartMonth).setBackgroundResource(R.drawable.txt_field_red_border);
-                        findViewById(R.id.txtStartYear).setBackgroundResource(R.drawable.txt_field_red_border);
-                        findViewById(R.id.txtStartTimeHour).setBackgroundResource(R.drawable.txt_field_red_border);
-                        findViewById(R.id.txtStartTimeMinute).setBackgroundResource(R.drawable.txt_field_red_border);
+                        findViewById(R.id.txtStartDate).setBackgroundResource(R.drawable.txt_field_red_border);
                     } else {
-                        findViewById(R.id.txtStartDay).setBackgroundResource(R.drawable.txt_field_black_border);
-                        findViewById(R.id.txtStartMonth).setBackgroundResource(R.drawable.txt_field_black_border);
-                        findViewById(R.id.txtStartYear).setBackgroundResource(R.drawable.txt_field_black_border);
-                        findViewById(R.id.txtStartTimeHour).setBackgroundResource(R.drawable.txt_field_black_border);
-                        findViewById(R.id.txtStartTimeMinute).setBackgroundResource(R.drawable.txt_field_black_border);
+                        findViewById(R.id.txtStartDate).setBackgroundResource(R.drawable.txt_field_black_border);
                     }
 
                     // Check all fields relating to listing end date and time
                     if (!validationObject.getEndDateAndTimeValid()) {
-                        findViewById(R.id.txtEndDay).setBackgroundResource(R.drawable.txt_field_red_border);
-                        findViewById(R.id.txtEndMonth).setBackgroundResource(R.drawable.txt_field_red_border);
-                        findViewById(R.id.txtEndYear).setBackgroundResource(R.drawable.txt_field_red_border);
-                        findViewById(R.id.txtEndTimeHour).setBackgroundResource(R.drawable.txt_field_red_border);
-                        findViewById(R.id.txtEndTimeMinute).setBackgroundResource(R.drawable.txt_field_red_border);
+                        findViewById(R.id.txtEndDate).setBackgroundResource(R.drawable.txt_field_red_border);
                     } else {
-                        findViewById(R.id.txtEndDay).setBackgroundResource(R.drawable.txt_field_black_border);
-                        findViewById(R.id.txtEndMonth).setBackgroundResource(R.drawable.txt_field_black_border);
-                        findViewById(R.id.txtEndYear).setBackgroundResource(R.drawable.txt_field_black_border);
-                        findViewById(R.id.txtEndTimeHour).setBackgroundResource(R.drawable.txt_field_black_border);
-                        findViewById(R.id.txtEndTimeMinute).setBackgroundResource(R.drawable.txt_field_black_border);
+                        findViewById(R.id.txtEndDate).setBackgroundResource(R.drawable.txt_field_black_border);
                     }
 
                     // Check listing description

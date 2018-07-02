@@ -27,9 +27,9 @@ public class ListingServiceTests {
         IListingService listingService = new ListingService(listingModel, sellerModel);
 
         // Create the listings
-        ListingObject l1 = new ListingObject("","title", "description", "initPrice", "minBid", "auctionStartDate", "auctionStartTime", "auctionEndDate", "auctionEndTime", "3");
-        ListingObject l2 = new ListingObject("","title", "description", "initPrice", "minBid", "auctionStartDate", "auctionStartTime", "auctionEndDate", "auctionEndTime", "1");
-        ListingObject l3 = new ListingObject("","title", "description", "initPrice", "minBid", "auctionStartDate", "auctionStartTime", "auctionEndDate", "auctionEndTime", "2");
+        ListingObject l1 = new ListingObject("","title", "description", "initPrice", "minBid", "auctionStartDate", "auctionEndDate", "3");
+        ListingObject l2 = new ListingObject("","title", "description", "initPrice", "minBid", "auctionStartDate", "auctionEndDate", "1");
+        ListingObject l3 = new ListingObject("","title", "description", "initPrice", "minBid", "auctionStartDate", "auctionEndDate", "2");
         String lId1 = listingModel.createNew(l1);
         String lId2 = listingModel.createNew(l2);
         String lId3 = listingModel.createNew(l3);
@@ -53,9 +53,9 @@ public class ListingServiceTests {
         String sId2 = sellerModel.createNew(a2);
         String sId3 = sellerModel.createNew(a3);
         // Create the listings
-        ListingObject l1 = new ListingObject("","title", "description", "initPrice", "minBid", "auctionStartDate", "auctionStartTime", "auctionEndDate", "auctionEndTime", "2");
-        ListingObject l2 = new ListingObject("","title", "description", "initPrice", "minBid", "auctionStartDate", "auctionStartTime", "auctionEndDate", "auctionEndTime", "0");
-        ListingObject l3 = new ListingObject("","title", "description", "initPrice", "minBid", "auctionStartDate", "auctionStartTime", "auctionEndDate", "auctionEndTime", "1");
+        ListingObject l1 = new ListingObject("","title", "description", "initPrice", "minBid", "auctionStartDate", "auctionEndDate", "2");
+        ListingObject l2 = new ListingObject("","title", "description", "initPrice", "minBid", "auctionStartDate", "auctionEndDate", "0");
+        ListingObject l3 = new ListingObject("","title", "description", "initPrice", "minBid", "auctionStartDate", "auctionEndDate", "1");
         String lId1 = listingModel.createNew(l1);
         String lId2 = listingModel.createNew(l2);
         String lId3 = listingModel.createNew(l3);
