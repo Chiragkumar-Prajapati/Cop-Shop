@@ -6,23 +6,23 @@ import java.util.List;
 
 public interface IBidModel {
     /**
-     *
-     * @param bid
-     * @return
+     * Create a new bid
+     * @param newBid BidObject for the new bid
+     * @return id of the new bid
      */
-    String createNew(BidObject bid);
+    String createNew(BidObject newBid);
 
     /**
-     *
-     * @param id
-     * @return
+     * Fetch a specific bid by id
+     * @param id of the targeted bid
+     * @return BidObject from DB with the given id
      */
-    boolean delete(String id);
+    BidObject fetch(String id);
 
     /**
-     *
-     * @param listingId
-     * @return
+     * Find all bids by listing id
+     * @param listingId Listing id
+     * @return List of BidObjects belonging to given listing
      */
-    List findByListing(String listingId);
+    List<BidObject> findAllByListing(String listingId);
 }

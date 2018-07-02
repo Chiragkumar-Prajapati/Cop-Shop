@@ -1,19 +1,24 @@
 package com.ctrlaltelite.copshop.application;
 
 import com.ctrlaltelite.copshop.logic.services.IAccountService;
+import com.ctrlaltelite.copshop.logic.services.IBidService;
 import com.ctrlaltelite.copshop.logic.services.ICreateListingService;
 import com.ctrlaltelite.copshop.logic.services.IListingService;
 import com.ctrlaltelite.copshop.logic.services.stubs.AccountService;
+import com.ctrlaltelite.copshop.logic.services.stubs.BidService;
 import com.ctrlaltelite.copshop.logic.services.stubs.CreateListingService;
 import com.ctrlaltelite.copshop.logic.services.stubs.ListingService;
+import com.ctrlaltelite.copshop.objects.BidObject;
 import com.ctrlaltelite.copshop.objects.BuyerAccountObject;
 import com.ctrlaltelite.copshop.objects.ListingObject;
 import com.ctrlaltelite.copshop.objects.SellerAccountObject;
+import com.ctrlaltelite.copshop.persistence.IBidModel;
 import com.ctrlaltelite.copshop.persistence.IBuyerModel;
 import com.ctrlaltelite.copshop.persistence.IListingModel;
 import com.ctrlaltelite.copshop.persistence.ISellerModel;
 import com.ctrlaltelite.copshop.persistence.database.IDatabase;
 import com.ctrlaltelite.copshop.persistence.database.stubs.MockDatabaseStub;
+import com.ctrlaltelite.copshop.persistence.stubs.BidModel;
 import com.ctrlaltelite.copshop.persistence.stubs.ListingModel;
 import com.ctrlaltelite.copshop.persistence.stubs.SellerModel;
 import com.ctrlaltelite.copshop.persistence.stubs.BuyerModel;
@@ -26,7 +31,7 @@ import com.ctrlaltelite.copshop.persistence.stubs.hsqldb.SellerModelHSQLDB;
  */
 public class CopShopHub
 {
-    private static boolean USE_REAL_DB = true;
+    private static boolean USE_REAL_DB = false;
     // Database setup
     private static String dbPath = "copshopdb";
     private static IDatabase database = null;
@@ -34,15 +39,17 @@ public class CopShopHub
     private static IBuyerModel buyerModel = null;
     private static ISellerModel sellerModel = null;
     private static IListingModel listingModel = null;
+    private static IBidModel bidModel = null;
     // Services
     private static IListingService listingService = null;
     private static IAccountService accountService = null;
     private static ICreateListingService createListingService = null;
+    private static IBidService bidService = null;
 
     public static synchronized IListingService getListingService()
     {
         if (null == listingService) {
-            listingService = new ListingService(getListingModel(), getSellerModel());
+            listingService = new ListingService(getListingModel(), getSellerModel(), getBidModel());
         }
         return listingService;
     }
@@ -63,6 +70,14 @@ public class CopShopHub
         return createListingService;
     }
 
+    public static synchronized IBidService getBidService()
+    {
+        if (null == bidService) {
+            bidService = new BidService(getBidModel(), getBuyerModel(), getListingModel());
+        }
+        return bidService;
+    }
+
 	public static synchronized IBuyerModel getBuyerModel()
     {
 		if (null == buyerModel) {
@@ -73,6 +88,10 @@ public class CopShopHub
                 // Add sample data
                 BuyerAccountObject newBuyerAccount1 = new BuyerAccountObject("", "John", "Smith", "123 Street", "A1A 1A1", "MB", "john@email.com", "john");
                 buyerModel.createNew(newBuyerAccount1);
+                BuyerAccountObject newBuyerAccount2 = new BuyerAccountObject("", "Fernando", "Fernandez", "7 Gordo Road", "7G7 5D2", "MB", "fernando@rulez.com", "frontalLobotomy");
+                buyerModel.createNew(newBuyerAccount2);
+                BuyerAccountObject newBuyerAccount3 = new BuyerAccountObject("", "Naomi", "Nondescript", "11 Generic Bay", "1A2 B3C", "MB", "email@internet.com", "default");
+                buyerModel.createNew(newBuyerAccount3);
 
             }
         }
@@ -103,14 +122,14 @@ public class CopShopHub
             } else {
                 listingModel = new ListingModel(getDatabase());
                 // Add sample data
-                ListingObject newListing1 = new ListingObject("", "Bicycle 1", "Poor condition, was found stuck in a tree upon day of seizure.", "10.00", "1.00", "01/02/2018", "12:00", "10/02/2018", "20:00", "1");
-                ListingObject newListing2 = new ListingObject("", "Nondescript Firearm 2", "It's a gun. We think it shoots bullets, maybe nerf darts. Hard to say.", "10.00", "1.00", "01/02/2018", "12:00", "10/02/2018", "20:00", "1");
-                ListingObject newListing3 = new ListingObject("", "Old Hotdog 3", "Still smells alright.", "10.00", "1.00", "01/02/2018", "12:00", "10/02/2018", "20:00", "1");
-                ListingObject newListing4 = new ListingObject("", "Toothbrush 4", "Pre-lubricated. The handle is filed to a sharp point to spare you expense in toothpicks. Has probably never been used before.", "10.00", "1.00", "01/02/2018", "12:00", "10/02/2018", "20:00", "1");
-                ListingObject newListing5 = new ListingObject("", "Several Gerbils 5", "Assorted colors. You might need a net to come pick them up.", "10.00", "1.00", "01/02/2018", "12:00", "10/02/2018", "20:00", "1");
-                ListingObject newListing6 = new ListingObject("", "Pen 6", "Blue ink. It doesn't write very well.", "10.00", "1.00", "01/02/2018", "12:00", "10/02/2018", "20:00", "1");
-                ListingObject newListing7 = new ListingObject("", "Live Octopus 7", "It keeps oozing out of its tank and escaping. Please take it away.", "10.00", "1.00", "01/02/2018", "12:00", "10/02/2018", "20:00", "1");
-                ListingObject newListing8 = new ListingObject("", "Riding Lawnmower 8", "Front tire is flat and needs to be replaced. Doesn't cut grass evenly. Has a couple of stains and dents. You need a license to drive this machine.", "10.00", "1.00", "01/02/2018", "12:00", "10/02/2018", "20:00", "1");
+                ListingObject newListing1 = new ListingObject("", "Bicycle 1", "Poor condition, was found stuck in a tree upon day of seizure.", "10.00", "5.00", "01/02/2018", "12:00", "10/02/2018", "20:00", "0");
+                ListingObject newListing2 = new ListingObject("", "Nondescript Firearm 2", "It's a gun. We think it shoots bullets, maybe nerf darts. Hard to say.", "16.00", "1.00", "01/02/2018", "12:00", "10/02/2018", "20:00", "0");
+                ListingObject newListing3 = new ListingObject("", "Old Hotdog 3", "Still smells alright.", "10.00", "1.00", "01/02/2018", "12:00", "10/02/2018", "20:00", "0");
+                ListingObject newListing4 = new ListingObject("", "Toothbrush 4", "Pre-lubricated. The handle is filed to a sharp point to spare you expense in toothpicks. Has probably never been used before.", "10.00", "1.00", "01/02/2018", "12:00", "10/02/2018", "20:00", "0");
+                ListingObject newListing5 = new ListingObject("", "Several Gerbils 5", "Assorted colors. You might need a net to come pick them up.", "5.00", "1.00", "01/02/2018", "12:00", "10/02/2018", "20:00", "0");
+                ListingObject newListing6 = new ListingObject("", "Pen 6", "Blue ink. It doesn't write very well.", "10.00", "1.00", "01/02/2018", "12:00", "10/02/2018", "20:00", "0");
+                ListingObject newListing7 = new ListingObject("", "Live Octopus 7", "It keeps oozing out of its tank and escaping. Please take it away.", "7.00", "5.00", "01/02/2018", "12:00", "10/02/2018", "20:00", "0");
+                ListingObject newListing8 = new ListingObject("", "Riding Lawnmower 8", "Front tire is flat and needs to be replaced. Doesn't cut grass evenly. Has a couple of stains and dents. You need a license to drive this machine.", "10.00", "1.00", "01/02/2018", "12:00", "10/02/2018", "20:00", "0");
                 listingModel.createNew(newListing1);
                 listingModel.createNew(newListing2);
                 listingModel.createNew(newListing3);
@@ -122,6 +141,27 @@ public class CopShopHub
             }
         }
         return listingModel;
+    }
+
+    public static synchronized IBidModel getBidModel()
+    {
+        if (null == bidModel) {
+            if (USE_REAL_DB) {
+                //bidModel = new SellerModelHSQLDB(getDBPath());
+            } else {
+                bidModel = new BidModel(getDatabase());
+                // Add sample data
+                BidObject newBid1 = new BidObject("","0","0","10.00");
+                BidObject newBid2 = new BidObject("","0","1","15.00");
+                BidObject newBid3 = new BidObject("","0","2","20.00");
+                BidObject newBid4 = new BidObject("","0","0","25.00");
+                bidModel.createNew(newBid1);
+                bidModel.createNew(newBid2);
+                bidModel.createNew(newBid3);
+                bidModel.createNew(newBid4);
+            }
+        }
+        return bidModel;
     }
 
     private static synchronized IDatabase getDatabase() {

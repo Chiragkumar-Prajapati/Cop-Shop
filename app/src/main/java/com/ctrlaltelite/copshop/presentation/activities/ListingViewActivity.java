@@ -1,5 +1,6 @@
 package com.ctrlaltelite.copshop.presentation.activities;
 
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -11,7 +12,11 @@ import android.widget.TextView;
 
 import com.ctrlaltelite.copshop.R;
 import com.ctrlaltelite.copshop.application.CopShopHub;
+import com.ctrlaltelite.copshop.objects.BidObject;
 import com.ctrlaltelite.copshop.objects.ListingObject;
+import com.ctrlaltelite.copshop.presentation.classes.BidObjectArrayAdapter;
+
+import java.util.List;
 
 public class ListingViewActivity extends AppCompatActivity {
 
@@ -25,46 +30,73 @@ public class ListingViewActivity extends AppCompatActivity {
 
         // Get listing info
         Bundle extras = getIntent().getExtras();
-        String listingId = null;
-        ListingObject listing = null;
+        final String listingId;
+
         if (null != extras) {
             listingId = extras.getString("listingId");
+        } else {
+            listingId = null;
         }
+
+        final ListingObject listing;
         if (null != listingId) {
             listing = CopShopHub.getListingService().fetchListing(listingId);
+        } else {
+            listing = null;
         }
 
         // Render all information on page
         if (null != listing) {
-            TextView title = (TextView) findViewById(R.id.view_listing_title);
-            TextView postedBy = (TextView) findViewById(R.id.view_listing_posted_by);
-            TextView description = (TextView) findViewById(R.id.view_listing_description);
-            Button bidButton = (Button) findViewById(R.id.view_listing_bid_button);
-            TextView bidInput = (TextView) findViewById(R.id.view_listing_bid_input);
-            ListView bidList = (ListView) findViewById(R.id.view_listing_bid_list);
-            TextView timeLeftDaysHours = (TextView) findViewById(R.id.view_listing_ending_in_days_hours);
-            TextView timeLeftTimeDate = (TextView) findViewById(R.id.view_listing_ending_in_time_date);
-            TextView timeLeftLabel = (TextView) findViewById(R.id.view_listing_ending_in_label);
-            ImageView image = (ImageView) findViewById(R.id.view_listing_image);
+            final TextView title = (TextView) findViewById(R.id.view_listing_title);
+            final TextView postedBy = (TextView) findViewById(R.id.view_listing_posted_by);
+            final TextView description = (TextView) findViewById(R.id.view_listing_description);
+            final Button bidButton = (Button) findViewById(R.id.view_listing_bid_button);
+            final TextView bidInput = (TextView) findViewById(R.id.view_listing_bid_input);
+            final ListView bidList = (ListView) findViewById(R.id.view_listing_bid_list);
+            final TextView minBid = (TextView) findViewById(R.id.view_listing_min_bid);
+            final TextView timeLeftDaysHours = (TextView) findViewById(R.id.view_listing_ending_in_days_hours);
+            final TextView timeLeftTimeDate = (TextView) findViewById(R.id.view_listing_ending_in_time_date);
+            final TextView timeLeftLabel = (TextView) findViewById(R.id.view_listing_ending_in_label);
+            final ImageView image = (ImageView) findViewById(R.id.view_listing_image);
 
+            // Set title, desc, and postedBy
             title.setText(listing.getTitle());
             description.setText(listing.getDescription());
             postedBy.setText(CopShopHub.getListingService().getSellerName(listing.getSellerId()));
 
-            // Hide the bid button, list, and field until bidding feature is complete
-            bidInput.setHint(CopShopHub.getViewListingService().getNextBidTotal(listing));
-//            bidInput.setVisibility(View.INVISIBLE);
-//            bidList.setVisibility(View.INVISIBLE);
-//            bidButton.setVisibility(View.INVISIBLE);
+            // Fetch all bids
+            List<BidObject> bidObjects = CopShopHub.getBidService().fetchBidsForListing(listingId);
+            BidObjectArrayAdapter bidAdapter;
+            bidAdapter = new BidObjectArrayAdapter(this, bidObjects);
+            bidList.setAdapter(bidAdapter);
+
+            // Set next bid total
+            String suggestedBid = CopShopHub.getListingService().getNextBidTotal(listing);
+            bidInput.setHint(suggestedBid);
+            bidInput.setText(bidInput.getHint());
+            minBid.setText("$" + suggestedBid);
+
+            // Attach listener to implicit field submit?
+
+            // Attach listener to button
+            bidButton.setOnClickListener(new Button.OnClickListener() {
+                public void onClick(View v) {
+                    final String suggestedBid = CopShopHub.getListingService().getNextBidTotal(listing);
+                    boolean success = CopShopHub.getBidService().createBid(suggestedBid, listingId, bidInput.getText().toString(), "0"); // TODO: replace placeholder buyer ID
+                    if (success) {
+                        // Refresh activity to get updated data (Replace this with dynamically adjusting page instead?)
+                        finish();
+                        startActivity(getIntent());
+                    } else {
+                        bidInput.setTextColor(Color.RED);
+                    }
+                }
+            });
 
             // Hide the auction timer until auction stuff is complete and date-time processing is ready
             timeLeftDaysHours.setVisibility(View.INVISIBLE);
             timeLeftTimeDate.setVisibility(View.INVISIBLE);
             timeLeftLabel.setVisibility(View.INVISIBLE);
         }
-
-
-
     }
-
 }

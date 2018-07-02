@@ -44,4 +44,11 @@ public interface IListingService {
      * @return String float representing next bid
      */
     String getNextBidTotal(ListingObject listing);
+
+    /**
+     * Get number of bids on a listing
+     * @param listingId The listing to count bids for
+     * @return Int number of bids
+     */
+    int getNumBids(String listingId);
 }

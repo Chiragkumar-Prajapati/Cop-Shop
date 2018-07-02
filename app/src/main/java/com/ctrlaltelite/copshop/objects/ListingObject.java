@@ -66,20 +66,6 @@ public class ListingObject {
         return sellerId;
     }
 
-    // Implement once bids are implemented
-    public String getLocation() {
-        return "PLACEHOLDER";
-    }
-    public String getCurrentPrice() {
-        return "00.00";
-    }
-    public String getNumBids() {
-        return "0";
-    }
-    public String getTimeLeft() {
-        return "0 days";
-    }
-
     // Setters
     public void setDescription(String description) {
         this.description = description;

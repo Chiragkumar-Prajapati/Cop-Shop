@@ -55,10 +55,8 @@ public class ListingObjectArrayAdapter extends ArrayAdapter<ListingObject> {
 //        image.setImageResource(imageID);
 
         // Hide price and bid counter until bidding is implemented
-//        bids.setText(info.getNumBids() + " bids");
-        bids.setVisibility(View.INVISIBLE);
-//        price.setText("$" + info.getCurrentPrice() + ",");
-        price.setVisibility(View.INVISIBLE);
+        bids.setText(CopShopHub.getListingService().getNumBids(info.getId()) + " bids");
+        price.setText("$" + CopShopHub.getListingService().getNextBidTotal(info) + ",");
 
         // Hide timer until auction timers are implemented
 //        timeLeft.setText(info.getTimeLeft());
