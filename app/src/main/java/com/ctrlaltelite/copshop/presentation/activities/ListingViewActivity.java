@@ -1,5 +1,7 @@
 package com.ctrlaltelite.copshop.presentation.activities;
 
+import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -12,10 +14,12 @@ import android.widget.TextView;
 
 import com.ctrlaltelite.copshop.R;
 import com.ctrlaltelite.copshop.application.CopShopHub;
+import com.ctrlaltelite.copshop.objects.AccountObject;
+import com.ctrlaltelite.copshop.objects.ListingObject;
+import com.ctrlaltelite.copshop.objects.SellerAccountObject;
 import com.ctrlaltelite.copshop.objects.BidObject;
 import com.ctrlaltelite.copshop.objects.ListingObject;
 import com.ctrlaltelite.copshop.presentation.classes.BidObjectArrayAdapter;
-
 import java.util.List;
 
 public class ListingViewActivity extends AppCompatActivity {
@@ -58,6 +62,7 @@ public class ListingViewActivity extends AppCompatActivity {
             final TextView timeLeftTimeDate = (TextView) findViewById(R.id.view_listing_ending_in_time_date);
             final TextView timeLeftLabel = (TextView) findViewById(R.id.view_listing_ending_in_label);
             final ImageView image = (ImageView) findViewById(R.id.view_listing_image);
+            final Button editButton = (Button) findViewById(R.id.view_listing_edit_button);
 
             // Set title, desc, and postedBy
             title.setText(listing.getTitle());
@@ -97,6 +102,42 @@ public class ListingViewActivity extends AppCompatActivity {
             timeLeftDaysHours.setVisibility(View.INVISIBLE);
             timeLeftTimeDate.setVisibility(View.INVISIBLE);
             timeLeftLabel.setVisibility(View.INVISIBLE);
+
+            // Edit button
+            final String theListingId = listingId;
+            boolean thisIsSeller = false;
+            SharedPreferences sharedPreferences = getSharedPreferences("currentUser", 0);
+            String email = sharedPreferences.getString("email", "-1");
+            if (!email.equals("-1")) {
+                AccountObject account = CopShopHub.getAccountService().fetchAccountByEmail(email);
+                if (account != null &&
+                        account instanceof SellerAccountObject &&
+                        account.getId().equals(listing.getSellerId())) {
+                    thisIsSeller = true;
+                }
+            }
+            if (thisIsSeller) {
+                editButton.setVisibility(View.VISIBLE);
+            }
+            else {
+                editButton.setVisibility(View.GONE);
+            }
+            editButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v){
+                    Intent intent = new Intent(ListingViewActivity.this, EditListingActivity.class);
+                    intent.putExtra("LISTING_ID", theListingId);
+                    startActivity(intent);
+                }
+            });
+
         }
     }
+
+    @Override
+    public void onBackPressed() {
+        Intent intent = new Intent(ListingViewActivity.this, ListingListActivity.class);
+        startActivity(intent);
+    }
+
 }

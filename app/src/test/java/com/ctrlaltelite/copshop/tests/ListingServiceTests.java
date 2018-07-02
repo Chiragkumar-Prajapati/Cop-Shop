@@ -98,6 +98,49 @@ public class ListingServiceTests {
     }
 
     @Test
+    public void updateListing_fetchesUpdatedListing() {
+        IDatabase database = new MockDatabaseStub();
+        ISellerModel sellerModel = new SellerModel(database);
+        IListingModel listingModel = new ListingModel(database);
+        IBidModel bidModel = new BidModel(database);
+        IListingService listingService = new ListingService(listingModel, sellerModel, bidModel);
+
+        // Create the listings
+        ListingObject l1 = new ListingObject("","title", "description", "initPrice", "minBid", "auctionStartDate", "auctionEndDate", "3");
+        ListingObject l2 = new ListingObject("","title", "description", "initPrice", "minBid", "auctionStartDate", "auctionEndDate", "1");
+        String lId1 = listingModel.createNew(l1);
+        String lId2 = listingModel.createNew(l2);
+
+        ListingObject l3 = new ListingObject("","titleNew", "description", "initPrice", "minBid", "auctionStartDate", "auctionEndDate", "2");
+        boolean success = listingService.updateListing(lId1, l3);
+        assertTrue("Listing update unsuccessful", success);
+
+        ListingObject updated1 = listingService.fetchListing(lId1);
+        assertTrue("Did not update listing correctly", updated1.getTitle().equals("titleNew"));
+    }
+
+    @Test
+    public void deleteListing_triesToFetchDeletedListing() {
+        IDatabase database = new MockDatabaseStub();
+        ISellerModel sellerModel = new SellerModel(database);
+        IListingModel listingModel = new ListingModel(database);
+        IBidModel bidModel = new BidModel(database);
+        IListingService listingService = new ListingService(listingModel, sellerModel, bidModel);
+
+        // Create the listings
+        ListingObject l1 = new ListingObject("","title", "description", "initPrice", "minBid", "auctionStartDate", "auctionEndDate", "3");
+        ListingObject l2 = new ListingObject("","title", "description", "initPrice", "minBid", "auctionStartDate", "auctionEndDate", "1");
+        String lId1 = listingModel.createNew(l1);
+        String lId2 = listingModel.createNew(l2);
+
+        boolean success = listingService.deleteListing(lId1);
+        assertTrue("Listing delete unsuccessful", success);
+
+        ListingObject updated1 = listingService.fetchListing(lId1);
+        assertNull("Did not delete listing correctly", updated1);
+    }
+
+    @Test
     public void getNextBidTotal_getsCorrectTotal() {
         IDatabase database = new MockDatabaseStub();
         ISellerModel sellerModel = new SellerModel(database);

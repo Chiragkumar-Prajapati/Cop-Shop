@@ -16,6 +16,8 @@ public interface IAccountService {
      */
     AccountObject validateEmailAndPassword(String username, String password);
 
+    AccountObject fetchAccountByEmail(String email);
+
     BuyerAccountValidationObject validate(BuyerAccountObject buyerAccount);
 
     SellerAccountValidationObject validate(SellerAccountObject sellerAccount);
