@@ -8,7 +8,7 @@ import android.widget.Button;
 import android.widget.EditText;
 
 import com.ctrlaltelite.copshop.R;
-import com.ctrlaltelite.copshop.application.CopShopApp;
+import com.ctrlaltelite.copshop.application.CopShopHub;
 import com.ctrlaltelite.copshop.objects.BuyerAccountObject;
 import com.ctrlaltelite.copshop.objects.BuyerAccountValidationObject;
 
@@ -34,13 +34,13 @@ public class CreateBuyerAccountActivity extends AppCompatActivity {
                     ((EditText) findViewById(R.id.editTextPassword)).getText().toString()
             );
 
-            BuyerAccountValidationObject validationObject = CopShopApp.accountService.validate(buyerAccount);
+            BuyerAccountValidationObject validationObject = CopShopHub.getAccountService().validate(buyerAccount);
 
             // Check validation object to see if all fields are valid
             // If valid: store user information
             // Else invalid: check each form field, highlighting those that are invalid in red
             if (validationObject.allValid()) {
-                CopShopApp.accountService.registerNewBuyer(buyerAccount);
+                CopShopHub.getAccountService().registerNewBuyer(buyerAccount);
 
                 // Make sure all form fields are set back to black on success
                 findViewById(R.id.editTextFirstName).setBackgroundResource(R.drawable.txt_field_black_border);

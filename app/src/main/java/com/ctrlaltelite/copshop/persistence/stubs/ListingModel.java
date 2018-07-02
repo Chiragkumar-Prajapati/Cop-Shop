@@ -98,7 +98,7 @@ public class ListingModel implements IListingModel {
         if (null != hashTableRows) {
             for (int id = hashTableRows.size()-1; id >= 0; id--) {
                 Hashtable<String, String> row = hashTableRows.get(id);
-                String stringId = Integer.toString(id+1); // IDs in DB are not zero based, must add 1
+                String stringId = Integer.toString(id);
 
                 ListingObject listing = new ListingObject(
                         stringId,
