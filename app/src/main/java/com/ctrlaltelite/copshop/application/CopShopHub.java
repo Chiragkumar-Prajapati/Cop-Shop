@@ -22,6 +22,7 @@ import com.ctrlaltelite.copshop.persistence.stubs.BidModel;
 import com.ctrlaltelite.copshop.persistence.stubs.ListingModel;
 import com.ctrlaltelite.copshop.persistence.stubs.SellerModel;
 import com.ctrlaltelite.copshop.persistence.stubs.BuyerModel;
+import com.ctrlaltelite.copshop.persistence.stubs.hsqldb.BidModelHSQLDB;
 import com.ctrlaltelite.copshop.persistence.stubs.hsqldb.BuyerModelHSQLDB;
 import com.ctrlaltelite.copshop.persistence.stubs.hsqldb.ListingModelHSQLDB;
 import com.ctrlaltelite.copshop.persistence.stubs.hsqldb.SellerModelHSQLDB;
@@ -31,7 +32,7 @@ import com.ctrlaltelite.copshop.persistence.stubs.hsqldb.SellerModelHSQLDB;
  */
 public class CopShopHub
 {
-    private static boolean USE_REAL_DB = false;
+    private static boolean USE_REAL_DB = true;
     // Database setup
     private static String dbPath = "copshopdb";
     private static IDatabase database = null;
@@ -147,7 +148,7 @@ public class CopShopHub
     {
         if (null == bidModel) {
             if (USE_REAL_DB) {
-                //bidModel = new SellerModelHSQLDB(getDBPath());
+                bidModel = new BidModelHSQLDB(getDBPath());
             } else {
                 bidModel = new BidModel(getDatabase());
                 // Add sample data
