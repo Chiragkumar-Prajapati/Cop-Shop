@@ -1,5 +1,6 @@
 package com.ctrlaltelite.copshop.presentation.activities;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -7,10 +8,13 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.Spinner;
 
 import com.ctrlaltelite.copshop.R;
 import com.ctrlaltelite.copshop.application.CopShopHub;
+import com.ctrlaltelite.copshop.logic.services.stubs.ListingService;
 
 public class FilterListingsActivity extends AppCompatActivity {
 
@@ -25,7 +29,7 @@ public class FilterListingsActivity extends AppCompatActivity {
 
         /*Location spinner(drop-down list)*/
         // get array containing all locations
-        String[] locations = CopShopHub.getSellerModel().getAllSellerNames();//{"a", "b", "c"}; //CopShopHub.getSellerModel().getAllSellerNames();
+        String[] locations = CopShopHub.getSellerModel().getAllSellerNames();
         // add locations to location spinner
         Spinner locnSpinner = (Spinner) findViewById(R.id.locations_spinner);
         // Create an ArrayAdapter using the string array and a default spinner layout
@@ -43,6 +47,20 @@ public class FilterListingsActivity extends AppCompatActivity {
         statusAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         // Apply the adapter to the spinner
         statusSpinner.setAdapter(statusAdapter);
+
+        // Handle search button click
+        Button button = (Button) findViewById(R.id.btnSearch);
+        button.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                // Update listings and goto ListingList page
+                Intent intent = new Intent(FilterListingsActivity.this, ListingListActivity.class);
+                intent.putExtra("name", ((EditText) findViewById(R.id.txtFilterName)).getText().toString());
+                intent.putExtra("location", ((Spinner) findViewById(R.id.locations_spinner)).getSelectedItem().toString());
+                intent.putExtra("category", ((EditText) findViewById(R.id.txtFilterCategory)).getText().toString());
+                intent.putExtra("status", ((Spinner) findViewById(R.id.status_spinner)).getSelectedItem().toString());
+                startActivity(intent);
+            }
+        });
     }
 
 }

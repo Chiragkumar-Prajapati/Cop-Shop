@@ -180,6 +180,40 @@ public class SellerModelHSQLDB implements ISellerModel {
     }
 
     @Override
+    public String getSellerID(String sellerName) {
+        String id = "";
+        boolean idFound = false;
+
+        PreparedStatement st = null;
+        ResultSet rs = null;
+
+        // get all seller table rows
+        try {
+            st = dbConn.prepareStatement("SELECT * FROM " + TABLE_NAME);
+            rs = st.executeQuery();
+
+            int i = 0;
+            while (!idFound && rs.next()) {
+                // populate array with the locations
+                if (sellerName.equalsIgnoreCase(HSQLDBUtil.getStringFromResultSet(rs, "name"))) {
+                    id = HSQLDBUtil.getIntAsStringFromResultSet(rs, "id");
+                }
+                i++;
+            }
+
+            return id;
+
+        } catch (final SQLException e) {
+            e.printStackTrace();
+            return null;
+
+        } finally {
+            HSQLDBUtil.quietlyClose(rs);
+            HSQLDBUtil.quietlyClose(st);
+        }
+    }
+
+    @Override
     public int getNumSellers() {
 
         int numSellers = 0;

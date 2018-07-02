@@ -1,5 +1,7 @@
 package com.ctrlaltelite.copshop.persistence.stubs.hsqldb;
 
+import com.ctrlaltelite.copshop.application.CopShopHub;
+import com.ctrlaltelite.copshop.logic.services.utilities.DateUtility;
 import com.ctrlaltelite.copshop.objects.ListingObject;
 import com.ctrlaltelite.copshop.persistence.IListingModel;
 
@@ -8,7 +10,9 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
+import java.util.Locale;
 
 import static java.sql.Statement.RETURN_GENERATED_KEYS;
 
@@ -151,6 +155,231 @@ public class ListingModelHSQLDB implements IListingModel {
             HSQLDBUtil.quietlyClose(rs);
             HSQLDBUtil.quietlyClose(st);
         }
+    }
+
+    @Override
+    public List<ListingObject> fetchByName(String name) {
+        if (null == name) { throw new IllegalArgumentException("name cannot be null"); }
+
+        List<ListingObject> results = new ArrayList<>();
+        PreparedStatement st = null;
+        ResultSet rs = null;
+
+        try {
+            st = dbConn.prepareStatement("SELECT * FROM " + TABLE_NAME + " WHERE name = ?");
+            st.setInt(1, Integer.parseInt(name));
+            rs = st.executeQuery();
+
+            while (rs.next()) {
+                ListingObject listingObject = fromResultSet(rs);
+                results.add(listingObject);
+            }
+
+        } catch (final SQLException e) {
+            e.printStackTrace();
+
+        } finally {
+            HSQLDBUtil.quietlyClose(rs);
+            HSQLDBUtil.quietlyClose(st);
+        }
+
+        return results;
+    }
+
+    @Override
+    public List<ListingObject> fetchByLocation(String location) {
+
+        if (null == location) { throw new IllegalArgumentException("location cannot be null"); }
+
+        List<ListingObject> results = new ArrayList<>();
+        PreparedStatement st = null;
+        ResultSet rs = null;
+
+        // get seller id
+        String sellerID = CopShopHub.getSellerModel().getSellerID(location);
+
+        try {
+
+            st = dbConn.prepareStatement("SELECT * FROM " + TABLE_NAME + " WHERE sellerid = ?");
+            st.setInt(1, Integer.parseInt(sellerID));
+            rs = st.executeQuery();
+
+            while (rs.next()) {
+                ListingObject listingObject = fromResultSet(rs);
+                results.add(listingObject);
+            }
+
+        } catch (final SQLException e) {
+            e.printStackTrace();
+
+        } finally {
+            HSQLDBUtil.quietlyClose(rs);
+            HSQLDBUtil.quietlyClose(st);
+        }
+
+        return results;
+    }
+
+    @Override
+    public List<ListingObject> fetchByCategory(String category) {
+        if (null == category) { throw new IllegalArgumentException("category cannot be null"); }
+
+        List<ListingObject> results = new ArrayList<>();
+        PreparedStatement st = null;
+        ResultSet rs = null;
+
+        try {
+            st = dbConn.prepareStatement("SELECT * FROM " + TABLE_NAME + " WHERE category = ?");
+            st.setInt(1, Integer.parseInt(category));
+            rs = st.executeQuery();
+
+            while (rs.next()) {
+                ListingObject listingObject = fromResultSet(rs);
+                results.add(listingObject);
+            }
+
+        } catch (final SQLException e) {
+            e.printStackTrace();
+
+        } finally {
+            HSQLDBUtil.quietlyClose(rs);
+            HSQLDBUtil.quietlyClose(st);
+        }
+
+        return results;
+    }
+
+    @Override
+    public List<ListingObject> fetchByStatus(String status) {
+        if (null == status) { throw new IllegalArgumentException("status cannot be null"); }
+
+        if (status.compareToIgnoreCase("Active") != 0 && status.compareToIgnoreCase("Inactive") != 0 && !status.isEmpty()) {
+            throw new IllegalArgumentException("invalid status");
+        }
+
+        List<ListingObject> results = new ArrayList<>();
+        PreparedStatement st = null;
+        ResultSet rs = null;
+
+        try {
+            if(!status.isEmpty()) {
+                // get all listings
+                st = dbConn.prepareStatement("SELECT * FROM " + TABLE_NAME);
+                rs = st.executeQuery();
+
+                Calendar startCal;
+                Calendar endCal;
+
+                if (status.compareToIgnoreCase("Active") == 0) {
+                    // figure out which listings are active and add to results
+                    while (rs.next()) {
+                        ListingObject listingObject = fromResultSet(rs);
+                        startCal = DateUtility.convertToDateObj(listingObject.getAuctionStartDate());
+                        endCal = DateUtility.convertToDateObj(listingObject.getAuctionEndDate());
+
+                        if (startCal.before(Calendar.getInstance(Locale.CANADA)) && endCal.after(Calendar.getInstance(Locale.CANADA))) {
+                            results.add(listingObject);
+                        }
+                    }
+                } else {
+                    // figure out which listings are inactive and add to results
+                    while (rs.next()) {
+                        ListingObject listingObject = fromResultSet(rs);
+                        startCal = DateUtility.convertToDateObj(listingObject.getAuctionStartDate());
+                        endCal = DateUtility.convertToDateObj(listingObject.getAuctionEndDate());
+
+                        if (startCal.after(Calendar.getInstance(Locale.CANADA)) || endCal.before(Calendar.getInstance(Locale.CANADA))) {
+                            results.add(listingObject);
+                        }
+                    }
+                }
+            }
+
+        } catch (final SQLException e) {
+            e.printStackTrace();
+
+        } finally {
+            HSQLDBUtil.quietlyClose(rs);
+            HSQLDBUtil.quietlyClose(st);
+        }
+
+        return results;
+    }
+
+    @Override
+    public List<ListingObject> fetchByFilters(String name, String location, String category, String status) {
+
+        if (null == name) { throw new IllegalArgumentException("name cannot be null"); }
+
+        if (null == location) { throw new IllegalArgumentException("location cannot be null"); }
+
+        if (null == category) { throw new IllegalArgumentException("category cannot be null"); }
+
+        if (null == status) { throw new IllegalArgumentException("status cannot be null"); }
+
+        if (status.compareToIgnoreCase("Active") != 0 && status.compareToIgnoreCase("Inactive") != 0 && !status.isEmpty()) {
+            throw new IllegalArgumentException("invalid status");
+        }
+
+        List<ListingObject> results = new ArrayList<>();
+        List<ListingObject> resultsName = fetchByName(name);
+        List<ListingObject> resultsLocation = fetchByLocation(location);
+        List<ListingObject> resultsCategory = fetchByCategory(category);
+        List<ListingObject> resultsStatus = fetchByStatus(status);
+
+        // add listings with name provided as a parameter
+        for (ListingObject listing : resultsName){
+            if (!results.contains(listing))
+                results.add(listing);
+        }
+
+        // add listings with location provided as a parameter
+        for (ListingObject listing : resultsLocation){
+            if (!results.contains(listing))
+                results.add(listing);
+        }
+
+        // add listings with category provided as a parameter
+        for (ListingObject listing : resultsCategory){
+            if (!results.contains(listing))
+                results.add(listing);
+        }
+
+        // add listings with status provided as a parameter
+        for (ListingObject listing : resultsStatus){
+            if (!results.contains(listing))
+                results.add(listing);
+        }
+
+        return results;
+
+        /*
+        PreparedStatement st = null;
+        ResultSet rs = null;
+
+        try {
+            st = dbConn.prepareStatement("SELECT * FROM " + TABLE_NAME + " WHERE name = ? AND location = ? AND category = ? AND status = ?");
+            st.setInt(1, Integer.parseInt(name));
+            st.setInt(2, Integer.parseInt(location));
+            st.setInt(3, Integer.parseInt(category));
+            st.setInt(4, Integer.parseInt(status));
+            rs = st.executeQuery();
+
+            while (rs.next()) {
+                ListingObject listingObject = fromResultSet(rs);
+                results.add(listingObject);
+            }
+
+        } catch (final SQLException e) {
+            e.printStackTrace();
+
+        } finally {
+            HSQLDBUtil.quietlyClose(rs);
+            HSQLDBUtil.quietlyClose(st);
+        }
+
+        return results;
+        */
     }
 
     @Override

@@ -85,6 +85,31 @@ public class ListingModel implements IListingModel {
     }
 
     @Override
+    public List<ListingObject> fetchByName(String name) {
+        return null;
+    }
+
+    @Override
+    public List<ListingObject> fetchByLocation(String location) {
+        return null;
+    }
+
+    @Override
+    public List<ListingObject> fetchByCategory(String category) {
+        return null;
+    }
+
+    @Override
+    public List<ListingObject> fetchByStatus(String status) {
+        return null;
+    }
+
+    @Override
+    public List<ListingObject> fetchByFilters(String name, String location, String category, String status) {
+        return null;
+    }
+
+    @Override
     public List<ListingObject> fetchAll() {
         List<Hashtable<String, String>> hashTableRows = this.database.getAllRows(TABLE_NAME);
         List<ListingObject> results = new ArrayList<>();

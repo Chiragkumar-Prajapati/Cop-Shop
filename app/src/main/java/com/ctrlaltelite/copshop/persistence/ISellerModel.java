@@ -41,6 +41,13 @@ public interface ISellerModel {
     boolean checkEmailPasswordMatch(String email, String password);
 
     /**
+     * Returns the id in the database of the sellerName passed as parameter
+     * @param sellerName whose id to find
+     * @return the id of the seller
+     */
+    String getSellerID(String sellerName);
+
+    /**
      * Get a count of all sellers that exist in the database
      * @return int equal to the number of sellers in the database
      */

@@ -87,6 +87,11 @@ public class SellerModel implements ISellerModel {
     }
 
     @Override
+    public String getSellerID(String sellerName) {
+        return null;
+    }
+
+    @Override
     public int getNumSellers() {
         List<Hashtable<String, String>> allRows = this.database.getAllRows(TABLE_NAME);
         return  allRows.size();
