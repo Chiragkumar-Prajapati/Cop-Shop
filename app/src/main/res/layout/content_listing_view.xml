@@ -4,11 +4,11 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:focusable="true"
+    android:focusableInTouchMode="true"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
     tools:context=".presentation.activities.ListingViewActivity"
-    tools:showIn="@layout/activity_listing_view"
-    android:focusable="true"
-    android:focusableInTouchMode="true">
+    tools:showIn="@layout/activity_listing_view">
 
     <TextView
         android:id="@+id/view_listing_ending_in_time_date"
@@ -94,7 +94,7 @@
     <TextView
         android:id="@+id/view_listing_title"
         android:layout_width="0dp"
-        android:layout_height="33dp"
+        android:layout_height="36dp"
         android:layout_marginTop="8dp"
         android:text="Title"
         android:textSize="24sp"
@@ -133,11 +133,72 @@
         </LinearLayout>
     </ScrollView>
 
+    <EditText
+        android:id="@+id/view_listing_bid_input"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="8dp"
+        android:allowUndo="true"
+        android:background="#eeeeee"
+        android:ems="10"
+        android:hint="00.00"
+        android:inputType="numberDecimal"
+        android:paddingLeft="8dp"
+        android:singleLine="true"
+        android:textSize="18sp"
+        app:layout_constraintBottom_toBottomOf="@+id/view_listing_title"
+        app:layout_constraintEnd_toStartOf="@+id/view_listing_bid_button"
+        app:layout_constraintStart_toEndOf="@+id/view_listing_ending_in_time_date"
+        app:layout_constraintTop_toBottomOf="@+id/view_listing_min_bid_label" />
+
+    <Button
+        android:id="@+id/view_listing_bid_button"
+        style="@android:style/Widget.Button.Small"
+        android:layout_width="60dp"
+        android:layout_height="0dp"
+        android:layout_marginEnd="16dp"
+        android:backgroundTint="@color/colorPrimaryDark"
+        android:elevation="8dp"
+        android:gravity="center_vertical|center_horizontal"
+        android:hapticFeedbackEnabled="true"
+        android:text="Bid"
+        android:textColor="@android:color/white"
+        app:layout_constraintBottom_toBottomOf="@+id/view_listing_bid_input"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/view_listing_bid_input" />
+
+    <TextView
+        android:id="@+id/view_listing_min_bid_label"
+        android:layout_width="wrap_content"
+        android:layout_height="0dp"
+        android:gravity="center_vertical"
+        android:text="MINIMUM: "
+        android:textSize="14sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="@+id/view_listing_ending_in_time_date"
+        app:layout_constraintStart_toStartOf="@+id/view_listing_bid_list"
+        app:layout_constraintTop_toTopOf="@+id/view_listing_ending_in_time_date" />
+
+    <TextView
+        android:id="@+id/view_listing_min_bid"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginEnd="2dp"
+        android:gravity="center_vertical"
+        android:text="$00.00"
+        android:textSize="14sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="@+id/view_listing_min_bid_label"
+        app:layout_constraintEnd_toEndOf="@+id/view_listing_bid_list"
+        app:layout_constraintStart_toEndOf="@+id/view_listing_min_bid_label"
+        app:layout_constraintTop_toTopOf="@+id/view_listing_min_bid_label" />
+
     <ListView
         android:id="@+id/view_listing_bid_list"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:layout_marginBottom="16dp"
         android:layout_marginEnd="16dp"
         android:layout_marginStart="16dp"
         android:layout_marginTop="8dp"
@@ -146,40 +207,9 @@
         android:headerDividersEnabled="false"
         android:isScrollContainer="true"
         android:scrollbarStyle="insideOverlay"
-        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintBottom_toBottomOf="@+id/view_listing_description_scroller"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toEndOf="@+id/view_listing_ending_in_time_date"
-        app:layout_constraintTop_toBottomOf="@+id/view_listing_bid_input">
-    </ListView>
-
-    <EditText
-        android:id="@+id/view_listing_bid_input"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginStart="16dp"
-        android:allowUndo="true"
-        android:background="#eeeeee"
-        android:ems="10"
-        android:hint="00.00"
-        android:inputType="numberDecimal"
-        android:singleLine="true"
-        android:textSize="18sp"
-        app:layout_constraintBottom_toBottomOf="@+id/view_listing_ending_in_time_date"
-        app:layout_constraintEnd_toStartOf="@+id/view_listing_bid_button"
-        app:layout_constraintStart_toEndOf="@+id/view_listing_ending_in_time_date"
-        app:layout_constraintTop_toTopOf="@+id/view_listing_ending_in_time_date" />
-
-    <Button
-        android:id="@+id/view_listing_bid_button"
-        android:layout_width="60dp"
-        android:layout_height="0dp"
-        android:layout_marginEnd="16dp"
-        android:backgroundTint="@color/colorPrimaryDark"
-        android:hapticFeedbackEnabled="true"
-        android:text="Bid"
-        android:textColor="@android:color/white"
-        app:layout_constraintBottom_toBottomOf="@+id/view_listing_bid_input"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/view_listing_bid_input" />
+        app:layout_constraintTop_toBottomOf="@+id/view_listing_bid_input"></ListView>
 </android.support.constraint.ConstraintLayout>

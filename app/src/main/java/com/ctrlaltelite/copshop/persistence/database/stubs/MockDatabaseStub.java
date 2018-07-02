@@ -19,6 +19,7 @@ public class MockDatabaseStub implements IDatabase {
         this.makeTable("Buyers");
         this.makeTable("Sellers");
         this.makeTable("Listings");
+        this.makeTable("Bids");
     }
 
     @Override

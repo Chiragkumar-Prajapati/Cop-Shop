@@ -11,6 +11,8 @@ import com.ctrlaltelite.copshop.persistence.stubs.ListingModel;
 
 import org.junit.Test;
 
+import java.text.ParseException;
+
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.assertFalse;
 

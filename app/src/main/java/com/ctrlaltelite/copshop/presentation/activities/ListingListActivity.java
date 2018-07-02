@@ -52,6 +52,11 @@ public class ListingListActivity extends AppCompatActivity implements Navigation
         // Setup drawer slide out page
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
 
         // Populate list of listings
         Intent intent = getIntent();
@@ -70,9 +75,7 @@ public class ListingListActivity extends AppCompatActivity implements Navigation
         }
 
         final ListView listingView = (ListView) findViewById(R.id.listing_list);
-
-        ListingObjectArrayAdapter listAdapter;
-        listAdapter = new ListingObjectArrayAdapter(this, listingItems);
+        ListingObjectArrayAdapter listAdapter = new ListingObjectArrayAdapter(this, listingItems);
 
         // Set clicked listeners for listings
         listingView.setOnItemClickListener(new ListView.OnItemClickListener() {
@@ -88,6 +91,7 @@ public class ListingListActivity extends AppCompatActivity implements Navigation
         });
 
         listingView.setAdapter(listAdapter);
+
     }
 
     public void updateListingsByFilters(String name, String location, String category, String status) {

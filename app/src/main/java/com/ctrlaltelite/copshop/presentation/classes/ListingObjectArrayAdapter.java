@@ -47,7 +47,7 @@ public class ListingObjectArrayAdapter extends ArrayAdapter<ListingObject> {
 
         // Trim and set the description and other fields
         title.setText(info.getTitle());
-        description.setText(StringUtility.ellipsize(info.getDescription(), 80));
+        description.setText(StringUtility.ellipsize(info.getDescription(), 70));
         seller.setText(CopShopHub.getListingService().getSellerNameFromListing(info.getSellerId()));
 
         // Get the image associated with this listing
@@ -55,10 +55,8 @@ public class ListingObjectArrayAdapter extends ArrayAdapter<ListingObject> {
 //        image.setImageResource(imageID);
 
         // Hide price and bid counter until bidding is implemented
-//        bids.setText(info.getNumBids() + " bids");
-        bids.setVisibility(View.INVISIBLE);
-//        price.setText("$" + info.getCurrentPrice() + ",");
-        price.setVisibility(View.INVISIBLE);
+        bids.setText(CopShopHub.getListingService().getNumBids(info.getId()) + " bids");
+        price.setText("$" + CopShopHub.getListingService().getNextBidTotal(info) + ",");
 
         // Hide timer until auction timers are implemented
 //        timeLeft.setText(info.getTimeLeft());
