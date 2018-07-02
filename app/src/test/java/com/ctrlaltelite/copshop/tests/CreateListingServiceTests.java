@@ -23,7 +23,7 @@ public class CreateListingServiceTests {
         ICreateListingService createListingService = new CreateListingService(listingModel);
 
         ListingObject listing = new ListingObject("ignored","title", "description", "2", "2",
-                "02/02/2019", "10:00", "02/02/2020", "12:00", "sellerId");
+                "02/02/2019 10:00", "02/02/2020 12:00", "sellerId");
 
         // Save the new listings
         String id1 = createListingService.saveNewListing(listing);
@@ -47,17 +47,17 @@ public class CreateListingServiceTests {
 
         //--------------------------------------Valid listing objects for testing------------------------------------------------//
         validListing = new ListingObject("ignored","title", "description", "2", "2",
-                "02/02/2019", "10:00", "02/02/2020", "12:00", "sellerId");
+                "02/02/2019 10:00", "02/02/2020 12:00", "sellerId");
         validationObject = createListingService.validate(validListing);
         assertTrue("Form was incorrectly validated", validationObject.isAllValid());
 
         validListing = new ListingObject("ignored","title", "description", "2.0", "2.0",
-                "02/02/2019", "10:00", "02/02/2020", "12:00", "sellerId");
+                "02/02/2019 10:00", "02/02/2020 12:00", "sellerId");
         validationObject = createListingService.validate(validListing);
         assertTrue("Form was incorrectly validated", validationObject.isAllValid());
 
         validListing = new ListingObject("ignored","title", "description", "2", "2",
-                "02/02/2019", "10:00", "02/02/2019", "11:00", "sellerId");
+                "02/02/2019 10:00", "02/02/2019 11:00", "sellerId");
         validationObject = createListingService.validate(validListing);
         assertTrue("Form was incorrectly validated", validationObject.isAllValid());
 
@@ -66,99 +66,86 @@ public class CreateListingServiceTests {
 
         //================================================Invalid due to null=====================================================//
         invalidListing = new ListingObject("ignored", null, "description", "2", "2",
-                "02/02/2019", "10:00", "02/02/2020", "10:00", "sellerId");
+                "02/02/2019 10:00", "02/02/2020 10:00", "sellerId");
         validationObject = createListingService.validate(invalidListing);
         assertFalse("Form was incorrectly validated", validationObject.isAllValid());
         assertFalse("Expected invalid field was valid", validationObject.getTitleValid());
 
         invalidListing = new ListingObject("ignored","title", null, "2", "2",
-                "02/02/2019", "10:00", "02/02/2020", "10:00", "sellerId");
+                "02/02/2019 10:00", "02/02/2020 10:00", "sellerId");
         validationObject = createListingService.validate(invalidListing);
         assertFalse("Form was incorrectly validated", validationObject.isAllValid());
         assertFalse("Expected invalid field was valid", validationObject.getDescriptionValid());
 
         invalidListing = new ListingObject("ignored","title", "description", null, "2",
-                "02/02/2019", "10:00", "02/02/2020", "10:00", "sellerId");
+                "02/02/2019 10:00", "02/02/2020 10:00", "sellerId");
         validationObject = createListingService.validate(invalidListing);
         assertFalse("Form was incorrectly validated", validationObject.isAllValid());
         assertFalse("Expected invalid field was valid", validationObject.getInitPriceValid());
 
         invalidListing = new ListingObject("ignored","title", "description", "2", null,
-                "02/02/2019", "10:00", "02/02/2020", "10:00", "sellerId");
+                "02/02/2019 10:00", "02/02/2020 10:00", "sellerId");
         validationObject = createListingService.validate(invalidListing);
         assertFalse("Form was incorrectly validated", validationObject.isAllValid());
         assertFalse("Expected invalid field was valid", validationObject.getMinBidValid());
 
         invalidListing = new ListingObject("ignored","title", "description", "2", "2",
-                null, "10:00", "02/02/2020", "10:00", "sellerId");
+                null, "02/02/2020 10:00", "sellerId");
         validationObject = createListingService.validate(invalidListing);
         assertFalse("Form was incorrectly validated", validationObject.isAllValid());
         assertFalse("Expected invalid field was valid", validationObject.getStartDateAndTimeValid());
 
         invalidListing = new ListingObject("ignored","title", "description", "2", "2",
-                "02/02/2019", null, "02/02/2020", "10:00", "sellerId");
-        validationObject = createListingService.validate(invalidListing);
-        assertFalse("Form was incorrectly validated", validationObject.isAllValid());
-        assertFalse("Expected invalid field was valid", validationObject.getStartDateAndTimeValid());
-
-        invalidListing = new ListingObject("ignored","title", "description", "2", "2",
-                "02/02/2019", "10:00", null, "10:00", "sellerId");
+                "02/02/2019 10:00", null,"sellerId");
         validationObject = createListingService.validate(invalidListing);
         assertFalse("Form was incorrectly validated", validationObject.isAllValid());
         assertFalse("Expected invalid field was valid", validationObject.getEndDateAndTimeValid());
-
-        invalidListing = new ListingObject("ignored","title", "description", "2", "2",
-                "02/02/2019", "10:00", "02/02/2020", null, "sellerId");
-        validationObject = createListingService.validate(invalidListing);
-        assertFalse("Form was incorrectly validated", validationObject.isAllValid());
-        assertFalse("Expected invalid field was valid", validationObject.getEndDateAndTimeValid());
-
 
         //==============================================Invalid due to empty String==============================================//
         invalidListing = new ListingObject("ignored", "", "description", "2", "2",
-                "02/02/2019", "10:00", "02/02/2020", "10:00", "sellerId");
+                "02/02/2019 10:00", "02/02/2020 10:00", "sellerId");
         validationObject = createListingService.validate(invalidListing);
         assertFalse("Form was incorrectly validated", validationObject.isAllValid());
         assertFalse("Expected invalid field was valid", validationObject.getTitleValid());
 
         invalidListing = new ListingObject("ignored","title", "", "2", "2",
-                "02/02/2019", "10:00", "02/02/2020", "10:00", "sellerId");
+                "02/02/2019 10:00", "02/02/2020 10:00", "sellerId");
         validationObject = createListingService.validate(invalidListing);
         assertFalse("Form was incorrectly validated", validationObject.isAllValid());
         assertFalse("Expected invalid field was valid", validationObject.getDescriptionValid());
 
         invalidListing = new ListingObject("ignored","title", "description", "", "2",
-                "02/02/2019", "10:00", "02/02/2020", "10:00", "sellerId");
+                "02/02/2019 10:00", "02/02/2020 10:00", "sellerId");
         validationObject = createListingService.validate(invalidListing);
         assertFalse("Form was incorrectly validated", validationObject.isAllValid());
         assertFalse("Expected invalid field was valid", validationObject.getInitPriceValid());
 
         invalidListing = new ListingObject("ignored","title", "description", "2", "",
-                "02/02/2019", "10:00", "02/02/2020", "10:00", "sellerId");
+                "02/02/2019 10:00", "02/02/2020 10:00", "sellerId");
         validationObject = createListingService.validate(invalidListing);
         assertFalse("Form was incorrectly validated", validationObject.isAllValid());
         assertFalse("Expected invalid field was valid", validationObject.getMinBidValid());
 
         invalidListing = new ListingObject("ignored","title", "description", "2", "2",
-                "", "10:00", "02/02/2020", "10:00", "sellerId");
+                " 10:00", "02/02/2020 10:00", "sellerId");
         validationObject = createListingService.validate(invalidListing);
         assertFalse("Form was incorrectly validated", validationObject.isAllValid());
         assertFalse("Expected invalid field was valid", validationObject.getStartDateAndTimeValid());
 
         invalidListing = new ListingObject("ignored","title", "description", "2", "2",
-                "02/02/2019", "", "02/02/2020", "10:00", "sellerId");
+                "02/02/2019 ", "02/02/2020 10:00", "sellerId");
         validationObject = createListingService.validate(invalidListing);
         assertFalse("Form was incorrectly validated", validationObject.isAllValid());
         assertFalse("Expected invalid field was valid", validationObject.getStartDateAndTimeValid());
 
         invalidListing = new ListingObject("ignored","title", "description", "2", "2",
-                "02/02/2019", "10:00", "", "10:00", "sellerId");
+                "02/02/2019 10:00", " 10:00", "sellerId");
         validationObject = createListingService.validate(invalidListing);
         assertFalse("Form was incorrectly validated", validationObject.isAllValid());
         assertFalse("Expected invalid field was valid", validationObject.getEndDateAndTimeValid());
 
         invalidListing = new ListingObject("ignored","title", "description", "2", "2",
-                "02/02/2019", "10:00", "02/02/2020", "", "sellerId");
+                "02/02/2019 10:00", "02/02/2020 ", "sellerId");
         validationObject = createListingService.validate(invalidListing);
         assertFalse("Form was incorrectly validated", validationObject.isAllValid());
         assertFalse("Expected invalid field was valid", validationObject.getEndDateAndTimeValid());
@@ -166,79 +153,67 @@ public class CreateListingServiceTests {
 
         //=============================Invalid due to time/date: e.g: in the past, improper format, end = start times=============//
         invalidListing = new ListingObject("ignored","title", "description", "2", "2",
-                "02/02/2017", "10:00", "02/02/2020", "12:00", "sellerId");
+                "02/02/2017 10:00", "02/02/2020 12:00", "sellerId");
         validationObject = createListingService.validate(invalidListing);
         assertFalse("Form was incorrectly validated", validationObject.isAllValid());
         assertFalse("Expected invalid field was valid", validationObject.getStartDateAndTimeValid());
 
         invalidListing = new ListingObject("ignored","title", "description", "2", "2",
-                "02/02/2019", "10:59", "02/02/2019", "10:00", "sellerId");
+                "02/02/2019 10:59", "02/02/2019 10:00", "sellerId");
         validationObject = createListingService.validate(invalidListing);
         assertFalse("Form was incorrectly validated", validationObject.isAllValid());
         assertFalse("Expected invalid field was valid", validationObject.getEndDateAndTimeValid());
 
         invalidListing = new ListingObject("ignored","title", "description", "2", "2",
-                "02/02/2019", "10:00", "02/02/2019", "9:00", "sellerId");
+                "02/02/2019 10:00", "02/02/2019 9:00", "sellerId");
         validationObject = createListingService.validate(invalidListing);
         assertFalse("Form was incorrectly validated", validationObject.isAllValid());
         assertFalse("Expected invalid field was valid", validationObject.getEndDateAndTimeValid());
 
         invalidListing = new ListingObject("ignored","title", "description", "2", "2",
-                "02/02/2019", "10:00", "01/02/2019", "12:00", "sellerId");
+                "02/02/2019 10:00", "01/02/2019 12:00", "sellerId");
         validationObject = createListingService.validate(invalidListing);
         assertFalse("Form was incorrectly validated", validationObject.isAllValid());
         assertFalse("Expected invalid field was valid", validationObject.getEndDateAndTimeValid());
 
         invalidListing = new ListingObject("ignored","title", "description", "2", "2",
-                "02/02/2019", "10:00", "02/01/2019", "12:00", "sellerId");
+                "02/02/2019 10:00", "02/01/2019 12:00", "sellerId");
         validationObject = createListingService.validate(invalidListing);
         assertFalse("Form was incorrectly validated", validationObject.isAllValid());
         assertFalse("Expected invalid field was valid", validationObject.getEndDateAndTimeValid());
 
         invalidListing = new ListingObject("ignored","title", "description", "2.0", "2.0",
-                "02/02/2019", "10:00", "02/02/2019", "10:00", "sellerId");
+                "02/02/2019 10:00", "02/02/2019 10:00", "sellerId");
         validationObject = createListingService.validate(invalidListing);
         assertFalse("Form was incorrectly validated", validationObject.isAllValid());
         assertFalse("Expected invalid field was valid", validationObject.getEndDateAndTimeValid());
 
         invalidListing = new ListingObject("ignored","title", "description", "2", "2",
-                "02/02/2019", "10:00", "02/02/2018", "10:00", "sellerId");
+                "02/02/2019 10:00", "02/02/2018 10:00", "sellerId");
         validationObject = createListingService.validate(invalidListing);
         assertFalse("Form was incorrectly validated", validationObject.isAllValid());
         assertFalse("Expected invalid field was valid", validationObject.getEndDateAndTimeValid());
 
         invalidListing = new ListingObject("ignored","title", "description", "2", "2",
-                "2019/02/02", "10:00", "02/02/2020", "12:00", "sellerId");
+                "2019/02/02 10:00", "02/02/2020 12:00", "sellerId");
         validationObject = createListingService.validate(invalidListing);
         assertFalse("Form was incorrectly validated", validationObject.isAllValid());
         assertFalse("Expected invalid field was valid", validationObject.getStartDateAndTimeValid());
 
         invalidListing = new ListingObject("ignored","title", "description", "2", "2",
-                "02/02/2019", "10:00", "02/2020/02", "12:00", "sellerId");
+                "02/02/2019 10:00", "02/2020/02 12:00", "sellerId");
         validationObject = createListingService.validate(invalidListing);
         assertFalse("Form was incorrectly validated", validationObject.isAllValid());
         assertFalse("Expected invalid field was valid", validationObject.getEndDateAndTimeValid());
 
         invalidListing = new ListingObject("ignored","title", "description", "2", "2",
-                "02/02/2019", "25:00", "02/02/2020", "12:00", "sellerId");
+                "02/02/2019 1000", "02/02/2020 12:00", "sellerId");
         validationObject = createListingService.validate(invalidListing);
         assertFalse("Form was incorrectly validated", validationObject.isAllValid());
         assertFalse("Expected invalid field was valid", validationObject.getStartDateAndTimeValid());
 
         invalidListing = new ListingObject("ignored","title", "description", "2", "2",
-                "02/02/2019", "10:00", "02/02/2020", "25:00", "sellerId");
-        validationObject = createListingService.validate(invalidListing);
-        assertFalse("Form was incorrectly validated", validationObject.isAllValid());
-        assertFalse("Expected invalid field was valid", validationObject.getEndDateAndTimeValid());
-
-        invalidListing = new ListingObject("ignored","title", "description", "2", "2",
-                "02/02/2019", "1000", "02/02/2020", "12:00", "sellerId");
-        validationObject = createListingService.validate(invalidListing);
-        assertFalse("Form was incorrectly validated", validationObject.isAllValid());
-        assertFalse("Expected invalid field was valid", validationObject.getStartDateAndTimeValid());
-
-        invalidListing = new ListingObject("ignored","title", "description", "2", "2",
-                "02/02/2019", "10:00", "02/02/2020", "1200", "sellerId");
+                "02/02/2019 10:00", "02/02/2020 1200", "sellerId");
         validationObject = createListingService.validate(invalidListing);
         assertFalse("Form was incorrectly validated", validationObject.isAllValid());
         assertFalse("Expected invalid field was valid", validationObject.getEndDateAndTimeValid());
@@ -246,25 +221,25 @@ public class CreateListingServiceTests {
 
         //=============================Invalid due to currency: e.g decimal too large, invalid format================================//
         invalidListing = new ListingObject("ignored","title", "description", "2.1234", "2",
-                "02/02/2019", "10:00", "02/02/2020", "12:00", "sellerId");
+                "02/02/2019 10:00", "02/02/2020 12:00", "sellerId");
         validationObject = createListingService.validate(invalidListing);
         assertFalse("Form was incorrectly validated", validationObject.isAllValid());
         assertFalse("Expected invalid field was valid", validationObject.getInitPriceValid());
 
         invalidListing = new ListingObject("ignored","title", "description", "2", "2.1234",
-                "02/02/2019", "10:00", "02/02/2020", "12:00", "sellerId");
+                "02/02/2019 10:00", "02/02/2020 12:00", "sellerId");
         validationObject = createListingService.validate(invalidListing);
         assertFalse("Form was incorrectly validated", validationObject.isAllValid());
         assertFalse("Expected invalid field was valid", validationObject.getMinBidValid());
 
         invalidListing = new ListingObject("ignored","title", "description", ".", "2",
-                "02/02/2019", "10:00", "02/02/2020", "12:00", "sellerId");
+                "02/02/2019 10:00", "02/02/2020 12:00", "sellerId");
         validationObject = createListingService.validate(invalidListing);
         assertFalse("Form was incorrectly validated", validationObject.isAllValid());
         assertFalse("Expected invalid field was valid", validationObject.getInitPriceValid());
 
         invalidListing = new ListingObject("ignored","title", "description", "2", ".",
-                "02/02/2019", "10:00", "02/02/2020", "12:00", "sellerId");
+                "02/02/2019 10:00", "02/02/2020 12:00", "sellerId");
         validationObject = createListingService.validate(invalidListing);
         assertFalse("Form was incorrectly validated", validationObject.isAllValid());
         assertFalse("Expected invalid field was valid", validationObject.getMinBidValid());
