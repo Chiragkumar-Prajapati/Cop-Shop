@@ -29,12 +29,6 @@ public class BidService implements IBidService {
     }
 
     @Override
-    public String getBuyerName(String buyerId) {
-        BuyerAccountObject buyerObject = buyerModel.fetch(buyerId);
-        return buyerObject.getFirstName();
-    }
-
-    @Override
     public boolean createBid(String suggestedBid, String listingId, String bidAmount, String buyerId) {
         Float floatBidAmount = Float.parseFloat(bidAmount);
         Float floatSuggestedAmount = Float.parseFloat(suggestedBid);

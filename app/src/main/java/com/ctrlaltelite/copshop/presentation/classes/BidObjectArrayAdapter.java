@@ -42,7 +42,7 @@ public class BidObjectArrayAdapter extends ArrayAdapter<BidObject> {
 
         // Get buyer name
         String buyerId = info.getBuyerId();
-        String buyerName = CopShopHub.getBidService().getBuyerName(buyerId);
+        String buyerName = CopShopHub.getAccountService().getBuyerName(buyerId);
 
         // Set fields
         ListingObject listing = CopShopHub.getListingService().fetchListing(info.getListingId());

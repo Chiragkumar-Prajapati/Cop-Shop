@@ -14,13 +14,6 @@ public interface IBidService {
     List<BidObject> fetchBidsForListing(String listingId);
 
     /**
-     * Get the first name of the buyer
-     * @param buyerId Id of buyer
-     * @return String buyer's first name
-     */
-    String getBuyerName(String buyerId);
-
-    /**
      * Create a bid for a listing
      * @param suggestedBid The amount suggested for the bid - minimum amount biddable
      * @param listingId The listing this bid belongs to
