@@ -145,7 +145,7 @@ public class EditListingActivity extends AppCompatActivity {
                         ((EditText) findViewById(R.id.txtMinBid)).getText().toString(),
                         ((TextView) findViewById(R.id.txtStartDate)).getText().toString(),
                         ((TextView) findViewById(R.id.txtEndDate)).getText().toString(),
-                        sharedPreferences.getString("userId", "-1")
+                        sharedPreferences.getString("userID", "-1")
                 );
 
                 ListingFormValidationObject validationObject = CopShopHub.getCreateListingService().validate(listingObject);

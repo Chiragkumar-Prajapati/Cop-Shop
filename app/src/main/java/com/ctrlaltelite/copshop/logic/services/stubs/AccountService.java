@@ -241,4 +241,10 @@ public class AccountService implements com.ctrlaltelite.copshop.logic.services.I
         Matcher matcher = pattern.matcher(password);
         return true; //matcher.matches();
     }
+
+    @Override
+    public String getBuyerName(String buyerId) {
+        BuyerAccountObject buyerObject = buyerModel.fetch(buyerId);
+        return buyerObject.getFirstName();
+    }
 }

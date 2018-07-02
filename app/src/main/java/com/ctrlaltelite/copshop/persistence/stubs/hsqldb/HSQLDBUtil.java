@@ -11,7 +11,6 @@ public class HSQLDBUtil {
         try {
             String props = "";
             String path = "jdbc:hsqldb:file:" + dbPath + props;
-            System.out.println(path);
             return DriverManager.getConnection(path, "SA", "");
         } catch (final SQLException e) {
             throw new PersistenceRuntimeException(e);

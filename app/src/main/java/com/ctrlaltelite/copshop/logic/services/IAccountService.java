@@ -26,4 +26,10 @@ public interface IAccountService {
 
     String registerNewSeller(SellerAccountObject newSeller);
 
+    /**
+     * Get the first name of the buyer
+     * @param buyerId Id of buyer
+     * @return String buyer's first name
+     */
+    String getBuyerName(String buyerId);
 }

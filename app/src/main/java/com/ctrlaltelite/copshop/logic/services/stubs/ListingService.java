@@ -1,20 +1,26 @@
 package com.ctrlaltelite.copshop.logic.services.stubs;
 
+import com.ctrlaltelite.copshop.objects.BidObject;
 import com.ctrlaltelite.copshop.objects.SellerAccountObject;
+import com.ctrlaltelite.copshop.persistence.IBidModel;
 import com.ctrlaltelite.copshop.persistence.IListingModel;
 import com.ctrlaltelite.copshop.logic.services.IListingService;
 import com.ctrlaltelite.copshop.objects.ListingObject;
 import com.ctrlaltelite.copshop.persistence.ISellerModel;
 
+import java.util.Collections;
 import java.util.List;
+import java.util.Locale;
 
 public class ListingService implements IListingService {
     private IListingModel listingModel;
     private ISellerModel sellerModel;
+    private IBidModel bidModel;
 
-    public ListingService(IListingModel listingModel, ISellerModel sellerModel) {
+    public ListingService(IListingModel listingModel, ISellerModel sellerModel, IBidModel bidModel) {
         this.listingModel = listingModel;
         this.sellerModel = sellerModel;
+        this.bidModel = bidModel;
     }
 
     public List<ListingObject> fetchListings() {
@@ -43,10 +49,25 @@ public class ListingService implements IListingService {
         return seller.getOrganizationName();
     }
 
-//    @Override
-//    public String getNextBidTotal(ListingObject listing) {
-//        return "1.00";
-//    }
+    @Override
+    public String getNextBidTotal(ListingObject listing) {
+        List<BidObject> bids = bidModel.findAllByListing(listing.getId());
+        Float minBid = Float.parseFloat(listing.getMinBid());
+        Float initPrice = Float.parseFloat(listing.getInitPrice());
+        Float bidAmount;
+
+        if (bids.size() > 0) {
+            Collections.sort(bids);
+            BidObject highestBid = bids.get(0);
+            Float highestBidAmt = Float.parseFloat(highestBid.getBidAmt());
+
+            bidAmount = highestBidAmt + minBid;
+        } else {
+             bidAmount = initPrice;
+        }
+
+        return String.format(Locale.CANADA, "%1$.2f", bidAmount);
+    }
 
     @Override
     public ListingObject fetchListing(String listingId) {
@@ -64,9 +85,19 @@ public class ListingService implements IListingService {
 
     @Override
     public boolean updateListing(String listingId, ListingObject updatedObj) {
-        if (null == listingId) { throw new IllegalArgumentException("listingId cannot be null"); }
-        if (null == updatedObj) { throw new IllegalArgumentException("updated object cannot be null"); }
+        if (null == listingId) {
+            throw new IllegalArgumentException("listingId cannot be null");
+        }
+        if (null == updatedObj) {
+            throw new IllegalArgumentException("updated object cannot be null");
+        }
 
         return listingModel.update(listingId, updatedObj);
+    }
+
+    @Override
+    public int getNumBids(String listingId) {
+        List<BidObject> bids = bidModel.findAllByListing(listingId);
+        return bids.size();
     }
 }

@@ -31,13 +31,6 @@ public interface IListingService {
      */
     String getSellerName(String sellerId);
 
-//    /**
-//     * Get the next highest bid amount
-//     * @param listing the listing
-//     * @return String float representing next bid
-//     */
-//    String getNextBidTotal(ListingObject listing);
-
     /**
      * Fetch a listing from the db by listingId
      * @param listingId The listing id
@@ -59,4 +52,19 @@ public interface IListingService {
      * @return success or not
      */
     boolean updateListing(String listingId, ListingObject updatedObj);
+
+    /**
+     * Get the next highest bid amount
+     * @param listing the listing
+     * @return String float representing next bid
+     */
+    String getNextBidTotal(ListingObject listing);
+
+    /**
+     * Get number of bids on a listing
+     * @param listingId The listing to count bids for
+     * @return Int number of bids
+     */
+    int getNumBids(String listingId);
+
 }
