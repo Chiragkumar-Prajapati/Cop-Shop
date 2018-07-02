@@ -159,6 +159,7 @@
         android:layout_width="60dp"
         android:layout_height="0dp"
         android:layout_marginEnd="16dp"
+        android:background="@color/colorPrimaryDark"
         android:backgroundTint="@color/colorPrimaryDark"
         android:elevation="8dp"
         android:gravity="center_vertical|center_horizontal"
@@ -168,6 +169,19 @@
         app:layout_constraintBottom_toBottomOf="@+id/view_listing_bid_input"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="@+id/view_listing_bid_input" />
+
+    <Button
+        android:id="@+id/view_listing_edit_button"
+        android:layout_width="102dp"
+        android:layout_height="0dp"
+        android:background="?attr/colorButtonNormal"
+        android:backgroundTint="?attr/colorButtonNormal"
+        android:hapticFeedbackEnabled="true"
+        android:text="Edit Listing"
+        android:textColor="@android:color/black"
+        app:layout_constraintBottom_toBottomOf="@+id/view_listing_title"
+        app:layout_constraintEnd_toEndOf="@+id/view_listing_title"
+        app:layout_constraintTop_toTopOf="@+id/view_listing_title" />
 
     <TextView
         android:id="@+id/view_listing_min_bid_label"
@@ -212,4 +226,5 @@
         app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toEndOf="@+id/view_listing_ending_in_time_date"
         app:layout_constraintTop_toBottomOf="@+id/view_listing_bid_input"></ListView>
+
 </android.support.constraint.ConstraintLayout>

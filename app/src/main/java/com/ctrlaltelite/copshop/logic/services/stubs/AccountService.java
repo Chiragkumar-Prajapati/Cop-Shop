@@ -59,7 +59,7 @@ public class AccountService implements com.ctrlaltelite.copshop.logic.services.I
         }
         return account;
     }
-
+    
     public BuyerAccountValidationObject validate(BuyerAccountObject buyerObject) {
         return this.validateInputForm(buyerObject);
     }

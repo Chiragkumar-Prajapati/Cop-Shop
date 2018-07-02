@@ -66,5 +66,4 @@ public class CreateListingService implements ICreateListingService {
 
         return validationObject;
     }
-
 }

@@ -36,6 +36,10 @@
         <activity android:name=".presentation.activities.ViewBuyerAccountActivity" />
         <activity android:name=".presentation.activities.CreateSellerAccountActivity" />
         <activity android:name=".presentation.activities.ViewSellerAccountActivity" />
+        <activity
+            android:name=".presentation.activities.EditListingActivity"
+            android:label="CopShop - Edit Listing"
+            android:theme="@style/AppTheme.NoActionBar" />
     </application>
 
 </manifest>
