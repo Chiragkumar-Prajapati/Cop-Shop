@@ -85,4 +85,25 @@ public class SellerModel implements ISellerModel {
 
         return false;
     }
+
+    @Override
+    public int getNumSellers() {
+        List<Hashtable<String, String>> allRows = this.database.getAllRows(TABLE_NAME);
+        return  allRows.size();
+    }
+
+    @Override
+    public String[] getAllSellerNames() {
+        String[] locations = new String[getNumSellers()];
+
+        // get all seller table rows
+        List<Hashtable<String, String>> allRows = this.database.getAllRows(TABLE_NAME);
+
+        // populate array with the locations
+        for (int i = 0; i < locations.length; i++) {
+            locations[i] = (allRows.get(i)).get("name");
+        }
+
+        return locations;
+    }
 }

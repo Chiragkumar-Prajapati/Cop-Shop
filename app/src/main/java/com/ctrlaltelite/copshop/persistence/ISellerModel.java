@@ -39,4 +39,16 @@ public interface ISellerModel {
      * @return Boolean indicating if there was a credentials match or not
      */
     boolean checkEmailPasswordMatch(String email, String password);
+
+    /**
+     * Get a count of all sellers that exist in the database
+     * @return int equal to the number of sellers in the database
+     */
+    int getNumSellers();
+
+    /**
+     * Get all the names of the sellers(locations)
+     * @return String[] array containing all the (sellers/locations)' names
+     */
+    String[] getAllSellerNames();
 }

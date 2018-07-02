@@ -179,6 +179,64 @@ public class SellerModelHSQLDB implements ISellerModel {
         }
     }
 
+    @Override
+    public int getNumSellers() {
+
+        int numSellers = 0;
+
+        PreparedStatement st = null;
+        ResultSet rs = null;
+
+        try {
+            st = dbConn.prepareStatement("SELECT COUNT (DISTINCT name) AS NumSellers FROM " + TABLE_NAME);
+            rs = st.executeQuery();
+
+            if (rs.next()) {
+                numSellers = Integer.parseInt(HSQLDBUtil.getStringFromResultSet(rs, "NumSellers"));
+            }
+            return numSellers;
+
+        } catch (final SQLException e) {
+            e.printStackTrace();
+            return -1;
+
+        } finally {
+            HSQLDBUtil.quietlyClose(rs);
+            HSQLDBUtil.quietlyClose(st);
+        }
+    }
+
+    @Override
+    public String[] getAllSellerNames() {
+        String[] locations = new String[getNumSellers()];
+
+        PreparedStatement st = null;
+        ResultSet rs = null;
+
+        // get all seller table rows
+        try {
+            st = dbConn.prepareStatement("SELECT DISTINCT name FROM " + TABLE_NAME);
+            rs = st.executeQuery();
+
+            int i = 0;
+            while (rs.next()) {
+                // populate array with the locations
+                locations[i] = HSQLDBUtil.getStringFromResultSet(rs, "name");
+                i++;
+            }
+
+            return locations;
+
+        } catch (final SQLException e) {
+            e.printStackTrace();
+            return null;
+
+        } finally {
+            HSQLDBUtil.quietlyClose(rs);
+            HSQLDBUtil.quietlyClose(st);
+        }
+    }
+
     private SellerAccountObject fromResultSet(final ResultSet rs) throws SQLException {
         if (null == rs) { throw new IllegalArgumentException("resultSet cannot be null"); }
 

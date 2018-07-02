@@ -38,7 +38,8 @@
             android:name=".presentation.activities.FilterListingsActivity"
             android:label="@string/title_activity_filter_listings"
             android:parentActivityName=".presentation.activities.ListingViewActivity"
-            android:theme="@style/AppTheme.NoActionBar">
+            android:theme="@style/AppTheme.NoActionBar"
+            android:windowSoftInputMode="stateHidden">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.ctrlaltelite.copshop.presentation.activities.ListingViewActivity" />
