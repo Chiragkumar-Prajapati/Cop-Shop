@@ -3,6 +3,7 @@ package com.ctrlaltelite.copshop.presentation.activities;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.support.v4.app.DialogFragment;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
@@ -15,6 +16,8 @@ import com.ctrlaltelite.copshop.R;
 import com.ctrlaltelite.copshop.application.CopShopHub;
 import com.ctrlaltelite.copshop.objects.ListingFormValidationObject;
 import com.ctrlaltelite.copshop.objects.ListingObject;
+import com.ctrlaltelite.copshop.presentation.classes.DatePickerFragment;
+import com.ctrlaltelite.copshop.presentation.classes.TimePickerFragment;
 
 public class EditListingActivity extends AppCompatActivity {
 
@@ -26,10 +29,61 @@ public class EditListingActivity extends AppCompatActivity {
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
+        final SharedPreferences sharedPreferences = getSharedPreferences("currentUser", 0);
 
         final String listingId = getIntent().getStringExtra("LISTING_ID");
 
         populateListingInfo(listingId);
+
+        // Triggers date and time picker for Start date
+        final Button startDateButton = findViewById(R.id.btnStartDate);
+        startDateButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                DialogFragment startDateFragment = new DatePickerFragment();
+                Bundle params = new Bundle();
+                params.putInt("id", 1);
+                startDateFragment.setArguments(params);
+                startDateFragment.show(getSupportFragmentManager(), "startDatePicker");
+            }
+        });
+
+        Button startTimeButton = findViewById(R.id.btnStartTime);
+        startTimeButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                DialogFragment startTimeFragment = new TimePickerFragment();
+                Bundle params = new Bundle();
+                params.putInt("id", 1);
+                startTimeFragment.setArguments(params);
+                startTimeFragment.show(getSupportFragmentManager(), "startTimePicker");
+            }
+        });
+
+        // Triggers date and time picker for End date
+        final Button endDateButton = findViewById(R.id.btnEndDate);
+        endDateButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                DialogFragment endDateFragment = new DatePickerFragment();
+                Bundle params = new Bundle();
+                params.putInt("id", 2);
+                endDateFragment.setArguments(params);
+                endDateFragment.show(getSupportFragmentManager(), "endDatePicker");
+            }
+        });
+
+        Button endTimeButton = findViewById(R.id.btnEndTime);
+        endTimeButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                DialogFragment endTimeFragment = new TimePickerFragment();
+                Bundle params = new Bundle();
+                params.putInt("id", 2);
+                endTimeFragment.setArguments(params);
+                endTimeFragment.show(getSupportFragmentManager(), "endTimePicker");
+            }
+        });
 
         // Start Now button
         Button startNowButton = findViewById(R.id.btnStartNow);
@@ -89,11 +143,9 @@ public class EditListingActivity extends AppCompatActivity {
                         ((EditText) findViewById(R.id.txtAreaDescription)).getText().toString(),
                         ((EditText) findViewById(R.id.txtInitialPrice)).getText().toString(),
                         ((EditText) findViewById(R.id.txtMinBid)).getText().toString(),
-                        ((EditText) findViewById(R.id.txtStartTime)).getText().toString(),
-                        ((EditText) findViewById(R.id.txtEndTime)).getText().toString(),
-                        ((EditText) findViewById(R.id.txtStartTime)).getText().toString(),
-                        ((EditText) findViewById(R.id.txtEndTime)).getText().toString(),
-                        "0" // Currently logged in seller's id, change when differentiated login is implemented
+                        ((TextView) findViewById(R.id.txtStartDate)).getText().toString(),
+                        ((TextView) findViewById(R.id.txtEndDate)).getText().toString(),
+                        sharedPreferences.getString("userId", "-1")
                 );
 
                 ListingFormValidationObject validationObject = CopShopHub.getCreateListingService().validate(listingObject);
@@ -105,11 +157,11 @@ public class EditListingActivity extends AppCompatActivity {
                     CopShopHub.getListingService().updateListing(listingId, listingObject);
 
                     // Make sure all form fields are set back to black on success
-                    findViewById(R.id.txtStartTime).setBackgroundResource(R.drawable.txt_field_black_border);
+                    findViewById(R.id.txtStartDate).setBackgroundResource(R.drawable.txt_field_black_border);
                     findViewById(R.id.txtListingTitle).setBackgroundResource(R.drawable.txt_field_black_border);
                     findViewById(R.id.txtInitialPrice).setBackgroundResource(R.drawable.txt_field_black_border);
                     findViewById(R.id.txtMinBid).setBackgroundResource(R.drawable.txt_field_black_border);
-                    findViewById(R.id.txtEndTime).setBackgroundResource(R.drawable.txt_field_black_border);
+                    findViewById(R.id.txtEndDate).setBackgroundResource(R.drawable.txt_field_black_border);
                     findViewById(R.id.txtAreaDescription).setBackgroundResource(R.drawable.txt_field_black_border);
 
                     // Goto listing list page
@@ -139,16 +191,16 @@ public class EditListingActivity extends AppCompatActivity {
 
                     // Check all fields relating to listing start date and time
                     if (!validationObject.getStartDateAndTimeValid()) {
-                        findViewById(R.id.txtStartTime).setBackgroundResource(R.drawable.txt_field_red_border);
+                        findViewById(R.id.txtStartDate).setBackgroundResource(R.drawable.txt_field_red_border);
                     } else {
-                        findViewById(R.id.txtStartTime).setBackgroundResource(R.drawable.txt_field_black_border);
+                        findViewById(R.id.txtStartDate).setBackgroundResource(R.drawable.txt_field_black_border);
                     }
 
                     // Check all fields relating to listing end date and time
                     if (!validationObject.getEndDateAndTimeValid()) {
-                        findViewById(R.id.txtEndTime).setBackgroundResource(R.drawable.txt_field_red_border);
+                        findViewById(R.id.txtEndDate).setBackgroundResource(R.drawable.txt_field_red_border);
                     } else {
-                        findViewById(R.id.txtEndTime).setBackgroundResource(R.drawable.txt_field_black_border);
+                        findViewById(R.id.txtEndDate).setBackgroundResource(R.drawable.txt_field_black_border);
                     }
 
                     // Check listing description
@@ -169,8 +221,8 @@ public class EditListingActivity extends AppCompatActivity {
         TextView editTextListingTitle = findViewById(R.id.txtListingTitle);
         TextView editTextInitialPrice = findViewById(R.id.txtInitialPrice);
         TextView editTextMinBid = findViewById(R.id.txtMinBid);
-        TextView editTextStartTime = findViewById(R.id.txtStartTime);
-        TextView editTextEndTime = findViewById(R.id.txtEndTime);
+        TextView editTextStartDate = findViewById(R.id.txtStartDate);
+        TextView editTextEndDate = findViewById(R.id.txtEndDate);
         TextView editTextAreaDescription = findViewById(R.id.txtAreaDescription);
 
         ListingObject listingObj = CopShopHub.getListingService().fetchListing(listingId);
@@ -186,11 +238,11 @@ public class EditListingActivity extends AppCompatActivity {
             if (editTextMinBid != null) {
                 editTextMinBid.setText(listingObj.getMinBid());
             }
-            if (editTextStartTime != null) {
-                editTextStartTime.setText(listingObj.getAuctionStartTime());
+            if (editTextStartDate != null) {
+                editTextStartDate.setText(listingObj.getAuctionStartDate());
             }
-            if (editTextEndTime != null) {
-                editTextEndTime.setText(listingObj.getAuctionEndTime());
+            if (editTextEndDate != null) {
+                editTextEndDate.setText(listingObj.getAuctionEndDate());
             }
             if (editTextAreaDescription != null) {
                 editTextAreaDescription.setText(listingObj.getDescription());

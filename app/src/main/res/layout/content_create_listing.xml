@@ -18,6 +18,7 @@
             android:layout_height="40dp"
             android:layout_marginStart="8dp"
             android:layout_marginTop="20dp"
+            android:background="?attr/colorButtonNormal"
             android:text="Time"
             android:visibility="invisible"
             app:layout_constraintStart_toEndOf="@+id/btnEndDate"
@@ -29,6 +30,7 @@
             android:layout_height="40dp"
             android:layout_marginStart="8dp"
             android:layout_marginTop="20dp"
+            android:background="?attr/colorButtonNormal"
             android:text="Date"
             app:layout_constraintStart_toEndOf="@+id/txtEndDate"
             app:layout_constraintTop_toBottomOf="@+id/btnStartDate" />
@@ -219,6 +221,7 @@
             android:layout_height="40dp"
             android:layout_marginStart="8dp"
             android:layout_marginTop="80dp"
+            android:background="?attr/colorButtonNormal"
             android:text="Time"
             android:visibility="invisible"
             app:layout_constraintStart_toEndOf="@+id/btnStartDate"
@@ -230,6 +233,7 @@
             android:layout_height="40dp"
             android:layout_marginStart="8dp"
             android:layout_marginTop="80dp"
+            android:background="?attr/colorButtonNormal"
             android:text="Date"
             app:layout_constraintStart_toEndOf="@+id/txtStartDate"
             app:layout_constraintTop_toBottomOf="@+id/txtMinBid" />

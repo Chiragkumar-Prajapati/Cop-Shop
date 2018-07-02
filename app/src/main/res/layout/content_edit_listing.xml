@@ -12,6 +12,72 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
+        <TextView
+            android:id="@+id/txtStartDate"
+            android:layout_width="213dp"
+            android:layout_height="40dp"
+            android:layout_marginStart="180dp"
+            android:layout_marginTop="96dp"
+            android:background="@drawable/txt_field_black_border"
+            android:gravity="center"
+            android:textSize="18sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/txtMinBid" />
+
+        <TextView
+            android:id="@+id/txtEndDate"
+            android:layout_width="213dp"
+            android:layout_height="40dp"
+            android:layout_marginStart="180dp"
+            android:layout_marginTop="20dp"
+            android:background="@drawable/txt_field_black_border"
+            android:gravity="center"
+            android:textSize="18sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/txtStartDate" />
+
+        <Button
+            android:id="@+id/btnStartDate"
+            android:layout_width="wrap_content"
+            android:layout_height="40dp"
+            android:layout_marginStart="8dp"
+            android:background="?attr/colorButtonNormal"
+            android:text="Date"
+            app:layout_constraintStart_toEndOf="@+id/txtStartDate"
+            app:layout_constraintTop_toTopOf="@+id/txtStartDate" />
+
+        <Button
+            android:id="@+id/btnStartTime"
+            android:layout_width="wrap_content"
+            android:layout_height="40dp"
+            android:layout_marginStart="8dp"
+            android:background="?attr/colorButtonNormal"
+            android:text="Time"
+            android:visibility="invisible"
+            app:layout_constraintStart_toEndOf="@+id/btnStartDate"
+            app:layout_constraintTop_toTopOf="@+id/btnStartDate" />
+
+        <Button
+            android:id="@+id/btnEndDate"
+            android:layout_width="wrap_content"
+            android:layout_height="40dp"
+            android:layout_marginStart="8dp"
+            android:background="?attr/colorButtonNormal"
+            android:text="Date"
+            app:layout_constraintStart_toEndOf="@+id/txtEndDate"
+            app:layout_constraintTop_toTopOf="@+id/txtEndDate" />
+
+        <Button
+            android:id="@+id/btnEndTime"
+            android:layout_width="wrap_content"
+            android:layout_height="40dp"
+            android:layout_marginStart="8dp"
+            android:background="?attr/colorButtonNormal"
+            android:text="Time"
+            android:visibility="invisible"
+            app:layout_constraintStart_toEndOf="@+id/btnEndDate"
+            app:layout_constraintTop_toTopOf="@+id/btnEndDate" />
+
         <EditText
             android:id="@+id/txtListingTitle"
             android:layout_width="213dp"
@@ -52,34 +118,6 @@
             app:layout_constraintTop_toTopOf="parent" />
 
         <EditText
-            android:id="@+id/txtStartTime"
-            android:layout_width="213dp"
-            android:layout_height="40dp"
-            android:layout_marginStart="180dp"
-            android:layout_marginTop="400dp"
-            android:background="@drawable/txt_field_black_border"
-            android:ems="10"
-            android:hint="  DD/MM/YYYY HH/MM"
-            android:inputType="number"
-            android:maxLength="2"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
-        <EditText
-            android:id="@+id/txtEndTime"
-            android:layout_width="213dp"
-            android:layout_height="40dp"
-            android:layout_marginStart="180dp"
-            android:layout_marginTop="460dp"
-            android:background="@drawable/txt_field_black_border"
-            android:ems="10"
-            android:hint="  DD/MM/YYYY HH/MM"
-            android:inputType="number"
-            android:maxLength="2"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
-        <EditText
             android:id="@+id/txtAreaDescription"
             android:layout_width="373dp"
             android:layout_height="144dp"
@@ -100,7 +138,7 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
             android:layout_marginTop="352dp"
-            android:text="Auction Duration:"
+            android:text="Auction Duration: *"
             android:textColor="@android:color/black"
             android:textSize="18sp"
             app:layout_constraintStart_toStartOf="parent"
@@ -217,24 +255,26 @@
         <Button
             android:id="@+id/btnEndNow"
             android:layout_width="118dp"
-            android:layout_height="wrap_content"
+            android:layout_height="40dp"
             android:layout_marginStart="432dp"
-            android:layout_marginTop="460dp"
+            android:layout_marginTop="312dp"
             android:background="?attr/colorButtonNormal"
             android:text="End Now"
             android:textColor="@android:color/black"
+            android:visibility="invisible"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
         <Button
             android:id="@+id/btnStartNow"
             android:layout_width="118dp"
-            android:layout_height="wrap_content"
+            android:layout_height="40dp"
             android:layout_marginStart="432dp"
-            android:layout_marginTop="400dp"
+            android:layout_marginTop="252dp"
             android:background="?attr/colorButtonNormal"
             android:text="Start Now"
             android:textColor="@android:color/black"
+            android:visibility="invisible"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
