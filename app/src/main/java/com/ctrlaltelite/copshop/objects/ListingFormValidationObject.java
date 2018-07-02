@@ -1,5 +1,7 @@
 package com.ctrlaltelite.copshop.objects;
 
+import com.ctrlaltelite.copshop.logic.services.utilities.DateUtility;
+
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -169,36 +171,6 @@ public class ListingFormValidationObject {
     }
 
     /**
-     * Convert a given date string to a calendar date object
-     * @param date String containing the date form fields text data (Format: DD/MM/YEAR HH:MM)
-     * @return Calendar object containing the date string data
-     */
-    private Calendar convertToDateObj(String date) {
-
-        //initialize cal date to invalid time
-        Calendar cal = Calendar.getInstance(Locale.CANADA);
-        cal.add(Calendar.DATE, -1);
-
-        if (date != null && !date.isEmpty()) {
-            SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy HH:mm", Locale.CANADA);
-            try {
-                Date dateObj = sdf.parse(date);
-                cal = Calendar.getInstance();
-                cal.setLenient(false);
-                cal.setTime(dateObj);
-                try {
-                    cal.getTime();
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-            } catch (ParseException e) {
-                e.printStackTrace();
-            }
-        }
-        return cal;
-    }
-
-    /**
      * Determine if a date and time form field is valid
      * @param date String containing the date form fields text data (Format: DD/MM/YEAR HH:MM)
      * @return Boolean indicating if valid
@@ -209,7 +181,7 @@ public class ListingFormValidationObject {
         if(date != null && !date.isEmpty() && date.length() < MIN_DATE_LEN) {
             isValid = false;
         } else {
-            Calendar cal = convertToDateObj(date);
+            Calendar cal = DateUtility.convertToDateObj(date);
             isValid = cal.after(Calendar.getInstance(Locale.CANADA));
         }
 
@@ -229,8 +201,8 @@ public class ListingFormValidationObject {
         } else {
             if (validateDateAndTime(endDate)) {
                 // If startDate is valid, then End date must be valid and occur after start date
-                Calendar startCal = convertToDateObj(startDate);
-                Calendar endCal = convertToDateObj(endDate);
+                Calendar startCal = DateUtility.convertToDateObj(startDate);
+                Calendar endCal = DateUtility.convertToDateObj(endDate);
                 isValid = startCal.before(endCal);
             }
         }
