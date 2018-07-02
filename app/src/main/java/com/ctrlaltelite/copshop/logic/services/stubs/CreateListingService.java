@@ -56,14 +56,10 @@ public class CreateListingService implements ICreateListingService {
         validationObject.validateMinBid(listingObject.getMinBid());
 
         // StartDateAndTime
-        validationObject.validateStartDateAndTime(listingObject.getAuctionStartDate(),
-                                                  listingObject.getAuctionStartTime());
+        validationObject.validateStartDateAndTime(listingObject.getAuctionStartDate());
 
         // EndDateAndTime
-        validationObject.validateEndDateAndTime(listingObject.getAuctionStartDate(),
-                                                listingObject.getAuctionStartTime(),
-                                                listingObject.getAuctionEndDate(),
-                                                listingObject.getAuctionEndTime());
+        validationObject.validateEndDateAndTime(listingObject.getAuctionStartDate(), listingObject.getAuctionEndDate());
 
         // Description
         validationObject.validateDescription(listingObject.getDescription());

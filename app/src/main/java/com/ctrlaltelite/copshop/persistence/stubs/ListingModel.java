@@ -27,9 +27,7 @@ public class ListingModel implements IListingModel {
         newRow.put("initPrice", newListing.getInitPrice());
         newRow.put("minBid", newListing.getMinBid());
         newRow.put("auctionStartDate", newListing.getAuctionStartDate());
-        newRow.put("auctionStartTime", newListing.getAuctionStartTime());
         newRow.put("auctionEndDate", newListing.getAuctionEndDate());
-        newRow.put("auctionEndTime", newListing.getAuctionEndTime());
         newRow.put("sellerId", newListing.getSellerId());
 
         return this.database.insertRow(TABLE_NAME, newRow);
@@ -59,9 +57,7 @@ public class ListingModel implements IListingModel {
             success = success && (null != this.database.updateColumn(TABLE_NAME, id, "initPrice", updatedListing.getInitPrice()));
             success = success && (null != this.database.updateColumn(TABLE_NAME, id, "minBid", updatedListing.getMinBid()));
             success = success && (null != this.database.updateColumn(TABLE_NAME, id, "auctionStartDate", updatedListing.getAuctionStartDate()));
-            success = success && (null != this.database.updateColumn(TABLE_NAME, id, "auctionStartTime", updatedListing.getAuctionStartTime()));
             success = success && (null != this.database.updateColumn(TABLE_NAME, id, "auctionEndDate", updatedListing.getAuctionEndDate()));
-            success = success && (null != this.database.updateColumn(TABLE_NAME, id, "auctionEndTime", updatedListing.getAuctionEndTime()));
             success = success && (null != this.database.updateColumn(TABLE_NAME, id, "sellerId", updatedListing.getSellerId()));
 
             return success;
@@ -81,9 +77,7 @@ public class ListingModel implements IListingModel {
                     this.database.fetchColumn(TABLE_NAME, id, "initPrice"),
                     this.database.fetchColumn(TABLE_NAME, id, "minBid"),
                     this.database.fetchColumn(TABLE_NAME, id, "auctionStartDate"),
-                    this.database.fetchColumn(TABLE_NAME, id, "auctionStartTime"),
                     this.database.fetchColumn(TABLE_NAME, id, "auctionEndDate"),
-                    this.database.fetchColumn(TABLE_NAME, id, "auctionEndTime"),
                     this.database.fetchColumn(TABLE_NAME, id, "sellerId")
             );
         }
@@ -107,9 +101,7 @@ public class ListingModel implements IListingModel {
                         row.get("initPrice"),
                         row.get("minBid"),
                         row.get("auctionStartDate"),
-                        row.get("auctionStartTime"),
                         row.get("auctionEndDate"),
-                        row.get("auctionEndTime"),
                         row.get("sellerId")
                 );
 
