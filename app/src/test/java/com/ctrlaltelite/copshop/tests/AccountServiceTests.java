@@ -277,5 +277,29 @@ public class AccountServiceTests {
         assertFalse("Expected invalid field was valid", validationObject.getValidPassword());
     }
 
+    @Test
+    public void getBuyerName_getsCorrectName() {
+        IDatabase database = new MockDatabaseStub();
+        IBuyerModel buyerModel = new BuyerModel(database);
+        ISellerModel sellerModel = new SellerModel(database);
+        IAccountService accountService = new AccountService(sellerModel, buyerModel);
+
+        BuyerAccountObject account1 = new BuyerAccountObject("","name1", "other",
+                "123 Someplace", "h0h 0h0","MB","email1", "pass1");
+        BuyerAccountObject account2 = new BuyerAccountObject("","name2", "other",
+                "123 Someplace", "h0h 0h0","MB","email2", "pass2");
+        BuyerAccountObject account3 = new BuyerAccountObject("","name3", "other",
+                "123 Someplace", "h0h 0h0","MB","email3", "pass3");
+
+        // Create the accounts
+        String id1 = buyerModel.createNew(account1);
+        String id2 = buyerModel.createNew(account2);
+        String id3 = buyerModel.createNew(account3);
+
+        assertEquals("", "name1", accountService.getBuyerName(id1));
+        assertEquals("", "name2", accountService.getBuyerName(id2));
+        assertEquals("", "name3", accountService.getBuyerName(id3));
+    }
+
 }
 

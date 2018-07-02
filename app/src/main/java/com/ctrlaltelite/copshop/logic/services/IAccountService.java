@@ -30,4 +30,11 @@ public interface IAccountService {
 
     boolean updateSellerAccount(String id, SellerAccountObject sellerAccount);
 
+    /**
+     * Get the first name of the buyer
+     * @param buyerId Id of buyer
+     * @return String buyer's first name
+     */
+    String getBuyerName(String buyerId);
+
 }
