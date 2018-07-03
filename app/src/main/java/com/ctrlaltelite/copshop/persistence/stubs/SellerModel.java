@@ -88,7 +88,20 @@ public class SellerModel implements ISellerModel {
 
     @Override
     public String getSellerID(String sellerName) {
-        return null;
+        String id = "";
+        boolean idFound = false;
+
+        // get all seller table rows
+        List<Hashtable<String, String>> allRows = this.database.getAllRows(TABLE_NAME);
+
+        for (int i = 0; !idFound && i < allRows.size(); i++) {
+            if((allRows.get(i)).get("name").compareToIgnoreCase(sellerName) == 0) {
+                id += (i+1);
+                idFound = true;
+            }
+        }
+
+        return  id;
     }
 
     @Override
@@ -99,14 +112,16 @@ public class SellerModel implements ISellerModel {
 
     @Override
     public String[] getAllSellerNames() {
-        String[] locations = new String[getNumSellers()];
+        String[] locations = new String[getNumSellers()+1];
 
         // get all seller table rows
         List<Hashtable<String, String>> allRows = this.database.getAllRows(TABLE_NAME);
 
+        locations[0] = "";
+
         // populate array with the locations
-        for (int i = 0; i < locations.length; i++) {
-            locations[i] = (allRows.get(i)).get("name");
+        for (int i = 0; i < allRows.size(); i++) {
+            locations[i+1] = (allRows.get(i)).get("name");
         }
 
         return locations;

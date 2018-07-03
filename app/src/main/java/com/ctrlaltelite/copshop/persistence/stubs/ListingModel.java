@@ -1,12 +1,16 @@
 package com.ctrlaltelite.copshop.persistence.stubs;
 
+import com.ctrlaltelite.copshop.application.CopShopHub;
+import com.ctrlaltelite.copshop.logic.services.utilities.DateUtility;
 import com.ctrlaltelite.copshop.persistence.IListingModel;
 import com.ctrlaltelite.copshop.objects.ListingObject;
 import com.ctrlaltelite.copshop.persistence.database.IDatabase;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Hashtable;
 import java.util.List;
+import java.util.Locale;
 
 public class ListingModel implements IListingModel {
     private static String TABLE_NAME = "Listings";
@@ -28,6 +32,7 @@ public class ListingModel implements IListingModel {
         newRow.put("minBid", newListing.getMinBid());
         newRow.put("auctionStartDate", newListing.getAuctionStartDate());
         newRow.put("auctionEndDate", newListing.getAuctionEndDate());
+        newRow.put("category", newListing.getCategory());
         newRow.put("sellerId", newListing.getSellerId());
 
         return this.database.insertRow(TABLE_NAME, newRow);
@@ -58,6 +63,7 @@ public class ListingModel implements IListingModel {
             success = success && (null != this.database.updateColumn(TABLE_NAME, id, "minBid", updatedListing.getMinBid()));
             success = success && (null != this.database.updateColumn(TABLE_NAME, id, "auctionStartDate", updatedListing.getAuctionStartDate()));
             success = success && (null != this.database.updateColumn(TABLE_NAME, id, "auctionEndDate", updatedListing.getAuctionEndDate()));
+            success = success && (null != this.database.updateColumn(TABLE_NAME, id, "category", updatedListing.getCategory()));
             success = success && (null != this.database.updateColumn(TABLE_NAME, id, "sellerId", updatedListing.getSellerId()));
 
             return success;
@@ -87,27 +93,203 @@ public class ListingModel implements IListingModel {
 
     @Override
     public List<ListingObject> fetchByName(String name) {
-        return null;
+        List<Hashtable<String, String>> hashTableRows = this.database.getAllRows(TABLE_NAME);
+        List<ListingObject> results = new ArrayList<>();
+
+        if (null != hashTableRows) {
+            for (int id = hashTableRows.size()-1; id >= 0; id--) {
+                Hashtable<String, String> row = hashTableRows.get(id);
+                String stringId = Integer.toString(id);
+
+                ListingObject listing = new ListingObject(
+                        stringId,
+                        row.get("title"),
+                        row.get("description"),
+                        row.get("initPrice"),
+                        row.get("minBid"),
+                        row.get("auctionStartDate"),
+                        row.get("auctionEndDate"),
+                        row.get("category"),
+                        row.get("sellerId")
+                );
+                if (!name.isEmpty()) {
+                    if (listing.getTitle().contains(name) || (listing.getTitle()).contains(name)){
+                        results.add(listing);
+                    }
+                }
+                else {
+                    results.add(listing);
+                }
+            }
+        }
+
+        return results;
     }
 
     @Override
     public List<ListingObject> fetchByLocation(String location) {
-        return null;
+        List<Hashtable<String, String>> hashTableRows = this.database.getAllRows(TABLE_NAME);
+        List<ListingObject> results = new ArrayList<>();
+
+        // get seller ID
+        String sellerID = CopShopHub.getSellerModel().getSellerID(location);
+
+        if (null != hashTableRows) {
+            for (int id = hashTableRows.size()-1; id >= 0; id--) {
+                Hashtable<String, String> row = hashTableRows.get(id);
+                String stringId = Integer.toString(id);
+
+                ListingObject listing = new ListingObject(
+                        stringId,
+                        row.get("title"),
+                        row.get("description"),
+                        row.get("initPrice"),
+                        row.get("minBid"),
+                        row.get("auctionStartDate"),
+                        row.get("auctionEndDate"),
+                        row.get("category"),
+                        row.get("sellerId")
+                );
+                if (!location.isEmpty()) {
+                    if ((listing.getSellerId()).compareToIgnoreCase(sellerID) == 0) {
+                        results.add(listing);
+                    }
+                }
+                else {
+                    results.add(listing);
+                }
+            }
+        }
+
+        return results;
     }
 
     @Override
     public List<ListingObject> fetchByCategory(String category) {
-        return null;
+        List<Hashtable<String, String>> hashTableRows = this.database.getAllRows(TABLE_NAME);
+        List<ListingObject> results = new ArrayList<>();
+
+        if (null != hashTableRows) {
+            for (int id = hashTableRows.size()-1; id >= 0; id--) {
+                Hashtable<String, String> row = hashTableRows.get(id);
+                String stringId = Integer.toString(id);
+
+                ListingObject listing = new ListingObject(
+                        stringId,
+                        row.get("title"),
+                        row.get("description"),
+                        row.get("initPrice"),
+                        row.get("minBid"),
+                        row.get("auctionStartDate"),
+                        row.get("auctionEndDate"),
+                        row.get("category"),
+                        row.get("sellerId")
+                );
+                if (!category.isEmpty()) {
+                    if ((listing.getCategory()).compareToIgnoreCase(category) == 0) {
+                        results.add(listing);
+                    }
+                }
+                else {
+                    results.add(listing);
+                }
+            }
+        }
+
+        return results;
     }
 
     @Override
     public List<ListingObject> fetchByStatus(String status) {
-        return null;
+        List<Hashtable<String, String>> hashTableRows = this.database.getAllRows(TABLE_NAME);
+        List<ListingObject> results = new ArrayList<>();
+
+        Calendar startCal;
+        Calendar endCal;
+
+        if (null != hashTableRows) {
+            for (int id = hashTableRows.size()-1; id >= 0; id--) {
+                Hashtable<String, String> row = hashTableRows.get(id);
+                String stringId = Integer.toString(id);
+
+                ListingObject listing = new ListingObject(
+                        stringId,
+                        row.get("title"),
+                        row.get("description"),
+                        row.get("initPrice"),
+                        row.get("minBid"),
+                        row.get("auctionStartDate"),
+                        row.get("auctionEndDate"),
+                        row.get("category"),
+                        row.get("sellerId")
+                );
+                if (!status.isEmpty()) {
+                    if (status.compareToIgnoreCase("Active") == 0) {
+                        startCal = DateUtility.convertToDateObj(listing.getAuctionStartDate());
+                        endCal = DateUtility.convertToDateObj(listing.getAuctionEndDate());
+
+                        if (startCal.before(Calendar.getInstance(Locale.CANADA)) && endCal.after(Calendar.getInstance(Locale.CANADA))) {
+                            results.add(listing);
+                        }
+                    }
+                    else if (status.compareToIgnoreCase("Inactive") == 0) {
+                        startCal = DateUtility.convertToDateObj(listing.getAuctionStartDate());
+                        endCal = DateUtility.convertToDateObj(listing.getAuctionEndDate());
+
+                        if (startCal.after(Calendar.getInstance(Locale.CANADA)) || endCal.before(Calendar.getInstance(Locale.CANADA))) {
+                            results.add(listing);
+                        }
+                    }
+                }
+                else {
+                    results.add(listing);
+                }
+            }
+        }
+
+        return results;
     }
 
     @Override
     public List<ListingObject> fetchByFilters(String name, String location, String category, String status) {
-        return null;
+        if (null == name) { throw new IllegalArgumentException("name cannot be null"); }
+
+        if (null == location) { throw new IllegalArgumentException("location cannot be null"); }
+
+        if (null == category) { throw new IllegalArgumentException("category cannot be null"); }
+
+        if (null == status) { throw new IllegalArgumentException("status cannot be null"); }
+
+        if (status.compareToIgnoreCase("Active") != 0 && status.compareToIgnoreCase("Inactive") != 0 && !status.isEmpty()) {
+            throw new IllegalArgumentException("invalid status");
+        }
+
+        List<ListingObject> results = new ArrayList<>();
+        List<ListingObject> resultsName = fetchByName(name);
+        List<ListingObject> resultsLocation = fetchByLocation(location);
+        List<ListingObject> resultsCategory = fetchByCategory(category);
+        List<ListingObject> resultsStatus = fetchByStatus(status);
+
+        // add listings with name, location, category and status provided as a parameter
+        for (ListingObject listingName : resultsName) {
+            if ( !results.contains(listingName) ) {
+                for (ListingObject listingLocation : resultsLocation) {
+                    if ((listingName.getId().compareToIgnoreCase(listingLocation.getId())) == 0) {
+                        for (ListingObject listingCategory : resultsCategory) {
+                            if ((listingName.getId().compareToIgnoreCase(listingCategory.getId())) == 0) {
+                                for (ListingObject listingStatus : resultsStatus) {
+                                    if ((listingName.getId().compareToIgnoreCase(listingStatus.getId())) == 0) {
+                                        results.add(listingName);
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+        return results;
     }
 
     @Override
@@ -141,11 +323,46 @@ public class ListingModel implements IListingModel {
 
     @Override
     public int getNumCategories() {
-        return 0;
+        List<Hashtable<String, String>> allRows = this.database.getAllRows(TABLE_NAME);
+        List<String> categories = new ArrayList<String>();
+
+        for (int i = 0; i < allRows.size(); i++) {
+            if (!categories.contains((allRows.get(i).get("category")))) {
+                categories.add((allRows.get(i).get("category")));
+            }
+        }
+
+        return  categories.size();
     }
 
     @Override
     public String[] getAllCategories() {
-        return new String[0];
+        String[] categories = new String[getNumCategories()+1];
+
+        // initialize array
+        for (int i = 0; i < categories.length; i++) {
+            categories[i] = "";
+        }
+
+        // get all seller table rows
+        List<Hashtable<String, String>> allRows = this.database.getAllRows(TABLE_NAME);
+
+        int totalCategories = 0;
+        boolean categoryAdded = false;
+
+        // populate array with the categories
+        for (int i = 0; i < allRows.size(); i++) {
+            categoryAdded = false;
+            for (int j = 0; !categoryAdded && j < categories.length; j++) {
+                if (categories[j].equalsIgnoreCase(allRows.get(i).get("category"))) {
+                    categoryAdded = true;
+                }
+            }
+            if (!categoryAdded) {
+                categories[++totalCategories] = (allRows.get(i)).get("category");
+            }
+        }
+
+        return categories;
     }
 }

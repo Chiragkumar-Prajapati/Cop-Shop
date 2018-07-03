@@ -110,7 +110,7 @@ public class CopShopHub
                 SellerAccountObject newSeller = new SellerAccountObject("", "Local Precinct",  "60 Police St", "R2R3H3", "Manitoba", "local@police.com", "12345");
                 sellerModel.createNew(newSeller);
                 SellerAccountObject newSeller2 = new SellerAccountObject("", "International Precinct",  "99 Brooklyn", "R2R3H3", "Manitoba", "local@police.com", "12345");
-                sellerModel.createNew(newSeller);
+                sellerModel.createNew(newSeller2);
             }
         }
         return sellerModel;

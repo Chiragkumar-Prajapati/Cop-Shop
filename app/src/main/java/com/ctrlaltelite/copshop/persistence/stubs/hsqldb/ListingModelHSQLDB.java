@@ -210,7 +210,7 @@ public class ListingModelHSQLDB implements IListingModel {
         PreparedStatement st = null;
         ResultSet rs = null;
 
-        // get seller id
+        // get seller ID
         String sellerID = CopShopHub.getSellerModel().getSellerID(location);
 
         try {

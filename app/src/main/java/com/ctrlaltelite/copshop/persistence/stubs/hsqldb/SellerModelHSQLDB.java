@@ -206,6 +206,7 @@ public class SellerModelHSQLDB implements ISellerModel {
                 // populate array with the locations
                 if (sellerName.equalsIgnoreCase(HSQLDBUtil.getStringFromResultSet(rs, "name"))) {
                     id = HSQLDBUtil.getIntAsStringFromResultSet(rs, "id");
+                    idFound = true;
                 }
                 i++;
             }
