@@ -202,19 +202,16 @@ public class ListingModelHSQLDB implements IListingModel {
     }
 
     @Override
-    public List<ListingObject> fetchByLocation(String location) {
+    public List<ListingObject> fetchBySellerID(String sellerID) {
 
-        if (null == location) { throw new IllegalArgumentException("location cannot be null"); }
+        if (null == sellerID) { throw new IllegalArgumentException("sellerID cannot be null"); }
 
         List<ListingObject> results = new ArrayList<>();
         PreparedStatement st = null;
         ResultSet rs = null;
 
-        // get seller ID
-        String sellerID = CopShopHub.getSellerModel().getSellerID(location);
-
         try {
-            if(!location.isEmpty()) {
+            if(!sellerID.isEmpty()) {
                 st = dbConn.prepareStatement("SELECT * FROM " + TABLE_NAME + " WHERE sellerid = ?");
                 st.setInt(1, Integer.parseInt(sellerID));
                 rs = st.executeQuery();
@@ -352,10 +349,10 @@ public class ListingModelHSQLDB implements IListingModel {
     }
 
     @Override
-    public List<ListingObject> fetchByFilters(String name, String location, String category, String status) {
+    public List<ListingObject> fetchByFilters(String name, String sellerID, String category, String status) {
         if (null == name) { throw new IllegalArgumentException("name cannot be null"); }
 
-        if (null == location) { throw new IllegalArgumentException("location cannot be null"); }
+        if (null == sellerID) { throw new IllegalArgumentException("sellerID cannot be null"); }
 
         if (null == category) { throw new IllegalArgumentException("category cannot be null"); }
 
@@ -367,7 +364,7 @@ public class ListingModelHSQLDB implements IListingModel {
 
         List<ListingObject> results = new ArrayList<>();
         List<ListingObject> resultsName = fetchByName(name);
-        List<ListingObject> resultsLocation = fetchByLocation(location);
+        List<ListingObject> resultsLocation = fetchBySellerID(sellerID);
         List<ListingObject> resultsCategory = fetchByCategory(category);
         List<ListingObject> resultsStatus = fetchByStatus(status);
 

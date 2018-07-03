@@ -113,7 +113,7 @@ public class ListingModel implements IListingModel {
                         row.get("sellerId")
                 );
                 if (!name.isEmpty()) {
-                    if (listing.getTitle().contains(name) || (listing.getTitle()).contains(name)){
+                    if (listing.getTitle().contains(name) || (listing.getDescription()).contains(name)){
                         results.add(listing);
                     }
                 }
@@ -127,12 +127,9 @@ public class ListingModel implements IListingModel {
     }
 
     @Override
-    public List<ListingObject> fetchByLocation(String location) {
+    public List<ListingObject> fetchBySellerID(String sellerID) {
         List<Hashtable<String, String>> hashTableRows = this.database.getAllRows(TABLE_NAME);
         List<ListingObject> results = new ArrayList<>();
-
-        // get seller ID
-        String sellerID = CopShopHub.getSellerModel().getSellerID(location);
 
         if (null != hashTableRows) {
             for (int id = hashTableRows.size()-1; id >= 0; id--) {
@@ -150,7 +147,7 @@ public class ListingModel implements IListingModel {
                         row.get("category"),
                         row.get("sellerId")
                 );
-                if (!location.isEmpty()) {
+                if (!sellerID.isEmpty()) {
                     if ((listing.getSellerId()).compareToIgnoreCase(sellerID) == 0) {
                         results.add(listing);
                     }
@@ -251,10 +248,10 @@ public class ListingModel implements IListingModel {
     }
 
     @Override
-    public List<ListingObject> fetchByFilters(String name, String location, String category, String status) {
+    public List<ListingObject> fetchByFilters(String name, String sellerID, String category, String status) {
         if (null == name) { throw new IllegalArgumentException("name cannot be null"); }
 
-        if (null == location) { throw new IllegalArgumentException("location cannot be null"); }
+        if (null == sellerID) { throw new IllegalArgumentException("sellerID cannot be null"); }
 
         if (null == category) { throw new IllegalArgumentException("category cannot be null"); }
 
@@ -266,7 +263,7 @@ public class ListingModel implements IListingModel {
 
         List<ListingObject> results = new ArrayList<>();
         List<ListingObject> resultsName = fetchByName(name);
-        List<ListingObject> resultsLocation = fetchByLocation(location);
+        List<ListingObject> resultsLocation = fetchBySellerID(sellerID);
         List<ListingObject> resultsCategory = fetchByCategory(category);
         List<ListingObject> resultsStatus = fetchByStatus(status);
 

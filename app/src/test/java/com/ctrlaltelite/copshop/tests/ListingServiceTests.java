@@ -43,6 +43,80 @@ public class ListingServiceTests {
     }
 
     @Test
+    public void fetchFilteredListings_fetchesFilteredListings() {
+        IDatabase database = new MockDatabaseStub();
+        ISellerModel sellerModel = new SellerModel(database);
+        IListingModel listingModel = new ListingModel(database);
+        IBidModel bidModel = new BidModel(database);
+        IListingService listingService = new ListingService(listingModel, sellerModel, bidModel);
+
+        SellerAccountObject account1 = new SellerAccountObject("ignored", "name1", "123 Street", "A1A 1A1", "MB", "email1", "pass1");
+        SellerAccountObject account2 = new SellerAccountObject("ignored", "name2", "123 Street", "A1A 1A1", "MB", "email2", "pass2");
+        SellerAccountObject account3 = new SellerAccountObject("ignored", "name3", "123 Street", "A1A 1A1", "MB", "email3", "pass2");
+
+        // Create the seller accounts
+        String id1 = sellerModel.createNew(account1);
+        String id2 = sellerModel.createNew(account2);
+        String id3 = sellerModel.createNew(account3);
+
+        // Create the listings
+        ListingObject l1 = new ListingObject("","title1", "description1", "initPrice", "minBid", "02/02/2020 11:00", "02/02/2025 11:00", "category1", id3);
+        ListingObject l2 = new ListingObject("","title2", "description2", "initPrice", "minBid", "02/02/2010 11:00", "02/02/2020 11:00", "category1", id1);
+        ListingObject l3 = new ListingObject("","title3", "description3", "initPrice", "minBid", "02/02/2017 11:00", "02/02/2019 11:00", "category2", id2);
+        String lId1 = listingModel.createNew(l1);
+        String lId2 = listingModel.createNew(l2);
+        String lId3 = listingModel.createNew(l3);
+
+        // fetch listings with no filter, should fetch all listings
+        List listings = listingService.fetchListingsByFilters("","","","");
+        assertEquals("Did not fetch correct number of listings", 3, listings.size());
+
+        // fetch listings by name/title
+        listings = listingService.fetchListingsByFilters("title1","","","");
+        assertEquals("Did not fetch correct number of listings", 1, listings.size());
+        listings = listingService.fetchListingsByFilters("title2","","","");
+        assertEquals("Did not fetch correct number of listings", 1, listings.size());
+        listings = listingService.fetchListingsByFilters("title3","","","");
+        assertEquals("Did not fetch correct number of listings", 1, listings.size());
+        listings = listingService.fetchListingsByFilters("Non-existent Title","","","");
+        assertEquals("Did not fetch correct number of listings", 0, listings.size());
+
+        // fetch listings by category
+        listings = listingService.fetchListingsByFilters("","","category1","");
+        assertEquals("Did not fetch correct number of listings", 2, listings.size());
+        listings = listingService.fetchListingsByFilters("","","category2","");
+        assertEquals("Did not fetch correct number of listings", 1, listings.size());
+        listings = listingService.fetchListingsByFilters("","","Non-existent Category","");
+        assertEquals("Did not fetch correct number of listings", 0, listings.size());
+
+        // fetch listings by status
+        listings = listingService.fetchListingsByFilters("","","","Active");
+        assertEquals("Did not fetch correct number of listings", 2, listings.size());
+        listings = listingService.fetchListingsByFilters("","","","Inactive");
+        assertEquals("Did not fetch correct number of listings", 1, listings.size());
+        listings = listingService.fetchListingsByFilters("","","Invalid Status","");
+        assertEquals("Did not fetch correct number of listings", 0, listings.size());
+
+        // fetch listings by location
+        listings = listingService.fetchListingsByFilters("","name1","","");
+        assertEquals("Did not fetch correct number of listings", 1, listings.size());
+        listings = listingService.fetchListingsByFilters("","name2","","");
+        assertEquals("Did not fetch correct number of listings", 1, listings.size());
+        listings = listingService.fetchListingsByFilters("Non-existent Location","","","");
+        assertEquals("Did not fetch correct number of listings", 0, listings.size());
+
+        // fetch listings using multiple filters
+        listings = listingService.fetchListingsByFilters("title1","","category1","");
+        assertEquals("Did not fetch correct number of listings", 1, listings.size());
+        listings = listingService.fetchListingsByFilters("","","category2","active");
+        assertEquals("Did not fetch correct number of listings", 1, listings.size());
+        listings = listingService.fetchListingsByFilters("description2","","category1","active");
+        assertEquals("Did not fetch correct number of listings", 1, listings.size());
+        listings = listingService.fetchListingsByFilters("Non-existent Title","","Non-existent Category","");
+        assertEquals("Did not fetch correct number of listings", 0, listings.size());
+    }
+
+    @Test
     public void getSellerNameFromListing_findsCorrectSeller() {
         IDatabase database = new MockDatabaseStub();
         ISellerModel sellerModel = new SellerModel(database);

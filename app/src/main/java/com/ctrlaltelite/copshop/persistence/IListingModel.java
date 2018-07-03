@@ -41,11 +41,11 @@ public interface IListingModel {
     List<ListingObject> fetchByName(String name);
 
     /**
-     * Fetch listing objects by location from the database
-     * @param location of the targeted listings
-     * @return List containing all listings from DB with the given location as ListingObjectsListingObjects, or null
+     * Fetch listing objects by sellerID from the database
+     * @param sellerID of the targeted listings
+     * @return List containing all listings from DB with the given sellerID as ListingObjectsListingObjects, or null
      */
-    List<ListingObject> fetchByLocation(String location);
+    List<ListingObject> fetchBySellerID(String sellerID);
 
     /**
      * Fetch listing objects by category from the database

@@ -1,5 +1,6 @@
 package com.ctrlaltelite.copshop.logic.services.stubs;
 
+import com.ctrlaltelite.copshop.application.CopShopHub;
 import com.ctrlaltelite.copshop.objects.BidObject;
 import com.ctrlaltelite.copshop.objects.SellerAccountObject;
 import com.ctrlaltelite.copshop.persistence.IBidModel;
@@ -29,7 +30,10 @@ public class ListingService implements IListingService {
 
     @Override
     public List<ListingObject> fetchListingsByFilters(String name, String location, String category, String status) {
-        return this.listingModel.fetchByFilters(name, location, category, status);
+        // get seller ID
+        String sellerID = sellerModel.getSellerID(location);
+
+        return this.listingModel.fetchByFilters(name, sellerID, category, status);
     }
 
 //    public ArrayList<ListingObject> fetchListings(ListFilter filter) {
