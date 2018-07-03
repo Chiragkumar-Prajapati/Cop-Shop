@@ -62,7 +62,7 @@ public interface IListingModel {
     List<ListingObject> fetchByStatus(String status);
 
     /**
-     * Fetch listing objects using multiple filters from the database
+     * Fetch listing objects from the database that match all filters passed as parameters
      * @param name, location, category and status of the target listings
      * @return List containing all listings from DB with the given filters as ListingObjectsListingObjects, or null
      */

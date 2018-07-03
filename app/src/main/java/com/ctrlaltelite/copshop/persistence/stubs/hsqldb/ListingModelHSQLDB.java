@@ -180,6 +180,16 @@ public class ListingModelHSQLDB implements IListingModel {
                     }
                 }
             }
+            else {
+                // select all
+                st = dbConn.prepareStatement("SELECT * FROM " + TABLE_NAME);
+                rs = st.executeQuery();
+
+                while (rs.next()) {
+                    ListingObject listingObject = fromResultSet(rs);
+                    results.add(listingObject);
+                }
+            }
         } catch (final SQLException e) {
             e.printStackTrace();
 
@@ -214,6 +224,16 @@ public class ListingModelHSQLDB implements IListingModel {
                     results.add(listingObject);
                 }
             }
+            else {
+                // select all
+                st = dbConn.prepareStatement("SELECT * FROM " + TABLE_NAME);
+                rs = st.executeQuery();
+
+                while (rs.next()) {
+                    ListingObject listingObject = fromResultSet(rs);
+                    results.add(listingObject);
+                }
+            }
         } catch (final SQLException e) {
             e.printStackTrace();
 
@@ -234,15 +254,26 @@ public class ListingModelHSQLDB implements IListingModel {
         ResultSet rs = null;
 
         try {
-            st = dbConn.prepareStatement("SELECT * FROM " + TABLE_NAME + " WHERE category = ?");
-            st.setString(1, category);
-            rs = st.executeQuery();
+            if(!category.isEmpty()) {
+                st = dbConn.prepareStatement("SELECT * FROM " + TABLE_NAME + " WHERE category = ?");
+                st.setString(1, category);
+                rs = st.executeQuery();
 
-            while (rs.next()) {
-                ListingObject listingObject = fromResultSet(rs);
-                results.add(listingObject);
+                while (rs.next()) {
+                    ListingObject listingObject = fromResultSet(rs);
+                    results.add(listingObject);
+                }
             }
+            else {
+                // select all
+                st = dbConn.prepareStatement("SELECT * FROM " + TABLE_NAME);
+                rs = st.executeQuery();
 
+                while (rs.next()) {
+                    ListingObject listingObject = fromResultSet(rs);
+                    results.add(listingObject);
+                }
+            }
         } catch (final SQLException e) {
             e.printStackTrace();
 
@@ -299,7 +330,16 @@ public class ListingModelHSQLDB implements IListingModel {
                     }
                 }
             }
+            else {
+                // select all
+                st = dbConn.prepareStatement("SELECT * FROM " + TABLE_NAME);
+                rs = st.executeQuery();
 
+                while (rs.next()) {
+                    ListingObject listingObject = fromResultSet(rs);
+                    results.add(listingObject);
+                }
+            }
         } catch (final SQLException e) {
             e.printStackTrace();
 
@@ -313,7 +353,6 @@ public class ListingModelHSQLDB implements IListingModel {
 
     @Override
     public List<ListingObject> fetchByFilters(String name, String location, String category, String status) {
-
         if (null == name) { throw new IllegalArgumentException("name cannot be null"); }
 
         if (null == location) { throw new IllegalArgumentException("location cannot be null"); }
@@ -332,59 +371,26 @@ public class ListingModelHSQLDB implements IListingModel {
         List<ListingObject> resultsCategory = fetchByCategory(category);
         List<ListingObject> resultsStatus = fetchByStatus(status);
 
-        // add listings with name provided as a parameter
-        for (ListingObject listing : resultsName){
-            if (!results.contains(listing))
-                results.add(listing);
-        }
-
-        // add listings with location provided as a parameter
-        for (ListingObject listing : resultsLocation){
-            if (!results.contains(listing))
-                results.add(listing);
-        }
-
-        // add listings with category provided as a parameter
-        for (ListingObject listing : resultsCategory){
-            if (!results.contains(listing))
-                results.add(listing);
-        }
-
-        // add listings with status provided as a parameter
-        for (ListingObject listing : resultsStatus){
-            if (!results.contains(listing))
-                results.add(listing);
-        }
-
-        return results;
-
-        /*
-        PreparedStatement st = null;
-        ResultSet rs = null;
-
-        try {
-            st = dbConn.prepareStatement("SELECT * FROM " + TABLE_NAME + " WHERE name = ? AND location = ? AND category = ? AND status = ?");
-            st.setInt(1, Integer.parseInt(name));
-            st.setInt(2, Integer.parseInt(location));
-            st.setInt(3, Integer.parseInt(category));
-            st.setInt(4, Integer.parseInt(status));
-            rs = st.executeQuery();
-
-            while (rs.next()) {
-                ListingObject listingObject = fromResultSet(rs);
-                results.add(listingObject);
+        // add listings with name, location, category and status provided as a parameter
+        for (ListingObject listingName : resultsName) {
+            if ( !results.contains(listingName) ) {
+                for (ListingObject listingLocation : resultsLocation) {
+                    if ((listingName.getId().compareToIgnoreCase(listingLocation.getId())) == 0) {
+                        for (ListingObject listingCategory : resultsCategory) {
+                            if ((listingName.getId().compareToIgnoreCase(listingCategory.getId())) == 0) {
+                                for (ListingObject listingStatus : resultsStatus) {
+                                    if ((listingName.getId().compareToIgnoreCase(listingStatus.getId())) == 0) {
+                                        results.add(listingName);
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
             }
-
-        } catch (final SQLException e) {
-            e.printStackTrace();
-
-        } finally {
-            HSQLDBUtil.quietlyClose(rs);
-            HSQLDBUtil.quietlyClose(st);
         }
 
         return results;
-        */
     }
 
     @Override
