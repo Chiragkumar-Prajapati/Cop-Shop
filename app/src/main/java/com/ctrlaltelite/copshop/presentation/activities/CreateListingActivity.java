@@ -98,7 +98,6 @@ public class CreateListingActivity extends AppCompatActivity {
                         ((TextView) findViewById(R.id.txtStartDate)).getText().toString(),
                         ((TextView) findViewById(R.id.txtEndDate)).getText().toString(),
                         ((TextView) findViewById(R.id.txtCategory)).getText().toString(),
-                        "0" // Currently logged in seller's id, change when differentiated login is implemented
                         sharedPreferences.getString("userID", "-1")
                 );
 
