@@ -175,9 +175,8 @@ public class ListingFormValidationObject {
      */
     private Calendar convertToDateObj(String date) {
 
-        //initialize cal date to invalid time
-        Calendar cal = Calendar.getInstance(Locale.CANADA);
-        cal.add(Calendar.DATE, -1);
+        //initialize cal as invalid
+        Calendar cal = null;
 
         if (date != null && !date.isEmpty()) {
             SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy HH:mm", Locale.CANADA);
@@ -189,10 +188,10 @@ public class ListingFormValidationObject {
                 try {
                     cal.getTime();
                 } catch (Exception e) {
-                    e.printStackTrace();
+                    cal = null; //date obj is invalid
                 }
             } catch (ParseException e) {
-                e.printStackTrace();
+                cal = null; //invalid format of date
             }
         }
         return cal;
@@ -205,12 +204,15 @@ public class ListingFormValidationObject {
      */
     private boolean validateDateAndTime(String date) {
         boolean isValid;
+        Calendar prevDay;
 
         if(date != null && !date.isEmpty() && date.length() < MIN_DATE_LEN) {
             isValid = false;
         } else {
+            prevDay = Calendar.getInstance(Locale.CANADA);
+            prevDay.add(Calendar.DATE, -1); // All days valid from one day in the past
             Calendar cal = convertToDateObj(date);
-            isValid = cal.after(Calendar.getInstance(Locale.CANADA));
+            isValid = cal != null && cal.after(prevDay);
         }
 
         return isValid;
