@@ -31,12 +31,6 @@ public class AccountService implements com.ctrlaltelite.copshop.logic.services.I
         this.buyerModel = buyerModel;
     }
 
-    /**
-     * Used by the login page to check whether a user's login credentials are legit.
-     * @param email The email of the user attempting to log in
-     * @param password The password of the user attempting to log in
-     * @return The BuyerAccountObject or SellerAccountObject, or null if not legit.
-     */
     public AccountObject validateEmailAndPassword(String email, String password) {
         // Check for a matching seller account
         AccountObject account = this.sellerModel.findByEmail(email);
@@ -65,41 +59,49 @@ public class AccountService implements com.ctrlaltelite.copshop.logic.services.I
         }
         return account;
     }
-
-    /**
-     * Validate that the object has legal data and then add to the database.
-     * @param buyerObject the object to add to the DB.
-     * @return the validation object we created to do the validation.
-     */
+    
     public BuyerAccountValidationObject validate(BuyerAccountObject buyerObject) {
         return this.validateInputForm(buyerObject);
     }
 
-    /**
-     * Validate that the object has legal data and then add to the database.
-     * @param sellerObject the object to add to the DB.
-     * @return the validation object we created to do the validation.
-     */
     public SellerAccountValidationObject validate(SellerAccountObject sellerObject) {
         return this.validateInputForm(sellerObject);
     }
 
-    /**
-     * Actually creates the BuyerAccount in the database
-     * @param newBuyer The object to add to the DB
-     * @return the primary key of the DB row
-     */
     public String registerNewBuyer(BuyerAccountObject newBuyer){
+        if (fetchAccountByEmail(newBuyer.getEmail()) != null) {
+            return null;
+        }
         return buyerModel.createNew(newBuyer);
     }
 
-    /**
-     * Actually creates the SellerAccount in the database
-     * @param newSeller The object to add to the DB
-     * @return the primary key of the DB row
-     */
-    public String registerNewSeller(SellerAccountObject newSeller){
+    public boolean updateBuyerAccount(String id, BuyerAccountObject buyerAccount) {
+        AccountObject currAccount = fetchAccountByEmail(buyerAccount.getEmail());
+        if (currAccount != null && !currAccount.getId().equals(id)) {
+            return false;
+        }
+        if (currAccount != null && !(currAccount instanceof BuyerAccountObject)) {
+            return false;
+        }
+        return buyerModel.update(id, buyerAccount);
+    }
+
+    public String registerNewSeller(SellerAccountObject newSeller) {
+        if (fetchAccountByEmail(newSeller.getEmail()) != null) {
+            return null;
+        }
         return sellerModel.createNew(newSeller);
+    }
+
+    public boolean updateSellerAccount(String id, SellerAccountObject sellerAccount) {
+        AccountObject currAccount = fetchAccountByEmail(sellerAccount.getEmail());
+        if (currAccount != null && !currAccount.getId().equals(id)) {
+            return false;
+        }
+        if (currAccount != null && !(currAccount instanceof SellerAccountObject)) {
+            return false;
+        }
+        return sellerModel.update(id, sellerAccount);
     }
 
     /**
@@ -232,7 +234,6 @@ public class AccountService implements com.ctrlaltelite.copshop.logic.services.I
      * @param password String
      * @return Boolean indicating if valid
      */
-
     private boolean validatePassword(String password){
         if (password == null) {
             return false;

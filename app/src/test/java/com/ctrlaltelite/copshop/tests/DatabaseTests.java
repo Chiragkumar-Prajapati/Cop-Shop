@@ -3,9 +3,8 @@ package com.ctrlaltelite.copshop.tests;
 import com.ctrlaltelite.copshop.persistence.database.IDatabase;
 import com.ctrlaltelite.copshop.persistence.database.stubs.MockDatabaseStub;
 import org.junit.Test;
-import java.util.Hashtable;
 import java.util.List;
-
+import java.util.Hashtable;
 import static org.junit.Assert.*;
 
 public class DatabaseTests {
