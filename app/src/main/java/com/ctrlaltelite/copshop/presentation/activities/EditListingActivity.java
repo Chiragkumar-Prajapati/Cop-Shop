@@ -8,7 +8,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
-import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -20,21 +19,25 @@ import com.ctrlaltelite.copshop.objects.ListingObject;
 import com.ctrlaltelite.copshop.presentation.classes.DatePickerFragment;
 import com.ctrlaltelite.copshop.presentation.classes.TimePickerFragment;
 
-public class CreateListingActivity extends AppCompatActivity {
+public class EditListingActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_create_listing);
-
-        final SharedPreferences sharedPreferences = getSharedPreferences("currentUser", 0);
+        setContentView(R.layout.activity_edit_listing);
 
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
+        final SharedPreferences sharedPreferences = getSharedPreferences("currentUser", 0);
+
+        final String listingId = getIntent().getStringExtra("LISTING_ID");
+
+        populateListingInfo(listingId);
+
         // Triggers date and time picker for Start date
         final Button startDateButton = findViewById(R.id.btnStartDate);
-        startDateButton.setOnClickListener(new OnClickListener() {
+        startDateButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 DialogFragment startDateFragment = new DatePickerFragment();
@@ -46,7 +49,7 @@ public class CreateListingActivity extends AppCompatActivity {
         });
 
         Button startTimeButton = findViewById(R.id.btnStartTime);
-        startTimeButton.setOnClickListener(new OnClickListener() {
+        startTimeButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 DialogFragment startTimeFragment = new TimePickerFragment();
@@ -59,7 +62,7 @@ public class CreateListingActivity extends AppCompatActivity {
 
         // Triggers date and time picker for End date
         final Button endDateButton = findViewById(R.id.btnEndDate);
-        endDateButton.setOnClickListener(new OnClickListener() {
+        endDateButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 DialogFragment endDateFragment = new DatePickerFragment();
@@ -71,7 +74,7 @@ public class CreateListingActivity extends AppCompatActivity {
         });
 
         Button endTimeButton = findViewById(R.id.btnEndTime);
-        endTimeButton.setOnClickListener(new OnClickListener() {
+        endTimeButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 DialogFragment endTimeFragment = new TimePickerFragment();
@@ -82,8 +85,53 @@ public class CreateListingActivity extends AppCompatActivity {
             }
         });
 
-        Button submitButton = findViewById(R.id.btnCreateListing);
-        submitButton.setOnClickListener(new OnClickListener() {
+        // Start Now button
+        Button startNowButton = findViewById(R.id.btnStartNow);
+        startNowButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // TODO: Set the auction start time to the current time.
+            }
+        });
+
+        // End Now button
+        Button endNowButton = findViewById(R.id.btnEndNow);
+        endNowButton .setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // TODO: Set the auction end time to the current time.
+            }
+        });
+
+        // Cancel button
+        Button cancelSaveButton = findViewById(R.id.btnCancelSaveListing);
+        cancelSaveButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(EditListingActivity.this, ListingViewActivity.class);
+                intent.putExtra("listingId", listingId);
+                startActivity(intent);
+            }
+        });
+
+
+        // Delete Listing button
+        Button deleteButton = findViewById(R.id.btnDeleteListing);
+        deleteButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (CopShopHub.getListingService().deleteListing(listingId)) {
+                    Intent intent = new Intent(EditListingActivity.this, ListingListActivity.class);
+                    startActivity(intent);
+                }
+                // else, something is horribly wrong.
+            }
+        });
+
+
+        // Save button
+        Button submitButton = findViewById(R.id.btnSaveListing);
+        submitButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Log.i("SubmitButton", "Clicked!");
@@ -97,8 +145,6 @@ public class CreateListingActivity extends AppCompatActivity {
                         ((EditText) findViewById(R.id.txtMinBid)).getText().toString(),
                         ((TextView) findViewById(R.id.txtStartDate)).getText().toString(),
                         ((TextView) findViewById(R.id.txtEndDate)).getText().toString(),
-                        ((TextView) findViewById(R.id.txtCategory)).getText().toString(),
-                        "0" // Currently logged in seller's id, change when differentiated login is implemented
                         sharedPreferences.getString("userID", "-1")
                 );
 
@@ -108,19 +154,18 @@ public class CreateListingActivity extends AppCompatActivity {
                 // If valid: store form data in listing database
                 // Else invalid: check each form field, highlighting those that are invalid in red
                 if (validationObject.isAllValid()) {
-                    CopShopHub.getCreateListingService().saveNewListing(listingObject);
+                    CopShopHub.getListingService().updateListing(listingId, listingObject);
 
                     // Make sure all form fields are set back to black on success
+                    findViewById(R.id.txtStartDate).setBackgroundResource(R.drawable.txt_field_black_border);
                     findViewById(R.id.txtListingTitle).setBackgroundResource(R.drawable.txt_field_black_border);
                     findViewById(R.id.txtInitialPrice).setBackgroundResource(R.drawable.txt_field_black_border);
                     findViewById(R.id.txtMinBid).setBackgroundResource(R.drawable.txt_field_black_border);
-                    findViewById(R.id.txtStartDate).setBackgroundResource(R.drawable.txt_field_black_border);
                     findViewById(R.id.txtEndDate).setBackgroundResource(R.drawable.txt_field_black_border);
-                    findViewById(R.id.txtCategory).setBackgroundResource(R.drawable.txt_field_black_border);
                     findViewById(R.id.txtAreaDescription).setBackgroundResource(R.drawable.txt_field_black_border);
 
                     // Goto listing list page
-                    startActivity(new Intent(CreateListingActivity.this, ListingListActivity.class));
+                    startActivity(new Intent(EditListingActivity.this, ListingListActivity.class));
                 } else {
 
                     // Check listing title
@@ -158,13 +203,6 @@ public class CreateListingActivity extends AppCompatActivity {
                         findViewById(R.id.txtEndDate).setBackgroundResource(R.drawable.txt_field_black_border);
                     }
 
-                    // Check all fields relating to listing end date and time
-                    if (!validationObject.getEndDateAndTimeValid()) {
-                        findViewById(R.id.txtCategory).setBackgroundResource(R.drawable.txt_field_red_border);
-                    } else {
-                        findViewById(R.id.txtCategory).setBackgroundResource(R.drawable.txt_field_black_border);
-                    }
-
                     // Check listing description
                     if (!validationObject.getDescriptionValid()) {
                         findViewById(R.id.txtAreaDescription).setBackgroundResource(R.drawable.txt_field_red_border);
@@ -175,4 +213,41 @@ public class CreateListingActivity extends AppCompatActivity {
             }
         });
     }
+
+
+    protected void populateListingInfo(String listingId) {
+
+        // Text for user if logged in
+        TextView editTextListingTitle = findViewById(R.id.txtListingTitle);
+        TextView editTextInitialPrice = findViewById(R.id.txtInitialPrice);
+        TextView editTextMinBid = findViewById(R.id.txtMinBid);
+        TextView editTextStartDate = findViewById(R.id.txtStartDate);
+        TextView editTextEndDate = findViewById(R.id.txtEndDate);
+        TextView editTextAreaDescription = findViewById(R.id.txtAreaDescription);
+
+        ListingObject listingObj = CopShopHub.getListingService().fetchListing(listingId);
+
+        // Never should be null, but check anyway
+        if (listingObj != null) {
+            if (editTextListingTitle != null) {
+                editTextListingTitle.setText(listingObj.getTitle());
+            }
+            if (editTextInitialPrice != null) {
+                editTextInitialPrice.setText(listingObj.getInitPrice());
+            }
+            if (editTextMinBid != null) {
+                editTextMinBid.setText(listingObj.getMinBid());
+            }
+            if (editTextStartDate != null) {
+                editTextStartDate.setText(listingObj.getAuctionStartDate());
+            }
+            if (editTextEndDate != null) {
+                editTextEndDate.setText(listingObj.getAuctionEndDate());
+            }
+            if (editTextAreaDescription != null) {
+                editTextAreaDescription.setText(listingObj.getDescription());
+            }
+        }
+    }
+
 }

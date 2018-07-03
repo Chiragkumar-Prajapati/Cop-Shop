@@ -7,7 +7,6 @@ import com.ctrlaltelite.copshop.persistence.database.stubs.MockDatabaseStub;
 import com.ctrlaltelite.copshop.persistence.stubs.ListingModel;
 import org.junit.Test;
 import java.util.List;
-
 import static org.junit.Assert.*;
 
 public class ListingModelTests {

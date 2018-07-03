@@ -45,6 +45,21 @@ public interface IListingService {
     ListingObject fetchListing(String listingId);
 
     /**
+     * Delete a listing from the db by listingId
+     * @param listingId The listing id
+     * @return success or not
+     */
+    boolean deleteListing(String listingId);
+
+    /**
+     * Update a listing in the db by listingId
+     * @param listingId The listing id
+     * @param updatedObj The new version of the listing
+     * @return success or not
+     */
+    boolean updateListing(String listingId, ListingObject updatedObj);
+
+    /**
      * Get the next highest bid amount
      * @param listing the listing
      * @return String float representing next bid
@@ -57,4 +72,5 @@ public interface IListingService {
      * @return Int number of bids
      */
     int getNumBids(String listingId);
+
 }

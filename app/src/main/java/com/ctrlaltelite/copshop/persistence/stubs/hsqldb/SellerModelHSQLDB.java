@@ -37,12 +37,15 @@ public class SellerModelHSQLDB implements ISellerModel {
         try {
             st = dbConn.prepareStatement(
                     "INSERT INTO " + TABLE_NAME + " " +
-                            "(name,email,password) " +
-                            "VALUES (?, ?, ?)",
+                            "(name,email,address,postalcode,province,password) " +
+                            "VALUES (?, ?, ?, ?, ?, ?)",
                     RETURN_GENERATED_KEYS);
             st.setString(1, newAccount.getOrganizationName());
-            st.setString(2, newAccount.getEmail());
-            st.setString(3, newAccount.getPassword());
+            st.setString(2, newAccount.getStreetAddress());
+            st.setString(3, newAccount.getPostalCode());
+            st.setString(4, newAccount.getProvince());
+            st.setString(5, newAccount.getEmail());
+            st.setString(6, newAccount.getPassword());
             int updated = st.executeUpdate();
 
             if (updated >= 1) {
@@ -75,13 +78,19 @@ public class SellerModelHSQLDB implements ISellerModel {
             st = dbConn.prepareStatement(
                     "UPDATE " + TABLE_NAME + " SET " +
                         "name=?, " +
+                        "address=?, " +
+                        "postalcode=?, " +
+                        "province=?, " +
                         "email=?, " +
                         "password=? " +
                         "WHERE id = ?");
             st.setString(1, updatedAccount.getOrganizationName());
-            st.setString(2, updatedAccount.getEmail());
-            st.setString(3, updatedAccount.getPassword());
-            st.setInt(4, Integer.parseInt(id));
+            st.setString(2, updatedAccount.getStreetAddress());
+            st.setString(3, updatedAccount.getPostalCode());
+            st.setString(4, updatedAccount.getProvince());
+            st.setString(5, updatedAccount.getEmail());
+            st.setString(6, updatedAccount.getPassword());
+            st.setInt(7, Integer.parseInt(id));
             st.executeUpdate();
             return true;
 

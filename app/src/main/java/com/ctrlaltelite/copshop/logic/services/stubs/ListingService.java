@@ -82,6 +82,25 @@ public class ListingService implements IListingService {
     }
 
     @Override
+    public boolean deleteListing(String listingId) {
+        if (null == listingId) { throw new IllegalArgumentException("listingId cannot be null"); }
+
+        return listingModel.delete(listingId);
+    }
+
+    @Override
+    public boolean updateListing(String listingId, ListingObject updatedObj) {
+        if (null == listingId) {
+            throw new IllegalArgumentException("listingId cannot be null");
+        }
+        if (null == updatedObj) {
+            throw new IllegalArgumentException("updated object cannot be null");
+        }
+
+        return listingModel.update(listingId, updatedObj);
+    }
+
+    @Override
     public int getNumBids(String listingId) {
         List<BidObject> bids = bidModel.findAllByListing(listingId);
         return bids.size();

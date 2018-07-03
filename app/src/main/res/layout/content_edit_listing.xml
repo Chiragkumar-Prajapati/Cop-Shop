@@ -5,262 +5,23 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
-    tools:context=".presentation.activities.CreateListingActivity"
-    tools:showIn="@layout/activity_create_listing">
+    tools:context=".presentation.activities.EditListingActivity"
+    tools:showIn="@layout/activity_edit_listing">
 
     <android.support.constraint.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
-        <Button
-            android:id="@+id/btnEndTime"
-            android:layout_width="wrap_content"
-            android:layout_height="40dp"
-            android:layout_marginStart="8dp"
-            android:layout_marginTop="20dp"
-            android:background="?attr/colorButtonNormal"
-            android:text="Time"
-            android:visibility="invisible"
-            app:layout_constraintStart_toEndOf="@+id/btnEndDate"
-            app:layout_constraintTop_toBottomOf="@+id/btnStartTime" />
-
-        <Button
-            android:id="@+id/btnEndDate"
-            android:layout_width="wrap_content"
-            android:layout_height="40dp"
-            android:layout_marginStart="8dp"
-            android:layout_marginTop="20dp"
-            android:background="?attr/colorButtonNormal"
-            android:text="Date"
-            app:layout_constraintStart_toEndOf="@+id/txtEndDate"
-            app:layout_constraintTop_toBottomOf="@+id/btnStartDate" />
-
-        <EditText
-            android:id="@+id/txtListingTitle"
-            android:layout_width="wrap_content"
-            android:layout_height="40dp"
-            android:layout_marginStart="180dp"
-            android:layout_marginTop="40dp"
-            android:background="@drawable/txt_field_black_border"
-            android:ems="10"
-            android:hint="Bicycle"
-            android:inputType="textPersonName"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/textView" />
-
-        <EditText
-            android:id="@+id/txtInitialPrice"
-            android:layout_width="wrap_content"
-            android:layout_height="40dp"
-            android:layout_marginStart="180dp"
-            android:layout_marginTop="20dp"
-            android:background="@drawable/txt_field_black_border"
-            android:ems="10"
-            android:hint="30.00"
-            android:inputType="number|numberDecimal"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/txtListingTitle" />
-
-        <EditText
-            android:id="@+id/txtMinBid"
+        <TextView
+            android:id="@+id/txtStartDate"
             android:layout_width="213dp"
             android:layout_height="40dp"
             android:layout_marginStart="180dp"
-            android:layout_marginTop="20dp"
+            android:layout_marginTop="96dp"
             android:background="@drawable/txt_field_black_border"
-            android:ems="10"
-            android:hint="1.00"
-            android:inputType="number|numberDecimal"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/txtInitialPrice" />
-
-        <EditText
-            android:id="@+id/txtCategory"
-            android:layout_width="213dp"
-            android:layout_height="40dp"
-            android:layout_marginStart="180dp"
-            android:layout_marginTop="256dp"
-            android:background="@drawable/txt_field_black_border"
-            android:ems="10"
-            android:hint="Bikes"
-            android:inputType="number|numberDecimal"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/txtInitialPrice" />
-
-        <EditText
-            android:id="@+id/txtAreaDescription"
-            android:layout_width="373dp"
-            android:layout_height="144dp"
-            android:layout_marginStart="180dp"
-            android:layout_marginTop="76dp"
-            android:background="@drawable/txt_field_black_border"
-            android:ems="10"
-            android:gravity="top"
-            android:inputType="textMultiLine"
-            android:selectAllOnFocus="false"
-            android:singleLine="false"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/txtEndDate" />
-
-        <TextView
-            android:id="@+id/labelAuctionDur"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
-            android:layout_marginTop="36dp"
-            android:text="Auction Duration: *"
-            android:textColor="@android:color/black"
+            android:gravity="center"
             android:textSize="18sp"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/labelMinBid" />
-
-        <TextView
-            android:id="@+id/labelDescription"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
-            android:layout_marginTop="90dp"
-            android:text="Description: *"
-            android:textColor="@android:color/black"
-            android:textSize="18sp"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/labelEndDate" />
-
-        <TextView
-            android:id="@+id/labelEndDate"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
-            android:layout_marginTop="36dp"
-            android:text="End:"
-            android:textColor="@android:color/black"
-            android:textSize="18sp"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/labelStartDate" />
-
-        <TextView
-            android:id="@+id/labelStartDate"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
-            android:layout_marginTop="36dp"
-            android:text="Start:"
-            android:textColor="@android:color/black"
-            android:textSize="18sp"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/labelAuctionDur" />
-
-        <TextView
-            android:id="@+id/labelMinBid"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
-            android:layout_marginTop="36dp"
-            android:text="Minimum Bid: *"
-            android:textColor="@android:color/black"
-            android:textSize="18sp"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/labelInitialPrice" />
-
-        <TextView
-            android:id="@+id/labelCategory"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
-            android:layout_marginTop="272dp"
-            android:text="Category: *"
-            android:textColor="@android:color/black"
-            android:textSize="18sp"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/labelInitialPrice" />
-
-        <TextView
-            android:id="@+id/labelInitialPrice"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
-            android:layout_marginTop="36dp"
-            android:text="Initial Price: *"
-            android:textColor="@android:color/black"
-            android:textSize="18sp"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/labelListingTitle" />
-
-        <TextView
-            android:id="@+id/labelListingTitle"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
-            android:layout_marginTop="40dp"
-            android:text="Listing Title: *"
-            android:textColor="@android:color/black"
-            android:textSize="18sp"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/textView" />
-
-        <Button
-            android:id="@+id/btnCreateListing"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="464dp"
-            android:layout_marginTop="8dp"
-            android:background="#1A5276"
-            android:text="Create"
-            android:textColor="@android:color/white"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/txtAreaDescription" />
-
-        <TextView
-            android:id="@+id/textView"
-            android:layout_width="398dp"
-            android:layout_height="33dp"
-            android:layout_marginEnd="100dp"
-            android:layout_marginStart="100dp"
-            android:layout_marginTop="60dp"
-            android:text="Enter new listing information below:"
-            android:textColor="@android:color/black"
-            android:textSize="24sp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
-        <TextView
-            android:id="@+id/labelRequiredFields"
-            android:layout_width="209dp"
-            android:layout_height="25dp"
-            android:layout_marginBottom="10dp"
-            android:layout_marginEnd="375dp"
-            android:layout_marginStart="16dp"
-            android:layout_marginTop="64dp"
-            android:text="* indicates a required field"
-            android:textColor="@android:color/black"
-            android:textSize="18sp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/txtAreaDescription" />
-
-        <Button
-            android:id="@+id/btnStartTime"
-            android:layout_width="wrap_content"
-            android:layout_height="40dp"
-            android:layout_marginStart="8dp"
-            android:layout_marginTop="80dp"
-            android:background="?attr/colorButtonNormal"
-            android:text="Time"
-            android:visibility="invisible"
-            app:layout_constraintStart_toEndOf="@+id/btnStartDate"
-            app:layout_constraintTop_toBottomOf="@+id/txtMinBid" />
-
-        <Button
-            android:id="@+id/btnStartDate"
-            android:layout_width="wrap_content"
-            android:layout_height="40dp"
-            android:layout_marginStart="8dp"
-            android:layout_marginTop="80dp"
-            android:background="?attr/colorButtonNormal"
-            android:text="Date"
-            app:layout_constraintStart_toEndOf="@+id/txtStartDate"
             app:layout_constraintTop_toBottomOf="@+id/txtMinBid" />
 
         <TextView
@@ -275,17 +36,274 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/txtStartDate" />
 
-        <TextView
-            android:id="@+id/txtStartDate"
+        <Button
+            android:id="@+id/btnStartDate"
+            android:layout_width="wrap_content"
+            android:layout_height="40dp"
+            android:layout_marginStart="8dp"
+            android:background="?attr/colorButtonNormal"
+            android:text="Date"
+            app:layout_constraintStart_toEndOf="@+id/txtStartDate"
+            app:layout_constraintTop_toTopOf="@+id/txtStartDate" />
+
+        <Button
+            android:id="@+id/btnStartTime"
+            android:layout_width="wrap_content"
+            android:layout_height="40dp"
+            android:layout_marginStart="8dp"
+            android:background="?attr/colorButtonNormal"
+            android:text="Time"
+            android:visibility="invisible"
+            app:layout_constraintStart_toEndOf="@+id/btnStartDate"
+            app:layout_constraintTop_toTopOf="@+id/btnStartDate" />
+
+        <Button
+            android:id="@+id/btnEndDate"
+            android:layout_width="wrap_content"
+            android:layout_height="40dp"
+            android:layout_marginStart="8dp"
+            android:background="?attr/colorButtonNormal"
+            android:text="Date"
+            app:layout_constraintStart_toEndOf="@+id/txtEndDate"
+            app:layout_constraintTop_toTopOf="@+id/txtEndDate" />
+
+        <Button
+            android:id="@+id/btnEndTime"
+            android:layout_width="wrap_content"
+            android:layout_height="40dp"
+            android:layout_marginStart="8dp"
+            android:background="?attr/colorButtonNormal"
+            android:text="Time"
+            android:visibility="invisible"
+            app:layout_constraintStart_toEndOf="@+id/btnEndDate"
+            app:layout_constraintTop_toTopOf="@+id/btnEndDate" />
+
+        <EditText
+            android:id="@+id/txtListingTitle"
             android:layout_width="213dp"
             android:layout_height="40dp"
             android:layout_marginStart="180dp"
-            android:layout_marginTop="80dp"
+            android:layout_marginTop="144dp"
             android:background="@drawable/txt_field_black_border"
-            android:gravity="center"
+            android:ems="10"
+            android:hint="Bicycle"
+            android:inputType="textPersonName"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <EditText
+            android:id="@+id/txtInitialPrice"
+            android:layout_width="213dp"
+            android:layout_height="40dp"
+            android:layout_marginStart="180dp"
+            android:layout_marginTop="204dp"
+            android:background="@drawable/txt_field_black_border"
+            android:ems="10"
+            android:hint="30.00"
+            android:inputType="number|numberDecimal"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <EditText
+            android:id="@+id/txtMinBid"
+            android:layout_width="213dp"
+            android:layout_height="40dp"
+            android:layout_marginStart="180dp"
+            android:layout_marginTop="264dp"
+            android:background="@drawable/txt_field_black_border"
+            android:ems="10"
+            android:hint="1.00"
+            android:inputType="number|numberDecimal"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <EditText
+            android:id="@+id/txtAreaDescription"
+            android:layout_width="373dp"
+            android:layout_height="144dp"
+            android:layout_marginStart="180dp"
+            android:layout_marginTop="548dp"
+            android:background="@drawable/txt_field_black_border"
+            android:ems="10"
+            android:gravity="top"
+            android:inputType="textMultiLine"
+            android:selectAllOnFocus="false"
+            android:singleLine="false"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/labelAuctionDur"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="352dp"
+            android:text="Auction Duration: *"
+            android:textColor="@android:color/black"
             android:textSize="18sp"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/txtMinBid" />
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/labelDescription"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="548dp"
+            android:text="Description: *"
+            android:textColor="@android:color/black"
+            android:textSize="18sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/labelEndDate"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="460dp"
+            android:text="End:"
+            android:textColor="@android:color/black"
+            android:textSize="18sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/labelStartDate"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="400dp"
+            android:text="Start:"
+            android:textColor="@android:color/black"
+            android:textSize="18sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/labelMinBid"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="268dp"
+            android:text="Minimum Bid: *"
+            android:textColor="@android:color/black"
+            android:textSize="18sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/labelInitialPrice"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="208dp"
+            android:text="Initial Price: *"
+            android:textColor="@android:color/black"
+            android:textSize="18sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/labelListingTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="148dp"
+            android:text="Listing Title: *"
+            android:textColor="@android:color/black"
+            android:textSize="18sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <Button
+            android:id="@+id/btnSaveListing"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="464dp"
+            android:layout_marginTop="740dp"
+            android:background="#1A5276"
+            android:text="Save"
+            android:textColor="@android:color/white"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <Button
+            android:id="@+id/btnCancelSaveListing"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="360dp"
+            android:layout_marginTop="740dp"
+            android:background="?attr/colorButtonNormal"
+            android:text="Cancel"
+            android:textColor="@android:color/black"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <Button
+            android:id="@+id/btnDeleteListing"
+            android:layout_width="125dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="220dp"
+            android:layout_marginTop="740dp"
+            android:background="?attr/colorButtonNormal"
+            android:text="Delete Listing"
+            android:textColor="@android:color/black"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <Button
+            android:id="@+id/btnEndNow"
+            android:layout_width="118dp"
+            android:layout_height="40dp"
+            android:layout_marginStart="432dp"
+            android:layout_marginTop="312dp"
+            android:background="?attr/colorButtonNormal"
+            android:text="End Now"
+            android:textColor="@android:color/black"
+            android:visibility="invisible"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <Button
+            android:id="@+id/btnStartNow"
+            android:layout_width="118dp"
+            android:layout_height="40dp"
+            android:layout_marginStart="432dp"
+            android:layout_marginTop="252dp"
+            android:background="?attr/colorButtonNormal"
+            android:text="Start Now"
+            android:textColor="@android:color/black"
+            android:visibility="invisible"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/textView"
+            android:layout_width="398dp"
+            android:layout_height="36dp"
+            android:layout_marginEnd="100dp"
+            android:layout_marginStart="100dp"
+            android:layout_marginTop="48dp"
+            android:text="Edit Listing"
+            android:textAlignment="center"
+            android:textColor="@android:color/black"
+            android:textSize="24sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/labelRequiredFields"
+            android:layout_width="209dp"
+            android:layout_height="25dp"
+            android:layout_marginStart="196dp"
+            android:layout_marginTop="6dp"
+            android:text="* indicates a required field"
+            android:textColor="@android:color/black"
+            android:textSize="18sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/textView" />
 
     </android.support.constraint.ConstraintLayout>
 

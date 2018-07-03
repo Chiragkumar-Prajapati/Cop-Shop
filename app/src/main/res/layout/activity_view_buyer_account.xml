@@ -1,0 +1,211 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".presentation.activities.CreateBuyerAccountActivity">
+
+    <TextView
+        android:id="@+id/notLoggedInMsg"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:textColor="#ff0000"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textFormFilloutPrompt" />
+
+    <TextView
+        android:id="@+id/textFirstName"
+        android:layout_width="@dimen/smallTextLabelWidth"
+        android:layout_height="wrap_content"
+        android:text="First Name"
+        android:textAlignment="textEnd"
+        app:layout_constraintStart_toStartOf="@+id/textFormFilloutPrompt"
+        app:layout_constraintTop_toTopOf="@+id/editTextFirstName" />
+
+    <TextView
+        android:id="@+id/textLastName"
+        android:layout_width="@dimen/smallTextLabelWidth"
+        android:layout_height="wrap_content"
+        android:text="Last Name"
+        android:textAlignment="textEnd"
+        app:layout_constraintStart_toStartOf="@+id/textFirstName"
+        app:layout_constraintTop_toTopOf="@+id/editTextLastName" />
+
+    <TextView
+        android:id="@+id/textStreetAddress"
+        android:layout_width="@dimen/smallTextLabelWidth"
+        android:layout_height="wrap_content"
+        android:text="Street Address"
+        android:textAlignment="textEnd"
+        app:layout_constraintStart_toStartOf="@+id/textLastName"
+        app:layout_constraintTop_toTopOf="@+id/editTextStreetAddress" />
+
+    <TextView
+        android:id="@+id/textPostalCode"
+        android:layout_width="@dimen/smallTextLabelWidth"
+        android:layout_height="wrap_content"
+        android:text="Postal Code"
+        android:textAlignment="textEnd"
+        app:layout_constraintStart_toStartOf="@+id/textStreetAddress"
+        app:layout_constraintTop_toTopOf="@+id/editTextPostalCode" />
+
+    <EditText
+        android:id="@+id/editTextFirstName"
+        android:layout_width="wrap_content"
+        android:layout_height="40dp"
+        android:layout_marginStart="40dp"
+        android:layout_marginTop="16dp"
+        android:background="@drawable/txt_field_black_border"
+        android:ems="10"
+        android:inputType="textPersonName"
+        app:layout_constraintStart_toEndOf="@+id/textFirstName"
+        app:layout_constraintTop_toBottomOf="@+id/notLoggedInMsg" />
+
+    <TextView
+        android:id="@+id/textFormFilloutPrompt"
+        android:layout_width="400dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="60dp"
+        android:text="Account Details"
+        android:textAlignment="center"
+        android:textSize="18sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <EditText
+        android:id="@+id/editTextLastName"
+        android:layout_width="wrap_content"
+        android:layout_height="40dp"
+        android:layout_marginTop="24dp"
+        android:background="@drawable/txt_field_black_border"
+        android:ems="10"
+        android:inputType="textPersonName"
+        app:layout_constraintStart_toStartOf="@+id/editTextFirstName"
+        app:layout_constraintTop_toBottomOf="@+id/editTextFirstName" />
+
+    <EditText
+        android:id="@+id/editTextStreetAddress"
+        android:layout_width="wrap_content"
+        android:layout_height="40dp"
+        android:layout_marginTop="24dp"
+        android:background="@drawable/txt_field_black_border"
+        android:ems="10"
+        android:inputType="textPersonName"
+        app:layout_constraintStart_toStartOf="@+id/editTextLastName"
+        app:layout_constraintTop_toBottomOf="@+id/editTextLastName" />
+
+    <EditText
+        android:id="@+id/editTextPostalCode"
+        android:layout_width="wrap_content"
+        android:layout_height="40dp"
+        android:layout_marginTop="24dp"
+        android:background="@drawable/txt_field_black_border"
+        android:ems="10"
+        android:inputType="textPersonName"
+        app:layout_constraintStart_toStartOf="@+id/editTextStreetAddress"
+        app:layout_constraintTop_toBottomOf="@+id/editTextStreetAddress" />
+
+    <TextView
+        android:id="@+id/textView2"
+        android:layout_width="@dimen/smallTextLabelWidth"
+        android:layout_height="wrap_content"
+        android:text="Province"
+        android:textAlignment="textEnd"
+        app:layout_constraintStart_toStartOf="@+id/textPostalCode"
+        app:layout_constraintTop_toTopOf="@+id/editTextProvince" />
+
+    <EditText
+        android:id="@+id/editTextProvince"
+        android:layout_width="wrap_content"
+        android:layout_height="40dp"
+        android:layout_marginTop="24dp"
+        android:background="@drawable/txt_field_black_border"
+        android:ems="10"
+        android:inputType="textPersonName"
+        app:layout_constraintStart_toStartOf="@+id/editTextPostalCode"
+        app:layout_constraintTop_toBottomOf="@+id/editTextPostalCode" />
+
+    <TextView
+        android:id="@+id/textEmail"
+        android:layout_width="@dimen/smallTextLabelWidth"
+        android:layout_height="wrap_content"
+        android:text="Email"
+        android:textAlignment="textEnd"
+        app:layout_constraintStart_toStartOf="@+id/textView2"
+        app:layout_constraintTop_toTopOf="@+id/editTextEmail" />
+
+    <TextView
+        android:id="@+id/textPassword"
+        android:layout_width="@dimen/smallTextLabelWidth"
+        android:layout_height="wrap_content"
+        android:text="Password"
+        android:textAlignment="textEnd"
+        app:layout_constraintStart_toStartOf="@+id/textEmail"
+        app:layout_constraintTop_toTopOf="@+id/editTextPassword" />
+
+    <EditText
+        android:id="@+id/editTextEmail"
+        android:layout_width="wrap_content"
+        android:layout_height="40dp"
+        android:layout_marginTop="24dp"
+        android:background="@drawable/txt_field_black_border"
+        android:ems="10"
+        android:inputType="textEmailAddress"
+        app:layout_constraintStart_toStartOf="@+id/editTextProvince"
+        app:layout_constraintTop_toBottomOf="@+id/editTextProvince" />
+
+    <EditText
+        android:id="@+id/editTextPassword"
+        android:layout_width="wrap_content"
+        android:layout_height="40dp"
+        android:layout_marginTop="24dp"
+        android:background="@drawable/txt_field_black_border"
+        android:ems="10"
+        android:inputType="textPassword"
+        app:layout_constraintStart_toStartOf="@+id/editTextEmail"
+        app:layout_constraintTop_toBottomOf="@+id/editTextEmail" />
+
+    <Button
+        android:id="@+id/btnCancelSaveBuyerAccount"
+        android:layout_width="160dp"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="227dp"
+        android:layout_marginStart="228dp"
+        android:layout_marginTop="24dp"
+        android:background="?attr/colorButtonNormal"
+        android:text="Cancel"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/btnSaveBuyerAccount" />
+
+    <Button
+        android:id="@+id/btnSaveBuyerAccount"
+        android:layout_width="160dp"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="227dp"
+        android:layout_marginStart="228dp"
+        android:layout_marginTop="36dp"
+        android:background="#07337a"
+        android:text="Save Changes"
+        android:textColor="@android:color/white"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/editTextPassword" />
+
+    <Button
+        android:id="@+id/btnEditBuyerAccount"
+        android:layout_width="160dp"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="227dp"
+        android:layout_marginStart="228dp"
+        android:layout_marginTop="36dp"
+        android:background="?attr/colorButtonNormal"
+        android:text="Edit Account"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/editTextPassword" />
+</android.support.constraint.ConstraintLayout>
