@@ -346,30 +346,27 @@ public class ListingModel implements IListingModel {
     }
 
     @Override
-    public String[] getAllCategories() {
-        String[] categories = new String[getNumCategories()+1];
-
-        // initialize array
-        for (int i = 0; i < categories.length; i++) {
-            categories[i] = "";
-        }
+    public List<String> getAllCategories() {
+        List<String> categories = new ArrayList<String>();
 
         // get all seller table rows
         List<Hashtable<String, String>> allRows = this.database.getAllRows(TABLE_NAME);
 
-        int totalCategories = 0;
+        categories.add(0, "");
+
+        int totalCategories = 1;
         boolean categoryAdded = false;
 
         // populate array with the categories
         for (int i = 0; i < allRows.size(); i++) {
             categoryAdded = false;
-            for (int j = 0; !categoryAdded && j < categories.length; j++) {
-                if (categories[j].equalsIgnoreCase(allRows.get(i).get("category"))) {
+            for (int j = 0; !categoryAdded && j < categories.size(); j++) {
+                if (categories.get(j).equalsIgnoreCase(allRows.get(i).get("category"))) {
                     categoryAdded = true;
                 }
             }
             if (!categoryAdded) {
-                categories[++totalCategories] = (allRows.get(i)).get("category");
+                categories.add(totalCategories++, (allRows.get(i)).get("category"));
             }
         }
 

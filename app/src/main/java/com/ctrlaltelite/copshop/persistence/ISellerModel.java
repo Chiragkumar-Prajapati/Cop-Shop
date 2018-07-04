@@ -2,6 +2,8 @@ package com.ctrlaltelite.copshop.persistence;
 
 import com.ctrlaltelite.copshop.objects.SellerAccountObject;
 
+import java.util.List;
+
 public interface ISellerModel {
     /**
      * Create a new account from a SellerAccountObject
@@ -57,5 +59,5 @@ public interface ISellerModel {
      * Get all the names of the sellers(locations)
      * @return String[] array containing all the (sellers/locations)' names
      */
-    String[] getAllSellerNames();
+    List<String> getAllSellerNames();
 }

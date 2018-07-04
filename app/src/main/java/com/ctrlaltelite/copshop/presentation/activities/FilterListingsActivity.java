@@ -16,6 +16,8 @@ import com.ctrlaltelite.copshop.R;
 import com.ctrlaltelite.copshop.application.CopShopHub;
 import com.ctrlaltelite.copshop.logic.services.stubs.ListingService;
 
+import java.util.List;
+
 public class FilterListingsActivity extends AppCompatActivity {
 
     @Override
@@ -29,7 +31,8 @@ public class FilterListingsActivity extends AppCompatActivity {
 
         /*Category spinner(drop-down list)*/
         // get array containing all locations
-        String[] categories = CopShopHub.getListingModel().getAllCategories();
+        List<String> categoriesList = CopShopHub.getListingModel().getAllCategories();
+        String[] categories = categoriesList.toArray(new String[categoriesList.size()]);
         // add locations to location spinner
         Spinner categorySpinner = (Spinner) findViewById(R.id.category_spinner);
         // Create an ArrayAdapter using the string array and a default spinner layout
@@ -41,7 +44,8 @@ public class FilterListingsActivity extends AppCompatActivity {
 
         /*Location spinner(drop-down list)*/
         // get array containing all locations
-        String[] locations = CopShopHub.getSellerModel().getAllSellerNames();
+        List<String> locationsList = CopShopHub.getSellerModel().getAllSellerNames();
+        String[] locations = locationsList.toArray(new String[locationsList.size()]);
         // add locations to location spinner
         Spinner locnSpinner = (Spinner) findViewById(R.id.locations_spinner);
         // Create an ArrayAdapter using the string array and a default spinner layout

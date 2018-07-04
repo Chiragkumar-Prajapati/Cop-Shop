@@ -9,6 +9,7 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.Hashtable;
 import java.util.List;
 
@@ -251,8 +252,8 @@ public class SellerModelHSQLDB implements ISellerModel {
     }
 
     @Override
-    public String[] getAllSellerNames() {
-        String[] locations = new String[getNumSellers()+1];
+    public List<String> getAllSellerNames() {
+        List<String> locations = new ArrayList<String>();
 
         PreparedStatement st = null;
         ResultSet rs = null;
@@ -262,11 +263,11 @@ public class SellerModelHSQLDB implements ISellerModel {
             st = dbConn.prepareStatement("SELECT DISTINCT name FROM " + TABLE_NAME);
             rs = st.executeQuery();
 
-            locations[0] = "";
+            locations.add(0, "");
             int i = 1;
             while (rs.next()) {
                 // populate array with the locations
-                locations[i] = HSQLDBUtil.getStringFromResultSet(rs, "name");
+                locations.add(i, HSQLDBUtil.getStringFromResultSet(rs, "name"));
                 i++;
             }
 

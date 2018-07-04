@@ -456,8 +456,8 @@ public class ListingModelHSQLDB implements IListingModel {
     }
 
     @Override
-    public String[] getAllCategories() {
-        String[] categories = new String[getNumCategories()+1];
+    public List<String> getAllCategories() {
+        List<String> categories = new ArrayList<String>();
 
         PreparedStatement st = null;
         ResultSet rs = null;
@@ -467,12 +467,12 @@ public class ListingModelHSQLDB implements IListingModel {
             st = dbConn.prepareStatement("SELECT DISTINCT category FROM " + TABLE_NAME);
             rs = st.executeQuery();
 
-            categories[0] = "";
+            categories.add(0, "");
 
             int i = 1;
             while (rs.next()) {
                 // populate array with the locations
-                categories[i] = HSQLDBUtil.getStringFromResultSet(rs, "category");
+                categories.add(i, HSQLDBUtil.getStringFromResultSet(rs, "category"));
                 i++;
             }
 

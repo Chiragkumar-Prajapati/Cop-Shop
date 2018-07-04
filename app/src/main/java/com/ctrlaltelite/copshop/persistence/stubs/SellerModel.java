@@ -4,6 +4,7 @@ import com.ctrlaltelite.copshop.persistence.ISellerModel;
 import com.ctrlaltelite.copshop.objects.SellerAccountObject;
 import com.ctrlaltelite.copshop.persistence.database.IDatabase;
 
+import java.util.ArrayList;
 import java.util.Hashtable;
 import java.util.List;
 
@@ -111,17 +112,17 @@ public class SellerModel implements ISellerModel {
     }
 
     @Override
-    public String[] getAllSellerNames() {
-        String[] locations = new String[getNumSellers()+1];
+    public List<String> getAllSellerNames() {
+        List<String> locations = new ArrayList<String>();
 
         // get all seller table rows
         List<Hashtable<String, String>> allRows = this.database.getAllRows(TABLE_NAME);
 
-        locations[0] = "";
+        locations.add(0,"");
 
         // populate array with the locations
         for (int i = 0; i < allRows.size(); i++) {
-            locations[i+1] = (allRows.get(i)).get("name");
+            locations.add(i+1, (allRows.get(i)).get("name"));
         }
 
         return locations;

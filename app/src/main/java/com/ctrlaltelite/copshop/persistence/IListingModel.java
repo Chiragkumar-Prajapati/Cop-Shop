@@ -82,7 +82,7 @@ public interface IListingModel {
 
     /**
      * Get all the various categories of the listings
-     * @return String[] array containing all the categories
+     * @return List<String> containing all the categories
      */
-    String[] getAllCategories();
+    List<String> getAllCategories();
 }
