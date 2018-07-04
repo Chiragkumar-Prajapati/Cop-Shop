@@ -1,6 +1,5 @@
 package com.ctrlaltelite.copshop.presentation.activities;
 
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
@@ -84,16 +83,13 @@ public class ViewSellerAccountActivity extends AppCompatActivity {
                 // Else invalid: check each form field, highlighting those that are invalid in red
                 if (validationObject.allValid()) {
                     boolean success = false;
-                    SharedPreferences sharedPreferences = getSharedPreferences("currentUser", 0);
-                    String idPref = sharedPreferences.getString("userID", "-1");
-                    if (!idPref.equals("-1")) {
+
+                    String idPref = CopShopHub.getUserSessionService().getUserID();
+                    if (!(idPref == null)) {
                         success = CopShopHub.getAccountService().updateSellerAccount(idPref, sellerAccount);
                     }
                     if (success) {
-                        SharedPreferences.Editor editor = sharedPreferences.edit();
-
-                        editor.putString("email", sellerAccount.getEmail());
-                        editor.commit(); //saves user info in the SharedPreferences object
+                        CopShopHub.getUserSessionService().setUserEmail(sellerAccount.getEmail());
 
                         errorMsg.setText("Account info updated successfully");
                     }
@@ -208,7 +204,6 @@ public class ViewSellerAccountActivity extends AppCompatActivity {
 
         protected void populateAccountInfo() {
             // For accessing user info
-            SharedPreferences sharedPreferences = getSharedPreferences("currentUser", 0);
 
             // Text for user if logged in
             //TextView greeting = (TextView) findViewById(R.id.editTextOrganizationName);
@@ -221,10 +216,9 @@ public class ViewSellerAccountActivity extends AppCompatActivity {
 
             TextView errorMsg = findViewById(R.id.notLoggedInMsg); // Get error ready, just in case
 
-            // SharedPreferences returns defValue if nothing there
             // Nothing there if user not logged in
-            String emailPref = sharedPreferences.getString("email", "-1");
-            if (!emailPref.equals("-1")) {
+            String emailPref = CopShopHub.getUserSessionService().getUserEmail();
+            if (!(emailPref == null)) {
                 AccountObject account = CopShopHub.getAccountService().fetchAccountByEmail(emailPref);
 
                 if (account instanceof SellerAccountObject) {

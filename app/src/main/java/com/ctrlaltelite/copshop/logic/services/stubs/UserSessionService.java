@@ -3,15 +3,17 @@ package com.ctrlaltelite.copshop.logic.services.stubs;
 
 import com.ctrlaltelite.copshop.logic.services.IUserSessionService;
 
+import android.content.Context;
 import android.content.SharedPreferences;
 
 public class UserSessionService implements IUserSessionService {
 
+    private Context context;
     private SharedPreferences currentUserSession;
     private SharedPreferences.Editor editor;
 
     public UserSessionService(){
-        currentUserSession = getSharedPreferences("currentUser", 0);
+        currentUserSession = context.getSharedPreferences("currentUser", 0);
         editor = currentUserSession.edit();
     }
 
