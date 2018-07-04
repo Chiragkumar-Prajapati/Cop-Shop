@@ -157,8 +157,8 @@ public class CreateListingActivity extends AppCompatActivity {
                         findViewById(R.id.txtEndDate).setBackgroundResource(R.drawable.txt_field_black_border);
                     }
 
-                    // Check all fields relating to listing end date and time
-                    if (!validationObject.getEndDateAndTimeValid()) {
+                    // Check listing category
+                    if (!validationObject.getCategoryValid()) {
                         findViewById(R.id.txtCategory).setBackgroundResource(R.drawable.txt_field_red_border);
                     } else {
                         findViewById(R.id.txtCategory).setBackgroundResource(R.drawable.txt_field_black_border);

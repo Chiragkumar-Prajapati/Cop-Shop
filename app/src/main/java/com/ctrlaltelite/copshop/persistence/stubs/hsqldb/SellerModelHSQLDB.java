@@ -189,7 +189,7 @@ public class SellerModelHSQLDB implements ISellerModel {
     }
 
     @Override
-    public String getSellerID(String sellerName) {
+    public String getIdFromName(String sellerName) {
         String id = "";
         boolean idFound = false;
 

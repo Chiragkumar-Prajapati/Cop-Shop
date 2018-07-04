@@ -249,6 +249,8 @@ public class ListingModel implements IListingModel {
 
     @Override
     public List<ListingObject> fetchByFilters(String name, String sellerID, String category, String status) {
+
+        // ensure name, sellerID, category and status are not null
         if (null == name) { throw new IllegalArgumentException("name cannot be null"); }
 
         if (null == sellerID) { throw new IllegalArgumentException("sellerID cannot be null"); }
@@ -257,17 +259,28 @@ public class ListingModel implements IListingModel {
 
         if (null == status) { throw new IllegalArgumentException("status cannot be null"); }
 
+        // Status can be "Active", "Inactive" or empty string, in which case all listings are returned
         if (status.compareToIgnoreCase("Active") != 0 && status.compareToIgnoreCase("Inactive") != 0 && !status.isEmpty()) {
             throw new IllegalArgumentException("invalid status");
         }
 
+        // Results is the list we will return, contains listings that match all filters
         List<ListingObject> results = new ArrayList<>();
+
+        // Get lists that contain listings that match each individual filter
         List<ListingObject> resultsName = fetchByName(name);
         List<ListingObject> resultsLocation = fetchBySellerID(sellerID);
         List<ListingObject> resultsCategory = fetchByCategory(category);
         List<ListingObject> resultsStatus = fetchByStatus(status);
 
-        // add listings with name, location, category and status provided as a parameter
+        /* Add listings with name, location, category and status provided as a parameter.
+           Horrible, 4 nested for-loops, has to be a better way, just haven't found it yet.
+           On Average case isn't that bad, for each posting in one of the lists (resultsName),
+           checks if it matches the other lists and so on for the other two.
+           Worst case is when the listing exists in all the lists, i.e. matches all filters.
+           Possible fix would be to overwrite List's contains method, which to get better results
+           would need something better than iterative searching. This would mean custom lists so
+           more issues associated with that? */
         for (ListingObject listingName : resultsName) {
             if ( !results.contains(listingName) ) {
                 for (ListingObject listingLocation : resultsLocation) {

@@ -45,7 +45,7 @@ public interface ISellerModel {
      * @param sellerName whose id to find
      * @return the id of the seller
      */
-    String getSellerID(String sellerName);
+    String getIdFromName(String sellerName);
 
     /**
      * Get a count of all sellers that exist in the database
