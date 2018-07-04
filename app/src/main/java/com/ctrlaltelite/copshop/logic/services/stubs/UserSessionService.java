@@ -2,6 +2,7 @@ package com.ctrlaltelite.copshop.logic.services.stubs;
 
 
 import com.ctrlaltelite.copshop.logic.services.IUserSessionService;
+
 import android.content.SharedPreferences;
 
 public class UserSessionService implements IUserSessionService {
