@@ -31,7 +31,6 @@ import java.util.List;
 
 public class ListingListActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
-    //Menu theMenu;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -112,9 +111,6 @@ public class ListingListActivity extends AppCompatActivity implements Navigation
         super.onResume();
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         setupMenu(navigationView);
-      //  if (theMenu != null) {
-      //      setupMenu();
-        //}
 
     }
 
@@ -128,39 +124,6 @@ public class ListingListActivity extends AppCompatActivity implements Navigation
             super.onBackPressed();
         }
     }
-
-  //  @Override
-   // public boolean onCreateOptionsMenu(Menu menu) {
-   //     //super.onCreateOptionsMenu(menu);
-   //     this.theMenu = menu;
-   //     setupMenu();
-        // Inflate the menu; this adds items to the action bar if it is present.
-//        getMenuInflater().inflate(R.menu.listing_list, menu);
-
-   //     getMenuInflater().inflate(R.menu.activity_listing_list_drawer, menu);
-
-   //     MenuItem accountDetails = theMenu.findItem(R.id.nav_new_listing);
-   //     //invalidateOptionsMenu();
-   //     return true;
-   // }
-//
-//    @Override
-//    public boolean onPrepareOptionsMenu(Menu menu) {
-//
-//        boolean success = setEmailDisplay();
-//        MenuItem accountDetails = menu.findItem(R.id.nav_account_details);
-//
-//        if (accountDetails != null) {
-//            if (!success) {
-//                accountDetails.setVisible(false);
-//            }
-//            else {
-//                accountDetails.setVisible(true);
-//                //findViewById(R.id.nav_account_details).setVisibility( View.VISIBLE );
-//            }
-//        }
-//        return super.onPrepareOptionsMenu(menu);
-//    }
 
     @SuppressWarnings("StatementWithEmptyBody")
     @Override
@@ -212,17 +175,6 @@ public class ListingListActivity extends AppCompatActivity implements Navigation
        }
 
     }
-            //MenuItem accountDetails = theMenu.findItem(R.id.nav_new_listing);
-
-            //if (accountDetails != null) {
-            //    if (!success) {
-            //        accountDetails.setVisible(false);
-            //    }
-            //    else {
-            //        accountDetails.setVisible(true);
-                    //findViewById(R.id.nav_account_details).setVisibility( View.VISIBLE );
-                //}
-           // }
 
     private boolean setEmailDisplay(NavigationView navigationView) {
         boolean success = false;
