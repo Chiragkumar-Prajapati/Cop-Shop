@@ -8,6 +8,7 @@ import android.widget.DatePicker;
 import android.widget.TextView;
 
 import com.ctrlaltelite.copshop.R;
+import com.ctrlaltelite.copshop.presentation.activities.EditListingActivity;
 
 import java.util.Calendar;
 import java.util.Locale;
@@ -38,10 +39,12 @@ public class DatePickerFragment extends DialogFragment
                 TextView startDate = getActivity().findViewById(R.id.txtStartDate);
                 startDate.setText(day + "/" + actualMonth + "/" + year);
                 getActivity().findViewById(R.id.btnStartTime).callOnClick();
+                EditListingActivity.touchStartDate();
             } else if (id == 2) {
                 TextView endDate = getActivity().findViewById(R.id.txtEndDate);
                 endDate.setText(day + "/" + actualMonth + "/" + year);
                 getActivity().findViewById(R.id.btnEndTime).callOnClick();
+                EditListingActivity.touchEndDate();
             }
         }
     }
