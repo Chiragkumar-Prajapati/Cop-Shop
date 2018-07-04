@@ -31,7 +31,7 @@ import java.util.List;
 
 public class ListingListActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
-    Menu theMenu;
+    //Menu theMenu;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,6 +53,7 @@ public class ListingListActivity extends AppCompatActivity implements Navigation
 
         // Setup drawer slide out page
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
+        setupMenu(navigationView);
         navigationView.setNavigationItemSelectedListener(this);
     }
 
@@ -109,9 +110,9 @@ public class ListingListActivity extends AppCompatActivity implements Navigation
     public void onResume() {
         super.onResume();
 
-        if (theMenu != null) {
-            setupMenu();
-        }
+      //  if (theMenu != null) {
+      //      setupMenu();
+        //}
 
     }
 
@@ -126,20 +127,20 @@ public class ListingListActivity extends AppCompatActivity implements Navigation
         }
     }
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        //super.onCreateOptionsMenu(menu);
-        this.theMenu = menu;
-        setupMenu();
+  //  @Override
+   // public boolean onCreateOptionsMenu(Menu menu) {
+   //     //super.onCreateOptionsMenu(menu);
+   //     this.theMenu = menu;
+   //     setupMenu();
         // Inflate the menu; this adds items to the action bar if it is present.
 //        getMenuInflater().inflate(R.menu.listing_list, menu);
 
-        getMenuInflater().inflate(R.menu.activity_listing_list_drawer, menu);
+   //     getMenuInflater().inflate(R.menu.activity_listing_list_drawer, menu);
 
-        MenuItem accountDetails = theMenu.findItem(R.id.nav_new_listing);
-        //invalidateOptionsMenu();
-        return true;
-    }
+   //     MenuItem accountDetails = theMenu.findItem(R.id.nav_new_listing);
+   //     //invalidateOptionsMenu();
+   //     return true;
+   // }
 //
 //    @Override
 //    public boolean onPrepareOptionsMenu(Menu menu) {
@@ -188,22 +189,42 @@ public class ListingListActivity extends AppCompatActivity implements Navigation
         return true;
     }
 
-    private void setupMenu() {
-        if (theMenu != null) {
+    private void setupMenu(NavigationView navigationView) {
+       // if (theMenu != null) {
             boolean success = setEmailDisplay();
-            MenuItem accountDetails = theMenu.findItem(R.id.nav_new_listing);
 
-            if (accountDetails != null) {
-                if (!success) {
-                    accountDetails.setVisible(false);
+            //populate menu
+            if(CopShopHub.getUserSessionService(this).userLoggedIn())
+            {
+                if(CopShopHub.getUserSessionService(this).getUserType().equals("buyer")){
+                    navigationView.getMenu().clear();
+                    navigationView.inflateMenu(R.menu.nav_menu_logged_in_bidder);
                 }
-                else {
-                    accountDetails.setVisible(true);
-                    //findViewById(R.id.nav_account_details).setVisibility( View.VISIBLE );
+                else if(CopShopHub.getUserSessionService(this).getUserType().equals("seller")){
+                    navigationView.getMenu().clear();
+                    navigationView.inflateMenu(R.menu.nav_menu_logged_in_seller);
                 }
+                else{
+                    navigationView.inflateMenu(R.menu.activity_listing_list_drawer);
+                }
+            } else
+            {
+                navigationView.getMenu().clear();
+                navigationView.inflateMenu(R.menu.nav_menu_stranger);
             }
+            //MenuItem accountDetails = theMenu.findItem(R.id.nav_new_listing);
 
-        }
+            //if (accountDetails != null) {
+            //    if (!success) {
+            //        accountDetails.setVisible(false);
+            //    }
+            //    else {
+            //        accountDetails.setVisible(true);
+                    //findViewById(R.id.nav_account_details).setVisibility( View.VISIBLE );
+                //}
+           // }
+
+        
     }
 
     private boolean setEmailDisplay() {
