@@ -9,8 +9,9 @@ public class ListingObject {
     private String auctionStartDate; // Format: DD/MM/YEAR Format: HR:MN (24 HR)
     private String auctionEndDate; // Format: DD/MM/YEAR HR:MN (24 HR)
     private String sellerId;
+    private String category;
 
-    public ListingObject(String id, String title, String description, String initPrice, String minBid, String auctionStartDate, String auctionEndDate, String sellerId) {
+    public ListingObject(String id, String title, String description, String initPrice, String minBid, String auctionStartDate, String auctionEndDate, String category, String sellerId) {
         this.id = id;
         this.title = title;
         this.description = description;
@@ -18,6 +19,7 @@ public class ListingObject {
         this.minBid = minBid;
         this.auctionStartDate = auctionStartDate;
         this.auctionEndDate = auctionEndDate;
+        this.category = category;
         this.sellerId = sellerId;
     }
 
@@ -44,6 +46,10 @@ public class ListingObject {
 
     public String getAuctionStartDate() {
         return auctionStartDate;
+    }
+
+    public String getCategory() {
+        return category;
     }
 
     public String getAuctionEndDate() {
@@ -79,6 +85,10 @@ public class ListingObject {
         this.auctionEndDate = auctionEndDate;
     }
 
+    public void setCategory(String category) {
+        this.category = category;
+    }
+
     public void setSellerId(String sellerId) {
         this.sellerId = sellerId;
     }
@@ -94,6 +104,7 @@ public class ListingObject {
                     "\nminimum bid: " + minBid +
                     "\nauction start date: " + auctionStartDate +
                     "\nauction end date: " + auctionEndDate +
+                    "\ncategory: " + category +
                     "\nseller id: " + sellerId;
 
         return listing;
