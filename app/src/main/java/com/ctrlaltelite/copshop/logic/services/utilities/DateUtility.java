@@ -14,9 +14,8 @@ public class DateUtility {
      */
     public static Calendar convertToDateObj(String date) {
 
-        //initialize cal date to invalid time
-        Calendar cal = Calendar.getInstance(Locale.CANADA);
-        cal.add(Calendar.DATE, -1);
+        //initialize cal as invalid
+        Calendar cal = null;
 
         if (date != null && !date.isEmpty()) {
             SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy HH:mm", Locale.CANADA);
@@ -28,10 +27,10 @@ public class DateUtility {
                 try {
                     cal.getTime();
                 } catch (Exception e) {
-                    e.printStackTrace();
+                    cal = null; //date obj is invalid
                 }
             } catch (ParseException e) {
-                e.printStackTrace();
+                cal = null; //date obj is invalid
             }
         }
         return cal;
