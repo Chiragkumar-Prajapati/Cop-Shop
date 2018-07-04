@@ -57,7 +57,7 @@ public interface ISellerModel {
 
     /**
      * Get all the names of the sellers(locations)
-     * @return String[] array containing all the (sellers/locations)' names
+     * @return List<String> containing all the (sellers/locations)' names
      */
     List<String> getAllSellerNames();
 }
