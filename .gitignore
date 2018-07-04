@@ -11,7 +11,3 @@
 /build
 /captures
 .externalNativeBuild
-app/copshopdb.script
-app/copshopdb.properties
-app/copshopdb.log
-app/copshopdb.lck
