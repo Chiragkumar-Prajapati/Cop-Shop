@@ -106,8 +106,8 @@ public class ListingViewActivity extends AppCompatActivity {
             // Edit button
             final String theListingId = listingId;
             boolean thisIsSeller = false;
-            String email = CopShopHub.getUserSessionService().getUserEmail();
-            if (!(email == null)) {
+            String email = CopShopHub.getUserSessionService(this).getUserEmail();
+            if (email != null) {
                 AccountObject account = CopShopHub.getAccountService().fetchAccountByEmail(email);
                 if (account != null &&
                         account instanceof SellerAccountObject &&

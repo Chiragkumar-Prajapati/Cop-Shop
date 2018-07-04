@@ -1,5 +1,6 @@
 package com.ctrlaltelite.copshop.presentation.activities;
 
+import android.content.Context;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -22,7 +23,7 @@ public class LoginActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.activity_login); // Grab xml file and display it
-
+        final Context context = this;
         final TextView errorMsg = (TextView) findViewById(R.id.incorrectCredentialsMsg); // Get error ready, just in case
 
         Button btnLogin = (Button) findViewById(R.id.btnLogin);
@@ -42,13 +43,13 @@ public class LoginActivity extends AppCompatActivity {
                     errorMsg.setText("What's all this, then? You're going to need" +
                             " a valid username and password. Try again.");
                 } else {
-                    CopShopHub.getUserSessionService().setUserEmail(user.getEmail());
-                    CopShopHub.getUserSessionService().setUserID(user.getId());
+                    CopShopHub.getUserSessionService(context).setUserEmail(user.getEmail());
+                    CopShopHub.getUserSessionService(context).setUserID(user.getId());
 
                     if (user instanceof BuyerAccountObject)
-                        CopShopHub.getUserSessionService().setUserType("buyer");
+                        CopShopHub.getUserSessionService(context).setUserType("buyer");
                     else if (user instanceof SellerAccountObject)
-                        CopShopHub.getUserSessionService().setUserType("seller");
+                        CopShopHub.getUserSessionService(context).setUserType("seller");
 
                     //go to Listings page
                     Intent intent = new Intent(LoginActivity.this, ListingListActivity.class);

@@ -8,11 +8,10 @@ import android.content.SharedPreferences;
 
 public class UserSessionService implements IUserSessionService {
 
-    private Context context;
     private SharedPreferences currentUserSession;
     private SharedPreferences.Editor editor;
 
-    public UserSessionService(){
+    public UserSessionService(Context context){
         currentUserSession = context.getSharedPreferences("currentUser", 0);
         editor = currentUserSession.edit();
     }

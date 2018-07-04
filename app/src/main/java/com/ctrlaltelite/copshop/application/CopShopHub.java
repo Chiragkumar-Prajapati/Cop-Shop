@@ -1,5 +1,7 @@
 package com.ctrlaltelite.copshop.application;
 
+import android.content.Context;
+
 import com.ctrlaltelite.copshop.logic.services.IAccountService;
 import com.ctrlaltelite.copshop.logic.services.IBidService;
 import com.ctrlaltelite.copshop.logic.services.ICreateListingService;
@@ -82,10 +84,10 @@ public class CopShopHub
         return bidService;
     }
 
-    public static synchronized IUserSessionService getUserSessionService()
+    public static synchronized IUserSessionService getUserSessionService(Context context)
     {
         if (null == userSessionService){
-            userSessionService = new UserSessionService();
+            userSessionService = new UserSessionService(context);
         }
         return userSessionService;
     }

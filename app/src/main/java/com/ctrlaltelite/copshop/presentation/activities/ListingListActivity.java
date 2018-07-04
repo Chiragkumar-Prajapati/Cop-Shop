@@ -186,8 +186,8 @@ public class ListingListActivity extends AppCompatActivity implements Navigation
         // Text for user if logged in
         TextView greeting = (TextView) findViewById(R.id.nav_header_greeting);
         if (null != greeting) {
-            String loggedInEmail = CopShopHub.getUserSessionService().getUserEmail();
-            if (!(loggedInEmail == null)) {
+            String loggedInEmail = CopShopHub.getUserSessionService(this).getUserEmail();
+            if (loggedInEmail == null) {
                 // Nothing there if user not logged in
                 greeting.setText("Please Login, Stranger.");
             } else {

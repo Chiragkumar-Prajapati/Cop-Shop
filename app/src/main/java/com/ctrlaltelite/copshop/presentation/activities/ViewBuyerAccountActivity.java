@@ -1,6 +1,7 @@
 package com.ctrlaltelite.copshop.presentation.activities;
 
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -29,7 +30,7 @@ public class ViewBuyerAccountActivity extends AppCompatActivity {
 
         final TextView errorMsg = findViewById(R.id.notLoggedInMsg); // Get error ready, just in case
 
-
+        final Context context = this;
 
         // View mode 1
         setFieldFocusability(false);
@@ -88,12 +89,12 @@ public class ViewBuyerAccountActivity extends AppCompatActivity {
                 if (validationObject.allValid()) {
                     boolean success = false;
 
-                    String idPref = CopShopHub.getUserSessionService().getUserID();
-                    if (!(idPref == null)) {
+                    String idPref = CopShopHub.getUserSessionService(context).getUserID();
+                    if (idPref != null) {
                         success = CopShopHub.getAccountService().updateBuyerAccount(idPref, buyerAccount);
                     }
                     if (success) {
-                        CopShopHub.getUserSessionService().setUserEmail(buyerAccount.getEmail());
+                        CopShopHub.getUserSessionService(context).setUserEmail(buyerAccount.getEmail());
 
                         errorMsg.setText("Account info updated successfully");
                     }
@@ -234,7 +235,7 @@ public class ViewBuyerAccountActivity extends AppCompatActivity {
             TextView errorMsg = findViewById(R.id.notLoggedInMsg); // Get error ready, just in case
 
             // Nothing there if user not logged in
-            String emailPref = CopShopHub.getUserSessionService().getUserEmail();
+            String emailPref = CopShopHub.getUserSessionService(this).getUserEmail();
             if (!(emailPref == null)) {
 
                 AccountObject account = CopShopHub.getAccountService().fetchAccountByEmail(emailPref);
