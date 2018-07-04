@@ -9,6 +9,7 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.Hashtable;
 import java.util.List;
 
@@ -181,6 +182,100 @@ public class SellerModelHSQLDB implements ISellerModel {
         } catch (final SQLException e) {
             e.printStackTrace();
             return false;
+
+        } finally {
+            HSQLDBUtil.quietlyClose(rs);
+            HSQLDBUtil.quietlyClose(st);
+        }
+    }
+
+    @Override
+    public String getIdFromName(String sellerName) {
+        String id = "";
+        boolean idFound = false;
+
+        PreparedStatement st = null;
+        ResultSet rs = null;
+
+        // get all seller table rows
+        try {
+            st = dbConn.prepareStatement("SELECT * FROM " + TABLE_NAME);
+            rs = st.executeQuery();
+
+            int i = 0;
+            while (!idFound && rs.next()) {
+                // populate array with the locations
+                if (sellerName.equalsIgnoreCase(HSQLDBUtil.getStringFromResultSet(rs, "name"))) {
+                    id = HSQLDBUtil.getIntAsStringFromResultSet(rs, "id");
+                    idFound = true;
+                }
+                i++;
+            }
+
+            return id;
+
+        } catch (final SQLException e) {
+            e.printStackTrace();
+            return null;
+
+        } finally {
+            HSQLDBUtil.quietlyClose(rs);
+            HSQLDBUtil.quietlyClose(st);
+        }
+    }
+
+    @Override
+    public int getNumSellers() {
+
+        int numSellers = 0;
+
+        PreparedStatement st = null;
+        ResultSet rs = null;
+
+        try {
+            st = dbConn.prepareStatement("SELECT COUNT (DISTINCT name) AS NumSellers FROM " + TABLE_NAME);
+            rs = st.executeQuery();
+
+            if (rs.next()) {
+                numSellers = Integer.parseInt(HSQLDBUtil.getStringFromResultSet(rs, "NumSellers"));
+            }
+            return numSellers;
+
+        } catch (final SQLException e) {
+            e.printStackTrace();
+            return -1;
+
+        } finally {
+            HSQLDBUtil.quietlyClose(rs);
+            HSQLDBUtil.quietlyClose(st);
+        }
+    }
+
+    @Override
+    public List<String> getAllSellerNames() {
+        List<String> locations = new ArrayList<String>();
+
+        PreparedStatement st = null;
+        ResultSet rs = null;
+
+        // get all seller table rows
+        try {
+            st = dbConn.prepareStatement("SELECT DISTINCT name FROM " + TABLE_NAME);
+            rs = st.executeQuery();
+
+            locations.add(0, "");
+            int i = 1;
+            while (rs.next()) {
+                // populate array with the locations
+                locations.add(i, HSQLDBUtil.getStringFromResultSet(rs, "name"));
+                i++;
+            }
+
+            return locations;
+
+        } catch (final SQLException e) {
+            e.printStackTrace();
+            return null;
 
         } finally {
             HSQLDBUtil.quietlyClose(rs);

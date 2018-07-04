@@ -21,8 +21,8 @@
         <activity
             android:name=".presentation.activities.CreateListingActivity"
             android:label="CopShop - Create Listing"
-            android:windowSoftInputMode="stateHidden"
-            android:theme="@style/AppTheme.NoActionBar" />
+            android:theme="@style/AppTheme.NoActionBar"
+            android:windowSoftInputMode="stateHidden" />
         <activity
             android:name=".presentation.activities.LoginActivity"
             android:label="CopShop - Log in" />
@@ -40,6 +40,16 @@
             android:name=".presentation.activities.EditListingActivity"
             android:label="CopShop - Edit Listing"
             android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".presentation.activities.FilterListingsActivity"
+            android:label="@string/title_activity_filter_listings"
+            android:parentActivityName=".presentation.activities.ListingViewActivity"
+            android:theme="@style/AppTheme.NoActionBar"
+            android:windowSoftInputMode="stateHidden">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.ctrlaltelite.copshop.presentation.activities.ListingViewActivity" />
+        </activity>
     </application>
 
 </manifest>

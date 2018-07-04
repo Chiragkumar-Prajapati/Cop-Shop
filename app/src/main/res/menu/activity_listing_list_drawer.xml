@@ -16,11 +16,9 @@
         <item
             android:id="@+id/nav_seller_account_details"
             android:title="Account Details (S)" />
+        <item
+            android:id="@+id/nav_filter"
+            android:title="Filter Listings" />
     </group>
-
-    <item android:title="Filters">
-        <menu>
-        </menu>
-    </item>
 
 </menu>

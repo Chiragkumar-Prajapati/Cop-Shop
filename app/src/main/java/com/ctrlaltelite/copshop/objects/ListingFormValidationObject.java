@@ -1,5 +1,7 @@
 package com.ctrlaltelite.copshop.objects;
 
+import com.ctrlaltelite.copshop.logic.services.utilities.DateUtility;
+
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -25,6 +27,7 @@ public class ListingFormValidationObject {
         this.initPriceValid = true;
         this.minBidValid = true;
         this.startDateAndTimeValid = true;
+        this.categoryValid = true;
         this.endDateAndTimeValid = true;
     }
 
@@ -34,6 +37,7 @@ public class ListingFormValidationObject {
     private Boolean minBidValid; // Minimum amount by which a bid can increment
     private Boolean startDateAndTimeValid; // Format - Date: DD/MM/YEAR Time: HR:MN (24 HR)
     private Boolean endDateAndTimeValid; // Format - Date: DD/MM/YEAR Time: HR:MN (24 HR)
+    private Boolean categoryValid;
 
     public Boolean getTitleValid() {
         return titleValid;
@@ -81,6 +85,14 @@ public class ListingFormValidationObject {
 
     private void setEndDateAndTimeValid(Boolean auctionEndDateValid) {
         this.endDateAndTimeValid = auctionEndDateValid;
+    }
+
+    public Boolean getCategoryValid() {
+        return categoryValid;
+    }
+
+    private void setCategoryValid(Boolean categoryValid) {
+        this.categoryValid = categoryValid;
     }
 
     /**
@@ -169,35 +181,6 @@ public class ListingFormValidationObject {
     }
 
     /**
-     * Convert a given date string to a calendar date object
-     * @param date String containing the date form fields text data (Format: DD/MM/YEAR HH:MM)
-     * @return Calendar object containing the date string data
-     */
-    private Calendar convertToDateObj(String date) {
-
-        //initialize cal as invalid
-        Calendar cal = null;
-
-        if (date != null && !date.isEmpty()) {
-            SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy HH:mm", Locale.CANADA);
-            try {
-                Date dateObj = sdf.parse(date);
-                cal = Calendar.getInstance();
-                cal.setLenient(false);
-                cal.setTime(dateObj);
-                try {
-                    cal.getTime();
-                } catch (Exception e) {
-                    cal = null; //date obj is invalid
-                }
-            } catch (ParseException e) {
-                cal = null; //invalid format of date
-            }
-        }
-        return cal;
-    }
-
-    /**
      * Determine if a date and time form field is valid
      * @param date String containing the date form fields text data (Format: DD/MM/YEAR HH:MM)
      * @return Boolean indicating if valid
@@ -211,7 +194,7 @@ public class ListingFormValidationObject {
         } else {
             prevDay = Calendar.getInstance(Locale.CANADA);
             prevDay.add(Calendar.DATE, -1); // All days valid from one day in the past
-            Calendar cal = convertToDateObj(date);
+            Calendar cal = DateUtility.convertToDateObj(date);
             isValid = cal != null && cal.after(prevDay);
         }
 
@@ -231,12 +214,22 @@ public class ListingFormValidationObject {
         } else {
             if (validateDateAndTime(endDate)) {
                 // If startDate is valid, then End date must be valid and occur after start date
-                Calendar startCal = convertToDateObj(startDate);
-                Calendar endCal = convertToDateObj(endDate);
+                Calendar startCal = DateUtility.convertToDateObj(startDate);
+                Calendar endCal = DateUtility.convertToDateObj(endDate);
                 isValid = startCal.before(endCal);
             }
         }
         setEndDateAndTimeValid(isValid);
+    }
+
+    /**
+     * Determine if category form field is valid(non-empty)
+     * Sets the boolean value indicating validity once done
+     * @param category String containing the form field text
+     */
+    public void validateCategory (String category){
+        boolean isValid = category != null && !category.isEmpty();
+        setDescriptionValid(isValid);
     }
 
     /**

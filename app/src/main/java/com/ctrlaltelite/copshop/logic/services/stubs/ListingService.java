@@ -29,6 +29,14 @@ public class ListingService implements IListingService {
         return this.listingModel.fetchAll();
     }
 
+    @Override
+    public List<ListingObject> fetchListingsByFilters(String name, String location, String category, String status) {
+        // get seller ID
+        String sellerID = sellerModel.getIdFromName(location);
+
+        return this.listingModel.fetchByFilters(name, sellerID, category, status);
+    }
+
 //    public ArrayList<ListingObject> fetchListings(ListFilter filter) {
 //        return filteredResults;
 //    }

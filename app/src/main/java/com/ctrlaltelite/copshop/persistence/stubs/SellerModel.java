@@ -4,6 +4,7 @@ import com.ctrlaltelite.copshop.persistence.ISellerModel;
 import com.ctrlaltelite.copshop.objects.SellerAccountObject;
 import com.ctrlaltelite.copshop.persistence.database.IDatabase;
 
+import java.util.ArrayList;
 import java.util.Hashtable;
 import java.util.List;
 
@@ -84,5 +85,46 @@ public class SellerModel implements ISellerModel {
         }
 
         return false;
+    }
+
+    @Override
+    public String getIdFromName(String sellerName) {
+        String id = "";
+        boolean idFound = false;
+
+        // get all seller table rows
+        List<Hashtable<String, String>> allRows = this.database.getAllRows(TABLE_NAME);
+
+        for (int i = 0; !idFound && i < allRows.size(); i++) {
+            if((allRows.get(i)).get("name").compareToIgnoreCase(sellerName) == 0) {
+                id += (i+1);
+                idFound = true;
+            }
+        }
+
+        return  id;
+    }
+
+    @Override
+    public int getNumSellers() {
+        List<Hashtable<String, String>> allRows = this.database.getAllRows(TABLE_NAME);
+        return  allRows.size();
+    }
+
+    @Override
+    public List<String> getAllSellerNames() {
+        List<String> locations = new ArrayList<String>();
+
+        // get all seller table rows
+        List<Hashtable<String, String>> allRows = this.database.getAllRows(TABLE_NAME);
+
+        locations.add(0,"");
+
+        // populate array with the locations
+        for (int i = 0; i < allRows.size(); i++) {
+            locations.add(i+1, (allRows.get(i)).get("name"));
+        }
+
+        return locations;
     }
 }

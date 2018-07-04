@@ -10,15 +10,14 @@ public interface IAccountService {
 
     /**
      *
-     * @param username The username of the user attempting to log in
-     * @param password The password of the user attempting to log in
+     * @param email The email of the user to fetch AccountObject for
      * @return An AccountObject to represent the user if successfully logged in, else null
      */
     AccountObject fetchAccountByEmail(String email);
 
     /**
      * Used by the login page to check whether a user's login credentials are legit.
-     * @param email The email of the user attempting to log in
+     * @param username The username of the user attempting to log in
      * @param password The password of the user attempting to log in
      * @return The BuyerAccountObject or SellerAccountObject, or null if not legit.
      */
@@ -26,14 +25,14 @@ public interface IAccountService {
 
     /**
      * Validate that the object has legal data and then add to the database.
-     * @param buyerObject the object to add to the DB.
+     * @param buyerAccount The object to add to the DB.
      * @return the validation object we created to do the validation.
      */
     BuyerAccountValidationObject validate(BuyerAccountObject buyerAccount);
 
     /**
      * Validate that the object has legal data and then add to the database.
-     * @param sellerObject the object to add to the DB.
+     * @param sellerAccount The object to add to the DB.
      * @return the validation object we created to do the validation.
      */
     SellerAccountValidationObject validate(SellerAccountObject sellerAccount);

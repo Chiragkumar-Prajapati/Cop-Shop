@@ -75,6 +75,19 @@
             app:layout_constraintTop_toBottomOf="@+id/txtInitialPrice" />
 
         <EditText
+            android:id="@+id/txtCategory"
+            android:layout_width="213dp"
+            android:layout_height="40dp"
+            android:layout_marginStart="180dp"
+            android:layout_marginTop="256dp"
+            android:background="@drawable/txt_field_black_border"
+            android:ems="10"
+            android:hint="Bikes"
+            android:inputType="number|numberDecimal"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/txtInitialPrice" />
+
+        <EditText
             android:id="@+id/txtAreaDescription"
             android:layout_width="373dp"
             android:layout_height="144dp"
@@ -144,6 +157,18 @@
             android:layout_marginStart="16dp"
             android:layout_marginTop="36dp"
             android:text="Minimum Bid: *"
+            android:textColor="@android:color/black"
+            android:textSize="18sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/labelInitialPrice" />
+
+        <TextView
+            android:id="@+id/labelCategory"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="272dp"
+            android:text="Category: *"
             android:textColor="@android:color/black"
             android:textSize="18sp"
             app:layout_constraintStart_toStartOf="parent"
