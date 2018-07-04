@@ -22,6 +22,9 @@ import com.ctrlaltelite.copshop.presentation.classes.TimePickerFragment;
 
 public class EditListingActivity extends AppCompatActivity {
 
+    private static boolean startDateChanged = false;
+    private static boolean endDateChanged = false;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -34,6 +37,9 @@ public class EditListingActivity extends AppCompatActivity {
         final String listingId = getIntent().getStringExtra("LISTING_ID");
 
         populateListingInfo(listingId);
+
+        startDateChanged = false;
+        endDateChanged = false;
 
         // Triggers date and time picker for Start date
         final Button startDateButton = findViewById(R.id.btnStartDate);
@@ -82,24 +88,6 @@ public class EditListingActivity extends AppCompatActivity {
                 params.putInt("id", 2);
                 endTimeFragment.setArguments(params);
                 endTimeFragment.show(getSupportFragmentManager(), "endTimePicker");
-            }
-        });
-
-        // Start Now button
-        Button startNowButton = findViewById(R.id.btnStartNow);
-        startNowButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                // TODO: Set the auction start time to the current time.
-            }
-        });
-
-        // End Now button
-        Button endNowButton = findViewById(R.id.btnEndNow);
-        endNowButton .setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                // TODO: Set the auction end time to the current time.
             }
         });
 
@@ -152,9 +140,17 @@ public class EditListingActivity extends AppCompatActivity {
                 ListingFormValidationObject validationObject = CopShopHub.getCreateListingService().validate(listingObject);
 
                 // Check validation object to see if all fields are valid
-                // If valid: store form data in listing database
+                // (In the case of start and end date, we only care IF they were changed)
+                // If valid: update form data in listing database
                 // Else invalid: check each form field, highlighting those that are invalid in red
-                if (validationObject.isAllValid()) {
+                if (validationObject.getTitleValid() &&
+                                validationObject.getDescriptionValid() &&
+                                validationObject.getInitPriceValid() &&
+                                validationObject.getMinBidValid() &&
+                                validationObject.getCategoryValid() &&
+                                (validationObject.getStartDateAndTimeValid() || !startDateChanged) &&
+                                (validationObject.getEndDateAndTimeValid() || !endDateChanged)) {
+
                     CopShopHub.getListingService().updateListing(listingId, listingObject);
 
                     // Make sure all form fields are set back to black on success
@@ -164,6 +160,7 @@ public class EditListingActivity extends AppCompatActivity {
                     findViewById(R.id.txtMinBid).setBackgroundResource(R.drawable.txt_field_black_border);
                     findViewById(R.id.txtEndDate).setBackgroundResource(R.drawable.txt_field_black_border);
                     findViewById(R.id.txtAreaDescription).setBackgroundResource(R.drawable.txt_field_black_border);
+                    findViewById(R.id.txtCategory).setBackgroundResource(R.drawable.txt_field_black_border);
 
                     // Goto listing list page
                     startActivity(new Intent(EditListingActivity.this, ListingListActivity.class));
@@ -191,14 +188,14 @@ public class EditListingActivity extends AppCompatActivity {
                     }
 
                     // Check all fields relating to listing start date and time
-                    if (!validationObject.getStartDateAndTimeValid()) {
+                    if (!validationObject.getStartDateAndTimeValid() && startDateChanged) {
                         findViewById(R.id.txtStartDate).setBackgroundResource(R.drawable.txt_field_red_border);
                     } else {
                         findViewById(R.id.txtStartDate).setBackgroundResource(R.drawable.txt_field_black_border);
                     }
 
                     // Check all fields relating to listing end date and time
-                    if (!validationObject.getEndDateAndTimeValid()) {
+                    if (!validationObject.getEndDateAndTimeValid() && endDateChanged) {
                         findViewById(R.id.txtEndDate).setBackgroundResource(R.drawable.txt_field_red_border);
                     } else {
                         findViewById(R.id.txtEndDate).setBackgroundResource(R.drawable.txt_field_black_border);
@@ -209,6 +206,13 @@ public class EditListingActivity extends AppCompatActivity {
                         findViewById(R.id.txtAreaDescription).setBackgroundResource(R.drawable.txt_field_red_border);
                     } else {
                         findViewById(R.id.txtAreaDescription).setBackgroundResource(R.drawable.txt_field_black_border);
+                    }
+
+                    // Check category
+                    if (!validationObject.getCategoryValid()) {
+                        findViewById(R.id.txtCategory).setBackgroundResource(R.drawable.txt_field_red_border);
+                    } else {
+                        findViewById(R.id.txtCategory).setBackgroundResource(R.drawable.txt_field_black_border);
                     }
                 }
             }
@@ -225,6 +229,7 @@ public class EditListingActivity extends AppCompatActivity {
         TextView editTextStartDate = findViewById(R.id.txtStartDate);
         TextView editTextEndDate = findViewById(R.id.txtEndDate);
         TextView editTextAreaDescription = findViewById(R.id.txtAreaDescription);
+        TextView editTextCategory = findViewById(R.id.txtCategory);
 
         ListingObject listingObj = CopShopHub.getListingService().fetchListing(listingId);
 
@@ -246,9 +251,18 @@ public class EditListingActivity extends AppCompatActivity {
                 editTextEndDate.setText(listingObj.getAuctionEndDate());
             }
             if (editTextAreaDescription != null) {
-                editTextAreaDescription.setText(listingObj.getDescription());
+                editTextAreaDescription.setText(listingObj.getCategory());
+            }
+            if (editTextCategory != null) {
+                editTextCategory.setText(listingObj.getCategory());
             }
         }
     }
 
+    public static void touchStartDate() {
+        startDateChanged = true;
+    }
+    public static void touchEndDate() {
+        endDateChanged = true;
+    }
 }

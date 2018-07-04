@@ -92,6 +92,26 @@ public class BidModelHSQLDB implements IBidModel {
     }
 
     @Override
+    public boolean delete(String id) {
+        if (null == id) { throw new IllegalArgumentException("id cannot be null"); }
+
+        PreparedStatement st = null;
+
+        try {
+            st = dbConn.prepareStatement("DELETE FROM " + TABLE_NAME + " WHERE id = ?");
+            st.setInt(1, Integer.parseInt(id));
+            int affected = st.executeUpdate();
+
+            return affected > 0;
+        } catch (final SQLException e) {
+            e.printStackTrace();
+            return false;
+        } finally {
+            HSQLDBUtil.quietlyClose(st);
+        }
+    }
+
+    @Override
     public List<BidObject> findAllByListing(String listingId) {
         if (null == listingId) { throw new IllegalArgumentException("listingId cannot be null"); }
 
