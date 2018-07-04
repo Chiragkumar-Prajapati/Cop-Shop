@@ -27,8 +27,6 @@ public class CreateListingActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_create_listing);
 
-        final SharedPreferences sharedPreferences = getSharedPreferences("currentUser", 0);
-
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
@@ -97,7 +95,7 @@ public class CreateListingActivity extends AppCompatActivity {
                         ((EditText) findViewById(R.id.txtMinBid)).getText().toString(),
                         ((TextView) findViewById(R.id.txtStartDate)).getText().toString(),
                         ((TextView) findViewById(R.id.txtEndDate)).getText().toString(),
-                        sharedPreferences.getString("userID", "-1")
+                        CopShopHub.getUserSessionService().getUserID()
                 );
 
                 ListingFormValidationObject validationObject = CopShopHub.getCreateListingService().validate(listingObject);

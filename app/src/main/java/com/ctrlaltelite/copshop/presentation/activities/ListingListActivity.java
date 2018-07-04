@@ -182,15 +182,12 @@ public class ListingListActivity extends AppCompatActivity implements Navigation
 
     private boolean setEmailDisplay() {
         boolean success = false;
-        // For accessing user info
-        SharedPreferences sharedPreferences = getSharedPreferences("currentUser", 0);
 
         // Text for user if logged in
         TextView greeting = (TextView) findViewById(R.id.nav_header_greeting);
         if (null != greeting) {
-            String loggedInEmail = sharedPreferences.getString("email", "-1");
-            if (loggedInEmail.equals("-1")) {
-                // SharedPreferences returns defValue if nothing there
+            String loggedInEmail = CopShopHub.getUserSessionService().getUserEmail();
+            if (!(loggedInEmail == null)) {
                 // Nothing there if user not logged in
                 greeting.setText("Please Login, Stranger.");
             } else {

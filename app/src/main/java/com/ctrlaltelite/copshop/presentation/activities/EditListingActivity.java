@@ -29,8 +29,6 @@ public class EditListingActivity extends AppCompatActivity {
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        final SharedPreferences sharedPreferences = getSharedPreferences("currentUser", 0);
-
         final String listingId = getIntent().getStringExtra("LISTING_ID");
 
         populateListingInfo(listingId);
@@ -145,7 +143,7 @@ public class EditListingActivity extends AppCompatActivity {
                         ((EditText) findViewById(R.id.txtMinBid)).getText().toString(),
                         ((TextView) findViewById(R.id.txtStartDate)).getText().toString(),
                         ((TextView) findViewById(R.id.txtEndDate)).getText().toString(),
-                        sharedPreferences.getString("userID", "-1")
+                        CopShopHub.getUserSessionService().getUserID()
                 );
 
                 ListingFormValidationObject validationObject = CopShopHub.getCreateListingService().validate(listingObject);
