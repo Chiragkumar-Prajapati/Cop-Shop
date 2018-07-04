@@ -147,6 +147,7 @@ public class EditListingActivity extends AppCompatActivity {
                                 validationObject.getDescriptionValid() &&
                                 validationObject.getInitPriceValid() &&
                                 validationObject.getMinBidValid() &&
+                                validationObject.getCategoryValid() &&
                                 (validationObject.getStartDateAndTimeValid() || !startDateChanged) &&
                                 (validationObject.getEndDateAndTimeValid() || !endDateChanged)) {
 
@@ -159,6 +160,7 @@ public class EditListingActivity extends AppCompatActivity {
                     findViewById(R.id.txtMinBid).setBackgroundResource(R.drawable.txt_field_black_border);
                     findViewById(R.id.txtEndDate).setBackgroundResource(R.drawable.txt_field_black_border);
                     findViewById(R.id.txtAreaDescription).setBackgroundResource(R.drawable.txt_field_black_border);
+                    findViewById(R.id.txtCategory).setBackgroundResource(R.drawable.txt_field_black_border);
 
                     // Goto listing list page
                     startActivity(new Intent(EditListingActivity.this, ListingListActivity.class));
@@ -205,6 +207,13 @@ public class EditListingActivity extends AppCompatActivity {
                     } else {
                         findViewById(R.id.txtAreaDescription).setBackgroundResource(R.drawable.txt_field_black_border);
                     }
+
+                    // Check category
+                    if (!validationObject.getCategoryValid()) {
+                        findViewById(R.id.txtCategory).setBackgroundResource(R.drawable.txt_field_red_border);
+                    } else {
+                        findViewById(R.id.txtCategory).setBackgroundResource(R.drawable.txt_field_black_border);
+                    }
                 }
             }
         });
@@ -220,6 +229,7 @@ public class EditListingActivity extends AppCompatActivity {
         TextView editTextStartDate = findViewById(R.id.txtStartDate);
         TextView editTextEndDate = findViewById(R.id.txtEndDate);
         TextView editTextAreaDescription = findViewById(R.id.txtAreaDescription);
+        TextView editTextCategory = findViewById(R.id.txtCategory);
 
         ListingObject listingObj = CopShopHub.getListingService().fetchListing(listingId);
 
@@ -241,7 +251,10 @@ public class EditListingActivity extends AppCompatActivity {
                 editTextEndDate.setText(listingObj.getAuctionEndDate());
             }
             if (editTextAreaDescription != null) {
-                editTextAreaDescription.setText(listingObj.getDescription());
+                editTextAreaDescription.setText(listingObj.getCategory());
+            }
+            if (editTextCategory != null) {
+                editTextCategory.setText(listingObj.getCategory());
             }
         }
     }
