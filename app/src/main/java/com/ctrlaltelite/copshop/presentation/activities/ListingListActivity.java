@@ -224,7 +224,7 @@ public class ListingListActivity extends AppCompatActivity implements Navigation
                 //}
            // }
 
-        
+
     }
 
     private boolean setEmailDisplay() {
