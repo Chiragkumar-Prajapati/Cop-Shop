@@ -10,6 +10,12 @@ public interface IListingService {
      */
     List<ListingObject> fetchListings();
 
+    /**
+     * Fetch listings by filters
+     * @return List of all filtered listings
+     */
+    List<ListingObject> fetchListingsByFilters(String name, String location, String category, String status);
+
 //    /**
 //     * Fetch all listings, filtered
 //     * @param filter ListFilter object to filter listings by

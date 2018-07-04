@@ -2,6 +2,8 @@ package com.ctrlaltelite.copshop.persistence;
 
 import com.ctrlaltelite.copshop.objects.SellerAccountObject;
 
+import java.util.List;
+
 public interface ISellerModel {
     /**
      * Create a new account from a SellerAccountObject
@@ -39,4 +41,23 @@ public interface ISellerModel {
      * @return Boolean indicating if there was a credentials match or not
      */
     boolean checkEmailPasswordMatch(String email, String password);
+
+    /**
+     * Returns the id in the database of the sellerName passed as parameter
+     * @param sellerName whose id to find
+     * @return the id of the seller
+     */
+    String getIdFromName(String sellerName);
+
+    /**
+     * Get a count of all sellers that exist in the database
+     * @return int equal to the number of sellers in the database
+     */
+    int getNumSellers();
+
+    /**
+     * Get all the names of the sellers(locations)
+     * @return List<String> containing all the (sellers/locations)' names
+     */
+    List<String> getAllSellerNames();
 }

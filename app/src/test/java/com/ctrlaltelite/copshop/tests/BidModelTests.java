@@ -65,9 +65,9 @@ public class BidModelTests {
         BidObject bid1 = new BidObject("", "0", "0", "1.00");
         BidObject bid2 = new BidObject("", "1", "0", "2.00");
         BidObject bid3 = new BidObject("", "1", "0", "3.00");
-        ListingObject listing1 = new ListingObject("","t1", "d1", "init1", "min1", "asd1", "aed1", "sellerId");
-        ListingObject listing2 = new ListingObject("","t2", "d2", "init2", "min2", "asd2", "aed2", "sellerId");
-        ListingObject listing3 = new ListingObject("","t3", "d3", "init3", "min3", "asd3", "aed3", "sellerId");
+        ListingObject listing1 = new ListingObject("","t1", "d1", "init1", "min1", "asd1", "aed1", "cat1","sellerId");
+        ListingObject listing2 = new ListingObject("","t2", "d2", "init2", "min2", "asd2", "aed2", "cat2","sellerId");
+        ListingObject listing3 = new ListingObject("","t3", "d3", "init3", "min3", "asd3", "aed3", "cat3","sellerId");
 
         // Create the listings
         String lId1 = listingModel.createNew(listing1);

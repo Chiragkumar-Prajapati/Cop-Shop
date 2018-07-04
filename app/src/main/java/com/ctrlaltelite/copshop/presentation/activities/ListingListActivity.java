@@ -61,7 +61,21 @@ public class ListingListActivity extends AppCompatActivity implements Navigation
         super.onStart();
 
         // Populate list of listings
-        List<ListingObject> listingItems = CopShopHub.getListingService().fetchListings();
+        Intent intent = getIntent();
+        List<ListingObject> listingItems = null;
+
+        if (intent.hasExtra("name")) {
+            // Populate with filtered Listings
+            listingItems = CopShopHub.getListingService().fetchListingsByFilters(intent.getStringExtra("name"),
+                                                                                 intent.getStringExtra("location"),
+                                                                                 intent.getStringExtra("category"),
+                                                                                 intent.getStringExtra("status"));
+        }
+        else {
+            // Populate with all Listings
+            listingItems = CopShopHub.getListingService().fetchListings();
+        }
+
         final ListView listingView = (ListView) findViewById(R.id.listing_list);
         ListingObjectArrayAdapter listAdapter = new ListingObjectArrayAdapter(this, listingItems);
 
@@ -80,6 +94,15 @@ public class ListingListActivity extends AppCompatActivity implements Navigation
 
         listingView.setAdapter(listAdapter);
 
+    }
+
+    public void updateListingsByFilters(String name, String location, String category, String status) {
+        // Populate list of listings
+        List<ListingObject> listingItems = CopShopHub.getListingService().fetchListingsByFilters(name, location, category, status);
+        final ListView listingView = (ListView) findViewById(R.id.listing_list);
+
+        ListingObjectArrayAdapter listAdapter;
+        listAdapter = new ListingObjectArrayAdapter(this, listingItems);
     }
 
     @Override
@@ -156,6 +179,9 @@ public class ListingListActivity extends AppCompatActivity implements Navigation
          } else if (id == R.id.nav_seller_account_details) {
              // Goto account details page
              startActivity(new Intent(this, ViewSellerAccountActivity.class));
+         } else if (id == R.id.nav_filter) {
+             // Goto filtering page
+             startActivity(new Intent(this, FilterListingsActivity.class));
          }
 
         drawer.closeDrawer(GravityCompat.START);
