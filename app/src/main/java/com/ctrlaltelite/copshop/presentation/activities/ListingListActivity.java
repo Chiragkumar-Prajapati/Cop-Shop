@@ -53,6 +53,7 @@ public class ListingListActivity extends AppCompatActivity implements Navigation
 
         // Setup drawer slide out page
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
+
         setupMenu(navigationView);
         navigationView.setNavigationItemSelectedListener(this);
     }
@@ -109,7 +110,8 @@ public class ListingListActivity extends AppCompatActivity implements Navigation
     @Override
     public void onResume() {
         super.onResume();
-
+        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
+        setupMenu(navigationView);
       //  if (theMenu != null) {
       //      setupMenu();
         //}
@@ -191,27 +193,25 @@ public class ListingListActivity extends AppCompatActivity implements Navigation
 
     private void setupMenu(NavigationView navigationView) {
        // if (theMenu != null) {
-            boolean success = setEmailDisplay();
+       boolean success = setEmailDisplay(navigationView);
+       if (success && (CopShopHub.getUserSessionService(this).getUserEmail() != null)) {
+           //populate menu
+           if (CopShopHub.getUserSessionService(this).getUserType() != null) {
+               if (CopShopHub.getUserSessionService(this).getUserType().equals("bidder")) {
+                   navigationView.getMenu().clear();
+                   navigationView.inflateMenu(R.menu.nav_menu_logged_in_bidder);
+               } else if (CopShopHub.getUserSessionService(this).getUserType().equals("seller")) {
+                   navigationView.getMenu().clear();
+                   navigationView.inflateMenu(R.menu.nav_menu_logged_in_seller);
+               }
+           }
+       }
+       else {
+          navigationView.getMenu().clear();
+          navigationView.inflateMenu(R.menu.nav_menu_stranger);
+       }
 
-            //populate menu
-            if(CopShopHub.getUserSessionService(this).userLoggedIn())
-            {
-                if(CopShopHub.getUserSessionService(this).getUserType().equals("buyer")){
-                    navigationView.getMenu().clear();
-                    navigationView.inflateMenu(R.menu.nav_menu_logged_in_bidder);
-                }
-                else if(CopShopHub.getUserSessionService(this).getUserType().equals("seller")){
-                    navigationView.getMenu().clear();
-                    navigationView.inflateMenu(R.menu.nav_menu_logged_in_seller);
-                }
-                else{
-                    navigationView.inflateMenu(R.menu.activity_listing_list_drawer);
-                }
-            } else
-            {
-                navigationView.getMenu().clear();
-                navigationView.inflateMenu(R.menu.nav_menu_stranger);
-            }
+    }
             //MenuItem accountDetails = theMenu.findItem(R.id.nav_new_listing);
 
             //if (accountDetails != null) {
@@ -224,27 +224,25 @@ public class ListingListActivity extends AppCompatActivity implements Navigation
                 //}
            // }
 
-
-    }
-
-    private boolean setEmailDisplay() {
+    private boolean setEmailDisplay(NavigationView navigationView) {
         boolean success = false;
 
+        View header = navigationView.getHeaderView(0);
         // Text for user if logged in
-        TextView greeting = (TextView) findViewById(R.id.nav_header_greeting);
+        TextView greeting = (TextView) header.findViewById(R.id.nav_header_greeting);
         if (null != greeting) {
             String loggedInEmail = CopShopHub.getUserSessionService(this).getUserEmail();
             if (loggedInEmail == null) {
                 // Nothing there if user not logged in
                 greeting.setText("Please Login, Stranger.");
-            } else {
+            }
+            else {
                 if (CopShopHub.getAccountService().fetchAccountByEmail(loggedInEmail) == null) {
                     greeting.setText("Please Login, Stranger.");
                 } else {
                     greeting.setText(loggedInEmail);
                     success = true;
                 }
-
             }
         }
         return success;

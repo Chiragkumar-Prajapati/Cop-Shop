@@ -39,7 +39,7 @@ public class UserSessionService implements IUserSessionService {
         return userID;
     }
     public String getUserType(){
-        String type = currentUserSession.getString("type", "-1");
+        String type = currentUserSession.getString("userType", "-1");
         if (type.equals("-1"))
             type = null;
         return type;

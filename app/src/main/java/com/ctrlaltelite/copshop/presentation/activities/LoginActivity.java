@@ -47,7 +47,7 @@ public class LoginActivity extends AppCompatActivity {
                     CopShopHub.getUserSessionService(context).setUserID(user.getId());
 
                     if (user instanceof BuyerAccountObject)
-                        CopShopHub.getUserSessionService(context).setUserType("buyer");
+                        CopShopHub.getUserSessionService(context).setUserType("bidder");
                     else if (user instanceof SellerAccountObject)
                         CopShopHub.getUserSessionService(context).setUserType("seller");
 
