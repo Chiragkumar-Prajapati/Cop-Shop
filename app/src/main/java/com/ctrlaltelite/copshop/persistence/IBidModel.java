@@ -20,6 +20,13 @@ public interface IBidModel {
     BidObject fetch(String id);
 
     /**
+     * Delete a bid
+     * @param id of the targeted bid
+     * @return Success boolean
+     */
+    boolean delete(String id);
+
+    /**
      * Find all bids by listing id
      * @param listingId Listing id
      * @return List of BidObjects belonging to given listing

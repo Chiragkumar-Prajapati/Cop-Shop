@@ -39,6 +39,17 @@ public class BidModel implements IBidModel {
     }
 
     @Override
+    public boolean delete(String id) {
+        if (null == id) { throw new IllegalArgumentException("id cannot be null"); }
+
+        if (this.database.rowExists(TABLE_NAME, id)) {
+            return (null != this.database.deleteRow(TABLE_NAME, id));
+        }
+
+        return false;
+    }
+
+    @Override
     public List<BidObject> findAllByListing(String listingId) {
         List<BidObject> bidObjects = new ArrayList<>();
         List<String> bidIds = this.database.findByColumnValue(TABLE_NAME, "listingId", listingId);

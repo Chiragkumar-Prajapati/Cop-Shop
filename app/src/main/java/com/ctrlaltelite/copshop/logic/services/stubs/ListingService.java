@@ -1,8 +1,10 @@
 package com.ctrlaltelite.copshop.logic.services.stubs;
 
+import com.ctrlaltelite.copshop.application.CopShopHub;
 import com.ctrlaltelite.copshop.objects.BidObject;
 import com.ctrlaltelite.copshop.objects.SellerAccountObject;
 import com.ctrlaltelite.copshop.persistence.IBidModel;
+import com.ctrlaltelite.copshop.logic.services.IBidService;
 import com.ctrlaltelite.copshop.persistence.IListingModel;
 import com.ctrlaltelite.copshop.logic.services.IListingService;
 import com.ctrlaltelite.copshop.objects.ListingObject;
@@ -80,7 +82,17 @@ public class ListingService implements IListingService {
     public boolean deleteListing(String listingId) {
         if (null == listingId) { throw new IllegalArgumentException("listingId cannot be null"); }
 
-        return listingModel.delete(listingId);
+        List<BidObject> bids = CopShopHub.getBidService().fetchBidsForListing(listingId);
+        boolean success = true;
+
+        for (BidObject bid : bids) {
+            success = success && bidModel.delete(bid.getId());
+        }
+
+        if (success) {
+            success = listingModel.delete(listingId);
+        }
+        return success;
     }
 
     @Override

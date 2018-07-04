@@ -39,7 +39,8 @@ public interface IListingService {
     ListingObject fetchListing(String listingId);
 
     /**
-     * Delete a listing from the db by listingId
+     * Delete a listing from the db by listingId. Starts by deleting
+     * all associated bids.
      * @param listingId The listing id
      * @return success or not
      */
