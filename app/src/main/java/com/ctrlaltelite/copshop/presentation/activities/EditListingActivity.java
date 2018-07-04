@@ -146,7 +146,6 @@ public class EditListingActivity extends AppCompatActivity {
                         ((TextView) findViewById(R.id.txtStartDate)).getText().toString(),
                         ((TextView) findViewById(R.id.txtEndDate)).getText().toString(),
                         ((TextView) findViewById(R.id.txtCategory)).getText().toString(),
-                        sharedPreferences.getString("userID", "-1")
                         CopShopHub.getUserSessionService(context).getUserID()
                 );
 

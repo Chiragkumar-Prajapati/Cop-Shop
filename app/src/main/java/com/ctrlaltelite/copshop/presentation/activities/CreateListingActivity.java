@@ -99,9 +99,9 @@ public class CreateListingActivity extends AppCompatActivity {
                         ((EditText) findViewById(R.id.txtMinBid)).getText().toString(),
                         ((TextView) findViewById(R.id.txtStartDate)).getText().toString(),
                         ((TextView) findViewById(R.id.txtEndDate)).getText().toString(),
-                        CopShopHub.getUserSessionService(context).getUserID()
                         ((TextView) findViewById(R.id.txtCategory)).getText().toString(),
-                        sharedPreferences.getString("userID", "-1")
+                        CopShopHub.getUserSessionService(context).getUserID()
+
                 );
 
                 ListingFormValidationObject validationObject = CopShopHub.getCreateListingService().validate(listingObject);
