@@ -187,12 +187,15 @@ public class ListingFormValidationObject {
      */
     private boolean validateDateAndTime(String date) {
         boolean isValid;
+        Calendar prevDay;
 
         if(date != null && !date.isEmpty() && date.length() < MIN_DATE_LEN) {
             isValid = false;
         } else {
+            prevDay = Calendar.getInstance(Locale.CANADA);
+            prevDay.add(Calendar.DATE, -1); // All days valid from one day in the past
             Calendar cal = DateUtility.convertToDateObj(date);
-            isValid = cal.after(Calendar.getInstance(Locale.CANADA));
+            isValid = cal != null && cal.after(prevDay);
         }
 
         return isValid;
