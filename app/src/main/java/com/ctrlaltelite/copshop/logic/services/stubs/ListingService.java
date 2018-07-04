@@ -90,7 +90,7 @@ public class ListingService implements IListingService {
     public boolean deleteListing(String listingId) {
         if (null == listingId) { throw new IllegalArgumentException("listingId cannot be null"); }
 
-        List<BidObject> bids = CopShopHub.getBidService().fetchBidsForListing(listingId);
+        List<BidObject> bids = bidModel.findAllByListing(listingId);
         boolean success = true;
 
         for (BidObject bid : bids) {
