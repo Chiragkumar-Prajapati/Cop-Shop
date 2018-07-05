@@ -7,5 +7,8 @@
         <item
             android:id="@+id/nav_login"
             android:title="Login" />
+        <item
+            android:id="@+id/nav_filter"
+            android:title="Filter Listings" />
     </group>
 </menu>

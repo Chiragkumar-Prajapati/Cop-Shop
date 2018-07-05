@@ -100,7 +100,7 @@ public class CreateListingActivity extends AppCompatActivity {
                         ((TextView) findViewById(R.id.txtStartDate)).getText().toString(),
                         ((TextView) findViewById(R.id.txtEndDate)).getText().toString(),
                         ((TextView) findViewById(R.id.txtCategory)).getText().toString(),
-                        CopShopHub.getUserSessionService(context).getUserID()
+                        CopShopHub.getUserSessionService().getUserID()
 
                 );
 

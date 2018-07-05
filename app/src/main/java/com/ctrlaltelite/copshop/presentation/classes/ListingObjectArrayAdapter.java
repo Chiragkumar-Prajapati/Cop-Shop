@@ -48,7 +48,7 @@ public class ListingObjectArrayAdapter extends ArrayAdapter<ListingObject> {
         // Trim and set the description and other fields
         title.setText(info.getTitle());
         description.setText(StringUtility.ellipsize(info.getDescription(), 70));
-        seller.setText(CopShopHub.getListingService().getSellerNameFromListing(info.getSellerId()));
+        seller.setText(CopShopHub.getListingService().getSellerNameFromListing(info.getId()));
 
         // Get the image associated with this listing
 //        int imageID = context.getResources().getIdentifier(info.getImage(), "drawable", context.getPackageName());

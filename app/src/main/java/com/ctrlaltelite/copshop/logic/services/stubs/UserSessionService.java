@@ -1,8 +1,10 @@
 package com.ctrlaltelite.copshop.logic.services.stubs;
 
 
+import com.ctrlaltelite.copshop.application.CopShopApp;
 import com.ctrlaltelite.copshop.logic.services.IUserSessionService;
 
+import android.app.Application;
 import android.content.Context;
 import android.content.SharedPreferences;
 
@@ -11,19 +13,24 @@ public class UserSessionService implements IUserSessionService {
     private SharedPreferences currentUserSession;
     private SharedPreferences.Editor editor;
 
-    public UserSessionService(Context context){
-        currentUserSession = context.getSharedPreferences("currentUser", 0);
+    public UserSessionService(){
+        currentUserSession = CopShopApp.getAppContext().getSharedPreferences("currentUser", 0);
         editor = currentUserSession.edit();
     }
 
     public boolean userLoggedIn(){
-        boolean loggedIn = true;
-        String check = currentUserSession.getString("userID", "-1");
+        String loggedInId = getUserID();
+        String loggedInType = getUserType();
+        boolean result = null != loggedInId;
 
-        if(check.equals("-1"))
-            loggedIn = false;
+        System.out.println("Logged in id:" + loggedInId);
+        System.out.println("Logged in type:" + loggedInType);
 
-        return loggedIn;
+        if (null != loggedInId) {
+            // Verify this user exists in DB
+        }
+
+        return result;
     }
 
     public String getUserEmail(){
@@ -47,15 +54,16 @@ public class UserSessionService implements IUserSessionService {
 
     public void setUserEmail(String email){
         editor.putString("email", email);
-        editor.commit();
+        editor.apply();
     }
     public void setUserID(String id){
         editor.putString("userID", id);
-        editor.commit();
+        editor.apply();
     }
     public void setUserType(String type){
+        // "buyer" or "seller"
         editor.putString("userType", type);
-        editor.commit();
+        editor.apply();
     }
 
 }

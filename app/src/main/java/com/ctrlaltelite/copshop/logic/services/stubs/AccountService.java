@@ -59,6 +59,25 @@ public class AccountService implements com.ctrlaltelite.copshop.logic.services.I
         }
         return account;
     }
+
+    /**
+     * Find a buyer account by a given email
+     * @param email String email to look for
+     * @return BuyerAccountObject
+     */
+    private BuyerAccountObject fetchBuyerAccountByEmail(String email) {
+        // Check for a matching buyer account
+        return this.buyerModel.findByEmail(email);
+    }
+
+    /**
+     * Find a seller account by a given email
+     * @param email String email to look for
+     * @return SellerAccountObject
+     */
+    private SellerAccountObject fetchSellerAccountByEmail(String email) {
+        return this.sellerModel.findByEmail(email);
+    }
     
     public BuyerAccountValidationObject validate(BuyerAccountObject buyerObject) {
         return this.validateInputForm(buyerObject);
@@ -69,7 +88,7 @@ public class AccountService implements com.ctrlaltelite.copshop.logic.services.I
     }
 
     public String registerNewBuyer(BuyerAccountObject newBuyer){
-        if (fetchAccountByEmail(newBuyer.getEmail()) != null) {
+        if (fetchBuyerAccountByEmail(newBuyer.getEmail()) != null) {
             return null;
         }
         return buyerModel.createNew(newBuyer);
@@ -87,7 +106,7 @@ public class AccountService implements com.ctrlaltelite.copshop.logic.services.I
     }
 
     public String registerNewSeller(SellerAccountObject newSeller) {
-        if (fetchAccountByEmail(newSeller.getEmail()) != null) {
+        if (fetchSellerAccountByEmail(newSeller.getEmail()) != null) {
             return null;
         }
         return sellerModel.createNew(newSeller);
@@ -246,6 +265,9 @@ public class AccountService implements com.ctrlaltelite.copshop.logic.services.I
     @Override
     public String getBuyerName(String buyerId) {
         BuyerAccountObject buyerObject = buyerModel.fetch(buyerId);
+        if (null == buyerObject) {
+            return null;
+        }
         return buyerObject.getFirstName();
     }
 }

@@ -89,12 +89,12 @@ public class ViewBuyerAccountActivity extends AppCompatActivity {
                 if (validationObject.allValid()) {
                     boolean success = false;
 
-                    String idPref = CopShopHub.getUserSessionService(context).getUserID();
+                    String idPref = CopShopHub.getUserSessionService().getUserID();
                     if (idPref != null) {
                         success = CopShopHub.getAccountService().updateBuyerAccount(idPref, buyerAccount);
                     }
                     if (success) {
-                        CopShopHub.getUserSessionService(context).setUserEmail(buyerAccount.getEmail());
+                        CopShopHub.getUserSessionService().setUserEmail(buyerAccount.getEmail());
 
                         errorMsg.setText("Account info updated successfully");
                     }
@@ -235,7 +235,7 @@ public class ViewBuyerAccountActivity extends AppCompatActivity {
             TextView errorMsg = findViewById(R.id.notLoggedInMsg); // Get error ready, just in case
 
             // Nothing there if user not logged in
-            String emailPref = CopShopHub.getUserSessionService(this).getUserEmail();
+            String emailPref = CopShopHub.getUserSessionService().getUserEmail();
             if (!(emailPref == null)) {
 
                 AccountObject account = CopShopHub.getAccountService().fetchAccountByEmail(emailPref);

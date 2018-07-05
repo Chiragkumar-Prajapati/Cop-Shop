@@ -11,6 +11,9 @@
             android:id="@+id/nav_login"
             android:title="Login" />
         <item
+            android:id="@+id/nav_logout"
+            android:title="Log out" />
+        <item
             android:id="@+id/nav_buyer_account_details"
             android:title="Account Details (B)" />
         <item

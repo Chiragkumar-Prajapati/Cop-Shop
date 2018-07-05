@@ -2,6 +2,7 @@ package com.ctrlaltelite.copshop.presentation.classes;
 
 import android.app.Activity;
 import android.content.Context;
+import android.graphics.Typeface;
 import android.support.annotation.NonNull;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -41,8 +42,8 @@ public class BidObjectArrayAdapter extends ArrayAdapter<BidObject> {
         TextView buyer = (TextView) view.findViewById(R.id.listing_view_bid_buyer);
 
         // Get buyer name
-        String buyerId = info.getBuyerId();
-        String buyerName = CopShopHub.getAccountService().getBuyerName(buyerId);
+        String userId = info.getBuyerId();
+        String buyerName = CopShopHub.getAccountService().getBuyerName(userId);
 
         // Set fields
         ListingObject listing = CopShopHub.getListingService().fetchListing(info.getListingId());
@@ -51,7 +52,11 @@ public class BidObjectArrayAdapter extends ArrayAdapter<BidObject> {
         amount.setText(String.format(Locale.CANADA, "$%1$.2f", bidAmount));
         buyer.setText(buyerName);
 
-        // TODO: Highlight field if it belongs to logged in user
+        if (CopShopHub.getUserSessionService().userLoggedIn()){
+            if (CopShopHub.getUserSessionService().getUserType().equals("buyer") && userId.equals(CopShopHub.getUserSessionService().getUserID())) {
+                buyer.setTypeface(Typeface.DEFAULT_BOLD);
+            }
+        }
 
         return view;
     }
