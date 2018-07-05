@@ -1,5 +1,6 @@
 package com.ctrlaltelite.copshop.presentation.activities;
 
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -27,12 +28,11 @@ public class EditListingActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        final Context context = this;
         setContentView(R.layout.activity_edit_listing);
 
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-
-        final SharedPreferences sharedPreferences = getSharedPreferences("currentUser", 0);
 
         final String listingId = getIntent().getStringExtra("LISTING_ID");
 
@@ -134,7 +134,7 @@ public class EditListingActivity extends AppCompatActivity {
                         ((TextView) findViewById(R.id.txtStartDate)).getText().toString(),
                         ((TextView) findViewById(R.id.txtEndDate)).getText().toString(),
                         ((TextView) findViewById(R.id.txtCategory)).getText().toString(),
-                        sharedPreferences.getString("userID", "-1")
+                        CopShopHub.getUserSessionService(context).getUserID()
                 );
 
                 ListingFormValidationObject validationObject = CopShopHub.getCreateListingService().validate(listingObject);

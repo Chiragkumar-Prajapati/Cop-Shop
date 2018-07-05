@@ -106,9 +106,8 @@ public class ListingViewActivity extends AppCompatActivity {
             // Edit button
             final String theListingId = listingId;
             boolean thisIsSeller = false;
-            SharedPreferences sharedPreferences = getSharedPreferences("currentUser", 0);
-            String email = sharedPreferences.getString("email", "-1");
-            if (!email.equals("-1")) {
+            String email = CopShopHub.getUserSessionService(this).getUserEmail();
+            if (email != null) {
                 AccountObject account = CopShopHub.getAccountService().fetchAccountByEmail(email);
                 if (account != null &&
                         account instanceof SellerAccountObject &&

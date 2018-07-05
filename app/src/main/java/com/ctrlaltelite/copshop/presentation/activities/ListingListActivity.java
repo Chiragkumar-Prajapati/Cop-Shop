@@ -31,7 +31,6 @@ import java.util.List;
 
 public class ListingListActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
-    Menu theMenu;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,6 +52,8 @@ public class ListingListActivity extends AppCompatActivity implements Navigation
 
         // Setup drawer slide out page
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
+
+        setupMenu(navigationView);
         navigationView.setNavigationItemSelectedListener(this);
     }
 
@@ -108,10 +109,8 @@ public class ListingListActivity extends AppCompatActivity implements Navigation
     @Override
     public void onResume() {
         super.onResume();
-
-        if (theMenu != null) {
-            setupMenu();
-        }
+        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
+        setupMenu(navigationView);
 
     }
 
@@ -125,39 +124,6 @@ public class ListingListActivity extends AppCompatActivity implements Navigation
             super.onBackPressed();
         }
     }
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        //super.onCreateOptionsMenu(menu);
-        this.theMenu = menu;
-        setupMenu();
-        // Inflate the menu; this adds items to the action bar if it is present.
-//        getMenuInflater().inflate(R.menu.listing_list, menu);
-
-        getMenuInflater().inflate(R.menu.activity_listing_list_drawer, menu);
-
-        MenuItem accountDetails = theMenu.findItem(R.id.nav_new_listing);
-        //invalidateOptionsMenu();
-        return true;
-    }
-//
-//    @Override
-//    public boolean onPrepareOptionsMenu(Menu menu) {
-//
-//        boolean success = setEmailDisplay();
-//        MenuItem accountDetails = menu.findItem(R.id.nav_account_details);
-//
-//        if (accountDetails != null) {
-//            if (!success) {
-//                accountDetails.setVisible(false);
-//            }
-//            else {
-//                accountDetails.setVisible(true);
-//                //findViewById(R.id.nav_account_details).setVisibility( View.VISIBLE );
-//            }
-//        }
-//        return super.onPrepareOptionsMenu(menu);
-//    }
 
     @SuppressWarnings("StatementWithEmptyBody")
     @Override
@@ -188,45 +154,47 @@ public class ListingListActivity extends AppCompatActivity implements Navigation
         return true;
     }
 
-    private void setupMenu() {
-        if (theMenu != null) {
-            boolean success = setEmailDisplay();
-            MenuItem accountDetails = theMenu.findItem(R.id.nav_new_listing);
+    private void setupMenu(NavigationView navigationView) {
+       // if (theMenu != null) {
+       boolean success = setEmailDisplay(navigationView);
+       if (success && (CopShopHub.getUserSessionService(this).getUserEmail() != null)) {
+           //populate menu
+           if (CopShopHub.getUserSessionService(this).getUserType() != null) {
+               if (CopShopHub.getUserSessionService(this).getUserType().equals("bidder")) {
+                   navigationView.getMenu().clear();
+                   navigationView.inflateMenu(R.menu.nav_menu_logged_in_bidder);
+               } else if (CopShopHub.getUserSessionService(this).getUserType().equals("seller")) {
+                   navigationView.getMenu().clear();
+                   navigationView.inflateMenu(R.menu.nav_menu_logged_in_seller);
+               }
+           }
+       }
+       else {
+          navigationView.getMenu().clear();
+          navigationView.inflateMenu(R.menu.nav_menu_stranger);
+       }
 
-            if (accountDetails != null) {
-                if (!success) {
-                    accountDetails.setVisible(false);
-                }
-                else {
-                    accountDetails.setVisible(true);
-                    //findViewById(R.id.nav_account_details).setVisibility( View.VISIBLE );
-                }
-            }
-
-        }
     }
 
-    private boolean setEmailDisplay() {
+    private boolean setEmailDisplay(NavigationView navigationView) {
         boolean success = false;
-        // For accessing user info
-        SharedPreferences sharedPreferences = getSharedPreferences("currentUser", 0);
 
+        View header = navigationView.getHeaderView(0);
         // Text for user if logged in
-        TextView greeting = (TextView) findViewById(R.id.nav_header_greeting);
+        TextView greeting = (TextView) header.findViewById(R.id.nav_header_greeting);
         if (null != greeting) {
-            String loggedInEmail = sharedPreferences.getString("email", "-1");
-            if (loggedInEmail.equals("-1")) {
-                // SharedPreferences returns defValue if nothing there
+            String loggedInEmail = CopShopHub.getUserSessionService(this).getUserEmail();
+            if (loggedInEmail == null) {
                 // Nothing there if user not logged in
                 greeting.setText("Please Login, Stranger.");
-            } else {
+            }
+            else {
                 if (CopShopHub.getAccountService().fetchAccountByEmail(loggedInEmail) == null) {
                     greeting.setText("Please Login, Stranger.");
                 } else {
                     greeting.setText(loggedInEmail);
                     success = true;
                 }
-
             }
         }
         return success;
