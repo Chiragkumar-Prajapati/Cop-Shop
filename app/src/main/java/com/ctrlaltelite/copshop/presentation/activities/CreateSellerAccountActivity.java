@@ -40,7 +40,6 @@ public class CreateSellerAccountActivity extends AppCompatActivity {
             // Else invalid: check each form field, highlighting those that are invalid in red
             if (validationObject.allValid()) {
                 String id = CopShopHub.getAccountService().registerNewSeller(sellerAccount);
-                System.out.println("Create new " + id);
                 if (id == null) {
                     // It actually failed, presumably due to a duplicate email address.
                     findViewById(R.id.editTextEmail).setBackgroundResource(R.drawable.txt_field_red_border);

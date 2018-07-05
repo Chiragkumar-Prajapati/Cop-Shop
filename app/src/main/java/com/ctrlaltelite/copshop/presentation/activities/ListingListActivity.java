@@ -232,7 +232,7 @@ public class ListingListActivity extends AppCompatActivity implements Navigation
 
             File outFile = new File(copyPath);
 
-            if (true || !outFile.exists()) { // Remove true to persist DB between project builds in dev (or break everything - most likely)
+            if (!outFile.exists()) {
                 InputStreamReader in = new InputStreamReader(assetManager.open(asset));
                 FileWriter out = new FileWriter(outFile);
 

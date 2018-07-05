@@ -1,17 +1,13 @@
 package com.ctrlaltelite.copshop.application;
 
-import android.content.Context;
-
 import com.ctrlaltelite.copshop.logic.services.IAccountService;
 import com.ctrlaltelite.copshop.logic.services.IBidService;
 import com.ctrlaltelite.copshop.logic.services.ICreateListingService;
 import com.ctrlaltelite.copshop.logic.services.IListingService;
-import com.ctrlaltelite.copshop.logic.services.IUserSessionService;
 import com.ctrlaltelite.copshop.logic.services.stubs.AccountService;
 import com.ctrlaltelite.copshop.logic.services.stubs.BidService;
 import com.ctrlaltelite.copshop.logic.services.stubs.CreateListingService;
 import com.ctrlaltelite.copshop.logic.services.stubs.ListingService;
-import com.ctrlaltelite.copshop.logic.services.stubs.UserSessionService;
 import com.ctrlaltelite.copshop.objects.BidObject;
 import com.ctrlaltelite.copshop.objects.BuyerAccountObject;
 import com.ctrlaltelite.copshop.objects.ListingObject;
@@ -50,7 +46,7 @@ public class CopShopHub
     private static IAccountService accountService = null;
     private static ICreateListingService createListingService = null;
     private static IBidService bidService = null;
-    private static IUserSessionService userSessionService = null;
+    private static IUserSession userSessionService = null;
 
     public static synchronized IListingService getListingService()
     {
@@ -84,10 +80,10 @@ public class CopShopHub
         return bidService;
     }
 
-    public static synchronized IUserSessionService getUserSessionService()
+    public static synchronized IUserSession getUserSessionService()
     {
         if (null == userSessionService){
-            userSessionService = new UserSessionService();
+            userSessionService = new UserSession();
         }
         return userSessionService;
     }

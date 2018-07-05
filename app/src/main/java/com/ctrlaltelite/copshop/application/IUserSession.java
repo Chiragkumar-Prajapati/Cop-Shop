@@ -1,6 +1,6 @@
-package com.ctrlaltelite.copshop.logic.services;
+package com.ctrlaltelite.copshop.application;
 
-public interface IUserSessionService {
+public interface IUserSession {
 
     /* Check if there is currently a user logged in*/
     boolean userLoggedIn();

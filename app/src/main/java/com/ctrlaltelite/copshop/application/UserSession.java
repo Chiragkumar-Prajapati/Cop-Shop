@@ -1,19 +1,14 @@
-package com.ctrlaltelite.copshop.logic.services.stubs;
+package com.ctrlaltelite.copshop.application;
 
 
-import com.ctrlaltelite.copshop.application.CopShopApp;
-import com.ctrlaltelite.copshop.logic.services.IUserSessionService;
-
-import android.app.Application;
-import android.content.Context;
 import android.content.SharedPreferences;
 
-public class UserSessionService implements IUserSessionService {
+public class UserSession implements IUserSession {
 
     private SharedPreferences currentUserSession;
     private SharedPreferences.Editor editor;
 
-    public UserSessionService(){
+    public UserSession(){
         currentUserSession = CopShopApp.getAppContext().getSharedPreferences("currentUser", 0);
         editor = currentUserSession.edit();
     }
