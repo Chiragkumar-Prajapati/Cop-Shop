@@ -1,6 +1,6 @@
 # CopShop Architecture
 ## Architecture Diagram
-![Architecture Diagram](https://i.imgur.com/3QJR5Rk.png)
+![Architecture Diagram](https://i.imgur.com/ssypXFQ.png)
 Image is also available in root of repo.
 
 ## Architectural Overview
@@ -20,6 +20,7 @@ Currently, users can create new listings, buyer accounts, and seller accounts. B
  	- ViewSellerAccount
 	- CreateListing
 	- EditListing
+	- FilterListings
 	- ListingList
 	- ListingView
 	- Login
@@ -37,11 +38,17 @@ Currently, users can create new listings, buyer accounts, and seller accounts. B
 ### Application
 - **CopShopHub**
 	- Ultimate container for all Service instances and database Model instances(singletons). 
-	- Data members are initialized when the app becomes active. Normally destroyed when the app enters the background.
 	- Access to this class is global.
 		- Presentation layer calls methods on Service instances.
 		- Logic layer calls methods on Model instances. 
 		- May be split in a future iteration to further separate these boundaries.
+- **CopShopApp**
+    - Currently containing a global Context object to spare passing context to UserSession.
+        - This is awful and there is probably a better way to do this.
+    - Data members are initialized when the app becomes active. Normally destroyed when the app enters the background.
+- **UserSession**
+    - Wrapper for SharedPreferences calls to keep stored key-value pairs known in one location.
+    - Used to handle all login session stuff.
 
 ### Persistence
 - All interaction with the persistence layer is done through **"Models"**.
@@ -50,7 +57,8 @@ Currently, users can create new listings, buyer accounts, and seller accounts. B
 	- Provides a convenient place to pack and unpack data objects to simplify data-passing, as well as do more complex storage-related processing.
 	- **Hsqldb**
 	    - Models interact with HsqldbUtil, which in turn interacts with Hsqldb.
-	    - Persistence Runtime Exception thrown when attempts made to access Hsqldb improperly. 
+	    - Persistence Runtime Exception thrown when attempts made to access Hsqldb improperly.
+	    - Calls to the db that error will currently just print stack traces and return null (usually). 
     - **Database**
 		- Contains the overall database interface, as well as the implementation of the fake database used for tests.
 		- **MockDatabaseStub** 
@@ -76,6 +84,6 @@ Currently, users can create new listings, buyer accounts, and seller accounts. B
 		- Contains validity information specific to the listing creation form.
 		- Data members correspond to fields on the form. Fields containing invalid data are flagged in one of these objects and used to relay error information back to the user.
 	- **BuyerAccountValidationObject**
-	    - Contains validity information specific to buyer account creation and updating. 
+	    - Contains validity information specific to buyer account creation, updating, and validation. 
 	- **SellerAccountValidationObject**
-	    - Contains validity information specific to seller account creation and updating. 
+	    - Contains validity information specific to seller account creation, updating, and validation. 
