@@ -43,13 +43,13 @@ public class LoginActivity extends AppCompatActivity {
                     errorMsg.setText("What's all this, then? You're going to need" +
                             " a valid username and password. Try again.");
                 } else {
-                    CopShopHub.getUserSessionService(context).setUserEmail(user.getEmail());
-                    CopShopHub.getUserSessionService(context).setUserID(user.getId());
+                    CopShopHub.getUserSessionService().setUserEmail(user.getEmail());
+                    CopShopHub.getUserSessionService().setUserID(user.getId());
 
                     if (user instanceof BuyerAccountObject)
-                        CopShopHub.getUserSessionService(context).setUserType("bidder");
+                        CopShopHub.getUserSessionService().setUserType("buyer");
                     else if (user instanceof SellerAccountObject)
-                        CopShopHub.getUserSessionService(context).setUserType("seller");
+                        CopShopHub.getUserSessionService().setUserType("seller");
 
                     //go to Listings page
                     Intent intent = new Intent(LoginActivity.this, ListingListActivity.class);

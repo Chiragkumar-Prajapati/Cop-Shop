@@ -134,7 +134,7 @@ public class EditListingActivity extends AppCompatActivity {
                         ((TextView) findViewById(R.id.txtStartDate)).getText().toString(),
                         ((TextView) findViewById(R.id.txtEndDate)).getText().toString(),
                         ((TextView) findViewById(R.id.txtCategory)).getText().toString(),
-                        CopShopHub.getUserSessionService(context).getUserID()
+                        CopShopHub.getUserSessionService().getUserID()
                 );
 
                 ListingFormValidationObject validationObject = CopShopHub.getCreateListingService().validate(listingObject);
@@ -251,7 +251,7 @@ public class EditListingActivity extends AppCompatActivity {
                 editTextEndDate.setText(listingObj.getAuctionEndDate());
             }
             if (editTextAreaDescription != null) {
-                editTextAreaDescription.setText(listingObj.getCategory());
+                editTextAreaDescription.setText(listingObj.getDescription());
             }
             if (editTextCategory != null) {
                 editTextCategory.setText(listingObj.getCategory());

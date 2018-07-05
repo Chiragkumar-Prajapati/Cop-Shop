@@ -34,7 +34,7 @@ public class BidService implements IBidService {
         Float floatSuggestedAmount = Float.parseFloat(suggestedBid);
 
         if (floatBidAmount >= floatSuggestedAmount) {
-            BidObject bid = new BidObject("", listingId, buyerId, bidAmount );
+            BidObject bid = new BidObject("", listingId, buyerId, bidAmount);
             return null != bidModel.createNew(bid);
         } else {
             return false;

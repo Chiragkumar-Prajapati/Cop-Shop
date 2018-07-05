@@ -1,5 +1,6 @@
 package com.ctrlaltelite.copshop.presentation.activities;
 
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
@@ -81,13 +82,22 @@ public class ListingViewActivity extends AppCompatActivity {
             bidInput.setText(bidInput.getHint());
             minBid.setText("$" + suggestedBid);
 
+            // Disable bid button if not buyer logged in
+            if (!CopShopHub.getUserSessionService().userLoggedIn() || !CopShopHub.getUserSessionService().getUserType().equals("buyer")) {
+                System.out.println("Disabled bid button");
+                bidButton.setEnabled(false);
+                bidButton.setBackgroundColor(Color.LTGRAY);
+            }
+
             // Attach listener to implicit field submit?
 
             // Attach listener to button
             bidButton.setOnClickListener(new Button.OnClickListener() {
                 public void onClick(View v) {
+                    Context context = getApplicationContext();
                     final String suggestedBid = CopShopHub.getListingService().getNextBidTotal(listing);
-                    boolean success = CopShopHub.getBidService().createBid(suggestedBid, listingId, bidInput.getText().toString(), "0"); // TODO: replace placeholder buyer ID
+                    String buyerId = CopShopHub.getUserSessionService().getUserID();
+                    boolean success = CopShopHub.getBidService().createBid(suggestedBid, listingId, bidInput.getText().toString(), buyerId);
                     if (success) {
                         // Refresh activity to get updated data (Replace this with dynamically adjusting page instead?)
                         finish();
@@ -106,7 +116,7 @@ public class ListingViewActivity extends AppCompatActivity {
             // Edit button
             final String theListingId = listingId;
             boolean thisIsSeller = false;
-            String email = CopShopHub.getUserSessionService(this).getUserEmail();
+            String email = CopShopHub.getUserSessionService().getUserEmail();
             if (email != null) {
                 AccountObject account = CopShopHub.getAccountService().fetchAccountByEmail(email);
                 if (account != null &&

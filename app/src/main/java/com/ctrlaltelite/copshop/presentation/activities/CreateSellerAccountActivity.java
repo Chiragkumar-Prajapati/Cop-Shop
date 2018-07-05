@@ -43,8 +43,7 @@ public class CreateSellerAccountActivity extends AppCompatActivity {
                 if (id == null) {
                     // It actually failed, presumably due to a duplicate email address.
                     findViewById(R.id.editTextEmail).setBackgroundResource(R.drawable.txt_field_red_border);
-                }
-                else // success!
+                } else // success!
                 {
                     // Make sure all form fields are set back to black on success
                     findViewById(R.id.editTextOrganizationName).setBackgroundResource(R.drawable.txt_field_black_border);

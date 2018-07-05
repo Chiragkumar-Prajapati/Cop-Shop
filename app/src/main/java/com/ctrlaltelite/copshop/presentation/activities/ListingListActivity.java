@@ -19,6 +19,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import com.ctrlaltelite.copshop.R;
+import com.ctrlaltelite.copshop.application.CopShopApp;
 import com.ctrlaltelite.copshop.application.CopShopHub;
 import com.ctrlaltelite.copshop.presentation.classes.ListingObjectArrayAdapter;
 import com.ctrlaltelite.copshop.objects.ListingObject;
@@ -67,10 +68,11 @@ public class ListingListActivity extends AppCompatActivity implements Navigation
 
         if (intent.hasExtra("name")) {
             // Populate with filtered Listings
-            listingItems = CopShopHub.getListingService().fetchListingsByFilters(intent.getStringExtra("name"),
-                                                                                 intent.getStringExtra("location"),
-                                                                                 intent.getStringExtra("category"),
-                                                                                 intent.getStringExtra("status"));
+            listingItems = CopShopHub.getListingService().fetchListingsByFilters(
+                intent.getStringExtra("name"),
+                intent.getStringExtra("location"),
+                intent.getStringExtra("category"),
+                intent.getStringExtra("status"));
         }
         else {
             // Populate with all Listings
@@ -148,6 +150,13 @@ public class ListingListActivity extends AppCompatActivity implements Navigation
          } else if (id == R.id.nav_filter) {
              // Goto filtering page
              startActivity(new Intent(this, FilterListingsActivity.class));
+         } else if (id == R.id.nav_logout) {
+             // Logout and restart activity
+             CopShopHub.getUserSessionService().setUserEmail(null);
+             CopShopHub.getUserSessionService().setUserID(null);
+             CopShopHub.getUserSessionService().setUserType(null);
+             finish();
+             startActivity(getIntent());
          }
 
         drawer.closeDrawer(GravityCompat.START);
@@ -155,49 +164,38 @@ public class ListingListActivity extends AppCompatActivity implements Navigation
     }
 
     private void setupMenu(NavigationView navigationView) {
-       // if (theMenu != null) {
-       boolean success = setEmailDisplay(navigationView);
-       if (success && (CopShopHub.getUserSessionService(this).getUserEmail() != null)) {
-           //populate menu
-           if (CopShopHub.getUserSessionService(this).getUserType() != null) {
-               if (CopShopHub.getUserSessionService(this).getUserType().equals("bidder")) {
-                   navigationView.getMenu().clear();
-                   navigationView.inflateMenu(R.menu.nav_menu_logged_in_bidder);
-               } else if (CopShopHub.getUserSessionService(this).getUserType().equals("seller")) {
-                   navigationView.getMenu().clear();
-                   navigationView.inflateMenu(R.menu.nav_menu_logged_in_seller);
-               }
-           }
-       }
-       else {
-          navigationView.getMenu().clear();
-          navigationView.inflateMenu(R.menu.nav_menu_stranger);
-       }
+       setEmailDisplay(navigationView);
 
+       if (CopShopHub.getUserSessionService().userLoggedIn()) {
+           // Populate menu
+           if (CopShopHub.getUserSessionService().getUserType().equals("buyer")) {
+               navigationView.getMenu().clear();
+               navigationView.inflateMenu(R.menu.nav_menu_logged_in_bidder);
+           } else if (CopShopHub.getUserSessionService().getUserType().equals("seller")) {
+               navigationView.getMenu().clear();
+               navigationView.inflateMenu(R.menu.nav_menu_logged_in_seller);
+           } else {
+               System.out.println("Invalid user type: " + CopShopHub.getUserSessionService().getUserType());
+           }
+       } else {
+           System.out.println("Not logged in");
+       }
     }
 
-    private boolean setEmailDisplay(NavigationView navigationView) {
-        boolean success = false;
-
+    private void setEmailDisplay(NavigationView navigationView) {
         View header = navigationView.getHeaderView(0);
-        // Text for user if logged in
-        TextView greeting = (TextView) header.findViewById(R.id.nav_header_greeting);
-        if (null != greeting) {
-            String loggedInEmail = CopShopHub.getUserSessionService(this).getUserEmail();
-            if (loggedInEmail == null) {
-                // Nothing there if user not logged in
+        TextView greeting = (TextView) header.findViewById(R.id.nav_header_greeting); // Text for user if logged in
+
+        if (CopShopHub.getUserSessionService().userLoggedIn()) {
+            String email = CopShopHub.getUserSessionService().getUserEmail();
+            if (null != email) {
+                greeting.setText(email);
+            } else {
                 greeting.setText("Please Login, Stranger.");
             }
-            else {
-                if (CopShopHub.getAccountService().fetchAccountByEmail(loggedInEmail) == null) {
-                    greeting.setText("Please Login, Stranger.");
-                } else {
-                    greeting.setText(loggedInEmail);
-                    success = true;
-                }
-            }
+        } else {
+            greeting.setText("Please Login, Stranger.");
         }
-        return success;
     }
 
     private void copyDatabaseToDevice() {
@@ -209,14 +207,12 @@ public class ListingListActivity extends AppCompatActivity implements Navigation
         AssetManager assetManager = getAssets();
 
         try {
-
             assetNames = assetManager.list(DB_PATH);
             for (int i = 0; i < assetNames.length; i++) {
                 assetNames[i] = DB_PATH + "/" + assetNames[i];
             }
 
             copyAssetsToDirectory(assetNames, dataDirectory);
-
             CopShopHub.setDBPath(dataDirectory.toString() + "/" + CopShopHub.getDBPath());
 
         } catch (final IOException ioe) {
@@ -236,7 +232,7 @@ public class ListingListActivity extends AppCompatActivity implements Navigation
 
             File outFile = new File(copyPath);
 
-            if (true || !outFile.exists()) { // Remove true to persist DB between project builds in dev (or break everything - most likely)
+            if (!outFile.exists()) {
                 InputStreamReader in = new InputStreamReader(assetManager.open(asset));
                 FileWriter out = new FileWriter(outFile);
 

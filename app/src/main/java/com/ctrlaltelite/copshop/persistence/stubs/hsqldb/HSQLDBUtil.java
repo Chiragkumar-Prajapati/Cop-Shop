@@ -9,7 +9,7 @@ public class HSQLDBUtil {
 
     public static Connection getConnection(String dbPath) {
         try {
-            String props = "";
+            String props = ";shutdown=true";
             String path = "jdbc:hsqldb:file:" + dbPath + props;
             return DriverManager.getConnection(path, "SA", "");
         } catch (final SQLException e) {

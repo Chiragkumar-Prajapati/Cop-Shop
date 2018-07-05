@@ -27,8 +27,6 @@ public class FilterListingsActivity extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-
         /*Category spinner(drop-down list)*/
         // get array containing all locations
         List<String> categoriesList = CopShopHub.getListingModel().getAllCategories();

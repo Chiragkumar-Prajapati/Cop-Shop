@@ -37,18 +37,17 @@ public class ListingService implements IListingService {
         return this.listingModel.fetchByFilters(name, sellerID, category, status);
     }
 
-//    public ArrayList<ListingObject> fetchListings(ListFilter filter) {
-//        return filteredResults;
-//    }
-
     @Override
     public String getSellerNameFromListing(String listingId) {
         if (null == listingId) { throw new IllegalArgumentException("listingId cannot be null"); }
 
         ListingObject listing = listingModel.fetch(listingId);
-        String sellerId = listing.getSellerId();
+        if (null != listing) {
+            String sellerId = listing.getSellerId();
+            return this.getSellerName(sellerId);
+        }
 
-        return this.getSellerName(sellerId);
+        return null;
     }
 
     @Override

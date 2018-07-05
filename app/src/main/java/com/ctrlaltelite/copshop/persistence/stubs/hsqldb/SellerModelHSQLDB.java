@@ -38,7 +38,7 @@ public class SellerModelHSQLDB implements ISellerModel {
         try {
             st = dbConn.prepareStatement(
                     "INSERT INTO " + TABLE_NAME + " " +
-                            "(name,email,address,postalcode,province,password) " +
+                            "(name,address,postalcode,province,email,password) " +
                             "VALUES (?, ?, ?, ?, ?, ?)",
                     RETURN_GENERATED_KEYS);
             st.setString(1, newAccount.getOrganizationName());

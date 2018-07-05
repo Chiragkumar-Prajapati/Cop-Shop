@@ -7,10 +7,14 @@
 
         <item
             android:id="@+id/nav_buyer_account_details"
-            android:title="Your Account Details" />
+            android:title="Account Details" />
+        <item
+            android:id="@+id/nav_logout"
+            android:title="Log out" />
         <item
             android:id="@+id/nav_filter"
             android:title="Filter Listings" />
+
     </group>
 
 </menu>
