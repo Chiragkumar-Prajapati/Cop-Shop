@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:showIn="navigation_view">
+
+    <group android:checkableBehavior="single">
+        <item
+            android:id="@+id/nav_new_listing"
+            android:title="Create Listing" />
+        <item
+            android:id="@+id/nav_seller_account_details"
+            android:title="Account Details" />
+        <item
+            android:id="@+id/nav_filter"
+            android:title="Filter Listings" />
+    </group>
+
+</menu>

@@ -1,5 +1,6 @@
 package com.ctrlaltelite.copshop.presentation.activities;
 
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -27,10 +28,11 @@ public class CreateListingActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_create_listing);
 
-        final SharedPreferences sharedPreferences = getSharedPreferences("currentUser", 0);
-
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+
+        //required for user info passing to userSessionService
+        final Context context = this;
 
         // Triggers date and time picker for Start date
         final Button startDateButton = findViewById(R.id.btnStartDate);
@@ -98,7 +100,8 @@ public class CreateListingActivity extends AppCompatActivity {
                         ((TextView) findViewById(R.id.txtStartDate)).getText().toString(),
                         ((TextView) findViewById(R.id.txtEndDate)).getText().toString(),
                         ((TextView) findViewById(R.id.txtCategory)).getText().toString(),
-                        sharedPreferences.getString("userID", "-1")
+                        CopShopHub.getUserSessionService(context).getUserID()
+
                 );
 
                 ListingFormValidationObject validationObject = CopShopHub.getCreateListingService().validate(listingObject);
