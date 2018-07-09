@@ -362,6 +362,7 @@ public class EditListingActivity extends AppCompatActivity {
         TextView editTextEndDate = findViewById(R.id.txtEndDate);
         TextView editTextAreaDescription = findViewById(R.id.txtAreaDescription);
         TextView editTextCategory = findViewById(R.id.txtCategory);
+        ImageView editImageView = findViewById(R.id.imageView);
 
         ListingObject listingObj = CopShopHub.getListingService().fetchListing(listingId);
 
@@ -387,6 +388,15 @@ public class EditListingActivity extends AppCompatActivity {
             }
             if (editTextCategory != null) {
                 editTextCategory.setText(listingObj.getCategory());
+            }
+            if (editImageView != null) { //might have issue with when the image is a blank string
+                                        // aka when a listing doesn't have an image---test this
+                String imageData[] = ImageUtility.imageDecode(listingObj.getImageData());
+                int rotationAmount = Integer.parseInt(imageData[0]);
+                Uri imageUri = Uri.parse(imageData[1]);
+                Bitmap bm = ImageUtility.uriToBitmap(EditListingActivity.this, imageUri);
+                bm = ImageUtility.rotateBitmap(bm, rotationAmount);
+                editImageView.setImageBitmap(bm);
             }
         }
     }

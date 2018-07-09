@@ -314,9 +314,30 @@ public class CreateListingActivity extends AppCompatActivity {
                 // If request is cancelled, the result arrays are empty.
                 if (grantResults.length > 0
                         && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                    // granted, start work!?!
+                    Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+
+                    File pictureDirectory = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES);
+                    String pictureName = ImageUtility.getPictureName();
+                    File imageFile = new File(pictureDirectory, pictureName);
+                    pictureUri = Uri.fromFile(imageFile);
+                    intent.putExtra(MediaStore.EXTRA_OUTPUT, pictureUri);
+
+                    if (intent.resolveActivity(getPackageManager()) != null) {
+                        // Start the image capture intent to take photo
+                        startActivityForResult(intent, 0);
+                    }
                 } else {
-                    // permission denied, maybe disable btn? or just try again on next click?
+                    // permission denied,
+                    final AlertDialog.Builder alertDialog = new AlertDialog.Builder(CreateListingActivity.this);
+                    alertDialog.setCancelable(true);
+                    alertDialog.setTitle("Permission Denied");
+                    alertDialog.setMessage("Unable to access feature. Please allow CopShop Write access via device settings.");
+                    alertDialog.setNegativeButton("Ok", new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int id) {
+                            dialog.dismiss();
+                        }
+                    });
+                    alertDialog.show();
                 }
             }
         }
