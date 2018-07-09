@@ -2,11 +2,19 @@ package com.ctrlaltelite.copshop.presentation.activities;
 
 import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
+import android.database.Cursor;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Color;
+import android.graphics.Matrix;
+import android.media.ExifInterface;
+import android.media.Image;
+import android.net.Uri;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Base64;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -21,6 +29,8 @@ import com.ctrlaltelite.copshop.objects.SellerAccountObject;
 import com.ctrlaltelite.copshop.objects.BidObject;
 import com.ctrlaltelite.copshop.objects.ListingObject;
 import com.ctrlaltelite.copshop.presentation.classes.BidObjectArrayAdapter;
+import com.ctrlaltelite.copshop.presentation.utilities.ImageUtility;
+import java.io.IOException;
 import java.util.List;
 
 public class ListingViewActivity extends AppCompatActivity {
@@ -88,8 +98,26 @@ public class ListingViewActivity extends AppCompatActivity {
                 bidButton.setEnabled(false);
                 bidButton.setBackgroundColor(Color.LTGRAY);
             }
+			
+			// Get the image associated with this listing
+            if (!listing.getImageData().isEmpty()) {
+                String imageData[] = ImageUtility.imageDecode(listing.getImageData());
+                int rotationAmount = Integer.parseInt(imageData[0]);
+                Uri imageUri = Uri.parse(imageData[1]);
+                Bitmap bm = ImageUtility.uriToBitmap(ListingViewActivity.this, imageUri);
+                bm = ImageUtility.rotateBitmap(bm, rotationAmount);
+                image.setImageBitmap(bm);
+			}
 
-            // Attach listener to implicit field submit?
+            //Bitmap bm = StringToBitMap(listing.getImageData());
+            //image.setImageBitmap(bm);
+
+            // Hide the bid button, list, and field until bidding feature is complete
+            // bidInput.setHint(CopShopHub.getViewListingService().getNextBidTotal(listing));
+            bidInput.setVisibility(View.INVISIBLE);
+            bidList.setVisibility(View.INVISIBLE);
+            bidButton.setVisibility(View.INVISIBLE);
+			// Attach listener to implicit field submit?
 
             // Attach listener to button
             bidButton.setOnClickListener(new Button.OnClickListener() {
@@ -107,7 +135,7 @@ public class ListingViewActivity extends AppCompatActivity {
                     }
                 }
             });
-
+			
             // Hide the auction timer until auction stuff is complete and date-time processing is ready
             timeLeftDaysHours.setVisibility(View.INVISIBLE);
             timeLeftTimeDate.setVisibility(View.INVISIBLE);
@@ -147,6 +175,18 @@ public class ListingViewActivity extends AppCompatActivity {
     public void onBackPressed() {
         Intent intent = new Intent(ListingViewActivity.this, ListingListActivity.class);
         startActivity(intent);
+    }
+
+    public Bitmap StringToBitMap(String encodedString) {
+        try {
+            byte[] encodeByte = Base64.decode(encodedString, Base64.DEFAULT);
+            Bitmap bitmap = BitmapFactory.decodeByteArray(encodeByte, 0,
+                    encodeByte.length);
+            return bitmap;
+        } catch (Exception e) {
+            e.getMessage();
+            return null;
+        }
     }
 
 }

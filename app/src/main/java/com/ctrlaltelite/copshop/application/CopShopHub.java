@@ -133,14 +133,14 @@ public class CopShopHub
             } else {
                 listingModel = new ListingModel(getDatabase());
                 // Add sample data
-                ListingObject newListing1 = new ListingObject("", "Bicycle 1", "Poor condition, was found stuck in a tree upon day of seizure.", "10.00", "5.00", "01/02/2018 12:00", "10/02/2019 20:00", "Bikes", "0");
-                ListingObject newListing2 = new ListingObject("", "Nondescript Firearm 2", "It's a gun. We think it shoots bullets, maybe nerf darts. Hard to say.", "10.00", "1.00", "01/02/2018 12:00", "10/02/2018 20:00", "Weapons", "1");
-                ListingObject newListing3 = new ListingObject("", "Old Hotdog 3", "Still smells alright.", "10.00", "1.00", "01/02/2018 12:00", "10/02/2020 20:00", "Food", "1");
-                ListingObject newListing4 = new ListingObject("", "Toothbrush 4", "Pre-lubricated. The handle is filed to a sharp point to spare you expense in toothpicks. Has probably never been used before.", "10.00", "1.00", "01/02/2018 12:00", "10/02/2018 20:00","Oral Hygiene Instrument" ,"0");
-                ListingObject newListing5 = new ListingObject("", "Several Gerbils 5", "Assorted colors. You might need a net to come pick them up.", "10.00", "1.00", "01/02/2018 12:00", "10/02/2018 20:00", "Pets", "0");
-                ListingObject newListing6 = new ListingObject("", "Pen 6", "Blue ink. It doesn't write very well.", "10.00", "1.00", "01/02/2018 12:00", "12/12/2018 20:00", "Writing Equipment","1");
-                ListingObject newListing7 = new ListingObject("", "Live Octopus 7", "It keeps oozing out of its tank and escaping. Please take it away.", "10.00", "1.00", "01/02/2018 12:00", "10/02/2018 20:00", "Pets", "0");
-                ListingObject newListing8 = new ListingObject("", "Riding Lawnmower 8", "Front tire is flat and needs to be replaced. Doesn't cut grass evenly. Has a couple of stains and dents. You need a license to drive this machine.", "10.00", "1.00", "01/02/2018 12:00", "10/02/2018 20:00", "Hot Rides","0");
+                ListingObject newListing1 = new ListingObject("", "Bicycle 1", "Poor condition, was found stuck in a tree upon day of seizure.", "10.00", "5.00", "01/02/2018 12:00", "10/02/2019 20:00", "Bikes", "","0");
+                ListingObject newListing2 = new ListingObject("", "Nondescript Firearm 2", "It's a gun. We think it shoots bullets, maybe nerf darts. Hard to say.", "10.00", "1.00", "01/02/2018 12:00", "10/02/2018 20:00", "Weapons", "", "1");
+                ListingObject newListing3 = new ListingObject("", "Old Hotdog 3", "Still smells alright.", "10.00", "1.00", "01/02/2018 12:00", "10/02/2020 20:00", "Food", "", "1");
+                ListingObject newListing4 = new ListingObject("", "Toothbrush 4", "Pre-lubricated. The handle is filed to a sharp point to spare you expense in toothpicks. Has probably never been used before.", "10.00", "1.00", "01/02/2018 12:00", "10/02/2018 20:00","Oral Hygiene Instrument" ,"", "0");
+                ListingObject newListing5 = new ListingObject("", "Several Gerbils 5", "Assorted colors. You might need a net to come pick them up.", "10.00", "1.00", "01/02/2018 12:00", "10/02/2018 20:00", "Pets", "", "0");
+                ListingObject newListing6 = new ListingObject("", "Pen 6", "Blue ink. It doesn't write very well.", "10.00", "1.00", "01/02/2018 12:00", "12/12/2018 20:00", "Writing Equipment","1", "");
+                ListingObject newListing7 = new ListingObject("", "Live Octopus 7", "It keeps oozing out of its tank and escaping. Please take it away.", "10.00", "1.00", "01/02/2018 12:00", "10/02/2018 20:00", "Pets", "", "0");
+                ListingObject newListing8 = new ListingObject("", "Riding Lawnmower 8", "Front tire is flat and needs to be replaced. Doesn't cut grass evenly. Has a couple of stains and dents. You need a license to drive this machine.", "10.00", "1.00", "01/02/2018 12:00", "10/02/2018 20:00", "Hot Rides","", "0");
                 listingModel.createNew(newListing1);
                 listingModel.createNew(newListing2);
                 listingModel.createNew(newListing3);

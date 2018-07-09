@@ -33,6 +33,7 @@ public class ListingModel implements IListingModel {
         newRow.put("auctionStartDate", newListing.getAuctionStartDate());
         newRow.put("auctionEndDate", newListing.getAuctionEndDate());
         newRow.put("category", newListing.getCategory());
+		newRow.put("imageData", newListing.getImageData());
         newRow.put("sellerId", newListing.getSellerId());
 
         return this.database.insertRow(TABLE_NAME, newRow);
@@ -64,6 +65,7 @@ public class ListingModel implements IListingModel {
             success = success && (null != this.database.updateColumn(TABLE_NAME, id, "auctionStartDate", updatedListing.getAuctionStartDate()));
             success = success && (null != this.database.updateColumn(TABLE_NAME, id, "auctionEndDate", updatedListing.getAuctionEndDate()));
             success = success && (null != this.database.updateColumn(TABLE_NAME, id, "category", updatedListing.getCategory()));
+            success = success && (null != this.database.updateColumn(TABLE_NAME, id, "sellerId", updatedListing.getImageData()));
             success = success && (null != this.database.updateColumn(TABLE_NAME, id, "sellerId", updatedListing.getSellerId()));
 
             return success;
@@ -85,6 +87,7 @@ public class ListingModel implements IListingModel {
                     this.database.fetchColumn(TABLE_NAME, id, "auctionStartDate"),
                     this.database.fetchColumn(TABLE_NAME, id, "auctionEndDate"),
                     this.database.fetchColumn(TABLE_NAME, id, "category"),
+                    this.database.fetchColumn(TABLE_NAME, id, "imageData"),
                     this.database.fetchColumn(TABLE_NAME, id, "sellerId")
             );
         }
@@ -110,6 +113,7 @@ public class ListingModel implements IListingModel {
                         row.get("auctionStartDate"),
                         row.get("auctionEndDate"),
                         row.get("category"),
+                        row.get("imagedata"),
                         row.get("sellerId")
                 );
                 if (!name.isEmpty()) {
@@ -145,6 +149,7 @@ public class ListingModel implements IListingModel {
                         row.get("auctionStartDate"),
                         row.get("auctionEndDate"),
                         row.get("category"),
+                        row.get("imagedata"),
                         row.get("sellerId")
                 );
                 if (!sellerID.isEmpty()) {
@@ -180,6 +185,7 @@ public class ListingModel implements IListingModel {
                         row.get("auctionStartDate"),
                         row.get("auctionEndDate"),
                         row.get("category"),
+                        row.get("imagedata"),
                         row.get("sellerId")
                 );
                 if (!category.isEmpty()) {
@@ -218,6 +224,7 @@ public class ListingModel implements IListingModel {
                         row.get("auctionStartDate"),
                         row.get("auctionEndDate"),
                         row.get("category"),
+                        row.get("imagedata"),
                         row.get("sellerId")
                 );
                 if (!status.isEmpty()) {
@@ -321,6 +328,7 @@ public class ListingModel implements IListingModel {
                         row.get("auctionStartDate"),
                         row.get("auctionEndDate"),
                         row.get("category"),
+                        row.get("imageData"),
                         row.get("sellerId")
                 );
 

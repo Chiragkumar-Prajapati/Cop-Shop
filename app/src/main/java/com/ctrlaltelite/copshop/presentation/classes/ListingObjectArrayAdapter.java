@@ -2,6 +2,8 @@ package com.ctrlaltelite.copshop.presentation.classes;
 
 import android.app.Activity;
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.net.Uri;
 import android.support.annotation.NonNull;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -12,6 +14,8 @@ import android.widget.TextView;
 
 import com.ctrlaltelite.copshop.R;
 import com.ctrlaltelite.copshop.application.CopShopHub;
+import com.ctrlaltelite.copshop.presentation.activities.ListingViewActivity;
+import com.ctrlaltelite.copshop.presentation.utilities.ImageUtility;
 import com.ctrlaltelite.copshop.presentation.utilities.StringUtility;
 import com.ctrlaltelite.copshop.objects.ListingObject;
 import java.util.List;
@@ -51,6 +55,15 @@ public class ListingObjectArrayAdapter extends ArrayAdapter<ListingObject> {
         seller.setText(CopShopHub.getListingService().getSellerNameFromListing(info.getId()));
 
         // Get the image associated with this listing
+        if (!info.getImageData().isEmpty()) {
+            String imageData[] = ImageUtility.imageDecode(info.getImageData());
+            int rotationAmount = Integer.parseInt(imageData[0]);
+            Uri imageUri = Uri.parse(imageData[1]);
+            Bitmap bm = ImageUtility.uriToBitmap(context, imageUri);
+            bm = ImageUtility.rotateBitmap(bm, rotationAmount);
+            bm = ImageUtility.getResizedBitmap(bm, 100);
+            image.setImageBitmap(bm);
+        }
 //        int imageID = context.getResources().getIdentifier(info.getImage(), "drawable", context.getPackageName());
 //        image.setImageResource(imageID);
 

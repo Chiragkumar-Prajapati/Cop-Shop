@@ -9,9 +9,10 @@ public class ListingObject {
     private String auctionStartDate; // Format: DD/MM/YEAR Format: HR:MN (24 HR)
     private String auctionEndDate; // Format: DD/MM/YEAR HR:MN (24 HR)
     private String sellerId;
+    private String imageData;
     private String category;
 
-    public ListingObject(String id, String title, String description, String initPrice, String minBid, String auctionStartDate, String auctionEndDate, String category, String sellerId) {
+    public ListingObject(String id, String title, String description, String initPrice, String minBid, String auctionStartDate, String auctionEndDate, String category, String imageData, String sellerId) {
         this.id = id;
         this.title = title;
         this.description = description;
@@ -20,6 +21,7 @@ public class ListingObject {
         this.auctionStartDate = auctionStartDate;
         this.auctionEndDate = auctionEndDate;
         this.category = category;
+		this.imageData = imageData;
         this.sellerId = sellerId;
     }
 
@@ -60,6 +62,10 @@ public class ListingObject {
         return sellerId;
     }
 
+    public String getImageData() {
+        return imageData;
+    }
+
     // Setters
     public void setDescription(String description) {
         this.description = description;
@@ -93,6 +99,10 @@ public class ListingObject {
         this.sellerId = sellerId;
     }
 
+    public void setImageData(String imageData) {
+        this.imageData = imageData;
+    }
+
     @Override
     public String toString(){
         String listing = "";
@@ -105,6 +115,7 @@ public class ListingObject {
                     "\nauction start date: " + auctionStartDate +
                     "\nauction end date: " + auctionEndDate +
                     "\ncategory: " + category +
+					"\nimage data: " + imageData +
                     "\nseller id: " + sellerId;
 
         return listing;

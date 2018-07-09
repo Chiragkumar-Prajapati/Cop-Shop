@@ -1,6 +1,5 @@
 package com.ctrlaltelite.copshop.persistence.stubs.hsqldb;
 
-import com.ctrlaltelite.copshop.application.CopShopHub;
 import com.ctrlaltelite.copshop.logic.services.utilities.DateUtility;
 import com.ctrlaltelite.copshop.objects.ListingObject;
 import com.ctrlaltelite.copshop.persistence.IListingModel;
@@ -39,8 +38,8 @@ public class ListingModelHSQLDB implements IListingModel {
         try {
             st = dbConn.prepareStatement(
                     "INSERT INTO " + TABLE_NAME + " " +
-                        "(title,description,initprice,minbid,auctionstartdate,auctionenddate,category,sellerid) " +
-                        "VALUES (?, ?, ?, ?, ?, ?, ?, ?)",
+                        "(title,description,initprice,minbid,auctionstartdate,auctionenddate,category,imagedata,sellerid) " +
+                        "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)",
                     RETURN_GENERATED_KEYS);
             st.setString(1, newListing.getTitle());
             st.setString(2, newListing.getDescription());
@@ -49,7 +48,8 @@ public class ListingModelHSQLDB implements IListingModel {
             st.setString(5, newListing.getAuctionStartDate());
             st.setString(6, newListing.getAuctionEndDate());
             st.setString(7, newListing.getCategory());
-            st.setInt(8, Integer.parseInt(newListing.getSellerId()));
+            st.setString(8, newListing.getImageData());
+            st.setInt(9, Integer.parseInt(newListing.getSellerId()));
             int updated = st.executeUpdate();
 
             if (updated >= 1) {
@@ -109,8 +109,9 @@ public class ListingModelHSQLDB implements IListingModel {
                         "auctionstartdate = ?, " +
                         "auctionenddate = ?, " +
                         "category = ?, " +
+                        "imagedata = ? " +
                         "sellerid = ? " +
-                        "WHERE id = ?");
+						"WHERE id = ?");
             st.setString(1, updatedListing.getTitle());
             st.setString(2, updatedListing.getDescription());
             st.setString(3, updatedListing.getInitPrice());
@@ -118,9 +119,10 @@ public class ListingModelHSQLDB implements IListingModel {
             st.setString(5, updatedListing.getAuctionStartDate());
             st.setString(6, updatedListing.getAuctionEndDate());
             st.setString(7, updatedListing.getCategory());
-            st.setInt(8, Integer.parseInt(updatedListing.getSellerId()));
-            st.setInt(9, Integer.parseInt(id));
-            st.executeUpdate();
+            st.setString(8, updatedListing.getImageData());
+            st.setInt(9, Integer.parseInt(updatedListing.getSellerId()));            
+			st.setInt(10, Integer.parseInt(id));            
+			st.executeUpdate();
             return true;
 
         } catch (final SQLException e) {
@@ -498,10 +500,11 @@ public class ListingModelHSQLDB implements IListingModel {
         String startDate = HSQLDBUtil.getStringFromResultSet(rs, "auctionstartdate");
         String endDate = HSQLDBUtil.getStringFromResultSet(rs, "auctionenddate");
         String category = HSQLDBUtil.getStringFromResultSet(rs, "category");
+        String imageData = HSQLDBUtil.getStringFromResultSet(rs, "imageData");
         String sellerId = HSQLDBUtil.getIntAsStringFromResultSet(rs, "sellerid");
         String id = HSQLDBUtil.getIntAsStringFromResultSet(rs, "id");
 
-        //System.out.println("Created Listing Object: " + id + ", " + title + ", " + desc + ", " + initPrice + ", " + minBid + ", " + startDate + ", " + endDate + ", " + sellerId);
-        return new ListingObject(id, title, desc, initPrice, minBid, startDate, endDate, category, sellerId);
+        //System.out.println("Created Listing Object: " + id + ", " + title + ", " + desc + ", " + initPrice + ", " + minBid + ", " + startDate + ", " + endDate + ", " + imageData + ", " + sellerId);
+        return new ListingObject(id, title, desc, initPrice, minBid, startDate, endDate, category, imageData, sellerId);
     }
 }

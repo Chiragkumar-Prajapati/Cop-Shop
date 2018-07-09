@@ -285,6 +285,26 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/txtMinBid" />
 
+        <Button
+            android:id="@+id/btnAddImage"
+            android:layout_width="126dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="44dp"
+            android:layout_marginTop="250dp"
+            android:text="Add Image"
+            app:layout_constraintStart_toEndOf="@+id/txtMinBid"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <ImageView
+            android:id="@+id/imageView"
+            android:layout_width="123dp"
+            android:layout_height="103dp"
+            android:layout_marginStart="45dp"
+            android:layout_marginTop="40dp"
+            app:layout_constraintStart_toEndOf="@+id/txtInitialPrice"
+            app:layout_constraintTop_toBottomOf="@+id/textView"
+            app:srcCompat="@drawable/txt_field_black_border" />
+
     </android.support.constraint.ConstraintLayout>
 
 </ScrollView>
