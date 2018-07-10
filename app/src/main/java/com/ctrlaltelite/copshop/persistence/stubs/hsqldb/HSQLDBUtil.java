@@ -1,5 +1,6 @@
 package com.ctrlaltelite.copshop.persistence.stubs.hsqldb;
 
+import java.io.InputStream;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
@@ -44,4 +45,5 @@ public class HSQLDBUtil {
             try {closeable.close();} catch(Exception e) {}
         }
     }
+
 }

@@ -27,7 +27,7 @@ import org.junit.runners.Suite;
         ListingServiceTests.class,
         BidServiceTests.class,
 })
-public class AllTests
+public class AllUnitTests
 {
 
 }
