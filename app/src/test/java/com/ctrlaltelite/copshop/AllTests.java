@@ -1,14 +1,14 @@
 package com.ctrlaltelite.copshop;
 
-import com.ctrlaltelite.copshop.tests.AccountServiceTests;
-import com.ctrlaltelite.copshop.tests.BidModelTests;
-import com.ctrlaltelite.copshop.tests.BidServiceTests;
-import com.ctrlaltelite.copshop.tests.BuyerModelTests;
-import com.ctrlaltelite.copshop.tests.CreateListingServiceTests;
-import com.ctrlaltelite.copshop.tests.DatabaseTests;
-import com.ctrlaltelite.copshop.tests.ListingModelTests;
-import com.ctrlaltelite.copshop.tests.ListingServiceTests;
-import com.ctrlaltelite.copshop.tests.SellerModelTests;
+import com.ctrlaltelite.copshop.tests.unit.AccountServiceTests;
+import com.ctrlaltelite.copshop.tests.unit.BidModelTests;
+import com.ctrlaltelite.copshop.tests.unit.BidServiceTests;
+import com.ctrlaltelite.copshop.tests.unit.BuyerModelTests;
+import com.ctrlaltelite.copshop.tests.unit.CreateListingServiceTests;
+import com.ctrlaltelite.copshop.tests.unit.DatabaseTests;
+import com.ctrlaltelite.copshop.tests.unit.ListingModelTests;
+import com.ctrlaltelite.copshop.tests.unit.ListingServiceTests;
+import com.ctrlaltelite.copshop.tests.unit.SellerModelTests;
 
 import org.junit.runner.RunWith;
 import org.junit.runners.Suite;
