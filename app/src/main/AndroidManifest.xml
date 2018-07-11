@@ -14,6 +14,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
+            android:configChanges="orientation|screenSize"
             android:name=".presentation.activities.ListingListActivity"
             android:label="CopShop - Listings"
             android:theme="@style/AppTheme.NoActionBar">
@@ -23,6 +24,7 @@
             </intent-filter>
         </activity>
         <activity
+            android:configChanges="orientation|screenSize"
             android:name=".presentation.activities.CreateListingActivity"
             android:label="CopShop - Create Listing"
             android:theme="@style/AppTheme.NoActionBar"
@@ -32,6 +34,7 @@
             android:label="CopShop - Log in" />
         <activity android:name=".presentation.activities.CreateAccountActivity" />
         <activity
+            android:configChanges="orientation|screenSize"
             android:name=".presentation.activities.ListingViewActivity"
             android:label="CopShop - View Listing"
             android:theme="@style/AppTheme.NoActionBar">
@@ -41,6 +44,7 @@
         <activity android:name=".presentation.activities.CreateSellerAccountActivity" />
         <activity android:name=".presentation.activities.ViewSellerAccountActivity" />
         <activity
+            android:configChanges="orientation|screenSize"
             android:name=".presentation.activities.EditListingActivity"
             android:label="CopShop - Edit Listing"
             android:theme="@style/AppTheme.NoActionBar" />

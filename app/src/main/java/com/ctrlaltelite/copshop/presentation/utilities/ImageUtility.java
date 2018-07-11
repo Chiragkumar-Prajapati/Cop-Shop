@@ -1,12 +1,29 @@
 package com.ctrlaltelite.copshop.presentation.utilities;
 
+import android.Manifest;
+import android.app.Activity;
 import android.content.Context;
+import android.content.DialogInterface;
+import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Matrix;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
 import android.net.Uri;
+import android.os.Environment;
 import android.os.ParcelFileDescriptor;
+import android.provider.MediaStore;
+import android.support.annotation.NonNull;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
+import android.support.v7.app.AlertDialog;
+import android.widget.ImageView;
 
+import com.ctrlaltelite.copshop.presentation.activities.CreateListingActivity;
+
+import java.io.File;
 import java.io.FileDescriptor;
 import java.io.IOException;
 import java.util.Date;
@@ -78,4 +95,9 @@ public class ImageUtility {
         }
         return image;
     }
+
+    public static boolean hasImage(@NonNull ImageView view) {
+        return view.getTag() != null;
+    }
+
 }

@@ -116,14 +116,19 @@ public class CreateListingActivity extends AppCompatActivity {
         imageView.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
-                reqOrientationShift++;
-                if(reqOrientationShift == 4) {
-                    reqOrientationShift = 0;
+                // Check if an image is present
+                if (ImageUtility.hasImage(imageView)) {
+                    Bitmap bm = ImageUtility.uriToBitmap(CreateListingActivity.this, pictureUri);
+                    if (bm != null) {
+                        reqOrientationShift++;
+                        if (reqOrientationShift == 4) {
+                            reqOrientationShift = 0;
+                        }
+                        bm = ImageUtility.rotateBitmap(bm, reqOrientationShift);
+                        imageView.setImageBitmap(bm);
+                        imageView.setTag(reqOrientationShift + " " + pictureUri.toString());
+                    }
                 }
-                Bitmap bm = ImageUtility.uriToBitmap(CreateListingActivity.this, pictureUri);
-                bm = ImageUtility.rotateBitmap(bm, reqOrientationShift);
-                imageView.setImageBitmap(bm);
-                imageView.setTag(reqOrientationShift + " " + pictureUri.toString());
             }
         });
 
@@ -144,6 +149,7 @@ public class CreateListingActivity extends AppCompatActivity {
                             Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
 
                             File pictureDirectory = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES);
+
                             String pictureName = ImageUtility.getPictureName();
                             File imageFile = new File(pictureDirectory, pictureName);
                             pictureUri = Uri.fromFile(imageFile);
@@ -182,10 +188,10 @@ public class CreateListingActivity extends AppCompatActivity {
             public void onClick(View v) {
                 Log.i("SubmitButton", "Clicked!");
                 // Create
-                Object image = findViewById(R.id.imageView).getTag();
+                ImageView imageView = findViewById(R.id.imageView);
                 String imagePath = "";
-                if (image != null && !image.toString().isEmpty()) {
-                    imagePath = image.toString();
+                if (ImageUtility.hasImage(imageView)) {
+                    imagePath = imageView.getTag().toString();
                 }
 
                 ListingObject listingObject = new ListingObject(
@@ -282,6 +288,7 @@ public class CreateListingActivity extends AppCompatActivity {
         switch (requestCode) {
             case 0:
                 if (resultCode == RESULT_OK) {
+                    reqOrientationShift = 0;
                     imageView.setImageURI(pictureUri);
                     imageView.setTag(reqOrientationShift + " " + pictureUri.toString());
                 }
@@ -292,7 +299,7 @@ public class CreateListingActivity extends AppCompatActivity {
                 if (resultCode == RESULT_OK) {
                     if (ContextCompat.checkSelfPermission(CreateListingActivity.this, Manifest.permission.WRITE_EXTERNAL_STORAGE)
                             == PackageManager.PERMISSION_GRANTED) {
-
+                        reqOrientationShift = 0;
                         pictureUri = imageReturnedIntent.getData();
                         imageView.setImageURI(pictureUri);
                         imageView.setTag(reqOrientationShift + " " + pictureUri.toString());
@@ -305,7 +312,6 @@ public class CreateListingActivity extends AppCompatActivity {
             }
     }
 
-    //-----------------------NEEDS TO BE IMPLEMENTED STILL--------------------------------//
     @Override
     public void onRequestPermissionsResult(int requestCode,
                                            String permissions[], int[] grantResults) {
@@ -332,7 +338,7 @@ public class CreateListingActivity extends AppCompatActivity {
                     alertDialog.setCancelable(true);
                     alertDialog.setTitle("Permission Denied");
                     alertDialog.setMessage("Unable to access feature. Please allow CopShop Write access via device settings.");
-                    alertDialog.setNegativeButton("Ok", new DialogInterface.OnClickListener() {
+                    alertDialog.setNegativeButton("Close", new DialogInterface.OnClickListener() {
                         public void onClick(DialogInterface dialog, int id) {
                             dialog.dismiss();
                         }

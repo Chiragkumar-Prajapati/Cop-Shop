@@ -1,20 +1,26 @@
 package com.ctrlaltelite.copshop.presentation.activities;
 
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
 import android.content.res.AssetManager;
+import android.graphics.Bitmap;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -23,6 +29,7 @@ import com.ctrlaltelite.copshop.application.CopShopApp;
 import com.ctrlaltelite.copshop.application.CopShopHub;
 import com.ctrlaltelite.copshop.presentation.classes.ListingObjectArrayAdapter;
 import com.ctrlaltelite.copshop.objects.ListingObject;
+import com.ctrlaltelite.copshop.presentation.utilities.ImageUtility;
 
 import java.io.File;
 import java.io.FileWriter;
@@ -31,7 +38,7 @@ import java.io.InputStreamReader;
 import java.util.List;
 
 public class ListingListActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
-
+    private static final int MY_PERMISSIONS_REQUEST_READ_EXTERNAL_STORAGE = 2;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -244,6 +251,36 @@ public class ListingListActivity extends AppCompatActivity implements Navigation
 
                 out.close();
                 in.close();
+            }
+        }
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode,
+                                           String permissions[], int[] grantResults) {
+        switch (requestCode) {
+            case MY_PERMISSIONS_REQUEST_READ_EXTERNAL_STORAGE: {
+                // If request is cancelled, the result arrays are empty.
+                if (grantResults.length > 0
+                        && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    finish();
+                    overridePendingTransition(0, 0);
+                    startActivity(getIntent());
+                    overridePendingTransition(0, 0);
+                } else {
+                    // permission denied,
+                    final AlertDialog.Builder alertDialog = new AlertDialog.Builder(ListingListActivity.this);
+                    alertDialog.setCancelable(true);
+                    alertDialog.setTitle("Image Permission Denied");
+                    alertDialog.setMessage("Due to restricted access, copshop will be unable to display images. " +
+                            "To enable them please enable storage permission in device settings.");
+                    alertDialog.setNegativeButton("Close", new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int id) {
+                            dialog.dismiss();
+                        }
+                    });
+                    alertDialog.show();
+                }
             }
         }
     }

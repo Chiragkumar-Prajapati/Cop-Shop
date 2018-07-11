@@ -1,10 +1,16 @@
 package com.ctrlaltelite.copshop.presentation.classes;
 
+import android.Manifest;
 import android.app.Activity;
 import android.content.Context;
+import android.content.DialogInterface;
+import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.support.annotation.NonNull;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
+import android.support.v7.app.AlertDialog;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -22,11 +28,16 @@ import java.util.List;
 
 public class ListingObjectArrayAdapter extends ArrayAdapter<ListingObject> {
     private Context context;
+    private Activity activity;
     private List<ListingObject> listingInfo;
+    private static final int MY_PERMISSIONS_REQUEST_READ_EXTERNAL_STORAGE = 2;
+    String imageData[];
+    View view;
 
     public ListingObjectArrayAdapter(Context context, List<ListingObject> objects) {
         super(context, 0, objects);
         this.context = context;
+        this.activity = (Activity)context;
         this.listingInfo = objects;
     }
 
@@ -38,7 +49,7 @@ public class ListingObjectArrayAdapter extends ArrayAdapter<ListingObject> {
 
         // Inflate the XML layout for each item
         LayoutInflater inflater = (LayoutInflater) context.getSystemService(Activity.LAYOUT_INFLATER_SERVICE);
-        View view = inflater.inflate(R.layout.listing_row, null);
+        view = inflater.inflate(R.layout.listing_row, null);
 
         TextView title = (TextView) view.findViewById(R.id.listing_list_title);
         TextView seller = (TextView) view.findViewById(R.id.listing_list_seller);
@@ -55,17 +66,21 @@ public class ListingObjectArrayAdapter extends ArrayAdapter<ListingObject> {
         seller.setText(CopShopHub.getListingService().getSellerNameFromListing(info.getId()));
 
         // Get the image associated with this listing
-        if (!info.getImageData().isEmpty()) {
-            String imageData[] = ImageUtility.imageDecode(info.getImageData());
-            int rotationAmount = Integer.parseInt(imageData[0]);
-            Uri imageUri = Uri.parse(imageData[1]);
-            Bitmap bm = ImageUtility.uriToBitmap(context, imageUri);
-            bm = ImageUtility.rotateBitmap(bm, rotationAmount);
-            bm = ImageUtility.getResizedBitmap(bm, 100);
-            image.setImageBitmap(bm);
+        if (!info.getImageData().isEmpty() && info.getImageData() != "") {
+            imageData = ImageUtility.imageDecode(info.getImageData());
+            if (ContextCompat.checkSelfPermission(context, Manifest.permission.READ_EXTERNAL_STORAGE)
+                    == PackageManager.PERMISSION_GRANTED) {
+                int rotationAmount = Integer.parseInt(imageData[0]);
+                Uri imageUri = Uri.parse(imageData[1]);
+                Bitmap bm = ImageUtility.uriToBitmap(context, imageUri);
+                bm = ImageUtility.rotateBitmap(bm, rotationAmount);
+                image.setImageBitmap(bm);
+            } else {
+                ActivityCompat.requestPermissions(activity,
+                        new String[]{Manifest.permission.READ_EXTERNAL_STORAGE},
+                        MY_PERMISSIONS_REQUEST_READ_EXTERNAL_STORAGE);
+            }
         }
-//        int imageID = context.getResources().getIdentifier(info.getImage(), "drawable", context.getPackageName());
-//        image.setImageResource(imageID);
 
         // Hide price and bid counter until bidding is implemented
         bids.setText(CopShopHub.getListingService().getNumBids(info.getId()) + " bids");

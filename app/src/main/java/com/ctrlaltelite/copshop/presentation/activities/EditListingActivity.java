@@ -36,6 +36,8 @@ import java.io.File;
 
 public class EditListingActivity extends AppCompatActivity {
 
+    private static final int MY_PERMISSIONS_REQUEST_READ_EXTERNAL_STORAGE = 2;
+    String imageData[];
     private static final int MY_PERMISSIONS_REQUEST_WRITE_EXTERNAL_STORAGE = 1;
     private Uri pictureUri;
     private int reqOrientationShift = 0;
@@ -112,14 +114,19 @@ public class EditListingActivity extends AppCompatActivity {
         imageView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                reqOrientationShift++;
-                if(reqOrientationShift == 4) {
-                    reqOrientationShift = 0;
+                // Check if an image is present
+                if (ImageUtility.hasImage(imageView)) {
+                    Bitmap bm = ImageUtility.uriToBitmap(EditListingActivity.this, pictureUri);
+                    if (bm != null) {
+                        reqOrientationShift++;
+                        if (reqOrientationShift == 4) {
+                            reqOrientationShift = 0;
+                        }
+                        bm = ImageUtility.rotateBitmap(bm, reqOrientationShift);
+                        imageView.setImageBitmap(bm);
+                        imageView.setTag(reqOrientationShift + " " + pictureUri.toString());
+                    }
                 }
-                Bitmap bm = ImageUtility.uriToBitmap(EditListingActivity.this, pictureUri);
-                bm = ImageUtility.rotateBitmap(bm, reqOrientationShift);
-                imageView.setImageBitmap(bm);
-                imageView.setTag(reqOrientationShift + " " + pictureUri.toString());
             }
         });
 
@@ -205,10 +212,10 @@ public class EditListingActivity extends AppCompatActivity {
             public void onClick(View v) {
                 Log.i("SubmitButton", "Clicked!");
                 // Create
-                Object image = findViewById(R.id.imageView).getTag();
+                ImageView imageView = findViewById(R.id.imageView);
                 String imagePath = "";
-                if (image != null && !image.toString().isEmpty()) {
-                    imagePath = image.toString();
+                if (ImageUtility.hasImage(imageView)) {
+                    imagePath = imageView.getTag().toString();
                 }
 
                 ListingObject listingObject = new ListingObject(
@@ -312,6 +319,7 @@ public class EditListingActivity extends AppCompatActivity {
         switch (requestCode) {
             case 0:
                 if (resultCode == RESULT_OK) {
+                    reqOrientationShift = 0;
                     imageView.setImageURI(pictureUri);
                     imageView.setTag(reqOrientationShift + " " + pictureUri.toString());
                 }
@@ -322,7 +330,7 @@ public class EditListingActivity extends AppCompatActivity {
                 if (resultCode == RESULT_OK) {
                     if (ContextCompat.checkSelfPermission(EditListingActivity.this, Manifest.permission.WRITE_EXTERNAL_STORAGE)
                             == PackageManager.PERMISSION_GRANTED) {
-
+                        reqOrientationShift = 0;
                         pictureUri = imageReturnedIntent.getData();
                         imageView.setImageURI(pictureUri);
                         imageView.setTag(reqOrientationShift + " " + pictureUri.toString());
@@ -335,7 +343,6 @@ public class EditListingActivity extends AppCompatActivity {
         }
     }
 
-    //-----------------------NEEDS TO BE IMPLEMENTED STILL--------------------------------//
     @Override
     public void onRequestPermissionsResult(int requestCode,
                                            String permissions[], int[] grantResults) {
@@ -344,9 +351,55 @@ public class EditListingActivity extends AppCompatActivity {
                 // If request is cancelled, the result arrays are empty.
                 if (grantResults.length > 0
                         && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                    // granted, start work!?!
+                    Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+
+                    File pictureDirectory = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES);
+                    String pictureName = ImageUtility.getPictureName();
+                    File imageFile = new File(pictureDirectory, pictureName);
+                    pictureUri = Uri.fromFile(imageFile);
+                    intent.putExtra(MediaStore.EXTRA_OUTPUT, pictureUri);
+
+                    if (intent.resolveActivity(getPackageManager()) != null) {
+                        // Start the image capture intent to take photo
+                        startActivityForResult(intent, 0);
+                    }
                 } else {
-                    // permission denied, maybe disable btn? or just try again on next click?
+                    // permission denied,
+                    final AlertDialog.Builder alertDialog = new AlertDialog.Builder(EditListingActivity.this);
+                    alertDialog.setCancelable(true);
+                    alertDialog.setTitle("Permission Denied");
+                    alertDialog.setMessage("Unable to access feature. Please allow CopShop Write access via device settings.");
+                    alertDialog.setNegativeButton("Close", new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int id) {
+                            dialog.dismiss();
+                        }
+                    });
+                    alertDialog.show();
+                }
+            }
+            case MY_PERMISSIONS_REQUEST_READ_EXTERNAL_STORAGE: {
+                // If request is cancelled, the result arrays are empty.
+                if (grantResults.length > 0
+                        && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    ImageView image = findViewById(R.id.imageView);
+                    reqOrientationShift = Integer.parseInt(imageData[0]);
+                    pictureUri = Uri.parse(imageData[1]);
+                    Bitmap bm = ImageUtility.uriToBitmap(EditListingActivity.this, pictureUri);
+                    bm = ImageUtility.rotateBitmap(bm, reqOrientationShift);
+                    image.setImageBitmap(bm);
+                    image.setTag(reqOrientationShift + " " + pictureUri.toString());
+                } else {
+                    // permission denied,
+                    final AlertDialog.Builder alertDialog = new AlertDialog.Builder(EditListingActivity.this);
+                    alertDialog.setCancelable(true);
+                    alertDialog.setTitle("Permission Denied");
+                    alertDialog.setMessage("Unable to display image for editing. Please allow CopShop Storage access via device settings.");
+                    alertDialog.setNegativeButton("Close", new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int id) {
+                            dialog.dismiss();
+                        }
+                    });
+                    alertDialog.show();
                 }
             }
         }
@@ -389,14 +442,23 @@ public class EditListingActivity extends AppCompatActivity {
             if (editTextCategory != null) {
                 editTextCategory.setText(listingObj.getCategory());
             }
-            if (editImageView != null) { //might have issue with when the image is a blank string
-                                        // aka when a listing doesn't have an image---test this
-                String imageData[] = ImageUtility.imageDecode(listingObj.getImageData());
-                int rotationAmount = Integer.parseInt(imageData[0]);
-                Uri imageUri = Uri.parse(imageData[1]);
-                Bitmap bm = ImageUtility.uriToBitmap(EditListingActivity.this, imageUri);
-                bm = ImageUtility.rotateBitmap(bm, rotationAmount);
-                editImageView.setImageBitmap(bm);
+            if (editImageView != null) {
+                if (!listingObj.getImageData().isEmpty() && listingObj.getImageData() != "") {
+                    imageData = ImageUtility.imageDecode(listingObj.getImageData());
+                    if (ContextCompat.checkSelfPermission(EditListingActivity.this, Manifest.permission.READ_EXTERNAL_STORAGE)
+                            == PackageManager.PERMISSION_GRANTED) {
+                        reqOrientationShift = Integer.parseInt(imageData[0]);
+                        pictureUri = Uri.parse(imageData[1]);
+                        Bitmap bm = ImageUtility.uriToBitmap(EditListingActivity.this, pictureUri);
+                        bm = ImageUtility.rotateBitmap(bm, reqOrientationShift);
+                        editImageView.setImageBitmap(bm);
+                        editImageView.setTag(reqOrientationShift + " " + pictureUri.toString());
+                    } else {
+                        ActivityCompat.requestPermissions(EditListingActivity.this,
+                                new String[]{Manifest.permission.READ_EXTERNAL_STORAGE},
+                                MY_PERMISSIONS_REQUEST_READ_EXTERNAL_STORAGE);
+                    }
+                }
             }
         }
     }

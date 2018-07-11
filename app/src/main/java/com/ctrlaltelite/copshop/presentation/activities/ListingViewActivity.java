@@ -1,7 +1,10 @@
 package com.ctrlaltelite.copshop.presentation.activities;
 
+import android.Manifest;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -11,7 +14,12 @@ import android.media.ExifInterface;
 import android.media.Image;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Environment;
+import android.os.ParcelFileDescriptor;
 import android.provider.MediaStore;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Base64;
@@ -30,10 +38,16 @@ import com.ctrlaltelite.copshop.objects.BidObject;
 import com.ctrlaltelite.copshop.objects.ListingObject;
 import com.ctrlaltelite.copshop.presentation.classes.BidObjectArrayAdapter;
 import com.ctrlaltelite.copshop.presentation.utilities.ImageUtility;
+
+import java.io.File;
+import java.io.FileDescriptor;
 import java.io.IOException;
 import java.util.List;
 
 public class ListingViewActivity extends AppCompatActivity {
+
+    private static final int MY_PERMISSIONS_REQUEST_READ_EXTERNAL_STORAGE = 2;
+    String imageData[];
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -100,13 +114,20 @@ public class ListingViewActivity extends AppCompatActivity {
             }
 			
 			// Get the image associated with this listing
-            if (!listing.getImageData().isEmpty()) {
-                String imageData[] = ImageUtility.imageDecode(listing.getImageData());
-                int rotationAmount = Integer.parseInt(imageData[0]);
-                Uri imageUri = Uri.parse(imageData[1]);
-                Bitmap bm = ImageUtility.uriToBitmap(ListingViewActivity.this, imageUri);
-                bm = ImageUtility.rotateBitmap(bm, rotationAmount);
-                image.setImageBitmap(bm);
+            if (!listing.getImageData().isEmpty() && listing.getImageData() != "") {
+                imageData = ImageUtility.imageDecode(listing.getImageData());
+                if (ContextCompat.checkSelfPermission(ListingViewActivity.this, Manifest.permission.READ_EXTERNAL_STORAGE)
+                        == PackageManager.PERMISSION_GRANTED) {
+                    int rotationAmount = Integer.parseInt(imageData[0]);
+                    Uri imageUri = Uri.parse(imageData[1]);
+                    Bitmap bm = ImageUtility.uriToBitmap(ListingViewActivity.this, imageUri);
+                    bm = ImageUtility.rotateBitmap(bm, rotationAmount);
+                    image.setImageBitmap(bm);
+                } else {
+                    ActivityCompat.requestPermissions(ListingViewActivity.this,
+                            new String[]{Manifest.permission.READ_EXTERNAL_STORAGE},
+                            MY_PERMISSIONS_REQUEST_READ_EXTERNAL_STORAGE);
+                }
 			}
 
             //Bitmap bm = StringToBitMap(listing.getImageData());
@@ -177,15 +198,34 @@ public class ListingViewActivity extends AppCompatActivity {
         startActivity(intent);
     }
 
-    public Bitmap StringToBitMap(String encodedString) {
-        try {
-            byte[] encodeByte = Base64.decode(encodedString, Base64.DEFAULT);
-            Bitmap bitmap = BitmapFactory.decodeByteArray(encodeByte, 0,
-                    encodeByte.length);
-            return bitmap;
-        } catch (Exception e) {
-            e.getMessage();
-            return null;
+    @Override
+    public void onRequestPermissionsResult(int requestCode,
+                                           String permissions[], int[] grantResults) {
+        switch (requestCode) {
+            case MY_PERMISSIONS_REQUEST_READ_EXTERNAL_STORAGE: {
+                // If request is cancelled, the result arrays are empty.
+                if (grantResults.length > 0
+                        && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    ImageView image = (ImageView) findViewById(R.id.view_listing_image);
+                    int rotationAmount = Integer.parseInt(imageData[0]);
+                    Uri imageUri = Uri.parse(imageData[1]);
+                    Bitmap bm = ImageUtility.uriToBitmap(ListingViewActivity.this, imageUri);
+                    bm = ImageUtility.rotateBitmap(bm, rotationAmount);
+                    image.setImageBitmap(bm);
+                } else {
+                    // permission denied,
+                    final AlertDialog.Builder alertDialog = new AlertDialog.Builder(ListingViewActivity.this);
+                    alertDialog.setCancelable(true);
+                    alertDialog.setTitle("Permission Denied");
+                    alertDialog.setMessage("Unable to access feature. Please allow CopShop Write access via device settings.");
+                    alertDialog.setNegativeButton("Close", new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int id) {
+                            dialog.dismiss();
+                        }
+                    });
+                    alertDialog.show();
+                }
+            }
         }
     }
 
