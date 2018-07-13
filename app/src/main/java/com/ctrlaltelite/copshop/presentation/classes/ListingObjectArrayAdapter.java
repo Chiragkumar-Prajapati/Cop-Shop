@@ -75,6 +75,7 @@ public class ListingObjectArrayAdapter extends ArrayAdapter<ListingObject> {
                 Bitmap bm = ImageUtility.uriToBitmap(context, imageUri);
                 bm = ImageUtility.rotateBitmap(bm, rotationAmount);
                 image.setImageBitmap(bm);
+                image.setBackgroundResource(android.R.color.transparent);
             } else {
                 ActivityCompat.requestPermissions(activity,
                         new String[]{Manifest.permission.READ_EXTERNAL_STORAGE},
