@@ -25,9 +25,9 @@ public class SellerModel implements ISellerModel {
         newRow.put("password", newAccount.getPassword());
         newRow.put("email", newAccount.getEmail());
         newRow.put("name", newAccount.getOrganizationName());
-        newRow.put("streetAddress", newAccount.getStreetAddress());
-        newRow.put("postalCode", newAccount.getPostalCode());
-        newRow.put("province", newAccount.getProvince());
+        newRow.put("streetAddress", newAccount.getAddress().getStreetAddress());
+        newRow.put("postalCode", newAccount.getAddress().getPostalCode());
+        newRow.put("province", newAccount.getAddress().getProvince());
 
 
         return this.database.insertRow(TABLE_NAME, newRow);
@@ -40,9 +40,9 @@ public class SellerModel implements ISellerModel {
         success = (null != this.database.updateColumn(TABLE_NAME, id, "password", updatedAccount.getPassword()));
         success = success && (null != this.database.updateColumn(TABLE_NAME, id, "email", updatedAccount.getEmail()));
         success = success && (null != this.database.updateColumn(TABLE_NAME, id, "name", updatedAccount.getOrganizationName()));
-        success = success && (null != this.database.updateColumn(TABLE_NAME, id, "streetAddress", updatedAccount.getStreetAddress()));
-        success = success && (null != this.database.updateColumn(TABLE_NAME, id, "postalCode", updatedAccount.getPostalCode()));
-        success = success && (null != this.database.updateColumn(TABLE_NAME, id, "province", updatedAccount.getProvince()));
+        success = success && (null != this.database.updateColumn(TABLE_NAME, id, "streetAddress", updatedAccount.getAddress().getStreetAddress()));
+        success = success && (null != this.database.updateColumn(TABLE_NAME, id, "postalCode", updatedAccount.getAddress().getPostalCode()));
+        success = success && (null != this.database.updateColumn(TABLE_NAME, id, "province", updatedAccount.getAddress().getProvince()));
 
         return success;
     }

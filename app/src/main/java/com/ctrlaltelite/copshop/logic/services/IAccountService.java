@@ -24,46 +24,32 @@ public interface IAccountService {
     AccountObject validateEmailAndPassword(String username, String password);
 
     /**
-     * Validate that the object has legal data and then add to the database.
-     * @param buyerAccount The object to add to the DB.
-     * @return the validation object we created to do the validation.
-     */
-    BuyerAccountValidationObject validate(BuyerAccountObject buyerAccount);
-
-    /**
-     * Validate that the object has legal data and then add to the database.
-     * @param sellerAccount The object to add to the DB.
-     * @return the validation object we created to do the validation.
-     */
-    SellerAccountValidationObject validate(SellerAccountObject sellerAccount);
-
-    /**
      * Actually creates the BuyerAccount in the database
      * @param newBuyer The object to add to the DB
-     * @return the primary key of the DB row
+     * @return validation object containing success information for presentation feedback.
      */
-    String registerNewBuyer(BuyerAccountObject newBuyer);
-
-    /**
-     * Updates the BuyerAccount in the database (and maintains uniqueness)
-     * @param buyerAccount The object to update in the DB
-     * @return whether the operation was successful
-     */
-    boolean updateBuyerAccount(String id, BuyerAccountObject buyerAccount);
+    BuyerAccountValidationObject registerNewBuyer(BuyerAccountObject newBuyer);
 
     /**
      * Actually creates the SellerAccount in the database
      * @param newSeller The object to add to the DB
-     * @return the primary key of the DB row
+     * @return validation object containing success information for presentation feedback.
      */
-    String registerNewSeller(SellerAccountObject newSeller);
+    SellerAccountValidationObject registerNewSeller(SellerAccountObject newSeller);
+
+    /**
+     * Updates the BuyerAccount in the database (and maintains uniqueness)
+     * @param buyerAccount The object to update in the DB
+     * @return validation object containing success information for presentation feedback
+     */
+    BuyerAccountValidationObject updateBuyerAccount(String id, BuyerAccountObject buyerAccount);
 
     /**
      * Updates the SellerAccount in the database (and maintains uniqueness)
      * @param sellerAccount The object to update in the DB
-     * @return whether the operation was successful
+     * @return validation object containing success information for presentation feedback
      */
-    boolean updateSellerAccount(String id, SellerAccountObject sellerAccount);
+    SellerAccountValidationObject updateSellerAccount(String id, SellerAccountObject sellerAccount);
 
     /**
      * Get the first name of the buyer

@@ -1,5 +1,7 @@
 package com.ctrlaltelite.copshop.logic.services.stubs;
 
+import com.ctrlaltelite.copshop.objects.AccountValidationObject;
+import com.ctrlaltelite.copshop.objects.AddressValidationObject;
 import com.ctrlaltelite.copshop.objects.BuyerAccountObject;
 import com.ctrlaltelite.copshop.objects.BuyerAccountValidationObject;
 import com.ctrlaltelite.copshop.objects.SellerAccountObject;
@@ -64,49 +66,69 @@ public class AccountService implements com.ctrlaltelite.copshop.logic.services.I
     private SellerAccountObject fetchSellerAccountByEmail(String email) {
         return this.sellerModel.findByEmail(email);
     }
-    
-    public BuyerAccountValidationObject validate(BuyerAccountObject buyerObject) {
-        return this.validateInputForm(buyerObject);
+
+    public BuyerAccountValidationObject registerNewBuyer(BuyerAccountObject newBuyer){
+        BuyerAccountValidationObject validation = this.validateInputForm(newBuyer);
+
+        // Has an account been registered with this email before?
+        if (!(this.sellerModel.findByEmail(newBuyer.getEmail()) == null && this.buyerModel.findByEmail(newBuyer.getEmail()) == null)) {
+            validation.setValidEmail(false);
+
+        } else if(validation.allValid()) {
+            String newId = buyerModel.createNew(newBuyer);
+            if (null == newId) {
+                validation.setAll(false);
+            }
+        }
+
+        return validation;
     }
 
-    public SellerAccountValidationObject validate(SellerAccountObject sellerObject) {
-        return this.validateInputForm(sellerObject);
+    public SellerAccountValidationObject registerNewSeller(SellerAccountObject newSeller) {
+        SellerAccountValidationObject validation = this.validateInputForm(newSeller);
+
+        // Has an account been registered with this email before?
+        if (!(this.sellerModel.findByEmail(newSeller.getEmail()) == null && this.buyerModel.findByEmail(newSeller.getEmail()) == null)) {
+            validation.setValidEmail(false);
+
+        } else if(validation.allValid()) {
+            String newId = sellerModel.createNew(newSeller);
+            if (null == newId) {
+                validation.setAll(false);
+            }
+        }
+
+        return validation;
     }
 
-    public String registerNewBuyer(BuyerAccountObject newBuyer){
-        if (fetchBuyerAccountByEmail(newBuyer.getEmail()) != null) {
-            return null;
+    public BuyerAccountValidationObject updateBuyerAccount(String id, BuyerAccountObject buyerAccount) {
+        BuyerAccountObject thisAccount = buyerModel.fetch(id);
+        AccountObject currAccount = fetchAccountByEmail(thisAccount.getEmail());
+        BuyerAccountValidationObject validation = this.validateInputForm(buyerAccount);
+
+        if(currAccount != null && validation.allValid() && currAccount.getId().equals(id)) {
+            boolean success = buyerModel.update(id, buyerAccount);
+            if (!success) {
+                validation.setAll(false);
+            }
         }
-        return buyerModel.createNew(newBuyer);
+
+        return validation;
     }
 
-    public boolean updateBuyerAccount(String id, BuyerAccountObject buyerAccount) {
-        AccountObject currAccount = fetchAccountByEmail(buyerAccount.getEmail());
-        if (currAccount != null && !currAccount.getId().equals(id)) {
-            return false;
-        }
-        if (currAccount != null && !(currAccount instanceof BuyerAccountObject)) {
-            return false;
-        }
-        return buyerModel.update(id, buyerAccount);
-    }
+    public SellerAccountValidationObject updateSellerAccount(String id, SellerAccountObject sellerAccount) {
+        SellerAccountObject thisAccount = sellerModel.fetch(id);
+        AccountObject currAccount = fetchAccountByEmail(thisAccount.getEmail());
+        SellerAccountValidationObject validation = this.validateInputForm(sellerAccount);
 
-    public String registerNewSeller(SellerAccountObject newSeller) {
-        if (fetchSellerAccountByEmail(newSeller.getEmail()) != null) {
-            return null;
+        if(currAccount != null && validation.allValid() && currAccount.getId().equals(id)) {
+            boolean success = sellerModel.update(id, sellerAccount);
+            if (!success) {
+                validation.setAll(false);
+            }
         }
-        return sellerModel.createNew(newSeller);
-    }
 
-    public boolean updateSellerAccount(String id, SellerAccountObject sellerAccount) {
-        AccountObject currAccount = fetchAccountByEmail(sellerAccount.getEmail());
-        if (currAccount != null && !currAccount.getId().equals(id)) {
-            return false;
-        }
-        if (currAccount != null && !(currAccount instanceof SellerAccountObject)) {
-            return false;
-        }
-        return sellerModel.update(id, sellerAccount);
+        return validation;
     }
 
     /**
@@ -116,35 +138,31 @@ public class AccountService implements com.ctrlaltelite.copshop.logic.services.I
      * @return BuyerAccountValidationObject
      */
     private BuyerAccountValidationObject validateInputForm(BuyerAccountObject buyerObject) {
-        BuyerAccountValidationObject validationBuyerObject = new BuyerAccountValidationObject();
-
-        validationBuyerObject.validateFirstName(buyerObject.getFirstName());
-        validationBuyerObject.validateLastName(buyerObject.getLastName());
-        validationBuyerObject.validateStreetAddress(buyerObject.getStreetAddress());
-        validationBuyerObject.validatePostalCode(buyerObject.getPostalCode());
-        validationBuyerObject.validateProvince(buyerObject.getProvince());
-        validationBuyerObject.validateEmail(buyerObject.getEmail());
-        validationBuyerObject.validatePassword(buyerObject.getPassword());
-
+        AddressValidationObject addressValidationObject = new AddressValidationObject();
+        AccountValidationObject accountValidationObject = new AccountValidationObject(addressValidationObject);
+        BuyerAccountValidationObject validationBuyerObject = new BuyerAccountValidationObject(accountValidationObject);
+        if (null == buyerObject) {
+            validationBuyerObject.setAll(false);
+        } else {
+            validationBuyerObject.validate(buyerObject);
+        }
         return validationBuyerObject;
     }
 
     /**
-     * Ensures that the all the values in the form are valid, by calling the
-     * other methods below this one.
+     * Ensures that the all the values in the form are valid
      * @param sellerObject An object populated with the form fields.
      * @return SellerAccountValidationObject
      */
     private SellerAccountValidationObject validateInputForm(SellerAccountObject sellerObject) {
-        SellerAccountValidationObject validationSellerObject = new SellerAccountValidationObject();
-
-        validationSellerObject.validateOrganizationName(sellerObject.getOrganizationName());
-        validationSellerObject.validateStreetAddress(sellerObject.getStreetAddress());
-        validationSellerObject.validatePostalCode(sellerObject.getPostalCode());
-        validationSellerObject.validateProvince(sellerObject.getProvince());
-        validationSellerObject.validateEmail(sellerObject.getEmail());
-        validationSellerObject.validatePassword(sellerObject.getPassword());
-
+        AddressValidationObject addressValidationObject = new AddressValidationObject();
+        AccountValidationObject accountValidationObject = new AccountValidationObject(addressValidationObject);
+        SellerAccountValidationObject validationSellerObject = new SellerAccountValidationObject(accountValidationObject);
+        if (null == sellerObject) {
+            validationSellerObject.setAll(false);
+        } else {
+            validationSellerObject.validate(sellerObject);
+        }
         return validationSellerObject;
     }
 
