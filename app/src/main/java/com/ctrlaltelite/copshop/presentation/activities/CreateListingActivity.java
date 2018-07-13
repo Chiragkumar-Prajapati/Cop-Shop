@@ -48,6 +48,7 @@ import java.io.File;
 public class CreateListingActivity extends AppCompatActivity {
 
     private static final int MY_PERMISSIONS_REQUEST_WRITE_EXTERNAL_STORAGE = 1;
+    private static final int MY_PERMISSIONS_REQUEST_READ_EXTERNAL_STORAGE = 2;
     private Uri pictureUri;
     private int reqOrientationShift = 0;
 
@@ -170,11 +171,18 @@ public class CreateListingActivity extends AppCompatActivity {
                 alertDialog.setNeutralButton("Gallery", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
 
-                        Intent intent = new Intent();
-                        intent.setType("image/*");
-                        intent.setAction(Intent.ACTION_OPEN_DOCUMENT);
-                        intent.addCategory(Intent.CATEGORY_OPENABLE);
-                        startActivityForResult(Intent.createChooser(intent, "Select Picture"), 1);
+                        if (ContextCompat.checkSelfPermission(CreateListingActivity.this, Manifest.permission.READ_EXTERNAL_STORAGE)
+                                == PackageManager.PERMISSION_GRANTED) {
+                            Intent intent = new Intent();
+                            intent.setType("image/*");
+                            intent.setAction(Intent.ACTION_OPEN_DOCUMENT);
+                            intent.addCategory(Intent.CATEGORY_OPENABLE);
+                            startActivityForResult(Intent.createChooser(intent, "Select Picture"), 1);
+                        } else {
+                            ActivityCompat.requestPermissions(CreateListingActivity.this,
+                                    new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE},
+                                    MY_PERMISSIONS_REQUEST_READ_EXTERNAL_STORAGE);
+                        }
 
                     }
                 });
@@ -297,19 +305,13 @@ public class CreateListingActivity extends AppCompatActivity {
 
             case 1:
                 if (resultCode == RESULT_OK) {
-                    if (ContextCompat.checkSelfPermission(CreateListingActivity.this, Manifest.permission.WRITE_EXTERNAL_STORAGE)
-                            == PackageManager.PERMISSION_GRANTED) {
-                        reqOrientationShift = 0;
-                        pictureUri = imageReturnedIntent.getData();
-                        imageView.setImageURI(pictureUri);
-                        imageView.setTag(reqOrientationShift + " " + pictureUri.toString());
-                    } else {
-                        ActivityCompat.requestPermissions(CreateListingActivity.this,
-                                new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE},
-                                MY_PERMISSIONS_REQUEST_WRITE_EXTERNAL_STORAGE);
-                    }
+                    reqOrientationShift = 0;
+                    pictureUri = imageReturnedIntent.getData();
+                    imageView.setImageURI(pictureUri);
+                    imageView.setTag(reqOrientationShift + " " + pictureUri.toString());
+
                 }
-            }
+        }
     }
 
     @Override
@@ -338,6 +340,29 @@ public class CreateListingActivity extends AppCompatActivity {
                     alertDialog.setCancelable(true);
                     alertDialog.setTitle("Permission Denied");
                     alertDialog.setMessage("Unable to access feature. Please allow CopShop Write access via device settings.");
+                    alertDialog.setNegativeButton("Close", new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int id) {
+                            dialog.dismiss();
+                        }
+                    });
+                    alertDialog.show();
+                }
+            }
+            case MY_PERMISSIONS_REQUEST_READ_EXTERNAL_STORAGE: {
+                // If request is cancelled, the result arrays are empty.
+                if (grantResults.length > 0
+                        && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    Intent intent = new Intent();
+                    intent.setType("image/*");
+                    intent.setAction(Intent.ACTION_OPEN_DOCUMENT);
+                    intent.addCategory(Intent.CATEGORY_OPENABLE);
+                    startActivityForResult(Intent.createChooser(intent, "Select Picture"), 1);
+                } else {
+                    // permission denied,
+                    final AlertDialog.Builder alertDialog = new AlertDialog.Builder(CreateListingActivity.this);
+                    alertDialog.setCancelable(true);
+                    alertDialog.setTitle("Permission Denied");
+                    alertDialog.setMessage("Unable to access feature. Please allow CopShop Read access via device settings.");
                     alertDialog.setNegativeButton("Close", new DialogInterface.OnClickListener() {
                         public void onClick(DialogInterface dialog, int id) {
                             dialog.dismiss();

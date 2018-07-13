@@ -167,11 +167,18 @@ public class EditListingActivity extends AppCompatActivity {
                 alertDialog.setNeutralButton("Gallery", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
 
-                        Intent intent = new Intent();
-                        intent.setType("image/*");
-                        intent.setAction(Intent.ACTION_OPEN_DOCUMENT);
-                        intent.addCategory(Intent.CATEGORY_OPENABLE);
-                        startActivityForResult(Intent.createChooser(intent, "Select Picture"), 1);
+                        if (ContextCompat.checkSelfPermission(EditListingActivity.this, Manifest.permission.READ_EXTERNAL_STORAGE)
+                                == PackageManager.PERMISSION_GRANTED) {
+                            Intent intent = new Intent();
+                            intent.setType("image/*");
+                            intent.setAction(Intent.ACTION_OPEN_DOCUMENT);
+                            intent.addCategory(Intent.CATEGORY_OPENABLE);
+                            startActivityForResult(Intent.createChooser(intent, "Select Picture"), 1);
+                        } else {
+                            ActivityCompat.requestPermissions(EditListingActivity.this,
+                                    new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE},
+                                    MY_PERMISSIONS_REQUEST_READ_EXTERNAL_STORAGE);
+                        }
 
                     }
                 });

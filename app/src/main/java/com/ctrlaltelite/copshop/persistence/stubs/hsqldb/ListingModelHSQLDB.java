@@ -109,7 +109,7 @@ public class ListingModelHSQLDB implements IListingModel {
                         "auctionstartdate = ?, " +
                         "auctionenddate = ?, " +
                         "category = ?, " +
-                        "imagedata = ? " +
+                        "imagedata = ?, " +
                         "sellerid = ? " +
 						"WHERE id = ?");
             st.setString(1, updatedListing.getTitle());
