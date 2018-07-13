@@ -16,7 +16,7 @@ public class ListingModelTests {
         IDatabase database = new MockDatabaseStub();
         IListingModel listingModel = new ListingModel(database);
 
-        ListingObject listing = new ListingObject("ignored","title", "description", "initPrice", "minBid", "auctionStartDate", "auctionEndDate", "category", "sellerId");
+        ListingObject listing = new ListingObject("ignored","title", "description", "initPrice", "minBid", "auctionStartDate", "auctionEndDate", "category", "", "sellerId");
 
         // Create the listings
         String id1 = listingModel.createNew(listing);
@@ -34,7 +34,7 @@ public class ListingModelTests {
         IDatabase database = new MockDatabaseStub();
         IListingModel listingModel = new ListingModel(database);
 
-        ListingObject listing = new ListingObject("ignored","title", "description", "initPrice", "minBid", "auctionStartDate", "auctionEndDate", "category", "sellerId");
+        ListingObject listing = new ListingObject("ignored","title", "description", "initPrice", "minBid", "auctionStartDate", "auctionEndDate", "category", "", "sellerId");
 
         // Create the listings
         String id1 = listingModel.createNew(listing);
@@ -64,7 +64,7 @@ public class ListingModelTests {
         IDatabase database = new MockDatabaseStub();
         IListingModel listingModel = new ListingModel(database);
 
-        ListingObject listing = new ListingObject("ignored","title", "description", "initPrice", "minBid", "auctionStartDate", "auctionEndDate", "category", "sellerId");
+        ListingObject listing = new ListingObject("ignored","title", "description", "initPrice", "minBid", "auctionStartDate", "auctionEndDate", "category", "", "sellerId");
 
         // Create the listings
         String id1 = listingModel.createNew(listing);
@@ -72,7 +72,7 @@ public class ListingModelTests {
         String id3 = listingModel.createNew(listing);
 
         // Update a listing
-        ListingObject updatedListing = new ListingObject("ignored","updated-title", "updated-description", "updated-initPrice", "updated-minBid", "updated-auctionStartDate", "updated-auctionEndDate", "updated-category", "updated-sellerId");
+        ListingObject updatedListing = new ListingObject("ignored","updated-title", "updated-description", "updated-initPrice", "updated-minBid", "updated-auctionStartDate", "updated-auctionEndDate", "updated-category", "", "updated-sellerId");
         assertTrue("Did not get success back from update", listingModel.update(id2, updatedListing));
 
         // Verify it updated the correct listing
@@ -91,9 +91,9 @@ public class ListingModelTests {
         IDatabase database = new MockDatabaseStub();
         IListingModel listingModel = new ListingModel(database);
 
-        ListingObject listing1 = new ListingObject("ignored","t1", "d1", "init1", "min1", "asd1", "aed1", "cat1", "sellerId");
-        ListingObject listing2 = new ListingObject("ignored","t2", "d2", "init2", "min2", "asd2", "aed2", "cat2", "sellerId");
-        ListingObject listing3 = new ListingObject("ignored","t3", "d3", "init3", "min3", "asd3", "aed3", "cat3", "sellerId");
+        ListingObject listing1 = new ListingObject("ignored","t1", "d1", "init1", "min1", "asd1", "aed1", "cat1", "", "sellerId");
+        ListingObject listing2 = new ListingObject("ignored","t2", "d2", "init2", "min2", "asd2", "aed2", "cat2", "", "sellerId");
+        ListingObject listing3 = new ListingObject("ignored","t3", "d3", "init3", "min3", "asd3", "aed3", "cat3", "", "sellerId");
 
         // Create the listings
         String id1 = listingModel.createNew(listing1);
@@ -111,9 +111,9 @@ public class ListingModelTests {
         IDatabase database = new MockDatabaseStub();
         IListingModel listingModel = new ListingModel(database);
 
-        ListingObject listing1 = new ListingObject("ignored","t1", "d1", "init1", "min1", "asd1", "aed1", "cat1", "sellerId");
-        ListingObject listing2 = new ListingObject("ignored","t2", "d2", "init2", "min2", "asd2", "aed2", "cat2", "sellerId");
-        ListingObject listing3 = new ListingObject("ignored","t3", "d3", "init3", "min3", "asd3", "aed3", "cat3", "sellerId");
+        ListingObject listing1 = new ListingObject("ignored","t1", "d1", "init1", "min1", "asd1", "aed1", "cat1", "", "sellerId");
+        ListingObject listing2 = new ListingObject("ignored","t2", "d2", "init2", "min2", "asd2", "aed2", "cat2", "", "sellerId");
+        ListingObject listing3 = new ListingObject("ignored","t3", "d3", "init3", "min3", "asd3", "aed3", "cat3", "", "sellerId");
 
         // Create the listings
         String id1 = listingModel.createNew(listing1);

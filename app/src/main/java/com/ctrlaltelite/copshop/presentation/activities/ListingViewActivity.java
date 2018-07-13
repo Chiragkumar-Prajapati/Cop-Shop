@@ -130,9 +130,6 @@ public class ListingViewActivity extends AppCompatActivity {
                 }
 			}
 
-            //Bitmap bm = StringToBitMap(listing.getImageData());
-            //image.setImageBitmap(bm);
-
             // Hide the bid button, list, and field until bidding feature is complete
             // bidInput.setHint(CopShopHub.getViewListingService().getNextBidTotal(listing));
             bidInput.setVisibility(View.INVISIBLE);

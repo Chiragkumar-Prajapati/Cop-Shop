@@ -32,8 +32,8 @@ public class BidServiceTests {
         IBidService bidService = new BidService(bidModel, buyerModel, listingModel);
 
         // Create listings
-        ListingObject l1 = new ListingObject("","title", "description", "initPrice", "minBid", "auctionStartDate", "auctionEndDate","category", "3");
-        ListingObject l2 = new ListingObject("","title", "description", "initPrice", "minBid", "auctionStartDate", "auctionEndDate","category", "1");
+        ListingObject l1 = new ListingObject("","title", "description", "initPrice", "minBid", "auctionStartDate", "auctionEndDate","category", "",  "3");
+        ListingObject l2 = new ListingObject("","title", "description", "initPrice", "minBid", "auctionStartDate", "auctionEndDate","category", "", "1");
         String lId1 = listingModel.createNew(l1);
         String lId2 = listingModel.createNew(l2);
 
