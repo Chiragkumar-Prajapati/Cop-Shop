@@ -1,4 +1,4 @@
-package com.ctrlaltelite.copshop.persistence.stubs.hsqldb;
+package com.ctrlaltelite.copshop.persistence.hsqldb;
 
 import java.io.InputStream;
 import java.sql.Connection;

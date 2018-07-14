@@ -22,10 +22,10 @@ import com.ctrlaltelite.copshop.persistence.stubs.BidModel;
 import com.ctrlaltelite.copshop.persistence.stubs.ListingModel;
 import com.ctrlaltelite.copshop.persistence.stubs.SellerModel;
 import com.ctrlaltelite.copshop.persistence.stubs.BuyerModel;
-import com.ctrlaltelite.copshop.persistence.stubs.hsqldb.BidModelHSQLDB;
-import com.ctrlaltelite.copshop.persistence.stubs.hsqldb.BuyerModelHSQLDB;
-import com.ctrlaltelite.copshop.persistence.stubs.hsqldb.ListingModelHSQLDB;
-import com.ctrlaltelite.copshop.persistence.stubs.hsqldb.SellerModelHSQLDB;
+import com.ctrlaltelite.copshop.persistence.hsqldb.BidModelHSQLDB;
+import com.ctrlaltelite.copshop.persistence.hsqldb.BuyerModelHSQLDB;
+import com.ctrlaltelite.copshop.persistence.hsqldb.ListingModelHSQLDB;
+import com.ctrlaltelite.copshop.persistence.hsqldb.SellerModelHSQLDB;
 
 /**
  * Central location for instantiating and distributing Service and database Model singletons
