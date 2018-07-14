@@ -1,32 +1,35 @@
-package com.ctrlaltelite.copshop.tests.integration.db;
+package com.ctrlaltelite.copshop.tests.db;
 
 import com.ctrlaltelite.copshop.persistence.hsqldb.HSQLDBUtil;
 
+import com.google.common.io.Files;
 import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileWriter;
 import java.io.IOException;
-import java.io.InputStreamReader;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 
 public class HSQLDBTestUtil {
-    private final String testDbDir = "./src/test/java/com/ctrlaltelite/copshop/tests/integration/db/testdb";
-    private final String testScriptPath = "./src/test/java/com/ctrlaltelite/copshop/tests/integration/db/testinit.script";
-    private final String testDbPath = testDbDir + "/db";
+    private static final String DB_NAME = "testdb";
+    private static final String DIR = "./src/test/java/com/ctrlaltelite/copshop/tests/db";
+    private static final String TEST_DB_INIT_SCRIPT_PATH = DIR + "/testinit.script";
+    private static final String TEST_DB_DIR_PATH = DIR + "/testdb";
+    private static final String TEST_DB_PATH = DIR + "/testdb/" + DB_NAME;
+    private static final File TEST_DB_INIT_SCRIPT = new File(TEST_DB_INIT_SCRIPT_PATH);
     private Connection dbConn;
 
     public HSQLDBTestUtil() {
         setup();
-
         try {
             Class.forName("org.hsqldb.jdbcDriver");
         } catch (ClassNotFoundException e) {
             throw new RuntimeException("Could not set database driver: " + e);
         }
+        dbConn = HSQLDBUtil.getConnection(TEST_DB_PATH);
+    }
 
-        dbConn = HSQLDBUtil.getConnection(testDbPath);
+    public void finalize() {
+        HSQLDBUtil.closeConnection(dbConn);
     }
 
     public void reset() {
@@ -57,35 +60,16 @@ public class HSQLDBTestUtil {
         }
     }
 
-    public String getTestDbPath() {
-        return testDbPath;
-    }
-
     public void setup() {
-        // Setup script
         try {
-            char[] buffer = new char[1024];
-            int count;
-            File outFile = new File(testDbDir + "/db.script");
-            File script = new File(testScriptPath);
-
-            if (script.exists()) {
-                InputStreamReader in = new InputStreamReader(new FileInputStream(script));
-                FileWriter out = new FileWriter(outFile);
-
-                count = in.read(buffer);
-                while (count != -1) {
-                    out.write(buffer, 0, count);
-                    count = in.read(buffer);
-                }
-
-                out.close();
-                in.close();
-            } else {
-                System.out.println("Test script does not exist.");
-            }
+            final File target = new File(TEST_DB_DIR_PATH + "/testdb.script");
+            Files.copy(TEST_DB_INIT_SCRIPT, target);
         } catch (final IOException ioe) {
             System.out.println("Unable to copy test setup script: " + ioe.getMessage());
         }
+    }
+
+    public String getTestDbPath() {
+        return TEST_DB_PATH;
     }
 }

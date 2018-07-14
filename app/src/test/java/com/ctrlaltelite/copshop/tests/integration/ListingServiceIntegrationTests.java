@@ -1,10 +1,6 @@
 package com.ctrlaltelite.copshop.tests.integration;
 
-import com.ctrlaltelite.copshop.logic.services.IAccountService;
-import com.ctrlaltelite.copshop.logic.services.ICreateListingService;
 import com.ctrlaltelite.copshop.logic.services.IListingService;
-import com.ctrlaltelite.copshop.logic.services.stubs.AccountService;
-import com.ctrlaltelite.copshop.logic.services.stubs.CreateListingService;
 import com.ctrlaltelite.copshop.logic.services.stubs.ListingService;
 import com.ctrlaltelite.copshop.objects.BidObject;
 import com.ctrlaltelite.copshop.objects.BuyerAccountObject;
@@ -18,11 +14,12 @@ import com.ctrlaltelite.copshop.persistence.hsqldb.BidModelHSQLDB;
 import com.ctrlaltelite.copshop.persistence.hsqldb.BuyerModelHSQLDB;
 import com.ctrlaltelite.copshop.persistence.hsqldb.ListingModelHSQLDB;
 import com.ctrlaltelite.copshop.persistence.hsqldb.SellerModelHSQLDB;
-import com.ctrlaltelite.copshop.tests.integration.db.HSQLDBTestUtil;
+import com.ctrlaltelite.copshop.tests.db.HSQLDBTestUtil;
 
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
+
 import java.util.List;
 
 import static org.junit.Assert.*;

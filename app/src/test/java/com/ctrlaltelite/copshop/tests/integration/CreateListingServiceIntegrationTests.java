@@ -9,7 +9,7 @@ import com.ctrlaltelite.copshop.persistence.IListingModel;
 import com.ctrlaltelite.copshop.persistence.ISellerModel;
 import com.ctrlaltelite.copshop.persistence.hsqldb.ListingModelHSQLDB;
 import com.ctrlaltelite.copshop.persistence.hsqldb.SellerModelHSQLDB;
-import com.ctrlaltelite.copshop.tests.integration.db.HSQLDBTestUtil;
+import com.ctrlaltelite.copshop.tests.db.HSQLDBTestUtil;
 
 import org.junit.After;
 import org.junit.Before;
