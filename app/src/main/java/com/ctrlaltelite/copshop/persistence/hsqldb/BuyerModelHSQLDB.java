@@ -1,10 +1,9 @@
-package com.ctrlaltelite.copshop.persistence.stubs.hsqldb;
+package com.ctrlaltelite.copshop.persistence.hsqldb;
 
 import com.ctrlaltelite.copshop.objects.BuyerAccountObject;
 import com.ctrlaltelite.copshop.persistence.IBuyerModel;
 
 import java.sql.Connection;
-import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;

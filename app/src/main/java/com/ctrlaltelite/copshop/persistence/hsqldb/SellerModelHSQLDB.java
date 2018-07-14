@@ -1,16 +1,13 @@
-package com.ctrlaltelite.copshop.persistence.stubs.hsqldb;
+package com.ctrlaltelite.copshop.persistence.hsqldb;
 
 import com.ctrlaltelite.copshop.objects.SellerAccountObject;
 import com.ctrlaltelite.copshop.persistence.ISellerModel;
-import com.ctrlaltelite.copshop.persistence.database.IDatabase;
 
 import java.sql.Connection;
-import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.Hashtable;
 import java.util.List;
 
 import static java.sql.Statement.RETURN_GENERATED_KEYS;

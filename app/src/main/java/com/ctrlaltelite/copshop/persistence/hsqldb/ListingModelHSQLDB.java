@@ -1,6 +1,5 @@
-package com.ctrlaltelite.copshop.persistence.stubs.hsqldb;
+package com.ctrlaltelite.copshop.persistence.hsqldb;
 
-import com.ctrlaltelite.copshop.application.CopShopHub;
 import com.ctrlaltelite.copshop.logic.services.utilities.DateUtility;
 import com.ctrlaltelite.copshop.objects.ListingObject;
 import com.ctrlaltelite.copshop.persistence.IListingModel;

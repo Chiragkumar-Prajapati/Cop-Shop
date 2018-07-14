@@ -1,4 +1,4 @@
-package com.ctrlaltelite.copshop.persistence.stubs.hsqldb;
+package com.ctrlaltelite.copshop.persistence.hsqldb;
 
 public class PersistenceRuntimeException extends RuntimeException {
     public PersistenceRuntimeException(final String message, final Exception cause) {
