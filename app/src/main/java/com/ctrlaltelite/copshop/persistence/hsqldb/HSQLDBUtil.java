@@ -1,4 +1,4 @@
-package com.ctrlaltelite.copshop.persistence.stubs.hsqldb;
+package com.ctrlaltelite.copshop.persistence.hsqldb;
 
 import java.sql.Connection;
 import java.sql.DriverManager;

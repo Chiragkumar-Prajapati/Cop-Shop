@@ -1,4 +1,4 @@
-package com.ctrlaltelite.copshop.persistence.stubs.hsqldb;
+package com.ctrlaltelite.copshop.persistence.hsqldb;
 
 import com.ctrlaltelite.copshop.objects.BidObject;
 import com.ctrlaltelite.copshop.persistence.IBidModel;
