@@ -1,4 +1,4 @@
-package com.ctrlaltelite.copshop.tests;
+package com.ctrlaltelite.copshop.tests.unit;
 
 import com.ctrlaltelite.copshop.persistence.ISellerModel;
 import com.ctrlaltelite.copshop.objects.SellerAccountObject;

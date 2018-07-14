@@ -1,4 +1,4 @@
-package com.ctrlaltelite.copshop.tests;
+package com.ctrlaltelite.copshop.tests.unit;
 
 import com.ctrlaltelite.copshop.logic.services.IAccountService;
 import com.ctrlaltelite.copshop.logic.services.stubs.AccountService;
