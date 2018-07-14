@@ -106,6 +106,11 @@ public class AccountService implements com.ctrlaltelite.copshop.logic.services.I
         AccountObject currAccount = fetchAccountByEmail(thisAccount.getEmail());
         BuyerAccountValidationObject validation = this.validateInputForm(buyerAccount);
 
+        // Has an account been registered with this email before?
+        if (!(this.sellerModel.findByEmail(buyerAccount.getEmail()) == null && this.buyerModel.findByEmail(buyerAccount.getEmail()) == null)) {
+            validation.setValidEmail(false);
+        }
+
         if(currAccount != null && validation.allValid() && currAccount.getId().equals(id)) {
             boolean success = buyerModel.update(id, buyerAccount);
             if (!success) {
@@ -120,6 +125,11 @@ public class AccountService implements com.ctrlaltelite.copshop.logic.services.I
         SellerAccountObject thisAccount = sellerModel.fetch(id);
         AccountObject currAccount = fetchAccountByEmail(thisAccount.getEmail());
         SellerAccountValidationObject validation = this.validateInputForm(sellerAccount);
+
+        // Has an account been registered with this email before?
+        if (!(this.sellerModel.findByEmail(sellerAccount.getEmail()) == null && this.buyerModel.findByEmail(sellerAccount.getEmail()) == null)) {
+            validation.setValidEmail(false);
+        }
 
         if(currAccount != null && validation.allValid() && currAccount.getId().equals(id)) {
             boolean success = sellerModel.update(id, sellerAccount);
