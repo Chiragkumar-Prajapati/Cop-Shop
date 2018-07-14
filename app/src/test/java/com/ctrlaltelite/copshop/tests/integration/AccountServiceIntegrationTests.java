@@ -11,7 +11,7 @@ import com.ctrlaltelite.copshop.objects.BuyerAccountObject;
 import com.ctrlaltelite.copshop.objects.SellerAccountObject;
 import com.ctrlaltelite.copshop.persistence.hsqldb.BuyerModelHSQLDB;
 import com.ctrlaltelite.copshop.persistence.hsqldb.SellerModelHSQLDB;
-import com.ctrlaltelite.copshop.tests.integration.db.HSQLDBTestUtil;
+import com.ctrlaltelite.copshop.tests.db.HSQLDBTestUtil;
 
 import org.junit.After;
 import org.junit.Before;
@@ -31,7 +31,6 @@ public class AccountServiceIntegrationTests {
     public void teardown() {
         dbUtil.reset();
     }
-
 
     @Test
     public void validateUsernameAndPassword_verifiesLoginProperly() {
