@@ -7,18 +7,13 @@ import com.ctrlaltelite.copshop.objects.ListingObject;
 import com.ctrlaltelite.copshop.objects.SellerAccountObject;
 import com.ctrlaltelite.copshop.persistence.IListingModel;
 import com.ctrlaltelite.copshop.persistence.ISellerModel;
-import com.ctrlaltelite.copshop.persistence.database.IDatabase;
-import com.ctrlaltelite.copshop.persistence.database.stubs.MockDatabaseStub;
-import com.ctrlaltelite.copshop.persistence.stubs.ListingModel;
-import com.ctrlaltelite.copshop.persistence.stubs.hsqldb.ListingModelHSQLDB;
-import com.ctrlaltelite.copshop.persistence.stubs.hsqldb.SellerModelHSQLDB;
+import com.ctrlaltelite.copshop.persistence.hsqldb.ListingModelHSQLDB;
+import com.ctrlaltelite.copshop.persistence.hsqldb.SellerModelHSQLDB;
 import com.ctrlaltelite.copshop.tests.integration.db.HSQLDBTestUtil;
 
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
-
-import java.text.ParseException;
 
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;

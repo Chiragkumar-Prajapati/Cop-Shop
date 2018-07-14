@@ -9,8 +9,8 @@ import com.ctrlaltelite.copshop.persistence.ISellerModel;
 import com.ctrlaltelite.copshop.objects.AccountObject;
 import com.ctrlaltelite.copshop.objects.BuyerAccountObject;
 import com.ctrlaltelite.copshop.objects.SellerAccountObject;
-import com.ctrlaltelite.copshop.persistence.stubs.hsqldb.BuyerModelHSQLDB;
-import com.ctrlaltelite.copshop.persistence.stubs.hsqldb.SellerModelHSQLDB;
+import com.ctrlaltelite.copshop.persistence.hsqldb.BuyerModelHSQLDB;
+import com.ctrlaltelite.copshop.persistence.hsqldb.SellerModelHSQLDB;
 import com.ctrlaltelite.copshop.tests.integration.db.HSQLDBTestUtil;
 
 import org.junit.Test;

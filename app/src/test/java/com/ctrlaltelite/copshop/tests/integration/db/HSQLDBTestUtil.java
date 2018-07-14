@@ -1,19 +1,15 @@
 package com.ctrlaltelite.copshop.tests.integration.db;
 
-import com.ctrlaltelite.copshop.persistence.stubs.hsqldb.HSQLDBUtil;
+import com.ctrlaltelite.copshop.persistence.hsqldb.HSQLDBUtil;
 
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.nio.file.FileSystems;
-import java.nio.file.Path;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
-
-import static java.sql.Statement.RETURN_GENERATED_KEYS;
 
 public class HSQLDBTestUtil {
     private final String testDbDir = "./src/test/java/com/ctrlaltelite/copshop/tests/integration/db/testdb";

@@ -14,21 +14,15 @@ import com.ctrlaltelite.copshop.persistence.IBidModel;
 import com.ctrlaltelite.copshop.persistence.IBuyerModel;
 import com.ctrlaltelite.copshop.persistence.IListingModel;
 import com.ctrlaltelite.copshop.persistence.ISellerModel;
-import com.ctrlaltelite.copshop.persistence.database.IDatabase;
-import com.ctrlaltelite.copshop.persistence.database.stubs.MockDatabaseStub;
-import com.ctrlaltelite.copshop.persistence.stubs.BidModel;
-import com.ctrlaltelite.copshop.persistence.stubs.ListingModel;
-import com.ctrlaltelite.copshop.persistence.stubs.SellerModel;
-import com.ctrlaltelite.copshop.persistence.stubs.hsqldb.BidModelHSQLDB;
-import com.ctrlaltelite.copshop.persistence.stubs.hsqldb.BuyerModelHSQLDB;
-import com.ctrlaltelite.copshop.persistence.stubs.hsqldb.ListingModelHSQLDB;
-import com.ctrlaltelite.copshop.persistence.stubs.hsqldb.SellerModelHSQLDB;
+import com.ctrlaltelite.copshop.persistence.hsqldb.BidModelHSQLDB;
+import com.ctrlaltelite.copshop.persistence.hsqldb.BuyerModelHSQLDB;
+import com.ctrlaltelite.copshop.persistence.hsqldb.ListingModelHSQLDB;
+import com.ctrlaltelite.copshop.persistence.hsqldb.SellerModelHSQLDB;
 import com.ctrlaltelite.copshop.tests.integration.db.HSQLDBTestUtil;
 
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
-import java.util.ArrayList;
 import java.util.List;
 
 import static org.junit.Assert.*;
