@@ -77,90 +77,84 @@ public class ViewSellerAccountActivity extends AppCompatActivity {
                         ((EditText) findViewById(R.id.editTextPassword)).getText().toString()
                 );
 
-                SellerAccountValidationObject validationObject = CopShopHub.getAccountService().validate(sellerAccount);
-
                 // Check validation object to see if all fields are valid
                 // If valid: store user information
                 // Else invalid: check each form field, highlighting those that are invalid in red
-                if (validationObject.allValid()) {
-                    boolean success = false;
+                String idPref = CopShopHub.getUserSessionService().getUserID();
+                if (idPref != null) {
+                    SellerAccountValidationObject validationObject = CopShopHub.getAccountService().updateSellerAccount(idPref, sellerAccount);
 
-                    String idPref = CopShopHub.getUserSessionService().getUserID();
-                    if (idPref != null) {
-                        success = CopShopHub.getAccountService().updateSellerAccount(idPref, sellerAccount);
-                    }
-                    if (success) {
+                    if (validationObject.allValid()) {
                         CopShopHub.getUserSessionService().setUserEmail(sellerAccount.getEmail());
-
                         errorMsg.setText("Account info updated successfully");
-                    }
-                    else {
-                        errorMsg.setText("Account info could not be updated");
-                    }
 
-                    // Make sure all form fields are set back to black on success
-                    findViewById(R.id.editTextOrganizationName).setBackgroundResource(R.drawable.txt_field_black_border);
-                    findViewById(R.id.editTextStreetAddress).setBackgroundResource(R.drawable.txt_field_black_border);
-                    findViewById(R.id.editTextPostalCode).setBackgroundResource(R.drawable.txt_field_black_border);
-                    findViewById(R.id.editTextProvince).setBackgroundResource(R.drawable.txt_field_black_border);
-                    findViewById(R.id.editTextEmail).setBackgroundResource(R.drawable.txt_field_black_border);
-                    findViewById(R.id.editTextPassword).setBackgroundResource(R.drawable.txt_field_black_border);
-
-                    //go to Listings page
-                    //Intent intent = new Intent(ViewSellerAccountActivity.this, ListingListActivity.class);
-                    //startActivity(intent); //goes to listing activity
-
-                    populateAccountInfo();
-
-                    // View mode 1
-                    setFieldFocusability(false);
-                    setFieldBorder(false);
-                    editSellerAccount.setVisibility( View.VISIBLE );
-                    saveSellerAccount.setVisibility( View.GONE );
-                    cancelSaveSellerAccount.setVisibility( View.GONE );
-                } else {
-
-                    // Check first name
-                    if (!validationObject.getValidOrganizationName()) {
-                        findViewById(R.id.editTextOrganizationName).setBackgroundResource(R.drawable.txt_field_red_border);
-                    } else {
+                        // Make sure all form fields are set back to black on success
                         findViewById(R.id.editTextOrganizationName).setBackgroundResource(R.drawable.txt_field_black_border);
-                    }
-
-                    // Check street address
-                    if (!validationObject.getValidStreetAddress()) {
-                        findViewById(R.id.editTextStreetAddress).setBackgroundResource(R.drawable.txt_field_red_border);
-                    } else {
                         findViewById(R.id.editTextStreetAddress).setBackgroundResource(R.drawable.txt_field_black_border);
-                    }
-
-                    // Check postal code
-                    if (!validationObject.getValidPostalCode()) {
-                        findViewById(R.id.editTextPostalCode).setBackgroundResource(R.drawable.txt_field_red_border);
-                    } else {
                         findViewById(R.id.editTextPostalCode).setBackgroundResource(R.drawable.txt_field_black_border);
-                    }
-
-                    // Check province
-                    if (!validationObject.getValidProvince()) {
-                        findViewById(R.id.editTextProvince).setBackgroundResource(R.drawable.txt_field_red_border);
-                    } else {
                         findViewById(R.id.editTextProvince).setBackgroundResource(R.drawable.txt_field_black_border);
-                    }
-
-                    // Check email
-                    if (!validationObject.getValidEmail()) {
-                        findViewById(R.id.editTextEmail).setBackgroundResource(R.drawable.txt_field_red_border);
-                    } else {
                         findViewById(R.id.editTextEmail).setBackgroundResource(R.drawable.txt_field_black_border);
-                    }
-
-                    //Check password
-                    if (!validationObject.getValidPassword()) {
-                        findViewById(R.id.editTextPassword).setBackgroundResource(R.drawable.txt_field_red_border);
-                    } else {
                         findViewById(R.id.editTextPassword).setBackgroundResource(R.drawable.txt_field_black_border);
+
+                        //go to Listings page
+                        //Intent intent = new Intent(ViewSellerAccountActivity.this, ListingListActivity.class);
+                        //startActivity(intent); //goes to listing activity
+
+                        populateAccountInfo();
+
+                        // View mode 1
+                        setFieldFocusability(false);
+                        setFieldBorder(false);
+                        editSellerAccount.setVisibility( View.VISIBLE );
+                        saveSellerAccount.setVisibility( View.GONE );
+                        cancelSaveSellerAccount.setVisibility( View.GONE );
+                    } else {
+                        errorMsg.setText("Account info could not be updated");
+
+                        // Check first name
+                        if (!validationObject.getValidOrganizationName()) {
+                            findViewById(R.id.editTextOrganizationName).setBackgroundResource(R.drawable.txt_field_red_border);
+                        } else {
+                            findViewById(R.id.editTextOrganizationName).setBackgroundResource(R.drawable.txt_field_black_border);
+                        }
+
+                        // Check street address
+                        if (!validationObject.getValidStreetAddress()) {
+                            findViewById(R.id.editTextStreetAddress).setBackgroundResource(R.drawable.txt_field_red_border);
+                        } else {
+                            findViewById(R.id.editTextStreetAddress).setBackgroundResource(R.drawable.txt_field_black_border);
+                        }
+
+                        // Check postal code
+                        if (!validationObject.getValidPostalCode()) {
+                            findViewById(R.id.editTextPostalCode).setBackgroundResource(R.drawable.txt_field_red_border);
+                        } else {
+                            findViewById(R.id.editTextPostalCode).setBackgroundResource(R.drawable.txt_field_black_border);
+                        }
+
+                        // Check province
+                        if (!validationObject.getValidProvince()) {
+                            findViewById(R.id.editTextProvince).setBackgroundResource(R.drawable.txt_field_red_border);
+                        } else {
+                            findViewById(R.id.editTextProvince).setBackgroundResource(R.drawable.txt_field_black_border);
+                        }
+
+                        // Check email
+                        if (!validationObject.getValidEmail()) {
+                            findViewById(R.id.editTextEmail).setBackgroundResource(R.drawable.txt_field_red_border);
+                        } else {
+                            findViewById(R.id.editTextEmail).setBackgroundResource(R.drawable.txt_field_black_border);
+                        }
+
+                        //Check password
+                        if (!validationObject.getValidPassword()) {
+                            findViewById(R.id.editTextPassword).setBackgroundResource(R.drawable.txt_field_red_border);
+                        } else {
+                            findViewById(R.id.editTextPassword).setBackgroundResource(R.drawable.txt_field_black_border);
+                        }
                     }
+                } else {
+                    errorMsg.setText("You must log in to edit your account");
                 }
             }
         });
@@ -226,7 +220,7 @@ public class ViewSellerAccountActivity extends AppCompatActivity {
                     SellerAccountObject seller = (SellerAccountObject)account;
 
                     if (seller == null) {
-                        errorMsg.setText("No account found");
+                        errorMsg.setText("You must log in to edit your account");
                         findViewById(R.id.btnEditSellerAccount).setVisibility( View.GONE );
                     }
                     else {
@@ -234,13 +228,13 @@ public class ViewSellerAccountActivity extends AppCompatActivity {
                             editTextOrganizationName.setText(seller.getOrganizationName());
                         }
                         if (editTextStreetAddress != null) {
-                            editTextStreetAddress.setText(seller.getStreetAddress());
+                            editTextStreetAddress.setText(seller.getAddress().getStreetAddress());
                         }
                         if (editTextPostalCode != null) {
-                            editTextPostalCode.setText(seller.getPostalCode());
+                            editTextPostalCode.setText(seller.getAddress().getPostalCode());
                         }
                         if (editTextProvince != null) {
-                            editTextProvince.setText(seller.getProvince());
+                            editTextProvince.setText(seller.getAddress().getProvince());
                         }
                         if (editTextEmail != null) {
                             editTextEmail.setText(seller.getEmail());
@@ -251,7 +245,7 @@ public class ViewSellerAccountActivity extends AppCompatActivity {
                     }
                 }
                 else {
-                    errorMsg.setText("No account found");
+                    errorMsg.setText("You must log in to edit your account");
                     findViewById(R.id.btnEditSellerAccount).setVisibility( View.GONE );
                 }
             }

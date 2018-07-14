@@ -1,39 +1,61 @@
-package com.ctrlaltelite.copshop.tests;
+package com.ctrlaltelite.copshop.tests.integration;
 
+import com.ctrlaltelite.copshop.logic.services.IAccountService;
+import com.ctrlaltelite.copshop.logic.services.ICreateListingService;
 import com.ctrlaltelite.copshop.logic.services.IListingService;
+import com.ctrlaltelite.copshop.logic.services.stubs.AccountService;
+import com.ctrlaltelite.copshop.logic.services.stubs.CreateListingService;
 import com.ctrlaltelite.copshop.logic.services.stubs.ListingService;
 import com.ctrlaltelite.copshop.objects.BidObject;
+import com.ctrlaltelite.copshop.objects.BuyerAccountObject;
 import com.ctrlaltelite.copshop.objects.ListingObject;
 import com.ctrlaltelite.copshop.objects.SellerAccountObject;
 import com.ctrlaltelite.copshop.persistence.IBidModel;
+import com.ctrlaltelite.copshop.persistence.IBuyerModel;
 import com.ctrlaltelite.copshop.persistence.IListingModel;
 import com.ctrlaltelite.copshop.persistence.ISellerModel;
-import com.ctrlaltelite.copshop.persistence.database.IDatabase;
-import com.ctrlaltelite.copshop.persistence.database.stubs.MockDatabaseStub;
-import com.ctrlaltelite.copshop.persistence.stubs.BidModel;
-import com.ctrlaltelite.copshop.persistence.stubs.ListingModel;
-import com.ctrlaltelite.copshop.persistence.stubs.SellerModel;
+import com.ctrlaltelite.copshop.persistence.hsqldb.BidModelHSQLDB;
+import com.ctrlaltelite.copshop.persistence.hsqldb.BuyerModelHSQLDB;
+import com.ctrlaltelite.copshop.persistence.hsqldb.ListingModelHSQLDB;
+import com.ctrlaltelite.copshop.persistence.hsqldb.SellerModelHSQLDB;
+import com.ctrlaltelite.copshop.tests.integration.db.HSQLDBTestUtil;
 
+import org.junit.After;
+import org.junit.Before;
 import org.junit.Test;
-import java.util.ArrayList;
 import java.util.List;
 
 import static org.junit.Assert.*;
 
-public class ListingServiceTests {
+public class ListingServiceIntegrationTests {
+    private HSQLDBTestUtil dbUtil =  new HSQLDBTestUtil();
+
+    @Before
+    public void setup() {
+        dbUtil.setup();
+    }
+
+    @After
+    public void teardown() {
+        dbUtil.reset();
+    }
 
     @Test
     public void fetchListings_fetchesAllListings() {
-        IDatabase database = new MockDatabaseStub();
-        ISellerModel sellerModel = new SellerModel(database);
-        IListingModel listingModel = new ListingModel(database);
-        IBidModel bidModel = new BidModel(database);
+        IListingModel listingModel = new ListingModelHSQLDB(dbUtil.getTestDbPath());
+        ISellerModel sellerModel = new SellerModelHSQLDB(dbUtil.getTestDbPath());
+        IBidModel bidModel = new BidModelHSQLDB(dbUtil.getTestDbPath());
         IListingService listingService = new ListingService(listingModel, sellerModel, bidModel);
 
+        SellerAccountObject sAccount1 = new SellerAccountObject("ignored","name1",
+                "123 Someplace", "h0h 0h0","MB","email1", "pass1");
+        String sId1 = sellerModel.createNew(sAccount1);
+        assertNotNull("Seller was not created", sId1);
+
         // Create the listings
-        ListingObject l1 = new ListingObject("","title", "description", "initPrice", "minBid", "auctionStartDate", "auctionEndDate", "category", "3");
-        ListingObject l2 = new ListingObject("","title", "description", "initPrice", "minBid", "auctionStartDate", "auctionEndDate", "category", "1");
-        ListingObject l3 = new ListingObject("","title", "description", "initPrice", "minBid", "auctionStartDate", "auctionEndDate", "category", "2");
+        ListingObject l1 = new ListingObject("","title", "description", "initPrice", "minBid", "auctionStartDate", "auctionEndDate", "category", sId1);
+        ListingObject l2 = new ListingObject("","title", "description", "initPrice", "minBid", "auctionStartDate", "auctionEndDate", "category", sId1);
+        ListingObject l3 = new ListingObject("","title", "description", "initPrice", "minBid", "auctionStartDate", "auctionEndDate", "category", sId1);
         String lId1 = listingModel.createNew(l1);
         String lId2 = listingModel.createNew(l2);
         String lId3 = listingModel.createNew(l3);
@@ -44,10 +66,9 @@ public class ListingServiceTests {
 
     @Test
     public void fetchFilteredListings_fetchesFilteredListings() {
-        IDatabase database = new MockDatabaseStub();
-        ISellerModel sellerModel = new SellerModel(database);
-        IListingModel listingModel = new ListingModel(database);
-        IBidModel bidModel = new BidModel(database);
+        IListingModel listingModel = new ListingModelHSQLDB(dbUtil.getTestDbPath());
+        ISellerModel sellerModel = new SellerModelHSQLDB(dbUtil.getTestDbPath());
+        IBidModel bidModel = new BidModelHSQLDB(dbUtil.getTestDbPath());
         IListingService listingService = new ListingService(listingModel, sellerModel, bidModel);
 
         SellerAccountObject account1 = new SellerAccountObject("ignored", "name1", "123 Street", "A1A 1A1", "MB", "email1", "pass1");
@@ -58,6 +79,10 @@ public class ListingServiceTests {
         String id1 = sellerModel.createNew(account1);
         String id2 = sellerModel.createNew(account2);
         String id3 = sellerModel.createNew(account3);
+
+        assertNotNull("Seller was not created", id1);
+        assertNotNull("Seller was not created", id1);
+        assertNotNull("Seller was not created", id1);
 
         // Create the listings
         ListingObject l1 = new ListingObject("","title1", "description1", "initPrice", "minBid", "02/02/2020 11:00", "02/02/2025 11:00", "category1", id3);
@@ -118,10 +143,9 @@ public class ListingServiceTests {
 
     @Test
     public void getSellerNameFromListing_findsCorrectSeller() {
-        IDatabase database = new MockDatabaseStub();
-        ISellerModel sellerModel = new SellerModel(database);
-        IListingModel listingModel = new ListingModel(database);
-        IBidModel bidModel = new BidModel(database);
+        IListingModel listingModel = new ListingModelHSQLDB(dbUtil.getTestDbPath());
+        ISellerModel sellerModel = new SellerModelHSQLDB(dbUtil.getTestDbPath());
+        IBidModel bidModel = new BidModelHSQLDB(dbUtil.getTestDbPath());
         IListingService listingService = new ListingService(listingModel, sellerModel, bidModel);
 
         // Create the accounts
@@ -132,9 +156,9 @@ public class ListingServiceTests {
         String sId2 = sellerModel.createNew(a2);
         String sId3 = sellerModel.createNew(a3);
         // Create the listings
-        ListingObject l1 = new ListingObject("","title", "description", "initPrice", "minBid", "auctionStartDate", "auctionEndDate", "category", "2");
-        ListingObject l2 = new ListingObject("","title", "description", "initPrice", "minBid", "auctionStartDate", "auctionEndDate", "category", "0");
-        ListingObject l3 = new ListingObject("","title", "description", "initPrice", "minBid", "auctionStartDate", "auctionEndDate", "category", "1");
+        ListingObject l1 = new ListingObject("","title", "description", "initPrice", "minBid", "auctionStartDate", "auctionEndDate", "category", sId3);
+        ListingObject l2 = new ListingObject("","title", "description", "initPrice", "minBid", "auctionStartDate", "auctionEndDate", "category", sId1);
+        ListingObject l3 = new ListingObject("","title", "description", "initPrice", "minBid", "auctionStartDate", "auctionEndDate", "category", sId2);
         String lId1 = listingModel.createNew(l1);
         String lId2 = listingModel.createNew(l2);
         String lId3 = listingModel.createNew(l3);
@@ -149,10 +173,9 @@ public class ListingServiceTests {
 
     @Test
     public void getSellerName_findsCorrectSeller() {
-        IDatabase database = new MockDatabaseStub();
-        ISellerModel sellerModel = new SellerModel(database);
-        IListingModel listingModel = new ListingModel(database);
-        IBidModel bidModel = new BidModel(database);
+        IListingModel listingModel = new ListingModelHSQLDB(dbUtil.getTestDbPath());
+        ISellerModel sellerModel = new SellerModelHSQLDB(dbUtil.getTestDbPath());
+        IBidModel bidModel = new BidModelHSQLDB(dbUtil.getTestDbPath());
         IListingService listingService = new ListingService(listingModel, sellerModel, bidModel);
 
         // Create the accounts
@@ -162,6 +185,9 @@ public class ListingServiceTests {
         String sId1 = sellerModel.createNew(a1);
         String sId2 = sellerModel.createNew(a2);
         String sId3 = sellerModel.createNew(a3);
+        assertNotNull("Seller was not created", sId1);
+        assertNotNull("Seller was not created", sId2);
+        assertNotNull("Seller was not created", sId3);
 
         String gotName = listingService.getSellerName(sId2);
         assertEquals("Got wrong seller name", "two", gotName);
@@ -173,19 +199,28 @@ public class ListingServiceTests {
 
     @Test
     public void updateListing_fetchesUpdatedListing() {
-        IDatabase database = new MockDatabaseStub();
-        ISellerModel sellerModel = new SellerModel(database);
-        IListingModel listingModel = new ListingModel(database);
-        IBidModel bidModel = new BidModel(database);
+        IListingModel listingModel = new ListingModelHSQLDB(dbUtil.getTestDbPath());
+        ISellerModel sellerModel = new SellerModelHSQLDB(dbUtil.getTestDbPath());
+        IBidModel bidModel = new BidModelHSQLDB(dbUtil.getTestDbPath());
         IListingService listingService = new ListingService(listingModel, sellerModel, bidModel);
 
+        SellerAccountObject a1 = new SellerAccountObject("", "one", "123 Street", "A1A 1A1", "MB", "e@mail.com", "pass");
+        SellerAccountObject a2 = new SellerAccountObject("", "two", "123 Street", "A1A 1A1", "MB", "e@mail.com", "pass");
+        SellerAccountObject a3 = new SellerAccountObject("", "three", "123 Street", "A1A 1A1", "MB", "e@mail.com", "pass");
+        String sId1 = sellerModel.createNew(a1);
+        String sId2 = sellerModel.createNew(a2);
+        String sId3 = sellerModel.createNew(a3);
+        assertNotNull("Seller was not created", sId1);
+        assertNotNull("Seller was not created", sId2);
+        assertNotNull("Seller was not created", sId3);
+
         // Create the listings
-        ListingObject l1 = new ListingObject("","title", "description", "initPrice", "minBid", "auctionStartDate", "auctionEndDate", "category", "3");
-        ListingObject l2 = new ListingObject("","title", "description", "initPrice", "minBid", "auctionStartDate", "auctionEndDate", "category", "1");
+        ListingObject l1 = new ListingObject("","title", "description", "initPrice", "minBid", "auctionStartDate", "auctionEndDate", "category", sId3);
+        ListingObject l2 = new ListingObject("","title", "description", "initPrice", "minBid", "auctionStartDate", "auctionEndDate", "category", sId1);
         String lId1 = listingModel.createNew(l1);
         String lId2 = listingModel.createNew(l2);
 
-        ListingObject l3 = new ListingObject("","titleNew", "description", "initPrice", "minBid", "auctionStartDate", "auctionEndDate", "category", "2");
+        ListingObject l3 = new ListingObject("","titleNew", "description", "initPrice", "minBid", "auctionStartDate", "auctionEndDate", "category", sId2);
         boolean success = listingService.updateListing(lId1, l3);
         assertTrue("Listing update unsuccessful", success);
 
@@ -195,15 +230,24 @@ public class ListingServiceTests {
 
     @Test
     public void deleteListing_triesToFetchDeletedListing() {
-        IDatabase database = new MockDatabaseStub();
-        ISellerModel sellerModel = new SellerModel(database);
-        IListingModel listingModel = new ListingModel(database);
-        IBidModel bidModel = new BidModel(database);
+        IListingModel listingModel = new ListingModelHSQLDB(dbUtil.getTestDbPath());
+        ISellerModel sellerModel = new SellerModelHSQLDB(dbUtil.getTestDbPath());
+        IBidModel bidModel = new BidModelHSQLDB(dbUtil.getTestDbPath());
         IListingService listingService = new ListingService(listingModel, sellerModel, bidModel);
 
+        SellerAccountObject a1 = new SellerAccountObject("", "one", "123 Street", "A1A 1A1", "MB", "e@mail.com", "pass");
+        SellerAccountObject a2 = new SellerAccountObject("", "two", "123 Street", "A1A 1A1", "MB", "e@mail.com", "pass");
+        SellerAccountObject a3 = new SellerAccountObject("", "three", "123 Street", "A1A 1A1", "MB", "e@mail.com", "pass");
+        String sId1 = sellerModel.createNew(a1);
+        String sId2 = sellerModel.createNew(a2);
+        String sId3 = sellerModel.createNew(a3);
+        assertNotNull("Seller was not created", sId1);
+        assertNotNull("Seller was not created", sId2);
+        assertNotNull("Seller was not created", sId3);
+
         // Create the listings
-        ListingObject l1 = new ListingObject("","title", "description", "initPrice", "minBid", "auctionStartDate", "auctionEndDate", "category", "3");
-        ListingObject l2 = new ListingObject("","title", "description", "initPrice", "minBid", "auctionStartDate", "auctionEndDate", "category", "1");
+        ListingObject l1 = new ListingObject("","title", "description", "initPrice", "minBid", "auctionStartDate", "auctionEndDate", "category", sId3);
+        ListingObject l2 = new ListingObject("","title", "description", "initPrice", "minBid", "auctionStartDate", "auctionEndDate", "category", sId1);
         String lId1 = listingModel.createNew(l1);
         String lId2 = listingModel.createNew(l2);
 
@@ -216,27 +260,40 @@ public class ListingServiceTests {
 
     @Test
     public void getNextBidTotal_getsCorrectTotal() {
-        IDatabase database = new MockDatabaseStub();
-        ISellerModel sellerModel = new SellerModel(database);
-        IListingModel listingModel = new ListingModel(database);
-        IBidModel bidModel = new BidModel(database);
+        IListingModel listingModel = new ListingModelHSQLDB(dbUtil.getTestDbPath());
+        ISellerModel sellerModel = new SellerModelHSQLDB(dbUtil.getTestDbPath());
+        IBuyerModel buyerModel = new BuyerModelHSQLDB(dbUtil.getTestDbPath());
+        IBidModel bidModel = new BidModelHSQLDB(dbUtil.getTestDbPath());
         IListingService listingService = new ListingService(listingModel, sellerModel, bidModel);
 
-        ListingObject listing1 = new ListingObject("0","title", "description", "10.00", "5.00", "auctionStartDate", "auctionEndDate", "category", "0");
-        ListingObject listing2 = new ListingObject("1","title", "description", "2.55", "2.25", "auctionStartDate", "auctionEndDate", "category", "0");
-        ListingObject listing3 = new ListingObject("2","title", "description", "1.00", "1.10", "auctionStartDate", "auctionEndDate", "category", "0");
-        ListingObject listing4 = new ListingObject("3","title", "description", "1.00", "1.00", "auctionStartDate", "auctionEndDate", "category", "0");
-        ListingObject listing5 = new ListingObject("4","title", "description", "5.00", "5.00", "auctionStartDate", "auctionEndDate", "category", "0");
+        BuyerAccountObject bAccount1 = new BuyerAccountObject("ignored","name1", "other",
+                "123 Someplace", "h0h 0h0","MB","email1", "pass1");
+        String buyId1 = buyerModel.createNew(bAccount1);
+
+        SellerAccountObject sAccount1 = new SellerAccountObject("", "one", "123 Street", "A1A 1A1", "MB", "e@mail.com", "pass");
+        String selId1 = sellerModel.createNew(sAccount1);
+        assertNotNull("Seller was not created", selId1);
+
+        ListingObject listing1 = new ListingObject("","title", "description", "10.00", "5.00", "auctionStartDate", "auctionEndDate", "category", selId1);
+        ListingObject listing2 = new ListingObject("","title", "description", "2.55", "2.25", "auctionStartDate", "auctionEndDate", "category", selId1);
+        ListingObject listing3 = new ListingObject("","title", "description", "1.00", "1.10", "auctionStartDate", "auctionEndDate", "category", selId1);
+        ListingObject listing4 = new ListingObject("","title", "description", "1.00", "1.00", "auctionStartDate", "auctionEndDate", "category", selId1);
+        ListingObject listing5 = new ListingObject("","title", "description", "5.00", "5.00", "auctionStartDate", "auctionEndDate", "category", selId1);
         String lId1 = listingModel.createNew(listing1);
         String lId2 = listingModel.createNew(listing2);
         String lId3 = listingModel.createNew(listing3);
         String lId4 = listingModel.createNew(listing4);
         String lId5 = listingModel.createNew(listing5);
+        listing1.setId(lId1);
+        listing2.setId(lId2);
+        listing3.setId(lId3);
+        listing4.setId(lId4);
+        listing5.setId(lId5);
 
-        BidObject bid1 = new BidObject("0", "0", "0", "10.00");
-        BidObject bid2 = new BidObject("1", "1", "0", "2.55");
-        BidObject bid3 = new BidObject("2", "2", "0", "1.00");
-        BidObject bid4 = new BidObject("3", "3", "0", "1.00");
+        BidObject bid1 = new BidObject("", lId1, buyId1, "10.00");
+        BidObject bid2 = new BidObject("", lId2, buyId1, "2.55");
+        BidObject bid3 = new BidObject("", lId3, buyId1, "1.00");
+        BidObject bid4 = new BidObject("", lId4, buyId1, "1.00");
         String bId1 = bidModel.createNew(bid1);
         String bId2 = bidModel.createNew(bid2);
         String bId3 = bidModel.createNew(bid3);
@@ -248,26 +305,38 @@ public class ListingServiceTests {
         assertEquals("Got the wrong next bid total", "2.00", listingService.getNextBidTotal(listing4));
 
         assertEquals("Got the wrong next bid total", "5.00", listingService.getNextBidTotal(listing5));
-        BidObject bid5 = new BidObject("4", "4", "0", "6.00");
+        BidObject bid5 = new BidObject("", lId5, buyId1, "6.00");
         String bId5 = bidModel.createNew(bid5);
         assertEquals("Got the wrong next bid total", "11.00", listingService.getNextBidTotal(listing5));
     }
 
     @Test
     public void fetchListing_fetchesCorrectListing() {
-        IDatabase database = new MockDatabaseStub();
-        ISellerModel sellerModel = new SellerModel(database);
-        IListingModel listingModel = new ListingModel(database);
-        IBidModel bidModel = new BidModel(database);
+        IListingModel listingModel = new ListingModelHSQLDB(dbUtil.getTestDbPath());
+        ISellerModel sellerModel = new SellerModelHSQLDB(dbUtil.getTestDbPath());
+        IBidModel bidModel = new BidModelHSQLDB(dbUtil.getTestDbPath());
         IListingService listingService = new ListingService(listingModel, sellerModel, bidModel);
 
+        SellerAccountObject a1 = new SellerAccountObject("", "one", "123 Street", "A1A 1A1", "MB", "e@mail.com", "pass");
+        SellerAccountObject a2 = new SellerAccountObject("", "two", "123 Street", "A1A 1A1", "MB", "e@mail.com", "pass");
+        SellerAccountObject a3 = new SellerAccountObject("", "three", "123 Street", "A1A 1A1", "MB", "e@mail.com", "pass");
+        String sId1 = sellerModel.createNew(a1);
+        String sId2 = sellerModel.createNew(a2);
+        String sId3 = sellerModel.createNew(a3);
+        assertNotNull("Seller was not created", sId1);
+        assertNotNull("Seller was not created", sId2);
+        assertNotNull("Seller was not created", sId3);
+
         // Create the listings
-        ListingObject l1 = new ListingObject("","title", "description", "initPrice", "minBid", "auctionStartDate", "auctionEndDate", "category", "3");
-        ListingObject l2 = new ListingObject("","title", "description", "initPrice", "minBid", "auctionStartDate", "auctionEndDate", "category", "1");
-        ListingObject l3 = new ListingObject("","title", "description", "initPrice", "minBid", "auctionStartDate", "auctionEndDate", "category", "2");
+        ListingObject l1 = new ListingObject("","title", "description", "initPrice", "minBid", "auctionStartDate", "auctionEndDate", "category", sId3);
+        ListingObject l2 = new ListingObject("","title", "description", "initPrice", "minBid", "auctionStartDate", "auctionEndDate", "category", sId1);
+        ListingObject l3 = new ListingObject("","title", "description", "initPrice", "minBid", "auctionStartDate", "auctionEndDate", "category", sId2);
         String lId1 = listingModel.createNew(l1);
         String lId2 = listingModel.createNew(l2);
         String lId3 = listingModel.createNew(l3);
+        assertNotNull("Listing was not created", lId1);
+        assertNotNull("Listing was not created", lId2);
+        assertNotNull("Listing was not created", lId3);
 
         ListingObject listing = listingService.fetchListing(lId2);
         assertEquals("Fetched wrong listing", l2.getTitle(), listing.getTitle());
@@ -279,32 +348,46 @@ public class ListingServiceTests {
 
     @Test
     public void getNumBids_getsCorrectNumBids() {
-        IDatabase database = new MockDatabaseStub();
-        ISellerModel sellerModel = new SellerModel(database);
-        IListingModel listingModel = new ListingModel(database);
-        IBidModel bidModel = new BidModel(database);
+        IListingModel listingModel = new ListingModelHSQLDB(dbUtil.getTestDbPath());
+        ISellerModel sellerModel = new SellerModelHSQLDB(dbUtil.getTestDbPath());
+        IBuyerModel buyerModel = new BuyerModelHSQLDB(dbUtil.getTestDbPath());
+        IBidModel bidModel = new BidModelHSQLDB(dbUtil.getTestDbPath());
         IListingService listingService = new ListingService(listingModel, sellerModel, bidModel);
 
-        ListingObject listing1 = new ListingObject("0","title", "description", "10.00", "5.00", "auctionStartDate", "auctionEndDate", "category", "0");
-        ListingObject listing2 = new ListingObject("1","title", "description", "2.55", "2.25", "auctionStartDate", "auctionEndDate", "category", "0");
-        ListingObject listing3 = new ListingObject("2","title", "description", "1.00", "1.10", "auctionStartDate", "auctionEndDate", "category", "0");
+        BuyerAccountObject bAccount1 = new BuyerAccountObject("ignored","name1", "other",
+                "123 Someplace", "h0h 0h0","MB","email1", "pass1");
+        String bId = buyerModel.createNew(bAccount1);
+
+        SellerAccountObject a1 = new SellerAccountObject("", "one", "123 Street", "A1A 1A1", "MB", "e@mail.com", "pass");
+        SellerAccountObject a2 = new SellerAccountObject("", "two", "123 Street", "A1A 1A1", "MB", "e@mail.com", "pass");
+        SellerAccountObject a3 = new SellerAccountObject("", "three", "123 Street", "A1A 1A1", "MB", "e@mail.com", "pass");
+        String sId1 = sellerModel.createNew(a1);
+        String sId2 = sellerModel.createNew(a2);
+        String sId3 = sellerModel.createNew(a3);
+        assertNotNull("Seller was not created", sId1);
+        assertNotNull("Seller was not created", sId2);
+        assertNotNull("Seller was not created", sId3);
+
+        ListingObject listing1 = new ListingObject("","title", "description", "10.00", "5.00", "auctionStartDate", "auctionEndDate", "category", sId1);
+        ListingObject listing2 = new ListingObject("","title", "description", "2.55", "2.25", "auctionStartDate", "auctionEndDate", "category", sId1);
+        ListingObject listing3 = new ListingObject("","title", "description", "1.00", "1.10", "auctionStartDate", "auctionEndDate", "category", sId1);
         String lId1 = listingModel.createNew(listing1);
         String lId2 = listingModel.createNew(listing2);
         String lId3 = listingModel.createNew(listing3);
 
-        BidObject bid1 = new BidObject("0", "0", "0", "10.00");
-        BidObject bid2 = new BidObject("1", "1", "0", "2.55");
-        BidObject bid3 = new BidObject("0", "0", "0", "1.00");
-        BidObject bid4 = new BidObject("1", "1", "0", "1.00");
-        BidObject bid5 = new BidObject("0", "0", "0", "1.00");
+        BidObject bid1 = new BidObject("0", lId1, bId, "10.00");
+        BidObject bid2 = new BidObject("1", lId2, bId, "2.55");
+        BidObject bid3 = new BidObject("0", lId1, bId, "1.00");
+        BidObject bid4 = new BidObject("1", lId2, bId, "1.00");
+        BidObject bid5 = new BidObject("0", lId1, bId, "1.00");
         String bId1 = bidModel.createNew(bid1);
         String bId2 = bidModel.createNew(bid2);
         String bId3 = bidModel.createNew(bid3);
         String bId4 = bidModel.createNew(bid4);
         String bId5 = bidModel.createNew(bid5);
 
-        assertEquals("Got wrong number of bids", 2, listingService.getNumBids("1"));
-        assertEquals("Got wrong number of bids", 3, listingService.getNumBids("0"));
-        assertEquals("Got wrong number of bids", 0, listingService.getNumBids("2"));
+        assertEquals("Got wrong number of bids", 2, listingService.getNumBids(lId2));
+        assertEquals("Got wrong number of bids", 3, listingService.getNumBids(lId1));
+        assertEquals("Got wrong number of bids", 0, listingService.getNumBids(lId3));
     }
 }
