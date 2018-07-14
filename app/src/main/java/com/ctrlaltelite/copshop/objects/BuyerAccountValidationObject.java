@@ -10,74 +10,63 @@ import java.util.regex.Pattern;
  * whether or not data in it is valid
  */
 public class BuyerAccountValidationObject {
-
-    private static final String[] provinces = {"Alberta", "British Columbia", "Manitoba", "New Brunswick",
-            "Newfoundland and Labrador", "Northwest Territories", "Nova Scotia", "Nunavut",
-            "Ontario", "Prince Edward Island", "Quebec", "Saskatchewan", "Yukon"};
-    private static final String[] provinceAbbr = {"AB", "BC", "MB", "NB", "NL", "NT", "NS", "NU", "ON",
-            "PE", "PEI", "QC", "SK", "YT"};
-
-    private static final String postalCodeRegex = "^(?!.*[DFIOQU])[A-VXY][0-9][A-Z] ?[0-9][A-Z][0-9]$";
-    private static final String emailRegex = "^(.+)@(.+)$";
-    private static final String passwordRegex = "((?=.*[a-z])(?=.*d)(?=.*[@#$%])(?=.*[A-Z]))";
-
+    private AccountValidationObject accountValidationObject;
     private boolean validFirstName;
     private boolean validLastName;
-    private boolean validStreetAddress;
-    private boolean validPostalCode;
-    private boolean validProvince;
-    private boolean validEmail;
-    private boolean validPassword;
 
-    public BuyerAccountValidationObject(){
+    public BuyerAccountValidationObject(AccountValidationObject accountValidationObject) {
         this.validFirstName = true;
         this.validLastName = true;
-        this.validStreetAddress = true;
-        this.validPostalCode = true;
-        this.validProvince = true;
-        this.validEmail = true;
-        this.validPassword = true;
+        this.accountValidationObject = accountValidationObject;
     }
     //Getters
+
+    public boolean getValidEmail() { return this.accountValidationObject.getValidEmail(); }
+
+    public boolean getValidPassword() { return this.accountValidationObject.getValidPassword(); }
 
     public boolean getValidFirstName() { return this.validFirstName; }
 
     public boolean getValidLastName() { return this.validLastName; }
 
-    public boolean getValidStreetAddress() { return this.validStreetAddress; }
+    public boolean getValidStreetAddress() { return this.accountValidationObject.getValidStreetAddress(); }
 
-    public boolean getValidPostalCode() { return this.validPostalCode; }
+    public boolean getValidPostalCode() { return this.accountValidationObject.getValidPostalCode(); }
 
-    public boolean getValidProvince() {return this.validProvince;}
-
-    public boolean getValidEmail() { return this.validEmail; }
-
-    public boolean getValidPassword() { return this.validPassword; }
+    public boolean getValidProvince() {return this.accountValidationObject.getValidProvince();}
 
     //Setters
 
-    private void setValidFirstName(boolean validFirstName) { this.validFirstName = validFirstName;}
+    public void setValidEmail(boolean validEmail) {this.accountValidationObject.setValidEmail(validEmail);}
 
-    private void setValidLastName(boolean validLastName) {this.validLastName = validLastName; }
+    public void setValidPassword(boolean validPassword) {this.accountValidationObject.setValidPassword(validPassword);}
 
-    private void setValidStreetAddress(boolean validStreetAddress) { this.validStreetAddress = validStreetAddress;}
+    public void setValidFirstName(boolean validFirstName) { this.validFirstName = validFirstName;}
 
-    private void setValidPostalCode(boolean validPostalCode) {this.validPostalCode = validPostalCode; }
+    public void setValidLastName(boolean validLastName) {this.validLastName = validLastName; }
 
-    private void setValidProvince(boolean validProvince) {this.validProvince = validProvince; }
+    public void setValidStreetAddress(boolean validStreetAddress) { this.accountValidationObject.setValidStreetAddress(validStreetAddress);}
 
-    private void setValidEmail(boolean validEmail) {this.validEmail = validEmail; }
+    public void setValidPostalCode(boolean validPostalCode) {this.accountValidationObject.setValidPostalCode(validPostalCode);}
 
-    private void setValidPassword(boolean validPassword) {this.validPassword = validPassword; }
+    public void setValidProvince(boolean validProvince) {this.accountValidationObject.setValidProvince(validProvince);}
+
+    public void setAll(boolean valid) {
+        this.validFirstName = valid;
+        this.validLastName = valid;
+        this.accountValidationObject.setAll(valid);
+    }
 
     public boolean allValid(){
-        return (validFirstName &&
-                validLastName &&
-                validStreetAddress &&
-                validPostalCode &&
-                validProvince &&
-                validEmail &&
-                validPassword);
+        return (this.accountValidationObject.allValid() &&
+                validFirstName &&
+                validLastName);
+    }
+
+    public void validate(BuyerAccountObject buyerObject) {
+        this.accountValidationObject.validate(buyerObject);
+        this.validateFirstName(buyerObject.getFirstName());
+        this.validateLastName(buyerObject.getLastName());
     }
 
     /**
@@ -94,78 +83,5 @@ public class BuyerAccountValidationObject {
      */
     public void validateLastName(String lastName) {
         setValidLastName(lastName != null && !lastName.isEmpty());
-    }
-
-    /**
-     * Determine if street address field is valid(non-empty)
-     * @param address String
-     */
-    public void validateStreetAddress(String address){
-        //since we aren't connecting to any external services... this is just another null check
-        //but it could be so much more!
-        setValidStreetAddress(address!=null && !address.isEmpty());
-    }
-
-    /**
-     * Determine if postal code is valid Canadian postal code
-     * @param postalCode String
-     */
-    public void validatePostalCode(String postalCode){
-        if (postalCode == null) {
-            setValidPostalCode(false);
-        }
-        else {
-            Pattern pattern = Pattern.compile(postalCodeRegex);
-            Matcher matcher = pattern.matcher(postalCode);
-            setValidPostalCode(matcher.matches());
-        }
-    }
-
-    /**
-     * Determine if province entered is valid Canadian province.
-     * @param province String
-     */
-    public void validateProvince(String province){
-        boolean check = false;
-        if(Arrays.asList(provinces).contains(province) ||
-                Arrays.asList(provinceAbbr).contains(province)){
-            check = true;
-        }
-        setValidProvince(check);
-    }
-
-    /**
-     * Determine if email field has an '@' symbol
-     * with characters before and after the symbol.
-     * @param email String
-     */
-    public void validateEmail(String email) {
-        if (email == null) {
-            setValidEmail(false);
-        } else {
-            Pattern pattern = Pattern.compile(emailRegex);
-            Matcher matcher = pattern.matcher(email);
-            setValidEmail(matcher.matches());
-        }
-    }
-
-    /**
-     * Determine if password field has
-     * - At least one lowercase letter
-     * - At least one digit
-     * - At least one special character
-     * - At least one capital letter
-     * @param password String
-
-     */
-    public void validatePassword(String password){
-        if (password == null) {
-            setValidPassword(false);
-        }
-        else {
-            Pattern pattern = Pattern.compile(passwordRegex);
-            Matcher matcher = pattern.matcher(password);
-            setValidPassword(true); //matcher.matches();
-        }
     }
 }
