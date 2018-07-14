@@ -38,9 +38,9 @@ public class BuyerModelHSQLDB implements IBuyerModel {
                     RETURN_GENERATED_KEYS);
             st.setString(1, newAccount.getFirstName());
             st.setString(2, newAccount.getLastName());
-            st.setString(3, newAccount.getStreetAddress());
-            st.setString(4, newAccount.getPostalCode());
-            st.setString(5, newAccount.getProvince());
+            st.setString(3, newAccount.getAddress().getStreetAddress());
+            st.setString(4, newAccount.getAddress().getPostalCode());
+            st.setString(5, newAccount.getAddress().getProvince());
             st.setString(6, newAccount.getEmail());
             st.setString(7, newAccount.getPassword());
             int updated = st.executeUpdate();
@@ -84,9 +84,9 @@ public class BuyerModelHSQLDB implements IBuyerModel {
                         "WHERE id = ?");
             st.setString(1, updatedAccount.getFirstName());
             st.setString(2, updatedAccount.getLastName());
-            st.setString(3, updatedAccount.getStreetAddress());
-            st.setString(4, updatedAccount.getPostalCode());
-            st.setString(5, updatedAccount.getProvince());
+            st.setString(3, updatedAccount.getAddress().getStreetAddress());
+            st.setString(4, updatedAccount.getAddress().getPostalCode());
+            st.setString(5, updatedAccount.getAddress().getProvince());
             st.setString(6, updatedAccount.getEmail());
             st.setString(7, updatedAccount.getPassword());
             st.setInt(8, Integer.parseInt(id));

@@ -31,20 +31,14 @@ public class CreateSellerAccountActivity extends AppCompatActivity {
                     ((EditText) findViewById(R.id.editTextProvince)).getText().toString(),
                     ((EditText) findViewById(R.id.editTextEmail)).getText().toString(),
                     ((EditText) findViewById(R.id.editTextPassword)).getText().toString()
-            );
+                );
 
-                SellerAccountValidationObject validationObject = CopShopHub.getAccountService().validate(sellerAccount);
 
-            // Check validation object to see if all fields are valid
-            // If valid: store user information
-            // Else invalid: check each form field, highlighting those that are invalid in red
-            if (validationObject.allValid()) {
-                String id = CopShopHub.getAccountService().registerNewSeller(sellerAccount);
-                if (id == null) {
-                    // It actually failed, presumably due to a duplicate email address.
-                    findViewById(R.id.editTextEmail).setBackgroundResource(R.drawable.txt_field_red_border);
-                } else // success!
-                {
+                // Check validation object to see if all fields are valid
+                // If valid: store user information
+                // Else invalid: check each form field, highlighting those that are invalid in red
+                SellerAccountValidationObject validationObject = CopShopHub.getAccountService().registerNewSeller(sellerAccount);
+                if (validationObject.allValid()) {
                     // Make sure all form fields are set back to black on success
                     findViewById(R.id.editTextOrganizationName).setBackgroundResource(R.drawable.txt_field_black_border);
                     findViewById(R.id.editTextStreetAddress).setBackgroundResource(R.drawable.txt_field_black_border);
@@ -55,53 +49,52 @@ public class CreateSellerAccountActivity extends AppCompatActivity {
 
                     // Go to login page
                     startActivity(new Intent(CreateSellerAccountActivity.this, LoginActivity.class));
-                }
-            } else {
-
-                // Check precinct name
-                if (!validationObject.getValidOrganizationName()) {
-                    findViewById(R.id.editTextOrganizationName).setBackgroundResource(R.drawable.txt_field_red_border);
                 } else {
-                    findViewById(R.id.editTextOrganizationName).setBackgroundResource(R.drawable.txt_field_black_border);
-                }
 
-                // Check street address
-                if (!validationObject.getValidStreetAddress()) {
-                    findViewById(R.id.editTextStreetAddress).setBackgroundResource(R.drawable.txt_field_red_border);
-                } else {
-                    findViewById(R.id.editTextStreetAddress).setBackgroundResource(R.drawable.txt_field_black_border);
-                }
+                    // Check precinct name
+                    if (!validationObject.getValidOrganizationName()) {
+                        findViewById(R.id.editTextOrganizationName).setBackgroundResource(R.drawable.txt_field_red_border);
+                    } else {
+                        findViewById(R.id.editTextOrganizationName).setBackgroundResource(R.drawable.txt_field_black_border);
+                    }
 
-                // Check postal code
-                if (!validationObject.getValidPostalCode()) {
-                    findViewById(R.id.editTextPostalCode).setBackgroundResource(R.drawable.txt_field_red_border);
-                } else {
-                    findViewById(R.id.editTextPostalCode).setBackgroundResource(R.drawable.txt_field_black_border);
-                }
+                    // Check street address
+                    if (!validationObject.getValidStreetAddress()) {
+                        findViewById(R.id.editTextStreetAddress).setBackgroundResource(R.drawable.txt_field_red_border);
+                    } else {
+                        findViewById(R.id.editTextStreetAddress).setBackgroundResource(R.drawable.txt_field_black_border);
+                    }
 
-                // Check province
-                if (!validationObject.getValidProvince()) {
-                    findViewById(R.id.editTextProvince).setBackgroundResource(R.drawable.txt_field_red_border);
-                } else {
-                    findViewById(R.id.editTextProvince).setBackgroundResource(R.drawable.txt_field_black_border);
-                }
+                    // Check postal code
+                    if (!validationObject.getValidPostalCode()) {
+                        findViewById(R.id.editTextPostalCode).setBackgroundResource(R.drawable.txt_field_red_border);
+                    } else {
+                        findViewById(R.id.editTextPostalCode).setBackgroundResource(R.drawable.txt_field_black_border);
+                    }
 
-                // Check email
-                if (!validationObject.getValidEmail()) {
-                    findViewById(R.id.editTextEmail).setBackgroundResource(R.drawable.txt_field_red_border);
-                } else {
-                    findViewById(R.id.editTextEmail).setBackgroundResource(R.drawable.txt_field_black_border);
-                }
+                    // Check province
+                    if (!validationObject.getValidProvince()) {
+                        findViewById(R.id.editTextProvince).setBackgroundResource(R.drawable.txt_field_red_border);
+                    } else {
+                        findViewById(R.id.editTextProvince).setBackgroundResource(R.drawable.txt_field_black_border);
+                    }
 
-                //Check password
-                if (!validationObject.getValidPassword()) {
-                    findViewById(R.id.editTextPassword).setBackgroundResource(R.drawable.txt_field_red_border);
-                } else {
-                    findViewById(R.id.editTextPassword).setBackgroundResource(R.drawable.txt_field_black_border);
+                    // Check email
+                    if (!validationObject.getValidEmail()) {
+                        findViewById(R.id.editTextEmail).setBackgroundResource(R.drawable.txt_field_red_border);
+                    } else {
+                        findViewById(R.id.editTextEmail).setBackgroundResource(R.drawable.txt_field_black_border);
+                    }
+
+                    //Check password
+                    if (!validationObject.getValidPassword()) {
+                        findViewById(R.id.editTextPassword).setBackgroundResource(R.drawable.txt_field_red_border);
+                    } else {
+                        findViewById(R.id.editTextPassword).setBackgroundResource(R.drawable.txt_field_black_border);
+                    }
                 }
             }
-        }
-    });
-        }
+        });
     }
+}
 
