@@ -34,7 +34,9 @@ public class SystemTestUtils {
         onView(withId(android.R.id.button1)).perform(click());
     }
 
+    // Leaves you on the login screen
     public static void logout() {
+
         // Open drawer
         ViewInteraction drawerButton = onView(withContentDescription("Open navigation drawer"));
         drawerButton.perform(click());
@@ -48,6 +50,7 @@ public class SystemTestUtils {
                                         0)), 1),
                         isDisplayed()));
         navigationMenuItemView.perform(click());
+
 
         // If logged in, log out
         try {
@@ -83,14 +86,21 @@ public class SystemTestUtils {
         }
     }
 
-    public static void loginAsBuyer() {
-        logout();
+    public static void loginAsBuyer(String email, String password) {
+
+        try {
+            onView(allOf(withId(R.id.email), isDisplayed())).perform(replaceText(email), closeSoftKeyboard());
+        }
+        catch (NoMatchingViewException e) {
+            // We aren't on the login page... so make sure we are logged out.
+            logout();
+        }
 
         // On login page
 
         // Log in as buyer
-        onView(allOf(withId(R.id.email), isDisplayed())).perform(replaceText("john@email.com"), closeSoftKeyboard());
-        onView(allOf(withId(R.id.password), isDisplayed())).perform(replaceText("john"), closeSoftKeyboard());
+        onView(allOf(withId(R.id.email), isDisplayed())).perform(replaceText(email), closeSoftKeyboard());
+        onView(allOf(withId(R.id.password), isDisplayed())).perform(replaceText(password), closeSoftKeyboard());
         onView(allOf(withId(R.id.btnLogin), isDisplayed())).perform(click());
     }
 
