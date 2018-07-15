@@ -50,6 +50,8 @@ public class CreateListingSystemTest {
     public void createListingSystemTest() {
         SystemTestUtils.loginAsSeller("local@police.com", "12345");
 
+        SystemTestUtils.deleteExtraListings();
+
         createListing();
 
         //ViewInteraction listingRowTitle = onView(withText("Bag of Broken Glass"));
@@ -88,18 +90,7 @@ public class CreateListingSystemTest {
     }
 
     public static void deleteListing() {
-        System.out.println("-------------------- Deleting Listing");
-
-        ViewInteraction listingRowPrice = onView(
-                allOf(withId(R.id.listing_list_price),
-                        withParent(allOf(withParent(withId(R.id.listing_list)), withChild(withText("Bag of Broken Glass"))))));
-        listingRowPrice.perform(click());
-
-        onView(withId(R.id.view_listing_edit_button)).perform(click());
-
-        closeSoftKeyboard();
-
-        onView(withId(R.id.btnDeleteListing)).perform(scrollTo()).perform(click());
+        SystemTestUtils.deleteListing("Bag of Broken Glass");
     }
 
 }

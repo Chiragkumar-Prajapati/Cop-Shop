@@ -50,6 +50,8 @@ public class EditListingSystemTest {
     public void editListingSystemTest() {
         SystemTestUtils.loginAsSeller("local@police.com", "12345");
 
+        SystemTestUtils.deleteExtraListings();
+
         CreateListingSystemTest.createListing();
 
         // We are on listing list, go to the listing

@@ -20,10 +20,14 @@ import static android.support.test.espresso.Espresso.pressBack;
 import static android.support.test.espresso.action.ViewActions.click;
 import static android.support.test.espresso.action.ViewActions.closeSoftKeyboard;
 import static android.support.test.espresso.action.ViewActions.replaceText;
+import static android.support.test.espresso.action.ViewActions.scrollTo;
 import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
+import static android.support.test.espresso.matcher.ViewMatchers.withChild;
 import static android.support.test.espresso.matcher.ViewMatchers.withClassName;
 import static android.support.test.espresso.matcher.ViewMatchers.withContentDescription;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
+import static android.support.test.espresso.matcher.ViewMatchers.withParent;
+import static android.support.test.espresso.matcher.ViewMatchers.withText;
 import static org.hamcrest.Matchers.allOf;
 
 public class SystemTestUtils {
@@ -32,6 +36,36 @@ public class SystemTestUtils {
         onView(withClassName(Matchers.equalTo(DatePicker.class.getName()))).perform(PickerActions.setDate(year, monthOfYear, dayOfMonth));
         onView(withId(android.R.id.button1)).perform(click());
         onView(withId(android.R.id.button1)).perform(click());
+    }
+
+    // Delete the local listings that add clutter which Espresso can't handle
+    public static void deleteExtraListings() {
+
+        // If these things exist, get rid of them.
+        deleteListing("Bicycle 1");
+        deleteListing("Toothbrush 4");
+        deleteListing("Several Gerbils 5");
+        deleteListing("Live Octopus 7");
+        deleteListing("Riding Lawnmower 8");
+        deleteListing("Bag of Broken Glass");
+
+    }
+
+
+    public static void deleteListing(String name) {
+        try {
+            System.out.println("-------------------- Deleting Listing: " + name);
+
+            ViewInteraction listingRowPrice = onView(
+                    allOf(withId(R.id.listing_list_price),
+                            withParent(allOf(withParent(withId(R.id.listing_list)), withChild(withText(name))))));
+            listingRowPrice.perform(click());
+
+            onView(withId(R.id.view_listing_edit_button)).perform(click());
+            closeSoftKeyboard();
+            onView(withId(R.id.btnDeleteListing)).perform(scrollTo()).perform(click());
+        }
+        catch (NoMatchingViewException e) {}
     }
 
     // Leaves you on the login screen

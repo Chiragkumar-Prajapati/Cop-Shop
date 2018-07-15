@@ -53,6 +53,9 @@ public class BiddingSystemTest {
     @Test
     public void biddingSystemTest() {
         SystemTestUtils.loginAsSeller("local@police.com", "12345");
+
+        SystemTestUtils.deleteExtraListings();
+
         CreateListingSystemTest.createListing();
 
         SystemTestUtils.loginAsBuyer("john@email.com", "john");
