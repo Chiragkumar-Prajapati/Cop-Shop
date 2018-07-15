@@ -8,7 +8,6 @@ import com.ctrlaltelite.copshop.presentation.activities.EditBuyerAccountSystemTe
 import com.ctrlaltelite.copshop.presentation.activities.EditListingSystemTest;
 import com.ctrlaltelite.copshop.presentation.activities.EditSellerAccountSystemTest;
 import com.ctrlaltelite.copshop.presentation.activities.FilterListingsSystemTest;
-import com.ctrlaltelite.copshop.presentation.activities.SystemTestUtils;
 
 import org.junit.runner.RunWith;
 import org.junit.runners.Suite;

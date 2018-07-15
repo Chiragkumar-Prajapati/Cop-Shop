@@ -15,23 +15,19 @@ import org.junit.runner.RunWith;
 
 import static android.support.test.espresso.Espresso.onData;
 import static android.support.test.espresso.Espresso.onView;
-import static android.support.test.espresso.Espresso.pressBack;
 import static android.support.test.espresso.action.ViewActions.click;
 import static android.support.test.espresso.action.ViewActions.closeSoftKeyboard;
 import static android.support.test.espresso.action.ViewActions.replaceText;
 import static android.support.test.espresso.assertion.ViewAssertions.doesNotExist;
 import static android.support.test.espresso.assertion.ViewAssertions.matches;
 import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
-import static android.support.test.espresso.matcher.ViewMatchers.withChild;
 import static android.support.test.espresso.matcher.ViewMatchers.withClassName;
 import static android.support.test.espresso.matcher.ViewMatchers.withContentDescription;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
-import static android.support.test.espresso.matcher.ViewMatchers.withParent;
 import static android.support.test.espresso.matcher.ViewMatchers.withText;
 import static org.hamcrest.Matchers.allOf;
 import static org.hamcrest.Matchers.anything;
 import static org.hamcrest.Matchers.is;
-import static org.hamcrest.Matchers.not;
 
 
 @LargeTest
@@ -81,7 +77,6 @@ public class FilterListingsSystemTest {
 
         onView(withText("Bag of Broken Glass")).check(matches(isDisplayed()));
         onView(withText("Bicycle 1")).check(doesNotExist());
-        //onView(withText("Bicycle 1")).check(matches(not(isDisplayed())));
         onView(withText("Toothbrush 4")).check(doesNotExist());
 
         // Now filter by Listing Title
@@ -106,7 +101,6 @@ public class FilterListingsSystemTest {
 
         onView(withText("Bag of Broken Glass")).check(matches(isDisplayed()));
         onView(withText("Bicycle 1")).check(doesNotExist());
-        //onView(withText("Bicycle 1")).check(matches(not(isDisplayed())));
         onView(withText("Toothbrush 4")).check(doesNotExist());
 
         CreateListingSystemTest.deleteListing();

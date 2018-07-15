@@ -12,6 +12,7 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 
 import static android.support.test.espresso.Espresso.onView;
+import static android.support.test.espresso.Espresso.pressBack;
 import static android.support.test.espresso.action.ViewActions.click;
 import static android.support.test.espresso.action.ViewActions.closeSoftKeyboard;
 import static android.support.test.espresso.action.ViewActions.replaceText;
@@ -56,6 +57,8 @@ public class EditSellerAccountSystemTest {
         // Ensure the page reloaded the same (it is reloaded from DB)
         onView(withId(R.id.editTextOrganizationName)).check(matches(withText("The Doghouse")));
         onView(withId(R.id.editTextEmail)).check(matches(withText(newEmail + "2")));
+
+        pressBack();
     }
 
 

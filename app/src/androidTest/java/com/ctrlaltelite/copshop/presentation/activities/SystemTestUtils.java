@@ -54,7 +54,6 @@ public class SystemTestUtils {
 
     public static void deleteListing(String name) {
         try {
-            System.out.println("-------------------- Deleting Listing: " + name);
 
             ViewInteraction listingRowPrice = onView(
                     allOf(withId(R.id.listing_list_price),
