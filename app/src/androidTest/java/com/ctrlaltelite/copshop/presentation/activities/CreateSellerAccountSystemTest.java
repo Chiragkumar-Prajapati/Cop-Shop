@@ -38,6 +38,24 @@ public class CreateSellerAccountSystemTest {
     @Test
     public void createSellerAccountSystemTest() {
 
+        String newEmail = createSellerAccount();
+
+        // We are on listing list page
+        ViewInteraction drawerButton = onView(withContentDescription("Open navigation drawer"));
+        drawerButton.perform(click());
+
+        // Click on the first drawer item (Account Details)
+        ViewInteraction button = onView(
+                allOf(SystemTestUtils.childAtPosition(allOf(withId(R.id.design_navigation_view),
+                        SystemTestUtils.childAtPosition(withId(R.id.nav_view), 0)), 1),
+                        isDisplayed()));
+        button.perform(click());
+
+        onView(withId(R.id.editTextOrganizationName)).check(matches(withText("The Continental")));
+        onView(withId(R.id.editTextEmail)).check(matches(withText(newEmail)));
+    }
+
+    public static String createSellerAccount() {
         // Generate an email address
         Random rand = new Random();
         String candidateChars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890";
@@ -65,21 +83,9 @@ public class CreateSellerAccountSystemTest {
         //closeSoftKeyboard();
         //pressBack();
 
-        SystemTestUtils.loginAsBuyer(newEmail, "12345");
+        SystemTestUtils.loginAsSeller(newEmail, "12345");
 
-        // We are on listing list page
-        ViewInteraction drawerButton = onView(withContentDescription("Open navigation drawer"));
-        drawerButton.perform(click());
-
-        // Click on the first drawer item (Account Details)
-        ViewInteraction button = onView(
-                allOf(SystemTestUtils.childAtPosition(allOf(withId(R.id.design_navigation_view),
-                        SystemTestUtils.childAtPosition(withId(R.id.nav_view), 0)), 1),
-                        isDisplayed()));
-        button.perform(click());
-
-        onView(withId(R.id.editTextOrganizationName)).check(matches(withText("The Continental")));
-        onView(withId(R.id.editTextEmail)).check(matches(withText(newEmail)));
+        return newEmail;
     }
 
 }
