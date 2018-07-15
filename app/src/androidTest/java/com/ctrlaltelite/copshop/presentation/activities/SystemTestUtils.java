@@ -104,20 +104,22 @@ public class SystemTestUtils {
         onView(allOf(withId(R.id.btnLogin), isDisplayed())).perform(click());
     }
 
-    public static void loginAsSeller() {
-        logout();
+    public static void loginAsSeller(String email, String password) {
+
+        try {
+            onView(allOf(withId(R.id.email), isDisplayed())).perform(replaceText(email), closeSoftKeyboard());
+        }
+        catch (NoMatchingViewException e) {
+            // We aren't on the login page... so make sure we are logged out.
+            logout();
+        }
 
         // On login page
 
         // Log in as seller
-        ViewInteraction email = onView(allOf(withId(R.id.email), isDisplayed()));
-        email.perform(replaceText("local@police.com"), closeSoftKeyboard());
-
-        ViewInteraction password = onView(allOf(withId(R.id.password), isDisplayed()));
-        password.perform(replaceText("12345"), closeSoftKeyboard());
-
-        ViewInteraction appCompatButton = onView(allOf(withId(R.id.btnLogin), isDisplayed()));
-        appCompatButton.perform(click());
+        onView(allOf(withId(R.id.email), isDisplayed())).perform(replaceText(email), closeSoftKeyboard());
+        onView(allOf(withId(R.id.password), isDisplayed())).perform(replaceText(password), closeSoftKeyboard());
+        onView(allOf(withId(R.id.btnLogin), isDisplayed())).perform(click());
     }
 
     public static Matcher<View> childAtPosition(

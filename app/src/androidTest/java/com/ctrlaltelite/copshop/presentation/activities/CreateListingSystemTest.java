@@ -49,7 +49,7 @@ public class CreateListingSystemTest {
     @Test
     public void createListingSystemTest() {
 
-        SystemTestUtils.loginAsSeller();
+        SystemTestUtils.loginAsSeller("local@police.com", "12345");
 
         // We are on listing list page
 
