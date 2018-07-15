@@ -44,17 +44,17 @@ import static org.hamcrest.Matchers.is;
 @LargeTest
 @RunWith(AndroidJUnit4.class)
 public class BiddingSystemTest {
-    private HSQLDBTestUtil dbUtil =  new HSQLDBTestUtil();
-
-    @Before
-    public void setup() {
-        dbUtil.setup();
-    }
-
-    @After
-    public void teardown() {
-        dbUtil.reset();
-    }
+//    private HSQLDBSystemTestUtil dbUtil =  new HSQLDBSystemTestUtil();
+//
+//    @Before
+//    public void setup() {
+//        dbUtil.setup();
+//    }
+//
+//    @After
+//    public void teardown() {
+//        dbUtil.reset();
+//    }
 
 
     @Rule

@@ -2,7 +2,7 @@ package com.ctrlaltelite.copshop.tests.db;
 
 import com.ctrlaltelite.copshop.persistence.hsqldb.HSQLDBUtil;
 
-import com.google.common.io.Files;
+//import com.google.common.io.Files;
 import java.io.File;
 import java.io.IOException;
 import java.sql.Connection;
@@ -61,12 +61,12 @@ public class HSQLDBTestUtil {
     }
 
     public void setup() {
-        try {
-            final File target = new File(TEST_DB_DIR_PATH + "/testdb.script");
-            Files.copy(TEST_DB_INIT_SCRIPT, target);
-        } catch (final IOException ioe) {
-            System.out.println("Unable to copy test setup script: " + ioe.getMessage());
-        }
+//        try {
+//            final File target = new File(TEST_DB_DIR_PATH + "/testdb.script");
+//            Files.copy(TEST_DB_INIT_SCRIPT, target);
+//        } catch (final IOException ioe) {
+//            System.out.println("Unable to copy test setup script: " + ioe.getMessage());
+//        }
     }
 
     public String getTestDbPath() {
