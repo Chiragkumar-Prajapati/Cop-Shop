@@ -28,6 +28,11 @@ public class UserSession implements IUserSession {
         return result;
     }
 
+    public void loginUser(String userEmail, String userID){
+        setUserEmail(userEmail);
+        setUserID(userID);
+    }
+
     public String getUserEmail(){
         String email = currentUserSession.getString("email", "-1");
             if (email.equals("-1"))

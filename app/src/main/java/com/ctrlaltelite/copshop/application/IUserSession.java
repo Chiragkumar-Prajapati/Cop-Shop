@@ -12,6 +12,13 @@ public interface IUserSession {
 
     /**
      *
+     * @param userEmail The email of the current user getting logged in to app
+     * @param userID    The ID of the current user getting logged in to app
+     */
+    void loginUser(String userEmail, String userID);
+
+    /**
+     *
      * @param email The email of the current user logged in to app
      */
     void setUserEmail(String email);

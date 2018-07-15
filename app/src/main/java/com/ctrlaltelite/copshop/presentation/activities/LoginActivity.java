@@ -43,6 +43,8 @@ public class LoginActivity extends AppCompatActivity {
                     errorMsg.setText("What's all this, then? You're going to need" +
                             " a valid username and password. Try again.");
                 } else {
+
+                    CopShopHub.getUserSessionService().loginUser(user.getEmail(), user.getId());
                     CopShopHub.getUserSessionService().setUserEmail(user.getEmail());
                     CopShopHub.getUserSessionService().setUserID(user.getId());
 
