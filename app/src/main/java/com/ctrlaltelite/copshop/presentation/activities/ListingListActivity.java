@@ -166,10 +166,10 @@ public class ListingListActivity extends AppCompatActivity implements Navigation
 
        if (CopShopHub.getUserSessionService().userLoggedIn()) {
            // Populate menu
-           if (CopShopHub.getUserSessionService().getUserType().equals("buyer")) {
+           if (CopShopHub.getUserSessionService().loggedInUserIsBuyer()) {
                navigationView.getMenu().clear();
                navigationView.inflateMenu(R.menu.nav_menu_logged_in_bidder);
-           } else if (CopShopHub.getUserSessionService().getUserType().equals("seller")) {
+           } else if (CopShopHub.getUserSessionService().loggedInUserIsSeller()) {
                navigationView.getMenu().clear();
                navigationView.inflateMenu(R.menu.nav_menu_logged_in_seller);
            } else {

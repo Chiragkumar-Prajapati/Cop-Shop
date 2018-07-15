@@ -83,7 +83,7 @@ public class ListingViewActivity extends AppCompatActivity {
             minBid.setText("$" + suggestedBid);
 
             // Disable bid button if not buyer logged in
-            if (!CopShopHub.getUserSessionService().userLoggedIn() || !CopShopHub.getUserSessionService().getUserType().equals("buyer")) {
+            if (!CopShopHub.getUserSessionService().userLoggedIn() || !CopShopHub.getUserSessionService().loggedInUserIsBuyer()) {
                 System.out.println("Disabled bid button");
                 bidButton.setEnabled(false);
                 bidButton.setBackgroundColor(Color.LTGRAY);

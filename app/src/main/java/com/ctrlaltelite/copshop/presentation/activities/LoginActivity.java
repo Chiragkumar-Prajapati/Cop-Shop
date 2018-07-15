@@ -40,22 +40,17 @@ public class LoginActivity extends AppCompatActivity {
                 AccountObject user = CopShopHub.getAccountService().validateEmailAndPassword(userEmail,password);
 
                 if (user == null) {
-                    errorMsg.setText("What's all this, then? You're going to need" +
-                            " a valid username and password. Try again.");
+                    errorMsg.setText("Username or password is incorrect");
                 } else {
 
-                    CopShopHub.getUserSessionService().loginUser(user.getEmail(), user.getId());
-                    CopShopHub.getUserSessionService().setUserEmail(user.getEmail());
-                    CopShopHub.getUserSessionService().setUserID(user.getId());
-
-                    if (user instanceof BuyerAccountObject)
-                        CopShopHub.getUserSessionService().setUserType("buyer");
-                    else if (user instanceof SellerAccountObject)
-                        CopShopHub.getUserSessionService().setUserType("seller");
-
-                    //go to Listings page
-                    Intent intent = new Intent(LoginActivity.this, ListingListActivity.class);
-                    startActivity(intent); //goes to listing activity
+                    boolean success = CopShopHub.getUserSessionService().loginUser(user);
+                    if (success) {
+                        // Go to Listings page
+                        Intent intent = new Intent(LoginActivity.this, ListingListActivity.class);
+                        startActivity(intent); // Goes to listing activity
+                    } else {
+                        errorMsg.setText("Account does not exist"); // Would only happen if DB contains invalid info or a model is broken
+                    }
                 }
             }
         });

@@ -1,5 +1,7 @@
 package com.ctrlaltelite.copshop.application;
 
+import com.ctrlaltelite.copshop.objects.AccountObject;
+
 public interface IUserSession {
 
     /* Check if there is currently a user logged in*/
@@ -11,30 +13,28 @@ public interface IUserSession {
     String getUserType();
 
     /**
-     *
-     * @param userEmail The email of the current user getting logged in to app
-     * @param userID    The ID of the current user getting logged in to app
+     * @param user    The current user getting logged in to app
      */
-    void loginUser(String userEmail, String userID);
+    boolean loginUser(AccountObject user);
 
+    /**
+     * Log out the user by removing all current session infomation
+     */
     void logoutUser();
 
     /**
-     *
+     * @return True if logged in user is buyer, false in all other cases
+     */
+    boolean loggedInUserIsBuyer();
+
+    /**
+     * @return True if logged in user is seller, false in all other cases
+     */
+    boolean loggedInUserIsSeller();
+
+    /**
      * @param email The email of the current user logged in to app
      */
     void setUserEmail(String email);
-
-    /**
-     *
-     * @param id The user ID of the current user logged in to app
-     */
-    void setUserID(String id);
-
-    /**
-     *
-     * @param type The type of user currently logged in to app
-     */
-    void setUserType(String type);
 
 }
