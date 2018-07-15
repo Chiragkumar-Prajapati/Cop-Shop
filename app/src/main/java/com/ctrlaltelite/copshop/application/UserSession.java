@@ -33,6 +33,12 @@ public class UserSession implements IUserSession {
         setUserID(userID);
     }
 
+    public void logoutUser(){
+        setUserEmail(null);
+        setUserID(null);
+        setUserType(null);
+    }
+
     public String getUserEmail(){
         String email = currentUserSession.getString("email", "-1");
             if (email.equals("-1"))

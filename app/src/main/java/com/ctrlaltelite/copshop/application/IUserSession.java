@@ -17,6 +17,8 @@ public interface IUserSession {
      */
     void loginUser(String userEmail, String userID);
 
+    void logoutUser();
+
     /**
      *
      * @param email The email of the current user logged in to app
