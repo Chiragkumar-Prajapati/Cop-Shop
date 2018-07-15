@@ -5,8 +5,11 @@ CopShop is a mobile application aimed to facilitate the buying and selling of im
 
 ### How to run:
 1) Download the repo found at this link: https://code.cs.umanitoba.ca/comp3350-summer2018/ctrl-alt-elite 
+
 2) Open the repo in Android studio by going to 'File' -> 'Open' and selecting the project directory file.
-3) Click Build.
+
+3) Click Build
+
 4) Run.
 
 ### Links of Interest:
