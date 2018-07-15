@@ -48,8 +48,19 @@ public class CreateListingSystemTest {
 
     @Test
     public void createListingSystemTest() {
-
         SystemTestUtils.loginAsSeller("local@police.com", "12345");
+
+        createListing();
+
+        ViewInteraction listingRowPrice = onView(
+                allOf(withId(R.id.listing_list_price),
+                        withParent(allOf(withParent(withId(R.id.listing_list)), withChild(withText("Bag of Broken Glass"))))));
+        listingRowPrice.check(matches(withText("$100.00,")));
+
+        deleteListing();
+    }
+
+    public static void createListing() {
 
         // We are on listing list page
 
@@ -72,10 +83,13 @@ public class CreateListingSystemTest {
         onView(allOf(withId(R.id.txtAreaDescription), isDisplayed())).perform(replaceText("Only small shards, no large pieces. They smell funny."), closeSoftKeyboard());
         onView(allOf(withId(R.id.btnCreateListing), isDisplayed())).perform(click());
 
+    }
+
+    public static void deleteListing() {
+
         ViewInteraction listingRowPrice = onView(
                 allOf(withId(R.id.listing_list_price),
                         withParent(allOf(withParent(withId(R.id.listing_list)), withChild(withText("Bag of Broken Glass"))))));
-        listingRowPrice.check(matches(withText("$100.00,")));
         listingRowPrice.perform(click());
 
         onView(withId(R.id.view_listing_edit_button)).perform(click());
@@ -84,6 +98,5 @@ public class CreateListingSystemTest {
 
         onView(withId(R.id.btnDeleteListing)).perform(scrollTo()).perform(click());
     }
-
 
 }
