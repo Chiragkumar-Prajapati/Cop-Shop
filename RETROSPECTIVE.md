@@ -35,5 +35,5 @@ total average, this solution would also be considered successful.
 
 
 ## Project Velocity Chart
-![Project Velocity Chart](https://i.imgur.com/7R6omLl.jpg)
+![Project Velocity Chart](https://i.imgur.com/7R6omLl.jpg)  
 Chart is also available in root of repo.
