@@ -70,6 +70,8 @@ Currently, users can create new listings, buyer accounts, and seller accounts. B
 
 ### Objects
 - Package consisting of data-containing objects that are used across all parts of the application.
+	- **AddressObject**
+            - Contains information related to addresses, such as province, postal code, and address.
 	- **AccountObject**
 		- **BuyerAccountObject**
 			- Contains information related to buyer accounts, such as email and password.
@@ -83,7 +85,11 @@ Currently, users can create new listings, buyer accounts, and seller accounts. B
 	- **ListingFormValidationObject**
 		- Contains validity information specific to the listing creation form.
 		- Data members correspond to fields on the form. Fields containing invalid data are flagged in one of these objects and used to relay error information back to the user.
-	- **BuyerAccountValidationObject**
-	    - Contains validity information specific to buyer account creation, updating, and validation. 
-	- **SellerAccountValidationObject**
-	    - Contains validity information specific to seller account creation, updating, and validation. 
+	- **AddressValidationObject**
+        	    - Contains information specific to validating addresses. 
+	- **AccountValidationObject**
+    	    - Contains information specific to account form validation. 
+        - **BuyerAccountValidationObject**
+            - Contains information specific to buyer account form validation. 
+        - **SellerAccountValidationObject**
+            - Contains information specific to seller account form validation. 
