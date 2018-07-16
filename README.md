@@ -17,6 +17,9 @@ CopShop is a mobile application aimed to facilitate the buying and selling of im
 ##### Project Vision Doc:
 * https://code.cs.umanitoba.ca/comp3350-summer2018/ctrl-alt-elite/blob/master/VISION.md
 
+##### Project Retrospective Doc:
+* https://code.cs.umanitoba.ca/comp3350-summer2018/ctrl-alt-elite/blob/master/RETROSPECTIVE.md
+
 ##### Architecture Docs:
 * https://code.cs.umanitoba.ca/comp3350-summer2018/ctrl-alt-elite/blob/master/ARCHITECTURE.md
 * https://code.cs.umanitoba.ca/comp3350-summer2018/ctrl-alt-elite/blob/master/iteration1-architecture.png
