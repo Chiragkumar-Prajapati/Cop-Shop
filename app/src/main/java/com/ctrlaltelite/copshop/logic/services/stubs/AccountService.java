@@ -107,7 +107,9 @@ public class AccountService implements com.ctrlaltelite.copshop.logic.services.I
         BuyerAccountValidationObject validation = this.validateInputForm(buyerAccount);
 
         // Has an account been registered with this email before?
-        if (!(this.sellerModel.findByEmail(buyerAccount.getEmail()) == null && this.buyerModel.findByEmail(buyerAccount.getEmail()) == null)) {
+        if (thisAccount.getEmail().equals(buyerAccount.getEmail())) {
+            validation.setValidEmail(true);
+        } else if (!(this.sellerModel.findByEmail(buyerAccount.getEmail()) == null && this.buyerModel.findByEmail(buyerAccount.getEmail()) == null)) {
             validation.setValidEmail(false);
         }
 
@@ -127,7 +129,9 @@ public class AccountService implements com.ctrlaltelite.copshop.logic.services.I
         SellerAccountValidationObject validation = this.validateInputForm(sellerAccount);
 
         // Has an account been registered with this email before?
-        if (!(this.sellerModel.findByEmail(sellerAccount.getEmail()) == null && this.buyerModel.findByEmail(sellerAccount.getEmail()) == null)) {
+        if (thisAccount.getEmail().equals(sellerAccount.getEmail())) {
+            validation.setValidEmail(true);
+        } else if (!(this.sellerModel.findByEmail(sellerAccount.getEmail()) == null && this.buyerModel.findByEmail(sellerAccount.getEmail()) == null)) {
             validation.setValidEmail(false);
         }
 

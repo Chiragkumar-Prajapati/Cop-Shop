@@ -1,4 +1,4 @@
-package com.ctrlaltelite.copshop.tests;
+package com.ctrlaltelite.copshop.tests.integration;
 
 import com.ctrlaltelite.copshop.logic.services.IAccountService;
 import com.ctrlaltelite.copshop.logic.services.stubs.AccountService;
@@ -9,22 +9,33 @@ import com.ctrlaltelite.copshop.persistence.ISellerModel;
 import com.ctrlaltelite.copshop.objects.AccountObject;
 import com.ctrlaltelite.copshop.objects.BuyerAccountObject;
 import com.ctrlaltelite.copshop.objects.SellerAccountObject;
-import com.ctrlaltelite.copshop.persistence.database.IDatabase;
-import com.ctrlaltelite.copshop.persistence.database.stubs.MockDatabaseStub;
-import com.ctrlaltelite.copshop.persistence.stubs.BuyerModel;
-import com.ctrlaltelite.copshop.persistence.stubs.SellerModel;
+import com.ctrlaltelite.copshop.persistence.hsqldb.BuyerModelHSQLDB;
+import com.ctrlaltelite.copshop.persistence.hsqldb.SellerModelHSQLDB;
+import com.ctrlaltelite.copshop.tests.db.HSQLDBTestUtil;
+
+import org.junit.After;
+import org.junit.Before;
 import org.junit.Test;
 
 import static org.junit.Assert.*;
 
+public class AccountServiceIntegrationTests {
+    private HSQLDBTestUtil dbUtil =  new HSQLDBTestUtil();
 
-public class AccountServiceTests {
+    @Before
+    public void setup() {
+        dbUtil.setup();
+    }
+
+    @After
+    public void teardown() {
+        dbUtil.reset();
+    }
 
     @Test
     public void validateUsernameAndPassword_verifiesLoginProperly() {
-        IDatabase database = new MockDatabaseStub();
-        IBuyerModel buyerModel = new BuyerModel(database);
-        ISellerModel sellerModel = new SellerModel(database);
+        IBuyerModel buyerModel = new BuyerModelHSQLDB(dbUtil.getTestDbPath());
+        ISellerModel sellerModel = new SellerModelHSQLDB(dbUtil.getTestDbPath());
         IAccountService accountService = new AccountService(sellerModel, buyerModel);
 
         // Create an account
@@ -47,9 +58,8 @@ public class AccountServiceTests {
 
     @Test
     public void registerNewBuyer_validatesAndSavesBuyer(){
-        IDatabase database = new MockDatabaseStub();
-        ISellerModel sellerModel = new SellerModel(database);
-        IBuyerModel buyerModel = new BuyerModel(database);
+        IBuyerModel buyerModel = new BuyerModelHSQLDB(dbUtil.getTestDbPath());
+        ISellerModel sellerModel = new SellerModelHSQLDB(dbUtil.getTestDbPath());
         IAccountService accountService = new AccountService(sellerModel, buyerModel);
 
         BuyerAccountObject account1 = new BuyerAccountObject("","name1", "other",
@@ -61,6 +71,8 @@ public class AccountServiceTests {
         BuyerAccountValidationObject bav1 = accountService.registerNewBuyer(account1);
         BuyerAccountValidationObject bav2 = accountService.registerNewBuyer(account2);
         BuyerAccountValidationObject bav3 = accountService.registerNewBuyer(account1);
+        String bId1 = buyerModel.findByEmail(account1.getEmail()).getId();
+        String bId2 = buyerModel.findByEmail(account2.getEmail()).getId();
 
         // Verify they were validated correctly
         assertTrue("Account was incorrectly flagged as invalid", bav1.allValid());
@@ -69,16 +81,15 @@ public class AccountServiceTests {
         assertFalse("Account was incorrectly flagged as valid", bav3.allValid());
 
         // Verify they were created
-        assertTrue("Account was not created", database.rowExists("Buyers", "0"));
-        assertTrue("Account was not created", database.rowExists("Buyers", "1"));
-        assertFalse("Duplicate account was created", database.rowExists("Buyers", "2"));
+        assertNotNull("Account was not created", buyerModel.fetch(bId1));
+        assertNotNull("Account was not created", buyerModel.fetch(bId2));
+        assertFalse("Duplicate account was created", bav3.allValid());
     }
 
     @Test
     public void registerNewSeller_validatesAndSavesSeller(){
-        IDatabase database = new MockDatabaseStub();
-        ISellerModel sellerModel = new SellerModel(database);
-        IBuyerModel buyerModel = new BuyerModel(database);
+        IBuyerModel buyerModel = new BuyerModelHSQLDB(dbUtil.getTestDbPath());
+        ISellerModel sellerModel = new SellerModelHSQLDB(dbUtil.getTestDbPath());
         IAccountService accountService = new AccountService(sellerModel, buyerModel);
 
         SellerAccountObject account1 = new SellerAccountObject("ignored","sel1",
@@ -90,6 +101,8 @@ public class AccountServiceTests {
         SellerAccountValidationObject sav1 = accountService.registerNewSeller(account1);
         SellerAccountValidationObject sav2 = accountService.registerNewSeller(account2);
         SellerAccountValidationObject sav3 = accountService.registerNewSeller(account1);
+        String sId1 = sellerModel.getIdFromName(account1.getOrganizationName());
+        String sId2 = sellerModel.getIdFromName(account2.getOrganizationName());
 
         // Verify they were validated correctly
         assertTrue("Account was incorrectly flagged as invalid", sav1.allValid());
@@ -98,17 +111,16 @@ public class AccountServiceTests {
         assertFalse("Account was incorrectly flagged as valid", sav3.allValid());
 
         // Verify they were created
-        assertTrue("Account was not created", database.rowExists("Sellers", "0"));
-        assertTrue("Account was not created", database.rowExists("Sellers", "1"));
-        assertFalse("Duplicate account was created", database.rowExists("Sellers", "2"));
+        assertNotNull("Account was not created", sellerModel.fetch(sId1));
+        assertNotNull("Account was not created", sellerModel.fetch(sId2));
+        assertFalse("Duplicate account was created", sav3.allValid());
 
     }
 
     @Test
     public void updateBuyer_savesAccountChanges(){
-        IDatabase database = new MockDatabaseStub();
-        ISellerModel sellerModel = new SellerModel(database);
-        IBuyerModel buyerModel = new BuyerModel(database);
+        IBuyerModel buyerModel = new BuyerModelHSQLDB(dbUtil.getTestDbPath());
+        ISellerModel sellerModel = new SellerModelHSQLDB(dbUtil.getTestDbPath());
         IAccountService accountService = new AccountService(sellerModel, buyerModel);
 
         BuyerAccountObject account1 = new BuyerAccountObject("ignored","name1", "other",
@@ -120,10 +132,13 @@ public class AccountServiceTests {
         BuyerAccountValidationObject bav1 = accountService.registerNewBuyer(account1);
         BuyerAccountValidationObject bav2 = accountService.registerNewBuyer(account2);
 
+        String sId1 = buyerModel.findByEmail(account1.getEmail()).getId();
+        String sId2 = buyerModel.findByEmail(account2.getEmail()).getId();
+
         BuyerAccountObject account3 = new BuyerAccountObject("ignored","name1", "other",
                 "123 Someplace", "h0h 0h0","MB","email3@email.com", "pass1");
 
-        BuyerAccountValidationObject bav3 = accountService.updateBuyerAccount("0", account3);
+        BuyerAccountValidationObject bav3 = accountService.updateBuyerAccount(sId1, account3);
         assertTrue("Row was not updated", bav3.allValid());
 
         // Verify they were updated
@@ -133,9 +148,8 @@ public class AccountServiceTests {
 
     @Test
     public void updateSeller_savesAccountChanges(){
-        IDatabase database = new MockDatabaseStub();
-        ISellerModel sellerModel = new SellerModel(database);
-        IBuyerModel buyerModel = new BuyerModel(database);
+        IBuyerModel buyerModel = new BuyerModelHSQLDB(dbUtil.getTestDbPath());
+        ISellerModel sellerModel = new SellerModelHSQLDB(dbUtil.getTestDbPath());
         IAccountService accountService = new AccountService(sellerModel, buyerModel);
 
         SellerAccountObject account1 = new SellerAccountObject("ignored","name1",
@@ -146,6 +160,8 @@ public class AccountServiceTests {
         // Save the new listings
         SellerAccountValidationObject sav1 = accountService.registerNewSeller(account1);
         SellerAccountValidationObject sav2 = accountService.registerNewSeller(account2);
+        String sId1 = sellerModel.getIdFromName(account1.getOrganizationName());
+        String sId2 = sellerModel.getIdFromName(account2.getOrganizationName());
 
         assertTrue("Row was not created", sav1.allValid());
         assertTrue("Row was not created", sav2.allValid());
@@ -153,7 +169,7 @@ public class AccountServiceTests {
         SellerAccountObject account3 = new SellerAccountObject("ignored","name1",
                 "123 Someplace", "h0h 0h0","MB","email3@email.com", "pass1");
 
-        SellerAccountValidationObject sav3 = accountService.updateSellerAccount("0", account3);
+        SellerAccountValidationObject sav3 = accountService.updateSellerAccount(sId1, account3);
         assertTrue("Row was not updated", sav3.allValid());
 
         // Verify they were updated
@@ -164,9 +180,8 @@ public class AccountServiceTests {
 
     @Test
     public void createBuyer_verifiesValidationObjectCreation_validObjects() {
-        IDatabase database = new MockDatabaseStub();
-        ISellerModel sellerModel = new SellerModel(database);
-        IBuyerModel buyerModel = new BuyerModel(database);
+        IBuyerModel buyerModel = new BuyerModelHSQLDB(dbUtil.getTestDbPath());
+        ISellerModel sellerModel = new SellerModelHSQLDB(dbUtil.getTestDbPath());
         IAccountService accountService = new AccountService(sellerModel, buyerModel);
 
         BuyerAccountObject b1 = new BuyerAccountObject("ignored","Santa", "Claus",
@@ -182,9 +197,8 @@ public class AccountServiceTests {
 
     @Test
     public void createSeller_verifiesValidationObjectCreation_validObjects() {
-        IDatabase database = new MockDatabaseStub();
-        ISellerModel sellerModel = new SellerModel(database);
-        IBuyerModel buyerModel = new BuyerModel(database);
+        IBuyerModel buyerModel = new BuyerModelHSQLDB(dbUtil.getTestDbPath());
+        ISellerModel sellerModel = new SellerModelHSQLDB(dbUtil.getTestDbPath());
         IAccountService accountService = new AccountService(sellerModel, buyerModel);
 
         SellerAccountObject s1 = new SellerAccountObject("ignored","Santa",
@@ -198,11 +212,10 @@ public class AccountServiceTests {
         assertTrue("Form was incorrectly invalidated", sav2.allValid());
     }
 
-    @Test
+    @Test(expected = IllegalArgumentException.class)
     public void createBuyer_verifiesValidationObjectCreation_nullObjects(){
-        IDatabase database = new MockDatabaseStub();
-        ISellerModel sellerModel = new SellerModel(database);
-        IBuyerModel buyerModel = new BuyerModel(database);
+        IBuyerModel buyerModel = new BuyerModelHSQLDB(dbUtil.getTestDbPath());
+        ISellerModel sellerModel = new SellerModelHSQLDB(dbUtil.getTestDbPath());
         IAccountService accountService = new AccountService(sellerModel, buyerModel);
         BuyerAccountValidationObject validationObject;
         BuyerAccountObject invalidAccountInfo;
@@ -251,14 +264,12 @@ public class AccountServiceTests {
         assertFalse("Expected invalid field was valid", validationObject.getValidPassword());
     }
 
-    @Test
+    @Test(expected = IllegalArgumentException.class)
     public void createSeller_verifiesValidationObjectCreation_nullObjects(){
-        IDatabase database = new MockDatabaseStub();
-        ISellerModel sellerModel = new SellerModel(database);
-        IBuyerModel buyerModel = new BuyerModel(database);
+        IBuyerModel buyerModel = new BuyerModelHSQLDB(dbUtil.getTestDbPath());
+        ISellerModel sellerModel = new SellerModelHSQLDB(dbUtil.getTestDbPath());
         IAccountService accountService = new AccountService(sellerModel, buyerModel);
         SellerAccountValidationObject validationObject;
-        SellerAccountObject validAccountInfo;
         SellerAccountObject invalidAccountInfo;
 
         //--------------------------------------Invalid listing objects for testing-----------------------------------------------//
@@ -303,9 +314,8 @@ public class AccountServiceTests {
 
     @Test
     public void getBuyerName_getsCorrectName() {
-        IDatabase database = new MockDatabaseStub();
-        IBuyerModel buyerModel = new BuyerModel(database);
-        ISellerModel sellerModel = new SellerModel(database);
+        IBuyerModel buyerModel = new BuyerModelHSQLDB(dbUtil.getTestDbPath());
+        ISellerModel sellerModel = new SellerModelHSQLDB(dbUtil.getTestDbPath());
         IAccountService accountService = new AccountService(sellerModel, buyerModel);
 
         BuyerAccountObject account1 = new BuyerAccountObject("","name1", "other",

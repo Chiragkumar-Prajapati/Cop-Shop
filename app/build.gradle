@@ -25,7 +25,26 @@ dependencies {
     implementation 'com.android.support:design:27.1.1'
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'com.android.support.test:runner:1.0.2'
+    androidTestImplementation 'com.android.support.test:rules:1.0.2'
     androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'
+    androidTestCompile('com.android.support.test.espresso:espresso-contrib:2.2.2') {
+        exclude group: 'com.android.support', module: 'appcompat'
+        exclude module: 'support-annotations'
+        exclude module: 'support-v4'
+        exclude module: 'support-v13'
+        exclude module: 'recyclerview-v7'
+        exclude module: 'appcompat-v7'
+    }
     implementation group: 'org.apache.commons', name: 'commons-lang3', version: '3.0'
     implementation group: 'org.hsqldb', name: 'hsqldb', version: '2.4.1'
+
+    testImplementation group: 'com.google.guava', name: 'guava', version: '25.1-jre'
+    testImplementation group: 'org.mockito', name: 'mockito-core', version: '2.+'
+    androidTestImplementation (group: 'com.android.support.test.espresso', name: 'espresso-core', version: '3.0.2') {
+        exclude group: 'com.android.support', module: 'support-annotations'
+    }
+    androidTestImplementation 'com.android.support:support-annotations:23.3.0'
+    androidTestImplementation ('com.android.support.test:rules:1.0.2'){
+        exclude group: 'com.android.support', module: 'support-annotations'
+    }
 }

@@ -61,6 +61,10 @@ public class ListingObject {
     }
 
     // Setters
+    public void setId(String id) {
+        this.id = id;
+    }
+
     public void setDescription(String description) {
         this.description = description;
     }

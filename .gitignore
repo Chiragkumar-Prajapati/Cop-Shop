@@ -11,3 +11,7 @@
 /build
 /captures
 .externalNativeBuild
+testdb.lck
+testdb.log
+testdb.properties
+testdb.script
