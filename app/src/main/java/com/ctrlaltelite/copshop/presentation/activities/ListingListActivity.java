@@ -152,9 +152,7 @@ public class ListingListActivity extends AppCompatActivity implements Navigation
              startActivity(new Intent(this, FilterListingsActivity.class));
          } else if (id == R.id.nav_logout) {
              // Logout and restart activity
-             CopShopHub.getUserSessionService().setUserEmail(null);
-             CopShopHub.getUserSessionService().setUserID(null);
-             CopShopHub.getUserSessionService().setUserType(null);
+             CopShopHub.getUserSessionService().logoutUser();
              finish();
              startActivity(getIntent());
          }
@@ -168,10 +166,10 @@ public class ListingListActivity extends AppCompatActivity implements Navigation
 
        if (CopShopHub.getUserSessionService().userLoggedIn()) {
            // Populate menu
-           if (CopShopHub.getUserSessionService().getUserType().equals("buyer")) {
+           if (CopShopHub.getUserSessionService().loggedInUserIsBuyer()) {
                navigationView.getMenu().clear();
                navigationView.inflateMenu(R.menu.nav_menu_logged_in_bidder);
-           } else if (CopShopHub.getUserSessionService().getUserType().equals("seller")) {
+           } else if (CopShopHub.getUserSessionService().loggedInUserIsSeller()) {
                navigationView.getMenu().clear();
                navigationView.inflateMenu(R.menu.nav_menu_logged_in_seller);
            } else {

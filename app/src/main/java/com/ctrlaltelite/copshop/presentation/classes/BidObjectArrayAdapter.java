@@ -53,7 +53,7 @@ public class BidObjectArrayAdapter extends ArrayAdapter<BidObject> {
         buyer.setText(buyerName);
 
         if (CopShopHub.getUserSessionService().userLoggedIn()){
-            if (CopShopHub.getUserSessionService().getUserType().equals("buyer") && userId.equals(CopShopHub.getUserSessionService().getUserID())) {
+            if (CopShopHub.getUserSessionService().loggedInUserIsBuyer() && userId.equals(CopShopHub.getUserSessionService().getUserID())) {
                 buyer.setTypeface(Typeface.DEFAULT_BOLD);
             }
         }
